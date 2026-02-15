@@ -1,0 +1,53 @@
+# Xcode
+#
+build/
+*.project
+*.moved-aside
+*.derivedData
+*.hmap
+*.ipa
+*.o
+*.p12
+
+# Xcode - User specific
+#
+*.xcuserstate
+project.xcworkspace/
+!default.xcworkspace/
+xcuserdata/
+
+# Swift Package Manager
+#
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods (if you ever use it)
+#
+Pods/
+Token.h
+
+# Carthage (if you ever use it)
+#
+Carthage/Build/
+
+# Fastlane
+#
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# macOS System
+#
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Misc
+#
+.svn
+.git
+DerivedData/
+*.swp
+*~.nib
