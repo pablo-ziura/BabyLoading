@@ -5,6 +5,5 @@ import SwiftUI
 struct BabyProgressWidgetBundle: WidgetBundle {
     var body: some Widget {
         BabyProgressWidget()
-        BabyProgressWidgetControl()
     }
 }
