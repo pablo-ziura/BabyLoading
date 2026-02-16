@@ -94,6 +94,20 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
+		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
+		};
+		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -114,6 +128,8 @@
 		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
+				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
 				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
 			);
 			path = BabyProgressWidget;

@@ -12,14 +12,19 @@ struct BabyProgressWidgetEntryView: View {
                 Text("Semana \(entry.week)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                
+
                 Text("\(days)")
                     .font(.system(size: 40, weight: .bold))
                     .minimumScaleFactor(0.5)
                 Text("días quedan")
                     .font(.caption2)
                     .multilineTextAlignment(.center)
-                
+
+                Image("img_\(entry.babySize.rawValue.lowercased())")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 40)
+
                 Text("El bebé es como \(entry.babySize.description)")
                     .font(.caption2)
                     .foregroundStyle(.secondary)

@@ -37,7 +37,7 @@ enum BabySize: String, CaseIterable {
     case watermelon
     case pumpkin
     case unknown
-    
+
     var description: String {
         switch self {
         case .lentil: return "una Lenteja"
@@ -78,15 +78,10 @@ enum BabySize: String, CaseIterable {
         default: return "un Misterio"
         }
     }
-    
+
     static func from(week: Int) -> BabySize {
-        // Mapping weeks to sizes. Assuming standard pregnancy progression.
-        // Week 6 is usually when size comparisons start (e.g. lentil).
-        // This is a simplified mapping based on the list order provided by the user.
-        // We'll map the 35 items to weeks 6 to 40 inclusive.
-        
         switch week {
-        case 0..<6: return .unknown
+        case 0 ..< 6: return .unknown
         case 6: return .lentil
         case 7: return .blueberry
         case 8: return .raspberry
@@ -121,7 +116,7 @@ enum BabySize: String, CaseIterable {
         case 37: return .butternutSquash
         case 38: return .leek
         case 39: return .watermelon
-        case 40...Int.max: return .pumpkin // 40 and beyond
+        case 40 ... Int.max: return .pumpkin // 40 and beyond
         default: return .unknown
         }
     }
