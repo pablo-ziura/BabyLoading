@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "D1964EFF-EF4A-43EB-BF94-01D0DCF5E932",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:BabyLoading.xcodeproj",
+        "identifier" : "DA1C915E2F41F1EA003EC367",
+        "name" : "BabyLoadingTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,25 +1,25 @@
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), eventDate: Date())
+        SimpleEntry(date: .now, eventDate: .now)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let repository = DependencyContainer.shared.repository
-        let eventDate = repository.getEventDate() ?? Date()
-        let entry = SimpleEntry(date: Date(), eventDate: eventDate)
+        let eventDate = repository.getEventDate() ?? .now
+        let entry = SimpleEntry(date: .now, eventDate: eventDate)
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let repository = DependencyContainer.shared.repository
         let eventDate = repository.getEventDate()
-        let entry = SimpleEntry(date: Date(), eventDate: eventDate)
-        
+        let entry = SimpleEntry(date: .now, eventDate: eventDate)
+
         // Refresh every hour or when the app reloads the timeline
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date())!
+        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         completion(timeline)
     }
@@ -30,14 +30,14 @@ struct SimpleEntry: TimelineEntry {
     let eventDate: Date?
 }
 
-struct BabyProgressWidgetEntryView : View {
+struct BabyProgressWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
             if let eventDate = entry.eventDate {
                 let days = daysUntil(eventDate)
-                
+
                 Text("\(days)")
                     .font(.system(size: 50, weight: .bold))
                     .minimumScaleFactor(0.5)
@@ -52,10 +52,10 @@ struct BabyProgressWidgetEntryView : View {
             }
         }
     }
-    
+
     func daysUntil(_ date: Date) -> Int {
         let calendar = Calendar.current
-        let startOfToday = calendar.startOfDay(for: Date())
+        let startOfToday = calendar.startOfDay(for: .now)
         let startOfEventDate = calendar.startOfDay(for: date)
         let components = calendar.dateComponents([.day], from: startOfToday, to: startOfEventDate)
         return max(0, components.day ?? 0)
@@ -84,5 +84,5 @@ struct BabyProgressWidget: Widget {
 #Preview(as: .systemSmall) {
     BabyProgressWidget()
 } timeline: {
-    SimpleEntry(date: .now, eventDate: Date().addingTimeInterval(86400 * 5))
+    SimpleEntry(date: .now, eventDate: .now.addingTimeInterval(86400 * 5))
 }
