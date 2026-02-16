@@ -24,6 +24,8 @@ class BabyLoadingViewModelTests: XCTestCase {
     func testUpdateDate_UpdatesRepositoryAndState() {
         let newDate = Date.now
         mockRepository.daysRemaining = 5 // Expect daysRemaining to update after setEventDate
+        mockRepository.pregnancyWeek = 20
+        mockRepository.babySize = .banana
 
         viewModel.updateDate(newDate)
 
@@ -31,7 +33,14 @@ class BabyLoadingViewModelTests: XCTestCase {
         XCTAssertTrue(mockRepository.setEventDateCalled)
         XCTAssertEqual(mockRepository.eventDate, newDate)
         XCTAssertTrue(mockRepository.daysUntilEventCalled)
-        XCTAssertEqual(viewModel.daysRemaining, 5)
+        XCTAssertEqual(mockRepository.daysRemaining, 5)
+        
+        XCTAssertTrue(mockRepository.getPregnancyWeekCalled)
+        XCTAssertEqual(viewModel.pregnancyWeek, 20)
+        
+        XCTAssertTrue(mockRepository.getBabySizeCalled)
+        XCTAssertEqual(viewModel.babySizeString, "un Plátano")
+        
         XCTAssertTrue(mockReloader.reloadAllTimelinesCalled)
     }
 }

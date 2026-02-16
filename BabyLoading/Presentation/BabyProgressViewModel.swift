@@ -5,6 +5,8 @@ import Observation
 class BabyProgressViewModel {
     var eventDate: Date
     var daysRemaining: Int?
+    var pregnancyWeek: Int?
+    var babySizeString: String?
 
     private let repository: BabyProgressRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
@@ -16,12 +18,16 @@ class BabyProgressViewModel {
 
         eventDate = self.repository.getEventDate() ?? .now
         daysRemaining = self.repository.daysUntilEvent()
+        pregnancyWeek = self.repository.getPregnancyWeek()
+        babySizeString = self.repository.getBabySize()?.description
     }
 
     func updateDate(_ date: Date) {
         eventDate = date
         repository.setEventDate(date)
         daysRemaining = repository.daysUntilEvent()
+        pregnancyWeek = repository.getPregnancyWeek()
+        babySizeString = repository.getBabySize()?.description
         widgetReloader.reloadAllTimelines()
     }
 }

@@ -17,10 +17,10 @@ struct ContentView: View {
             Spacer()
                 .frame(height: 20)
 
-            Text("When is the big event?")
+            Text("¿Cuándo es el gran día?")
                 .font(.headline)
 
-            DatePicker("Event Date", selection: $viewModel.eventDate, displayedComponents: [.date])
+            DatePicker("Fecha del evento", selection: $viewModel.eventDate, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
                 .padding()
                 .background(Color.gray.opacity(0.1))
@@ -31,10 +31,33 @@ struct ContentView: View {
                 }
 
             if let days = viewModel.daysRemaining {
-                Text("\(days) days remaining")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.primary)
+                VStack(spacing: 8) {
+                    Text("\(days) días quedan")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.primary)
+
+                    if let week = viewModel.pregnancyWeek {
+                        Text("Estás en la semana \(week)")
+                            .font(.headline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    if let size = viewModel.babySizeString {
+                        Text("El bebé es del tamaño de:")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 4)
+                        Text(size)
+                            .font(.title3)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.tint)
+                    }
+                }
+                .multilineTextAlignment(.center)
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(10)
             }
 
             Spacer()
