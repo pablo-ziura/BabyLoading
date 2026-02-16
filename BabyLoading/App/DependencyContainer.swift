@@ -2,12 +2,14 @@ import Foundation
 
 class DependencyContainer {
     static let shared = DependencyContainer()
-    
+
     let dataSource: BabyProgressDataSourceProtocol
     let repository: BabyProgressRepositoryProtocol
-    
+    let widgetReloader: WidgetReloaderProtocol
+
     private init() {
-        self.dataSource = BabyProgressDataSource()
-        self.repository = BabyProgressRepository(dataSource: self.dataSource)
+        dataSource = BabyProgressDataSource()
+        repository = BabyProgressRepository(dataSource: dataSource)
+        widgetReloader = DefaultWidgetReloader()
     }
 }
