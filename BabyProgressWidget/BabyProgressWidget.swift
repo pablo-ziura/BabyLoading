@@ -6,17 +6,17 @@ struct BabyProgressWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: BabyProgressTimelineProvider()) { entry in
-                BabyProgressWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
+            BabyProgressWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Days Remaining")
-        .description("Count down the days to your big event.")
+        .configurationDisplayName("Baby Progress")
+        .description("Mira en qué semana del embarazo estás.")
+        .supportedFamilies([.systemMedium])
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     BabyProgressWidget()
 } timeline: {
     SimpleEntry(date: .now, eventDate: .now.addingTimeInterval(86400 * 5), week: 20, babySize: .banana)
+    SimpleEntry(date: .now, eventDate: nil, week: 0, babySize: .unknown)
 }
