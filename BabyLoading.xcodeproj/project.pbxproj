@@ -11,6 +11,10 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DA1C92102F41F500003EC367 /* BabyLoading/BabyProgressDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92002F41F500003EC367 /* BabyLoading/BabyProgressDataSource.swift */; };
+		DA1C92112F41F500003EC367 /* BabyLoading/BabyProgressRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92012F41F500003EC367 /* BabyLoading/BabyProgressRepository.swift */; };
+		DA1C92122F41F500003EC367 /* BabyLoading/BabyProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92022F41F500003EC367 /* BabyLoading/BabyProgressViewModel.swift */; };
+		DA1C92132F41F500003EC367 /* BabyLoading/DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92032F41F500003EC367 /* BabyLoading/DependencyContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,10 @@
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
+		DA1C92002F41F500003EC367 /* BabyLoading/BabyProgressDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Data/BabyProgressDataSource.swift; sourceTree = "<group>"; };
+		DA1C92012F41F500003EC367 /* BabyLoading/BabyProgressRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Data/BabyProgressRepository.swift; sourceTree = "<group>"; };
+		DA1C92022F41F500003EC367 /* BabyLoading/BabyProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Presentation/BabyProgressViewModel.swift; sourceTree = "<group>"; };
+		DA1C92032F41F500003EC367 /* BabyLoading/DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/App/DependencyContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -137,6 +145,10 @@
 			children = (
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 				DA1C917C2F41F1F3003EC367 /* .gitignore */,
+				DA1C92002F41F500003EC367 /* BabyLoading/BabyProgressDataSource.swift */,
+				DA1C92012F41F500003EC367 /* BabyLoading/BabyProgressRepository.swift */,
+				DA1C92022F41F500003EC367 /* BabyLoading/BabyProgressViewModel.swift */,
+				DA1C92032F41F500003EC367 /* BabyLoading/DependencyContainer.swift */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
 				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
 				DA1C916C2F41F1EA003EC367 /* BabyLoadingUITests */,
@@ -367,6 +379,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA1C92102F41F500003EC367 /* BabyLoading/BabyProgressDataSource.swift in Sources */,
+				DA1C92112F41F500003EC367 /* BabyLoading/BabyProgressRepository.swift in Sources */,
+				DA1C92122F41F500003EC367 /* BabyLoading/BabyProgressViewModel.swift in Sources */,
+				DA1C92132F41F500003EC367 /* BabyLoading/DependencyContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,7 +528,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BabyLoading/BabyLoading.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BabyLoading/App/BabyLoading.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
@@ -557,7 +573,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BabyLoading/BabyLoading.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BabyLoading/App/BabyLoading.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
