@@ -8,6 +8,11 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var getEventDateCalled = false
     var setEventDateCalled = false
     var daysUntilEventCalled = false
+    var getPregnancyWeekCalled = false
+    var getBabySizeCalled = false
+
+    var pregnancyWeek: Int?
+    var babySize: BabySize?
 
     func getEventDate() -> Date? {
         getEventDateCalled = true
@@ -22,5 +27,15 @@ class MockRepository: BabyProgressRepositoryProtocol {
     func daysUntilEvent() -> Int? {
         daysUntilEventCalled = true
         return daysRemaining
+    }
+
+    func getPregnancyWeek() -> Int? {
+        getPregnancyWeekCalled = true
+        return pregnancyWeek
+    }
+
+    func getBabySize() -> BabySize? {
+        getBabySizeCalled = true
+        return babySize
     }
 }

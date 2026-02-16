@@ -12,14 +12,7 @@
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DA1C92052F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */; };
-		DA1C92102F41F500003EC367 /* BabyLoading/Data/BabyProgressDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92002F41F500003EC367 /* BabyLoading/Data/BabyProgressDataSource.swift */; };
-		DA1C92112F41F500003EC367 /* BabyLoading/Data/BabyProgressRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92012F41F500003EC367 /* BabyLoading/Data/BabyProgressRepository.swift */; };
-		DA1C92122F41F500003EC367 /* BabyLoading/Presentation/BabyProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92022F41F500003EC367 /* BabyLoading/Presentation/BabyProgressViewModel.swift */; };
-		DA1C92132F41F500003EC367 /* BabyLoading/App/DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92032F41F500003EC367 /* BabyLoading/App/DependencyContainer.swift */; };
 		DA1C92142F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */; };
-		DA1C93102F41F600003EC367 /* BabyLoadingTests/Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C93002F41F600003EC367 /* BabyLoadingTests/Mocks.swift */; };
-		DA1C93112F41F600003EC367 /* BabyLoadingTests/BabyProgressRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C93012F41F600003EC367 /* BabyLoadingTests/BabyProgressRepositoryTests.swift */; };
-		DA1C93122F41F600003EC367 /* BabyLoadingTests/BabyProgressViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C93022F41F600003EC367 /* BabyLoadingTests/BabyProgressViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,14 +54,7 @@
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
-		DA1C92002F41F500003EC367 /* BabyLoading/Data/BabyProgressDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Data/BabyProgressDataSource.swift; sourceTree = "<group>"; };
-		DA1C92012F41F500003EC367 /* BabyLoading/Data/BabyProgressRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Data/BabyProgressRepository.swift; sourceTree = "<group>"; };
-		DA1C92022F41F500003EC367 /* BabyLoading/Presentation/BabyProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/Presentation/BabyProgressViewModel.swift; sourceTree = "<group>"; };
-		DA1C92032F41F500003EC367 /* BabyLoading/App/DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/App/DependencyContainer.swift; sourceTree = "<group>"; };
 		DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/App/WidgetReloader.swift; sourceTree = "<group>"; };
-		DA1C93002F41F600003EC367 /* BabyLoadingTests/Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoadingTests/Mocks.swift; sourceTree = "<group>"; };
-		DA1C93012F41F600003EC367 /* BabyLoadingTests/BabyProgressRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoadingTests/BabyProgressRepositoryTests.swift; sourceTree = "<group>"; };
-		DA1C93022F41F600003EC367 /* BabyLoadingTests/BabyProgressViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoadingTests/BabyProgressViewModelTests.swift; sourceTree = "<group>"; };
 		DAB24C712F433F440094BD0E /* BabyLoadingTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = BabyLoadingTests.xctestplan; path = BabyLoadingTests/BabyLoadingTests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,11 +66,43 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
+		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/DependencyContainer.swift,
+				App/WidgetReloader.swift,
+				Data/BabyProgressDataSource.swift,
+				Data/BabyProgressRepository.swift,
+				Domain/BabySize.swift,
+				Domain/PregnancyCalculator.swift,
+				Presentation/BabyProgressViewModel.swift,
+				Presentation/ContentView.swift,
+			);
+			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
+		};
+		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/DependencyContainer.swift,
+				App/WidgetReloader.swift,
+				Data/BabyProgressDataSource.swift,
+				Data/BabyProgressRepository.swift,
+				Domain/BabySize.swift,
+				Domain/PregnancyCalculator.swift,
+				Presentation/BabyProgressViewModel.swift,
+				Presentation/ContentView.swift,
+			);
+			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
+				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
+			);
 			path = BabyLoading;
 			sourceTree = "<group>";
 		};
@@ -136,16 +154,9 @@
 				DAB24C712F433F440094BD0E /* BabyLoadingTests.xctestplan */,
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 				DA1C917C2F41F1F3003EC367 /* .gitignore */,
-				DA1C92002F41F500003EC367 /* BabyLoading/Data/BabyProgressDataSource.swift */,
-				DA1C92012F41F500003EC367 /* BabyLoading/Data/BabyProgressRepository.swift */,
-				DA1C92022F41F500003EC367 /* BabyLoading/Presentation/BabyProgressViewModel.swift */,
-				DA1C92032F41F500003EC367 /* BabyLoading/App/DependencyContainer.swift */,
-				DA1C93002F41F600003EC367 /* BabyLoadingTests/Mocks.swift */,
-				DA1C93012F41F600003EC367 /* BabyLoadingTests/BabyProgressRepositoryTests.swift */,
-				DA1C93022F41F600003EC367 /* BabyLoadingTests/BabyProgressViewModelTests.swift */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
-				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
 				DA1C91892F41F266003EC367 /* BabyProgressWidget */,
+				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
 				DAB24C492F433E0A0094BD0E /* Recovered References */,
@@ -332,9 +343,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1C93102F41F600003EC367 /* BabyLoadingTests/Mocks.swift in Sources */,
-				DA1C93112F41F600003EC367 /* BabyLoadingTests/BabyProgressRepositoryTests.swift in Sources */,
-				DA1C93122F41F600003EC367 /* BabyLoadingTests/BabyProgressViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,10 +350,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1C92102F41F500003EC367 /* BabyLoading/Data/BabyProgressDataSource.swift in Sources */,
-				DA1C92112F41F500003EC367 /* BabyLoading/Data/BabyProgressRepository.swift in Sources */,
-				DA1C92122F41F500003EC367 /* BabyLoading/Presentation/BabyProgressViewModel.swift in Sources */,
-				DA1C92132F41F500003EC367 /* BabyLoading/App/DependencyContainer.swift in Sources */,
 				DA1C92142F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
