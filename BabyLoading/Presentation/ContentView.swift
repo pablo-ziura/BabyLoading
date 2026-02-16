@@ -20,7 +20,7 @@ struct ContentView: View {
             Text("¿Cuándo es el gran día?")
                 .font(.headline)
 
-            DatePicker("Fecha del evento", selection: $viewModel.eventDate, displayedComponents: [.date])
+            DatePicker("Fecha del evento", selection: $viewModel.eventDate, in: Date.now..., displayedComponents: [.date])
                 .datePickerStyle(.graphical)
                 .padding()
                 .background(Color.gray.opacity(0.1))
