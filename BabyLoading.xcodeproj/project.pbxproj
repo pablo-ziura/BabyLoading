@@ -11,8 +11,6 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		DA1C92052F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */; };
-		DA1C92142F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +52,6 @@
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
-		DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabyLoading/App/WidgetReloader.swift; sourceTree = "<group>"; };
-		DAB24C712F433F440094BD0E /* BabyLoadingTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = BabyLoadingTests.xctestplan; path = BabyLoadingTests/BabyLoadingTests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -167,7 +163,6 @@
 		DA1C91492F41F1E9003EC367 = {
 			isa = PBXGroup;
 			children = (
-				DAB24C712F433F440094BD0E /* BabyLoadingTests.xctestplan */,
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 				DA1C917C2F41F1F3003EC367 /* .gitignore */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
@@ -175,7 +170,6 @@
 				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
-				DAB24C492F433E0A0094BD0E /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,14 +190,6 @@
 				DA1C91872F41F266003EC367 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DAB24C492F433E0A0094BD0E /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				DA1C92042F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +292,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = DA1C91492F41F1E9003EC367;
 			minimizedProjectReferenceProxies = 1;
@@ -351,7 +338,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1C92052F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,7 +352,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1C92142F41F500003EC367 /* BabyLoading/App/WidgetReloader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
