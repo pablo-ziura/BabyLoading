@@ -1,27 +1,22 @@
 @testable import BabyLoading
-import XCTest
+import Testing
+import Foundation
 
 @MainActor
-class BabyLoadingViewModelTests: XCTestCase {
-    var viewModel: BabyProgressViewModel!
-    var mockRepository: MockRepository!
-    var mockReloader: MockWidgetReloader!
+struct BabyLoadingViewModelTests {
+    private var viewModel: BabyProgressViewModel
+    private var mockRepository: MockRepository
+    private var mockReloader: MockWidgetReloader
 
-    override func setUp() async throws {
-        try await super.setUp()
-        mockRepository = MockRepository()
-        mockReloader = MockWidgetReloader()
-        viewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
+    init() async throws {
+        let repo = MockRepository()
+        let reloader = MockWidgetReloader()
+        self.mockRepository = repo
+        self.mockReloader = reloader
+        self.viewModel = BabyProgressViewModel(repository: repo, widgetReloader: reloader)
     }
 
-    override func tearDown() async throws {
-        viewModel = nil
-        mockRepository = nil
-        mockReloader = nil
-        try await super.tearDown()
-    }
-
-    func testUpdateDate_UpdatesRepositoryAndState() {
+    @Test func updateDate_UpdatesRepositoryAndState() async throws {
         let newDate = Date.now
         mockRepository.daysRemaining = 5 // Expect daysRemaining to update after setEventDate
         mockRepository.pregnancyWeek = 20
@@ -29,18 +24,18 @@ class BabyLoadingViewModelTests: XCTestCase {
 
         viewModel.updateDate(newDate)
 
-        XCTAssertEqual(viewModel.eventDate, newDate)
-        XCTAssertTrue(mockRepository.setEventDateCalled)
-        XCTAssertEqual(mockRepository.eventDate, newDate)
-        XCTAssertTrue(mockRepository.daysUntilEventCalled)
-        XCTAssertEqual(mockRepository.daysRemaining, 5)
+        #expect(viewModel.eventDate == newDate)
+        #expect(mockRepository.setEventDateCalled)
+        #expect(mockRepository.eventDate == newDate)
+        #expect(mockRepository.daysUntilEventCalled)
+        #expect(mockRepository.daysRemaining == 5)
         
-        XCTAssertTrue(mockRepository.getPregnancyWeekCalled)
-        XCTAssertEqual(viewModel.pregnancyWeek, 20)
+        #expect(mockRepository.getPregnancyWeekCalled)
+        #expect(viewModel.pregnancyWeek == 20)
         
-        XCTAssertTrue(mockRepository.getBabySizeCalled)
-        XCTAssertEqual(viewModel.babySizeString, "un Plátano")
+        #expect(mockRepository.getBabySizeCalled)
+        #expect(viewModel.babySizeString == "un Plátano")
         
-        XCTAssertTrue(mockReloader.reloadAllTimelinesCalled)
+        #expect(mockReloader.reloadAllTimelinesCalled)
     }
 }

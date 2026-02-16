@@ -1,83 +1,78 @@
 @testable import BabyLoading
-import XCTest
+import Testing
+import Foundation
 
-class BabyLoadingRepositoryTests: XCTestCase {
-    var repository: BabyProgressRepository!
-    var mockDataSource: MockDataSource!
+struct BabyLoadingRepositoryTests {
+    private var repository: BabyProgressRepository
+    private var mockDataSource: MockDataSource
 
-    override func setUp() {
-        super.setUp()
-        mockDataSource = MockDataSource()
-        repository = BabyProgressRepository(dataSource: mockDataSource)
+    init() {
+        let dataSource = MockDataSource()
+        self.mockDataSource = dataSource
+        self.repository = BabyProgressRepository(dataSource: dataSource)
     }
 
-    override func tearDown() {
-        repository = nil
-        mockDataSource = nil
-        super.tearDown()
-    }
-
-    func testGetEventDate_WhenDateExists_ReturnsDate() {
+    @Test func getEventDate_WhenDateExists_ReturnsDate() {
         let expectedDate = Date.now
         mockDataSource.storedDate = expectedDate
 
         let result = repository.getEventDate()
 
-        XCTAssertEqual(result, expectedDate)
-        XCTAssertTrue(mockDataSource.fetchCalled)
+        #expect(result == expectedDate)
+        #expect(mockDataSource.fetchCalled)
     }
 
-    func testGetEventDate_WhenDateDoesNotExist_ReturnsNil() {
+    @Test func getEventDate_WhenDateDoesNotExist_ReturnsNil() {
         mockDataSource.storedDate = nil
 
         let result = repository.getEventDate()
 
-        XCTAssertNil(result)
-        XCTAssertTrue(mockDataSource.fetchCalled)
+        #expect(result == nil)
+        #expect(mockDataSource.fetchCalled)
     }
 
-    func testSetEventDate_SavesDate() {
+    @Test func setEventDate_SavesDate() {
         let date = Date.now
 
         repository.setEventDate(date)
 
-        XCTAssertTrue(mockDataSource.saveCalled)
-        XCTAssertEqual(mockDataSource.storedDate, date)
+        #expect(mockDataSource.saveCalled)
+        #expect(mockDataSource.storedDate == date)
     }
 
-    func testDaysUntilEvent_ReturnsCorrectDays() {
+    @Test func daysUntilEvent_ReturnsCorrectDays() {
         let calendar = Calendar.current
         let today = Date.now
         guard let futureDate = calendar.date(byAdding: .day, value: 5, to: today) else {
-            XCTFail("Could not create future date")
+            Issue.record("Could not create future date")
             return
         }
         mockDataSource.storedDate = futureDate
 
         let days = repository.daysUntilEvent()
 
-        XCTAssertEqual(days, 5)
+        #expect(days == 5)
     }
 
-    func testDaysUntilEvent_WhenDateInPast_ReturnsZero() {
+    @Test func daysUntilEvent_WhenDateInPast_ReturnsZero() {
         let calendar = Calendar.current
         let today = Date.now
         guard let pastDate = calendar.date(byAdding: .day, value: -5, to: today) else {
-            XCTFail("Could not create past date")
+            Issue.record("Could not create past date")
             return
         }
         mockDataSource.storedDate = pastDate
 
         let days = repository.daysUntilEvent()
 
-        XCTAssertEqual(days, 0)
+        #expect(days == 0)
     }
 
-    func testDaysUntilEvent_WhenNoDate_ReturnsNil() {
+    @Test func daysUntilEvent_WhenNoDate_ReturnsNil() {
         mockDataSource.storedDate = nil
 
         let days = repository.daysUntilEvent()
 
-        XCTAssertNil(days)
+        #expect(days == nil)
     }
 }
