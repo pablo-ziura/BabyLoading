@@ -8,23 +8,26 @@ struct BabyProgressTimelineProvider: TimelineProvider {
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let repository = DependencyContainer.shared.repository
-        let eventDate = repository.getEventDate() ?? .now
+        let lastPeriodDate = repository.getEventDate() ?? .now
+        let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
         let week = repository.getPregnancyWeek() ?? 0
         let size = repository.getBabySize() ?? .unknown
-        let entry = SimpleEntry(date: .now, eventDate: eventDate, week: week, babySize: size)
+        let entry = SimpleEntry(date: .now, eventDate: dueDate, week: week, babySize: size)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let repository = DependencyContainer.shared.repository
-        let eventDate = repository.getEventDate()
-        print("🔍 [BabyProgressTimelineProvider] getTimeline -> EventDate from repo: \(String(describing: eventDate))")
+        let lastPeriodDate = repository.getEventDate() ?? .now
+        let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
+        
+        print("🔍 [BabyProgressTimelineProvider] getTimeline -> lastPeriod: \(lastPeriodDate), dueDate: \(dueDate)")
 
         let week = repository.getPregnancyWeek() ?? 0
         let size = repository.getBabySize() ?? .unknown
         print("🔍 [BabyProgressTimelineProvider] getTimeline -> Week: \(week), Size: \(size)")
 
-        let entry = SimpleEntry(date: .now, eventDate: eventDate, week: week, babySize: size)
+        let entry = SimpleEntry(date: .now, eventDate: dueDate, week: week, babySize: size)
         print("✅ [BabyProgressTimelineProvider] Created entry: \(entry)")
 
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!

@@ -27,22 +27,25 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
     }
 
     func daysUntilEvent() -> Int? {
-        guard let date = getEventDate() else { return nil }
+        guard let lastPeriodDate = getEventDate() else { return nil }
+        let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
+        
         let calendar = Calendar.current
         let startOfToday = calendar.startOfDay(for: .now)
-        let startOfEventDate = calendar.startOfDay(for: date)
-        let components = calendar.dateComponents([.day], from: startOfToday, to: startOfEventDate)
+        let startOfDueDate = calendar.startOfDay(for: dueDate)
+        
+        let components = calendar.dateComponents([.day], from: startOfToday, to: startOfDueDate)
         return max(0, components.day ?? 0)
     }
 
     func getPregnancyWeek() -> Int? {
-        guard let date = getEventDate() else { return nil }
-        return PregnancyCalculator.currentWeek(dueDate: date)
+        guard let lastPeriodDate = getEventDate() else { return nil }
+        return PregnancyCalculator.currentWeek(lastPeriod: lastPeriodDate)
     }
 
     func getBabySize() -> BabySize? {
-        guard let date = getEventDate() else { return nil }
-        return PregnancyCalculator.babySize(for: date)
+        guard let lastPeriodDate = getEventDate() else { return nil }
+        return PregnancyCalculator.babySize(for: lastPeriodDate)
     }
 
     func savePhoto(data: Data?) {

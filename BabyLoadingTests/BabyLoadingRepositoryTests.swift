@@ -1,6 +1,6 @@
 @testable import BabyLoading
-import Testing
 import Foundation
+import Testing
 
 struct BabyLoadingRepositoryTests {
     private var repository: BabyProgressRepository
@@ -8,8 +8,8 @@ struct BabyLoadingRepositoryTests {
 
     init() {
         let dataSource = MockDataSource()
-        self.mockDataSource = dataSource
-        self.repository = BabyProgressRepository(dataSource: dataSource)
+        mockDataSource = dataSource
+        repository = BabyProgressRepository(dataSource: dataSource)
     }
 
     @Test func getEventDate_WhenDateExists_ReturnsDate() {
@@ -42,26 +42,30 @@ struct BabyLoadingRepositoryTests {
 
     @Test func daysUntilEvent_ReturnsCorrectDays() {
         let calendar = Calendar.current
-        let today = Date.now
-        guard let futureDate = calendar.date(byAdding: .day, value: 5, to: today) else {
-            Issue.record("Could not create future date")
-            return
-        }
-        mockDataSource.storedDate = futureDate
+        // Set lastPeriodDate to today -> dueDate will be about 280 days from now
+        let lastPeriodDate = Date.now
+        mockDataSource.storedDate = lastPeriodDate
+
+        // Expected calculation
+        let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
+        let startOfToday = calendar.startOfDay(for: .now)
+        let startOfDueDate = calendar.startOfDay(for: dueDate)
+        let expectedDays = max(0, calendar.dateComponents([.day], from: startOfToday, to: startOfDueDate).day ?? 0)
 
         let days = repository.daysUntilEvent()
 
-        #expect(days == 5)
+        #expect(days == expectedDays)
     }
 
-    @Test func daysUntilEvent_WhenDateInPast_ReturnsZero() {
+    @Test func daysUntilEvent_WhenDueDateIsInPast_ReturnsZero() {
         let calendar = Calendar.current
         let today = Date.now
-        guard let pastDate = calendar.date(byAdding: .day, value: -5, to: today) else {
+        // Set lastPeriodDate 300 days ago -> dueDate should be in the past
+        guard let pastLastPeriod = calendar.date(byAdding: .day, value: -300, to: today) else {
             Issue.record("Could not create past date")
             return
         }
-        mockDataSource.storedDate = pastDate
+        mockDataSource.storedDate = pastLastPeriod
 
         let days = repository.daysUntilEvent()
 

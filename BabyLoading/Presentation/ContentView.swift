@@ -8,6 +8,9 @@ struct ContentView: View {
     @State private var viewModel = BabyProgressViewModel()
     @State private var selectedItem: PhotosPickerItem?
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
+    private var isLandscape: Bool { verticalSizeClass == .compact }
 
     private let gradientTop = Color(red: 1.0, green: 0.75, blue: 0.82)
     private let gradientBottom = Color(red: 0.78, green: 0.72, blue: 0.96)
@@ -22,7 +25,7 @@ struct ContentView: View {
             .ignoresSafeArea()
 
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: isLandscape ? 16 : 24) {
 
                     // MARK: - Header
                     VStack(spacing: 8) {
@@ -31,26 +34,54 @@ struct ContentView: View {
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
 
-                        Text("¿Cuándo es el gran día?")
+                        Text("¿Cuándo fue tu última menstruación? 🌸")
                             .font(.headline)
                             .foregroundStyle(.white.opacity(0.85))
                     }
-                    .padding(.top, 30)
+                    .padding(.top, isLandscape ? 12 : 30)
 
                     // MARK: - Photo Section
                     photoSection
                         .padding(.horizontal)
 
-                    // MARK: - Date Picker
-                    DatePicker(
-                        "Fecha del evento",
-                        selection: $viewModel.eventDate,
-                        in: Date.now...,
-                        displayedComponents: [.date]
-                    )
-                    .datePickerStyle(.graphical)
-                    .environment(\.locale, .current)
-                    .tint(.pink)
+                    // MARK: - Date Picker & FPP
+                    VStack(spacing: 0) {
+                        Group {
+                            if isLandscape {
+                                DatePicker(
+                                    "Fecha de última menstruación",
+                                    selection: $viewModel.lastPeriodDate,
+                                    in: ...Date.now,
+                                    displayedComponents: [.date]
+                                )
+                                .datePickerStyle(.compact)
+                            } else {
+                                DatePicker(
+                                    "Fecha de última menstruación",
+                                    selection: $viewModel.lastPeriodDate,
+                                    in: ...Date.now,
+                                    displayedComponents: [.date]
+                                )
+                                .datePickerStyle(.graphical)
+                            }
+                        }
+                        .environment(\.locale, .current)
+                        .tint(.pink)
+
+                        // MARK: - FPP Display
+                        if let fpp = viewModel.estimatedDueDate {
+                            Divider().padding(.vertical, 8)
+                            VStack(spacing: 4) {
+                                Text("Fecha probable de parto")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                Text(fpp.formatted(date: .long, time: .omitted))
+                                    .font(.headline)
+                                    .foregroundStyle(.pink)
+                            }
+                            .padding(.bottom, 8)
+                        }
+                    }
                     .padding()
                     .background(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -59,7 +90,7 @@ struct ContentView: View {
 
                     // MARK: - Set Date Button
                     Button {
-                        viewModel.updateDate(viewModel.eventDate)
+                        viewModel.updateDate(viewModel.lastPeriodDate)
                     } label: {
                         Text("Fijar fecha ✨")
                             .font(.headline)
@@ -112,6 +143,7 @@ struct ContentView: View {
 
                     Spacer(minLength: 30)
                 }
+                .frame(maxWidth: 600)
             }
         }
         .onChange(of: selectedItem) { _, newItem in
@@ -130,8 +162,9 @@ struct ContentView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 220)
                     .frame(maxWidth: .infinity)
+                    .frame(height: isLandscape ? 150 : 220)
+                    .clipped()
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .shadow(color: .black.opacity(0.15), radius: 12, y: 6)
 
@@ -167,7 +200,7 @@ struct ContentView: View {
                         .foregroundStyle(.white.opacity(0.6))
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 160)
+                .frame(height: isLandscape ? 120 : 160)
                 .background(.ultraThinMaterial.opacity(0.6))
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(

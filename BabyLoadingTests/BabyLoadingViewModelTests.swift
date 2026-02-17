@@ -1,6 +1,6 @@
 @testable import BabyLoading
-import Testing
 import Foundation
+import Testing
 
 @MainActor
 struct BabyLoadingViewModelTests {
@@ -11,9 +11,9 @@ struct BabyLoadingViewModelTests {
     init() async throws {
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
-        self.mockRepository = repo
-        self.mockReloader = reloader
-        self.viewModel = BabyProgressViewModel(repository: repo, widgetReloader: reloader)
+        mockRepository = repo
+        mockReloader = reloader
+        viewModel = BabyProgressViewModel(repository: repo, widgetReloader: reloader)
     }
 
     @Test func updateDate_UpdatesRepositoryAndState() async throws {
@@ -24,7 +24,7 @@ struct BabyLoadingViewModelTests {
 
         viewModel.updateDate(newDate)
 
-        #expect(viewModel.eventDate == newDate)
+        #expect(viewModel.lastPeriodDate == newDate)
         #expect(mockRepository.setEventDateCalled)
         #expect(mockRepository.eventDate == newDate)
         #expect(mockRepository.daysUntilEventCalled)
@@ -34,7 +34,7 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.pregnancyWeek == 20)
 
         #expect(mockRepository.getBabySizeCalled)
-        #expect(viewModel.babySizeString == "un Plátano")
+        #expect(viewModel.babySizeString == "un plátano")
 
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
