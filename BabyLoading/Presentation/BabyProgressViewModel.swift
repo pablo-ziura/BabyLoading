@@ -7,6 +7,8 @@ class BabyProgressViewModel {
     var daysRemaining: Int?
     var pregnancyWeek: Int?
     var babySizeString: String?
+    var photoData: Data?
+    var showingPhotoPicker = false
 
     private let repository: BabyProgressRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
@@ -20,6 +22,7 @@ class BabyProgressViewModel {
         daysRemaining = self.repository.daysUntilEvent()
         pregnancyWeek = self.repository.getPregnancyWeek()
         babySizeString = self.repository.getBabySize()?.description
+        photoData = self.repository.fetchPhoto()
     }
 
     func updateDate(_ date: Date) {
@@ -29,5 +32,15 @@ class BabyProgressViewModel {
         pregnancyWeek = repository.getPregnancyWeek()
         babySizeString = repository.getBabySize()?.description
         widgetReloader.reloadAllTimelines()
+    }
+
+    func savePhoto(_ data: Data?) {
+        photoData = data
+        repository.savePhoto(data: data)
+    }
+
+    func deletePhoto() {
+        photoData = nil
+        repository.deletePhoto()
     }
 }

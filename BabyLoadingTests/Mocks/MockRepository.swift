@@ -10,9 +10,13 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var daysUntilEventCalled = false
     var getPregnancyWeekCalled = false
     var getBabySizeCalled = false
+    var savePhotoCalled = false
+    var fetchPhotoCalled = false
+    var deletePhotoCalled = false
 
     var pregnancyWeek: Int?
     var babySize: BabySize?
+    var storedPhotoData: Data?
 
     func getEventDate() -> Date? {
         getEventDateCalled = true
@@ -37,5 +41,20 @@ class MockRepository: BabyProgressRepositoryProtocol {
     func getBabySize() -> BabySize? {
         getBabySizeCalled = true
         return babySize
+    }
+
+    func savePhoto(data: Data?) {
+        savePhotoCalled = true
+        storedPhotoData = data
+    }
+
+    func fetchPhoto() -> Data? {
+        fetchPhotoCalled = true
+        return storedPhotoData
+    }
+
+    func deletePhoto() {
+        deletePhotoCalled = true
+        storedPhotoData = nil
     }
 }

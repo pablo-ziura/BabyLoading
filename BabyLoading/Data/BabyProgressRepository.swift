@@ -6,6 +6,9 @@ protocol BabyProgressRepositoryProtocol {
     func daysUntilEvent() -> Int?
     func getPregnancyWeek() -> Int?
     func getBabySize() -> BabySize?
+    func savePhoto(data: Data?)
+    func fetchPhoto() -> Data?
+    func deletePhoto()
 }
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
@@ -40,5 +43,17 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
     func getBabySize() -> BabySize? {
         guard let date = getEventDate() else { return nil }
         return PregnancyCalculator.babySize(for: date)
+    }
+
+    func savePhoto(data: Data?) {
+        dataSource.savePhoto(data: data)
+    }
+
+    func fetchPhoto() -> Data? {
+        return dataSource.fetchPhoto()
+    }
+
+    func deletePhoto() {
+        dataSource.deletePhoto()
     }
 }
