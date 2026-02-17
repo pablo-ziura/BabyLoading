@@ -19,12 +19,12 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     func save(date: Date?) {
-        print("💾 [BabyProgressDataSource] save -> \(String(describing: date)) (suite: \(suiteName))")
+        print("💾 [BabyProgressDataSource] save lastPeriodDate -> \(String(describing: date)) (suite: \(suiteName))")
         guard let defaults = UserDefaults(suiteName: suiteName) else {
             print("⚠️ [BabyProgressDataSource] Failed to init UserDefaults with suite: \(suiteName)")
             return
         }
-        defaults.set(date, forKey: "eventDate")
+        defaults.set(date, forKey: "lastPeriodDate")
     }
 
     func fetchDate() -> Date? {
@@ -32,9 +32,13 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
             print("⚠️ [BabyProgressDataSource] Failed to init UserDefaults with suite: \(suiteName)")
             return nil
         }
-        let date = defaults.object(forKey: "eventDate") as? Date
-        print("🔍 [BabyProgressDataSource] fetchDate -> \(String(describing: date)) (suite: \(suiteName))")
-        return date
+
+        if let lastPeriodDate = defaults.object(forKey: "lastPeriodDate") as? Date {
+            print("🔍 [BabyProgressDataSource] fetchDate -> lastPeriodDate found: \(lastPeriodDate)")
+            return lastPeriodDate
+        }
+
+        return nil
     }
 
     func savePhoto(data: Data?) {
