@@ -8,14 +8,18 @@ class BabyProgressViewModel {
     var daysRemaining: Int?
     var pregnancyWeek: Int?
     var babySizeString: String?
+    var currentBabySize: BabySize?
     var photoData: Data?
+    var photosData: [Data] = []
     var showingPhotoPicker = false
 
     private let repository: BabyProgressRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
 
-    init(repository: BabyProgressRepositoryProtocol? = nil,
-         widgetReloader: WidgetReloaderProtocol? = nil) {
+    init(
+        repository: BabyProgressRepositoryProtocol? = nil,
+        widgetReloader: WidgetReloaderProtocol? = nil
+    ) {
         self.repository = repository ?? DependencyContainer.shared.repository
         self.widgetReloader = widgetReloader ?? DependencyContainer.shared.widgetReloader
 
@@ -25,8 +29,10 @@ class BabyProgressViewModel {
         estimatedDueDate = PregnancyCalculator.calculateDueDate(lastPeriod: date)
         daysRemaining = self.repository.daysUntilEvent()
         pregnancyWeek = self.repository.getPregnancyWeek()
-        babySizeString = self.repository.getBabySize()?.description
+        currentBabySize = self.repository.getBabySize()
+        babySizeString = currentBabySize?.description
         photoData = self.repository.fetchPhoto()
+        photosData = self.repository.fetchAllPhotos()
     }
 
     func updateDate(_ date: Date) {
@@ -35,7 +41,8 @@ class BabyProgressViewModel {
         repository.setEventDate(date)
         daysRemaining = repository.daysUntilEvent()
         pregnancyWeek = repository.getPregnancyWeek()
-        babySizeString = repository.getBabySize()?.description
+        currentBabySize = repository.getBabySize()
+        babySizeString = currentBabySize?.description
         widgetReloader.reloadAllTimelines()
     }
 
@@ -47,5 +54,17 @@ class BabyProgressViewModel {
     func deletePhoto() {
         photoData = nil
         repository.deletePhoto()
+    }
+
+    // MARK: - Multi-photo gallery
+
+    func addGalleryPhoto(_ data: Data) {
+        repository.addPhoto(data: data)
+        photosData = repository.fetchAllPhotos()
+    }
+
+    func deleteGalleryPhoto(at index: Int) {
+        repository.deletePhoto(at: index)
+        photosData = repository.fetchAllPhotos()
     }
 }

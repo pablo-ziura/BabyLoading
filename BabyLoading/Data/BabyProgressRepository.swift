@@ -9,6 +9,11 @@ protocol BabyProgressRepositoryProtocol {
     func savePhoto(data: Data?)
     func fetchPhoto() -> Data?
     func deletePhoto()
+
+    // Multi-photo
+    func addPhoto(data: Data)
+    func fetchAllPhotos() -> [Data]
+    func deletePhoto(at index: Int)
 }
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
@@ -58,5 +63,19 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
 
     func deletePhoto() {
         dataSource.deletePhoto()
+    }
+
+    // MARK: - Multi-photo
+
+    func addPhoto(data: Data) {
+        dataSource.addPhoto(data: data)
+    }
+
+    func fetchAllPhotos() -> [Data] {
+        return dataSource.fetchAllPhotos()
+    }
+
+    func deletePhoto(at index: Int) {
+        dataSource.deletePhoto(at: index)
     }
 }

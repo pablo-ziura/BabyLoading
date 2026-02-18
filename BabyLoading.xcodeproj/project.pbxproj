@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA1C917E2F41F1FA003EC367 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = DA1C917C2F41F1F3003EC367 /* .gitignore */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -47,7 +46,6 @@
 /* Begin PBXFileReference section */
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyLoadingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA1C917C2F41F1F3003EC367 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabyProgressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -164,7 +162,6 @@
 			isa = PBXGroup;
 			children = (
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
-				DA1C917C2F41F1F3003EC367 /* .gitignore */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
 				DA1C91892F41F266003EC367 /* BabyProgressWidget */,
 				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
@@ -313,7 +310,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1C917E2F41F1FA003EC367 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
