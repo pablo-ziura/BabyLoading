@@ -1,6 +1,7 @@
 import Foundation
 import WidgetKit
 
+@MainActor
 struct BabyProgressTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: .now, eventDate: .now, week: 40, babySize: .pumpkin)
