@@ -1,0 +1,538 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme BabyLoading -project BabyLoading.xcodeproj -destination "platform=iOS Simulator,name=iPhone 17" clean build
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:007FF693-899D-4C28-A906-B415BD6CDD9C, OS:26.2, name:iPhone 17 }
+{ platform:iOS Simulator, arch:x86_64, id:007FF693-899D-4C28-A906-B415BD6CDD9C, OS:26.2, name:iPhone 17 }
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:007FF693-899D-4C28-A906-B415BD6CDD9C, OS:26.2, name:iPhone 17 }
+{ platform:iOS Simulator, arch:x86_64, id:007FF693-899D-4C28-A906-B415BD6CDD9C, OS:26.2, name:iPhone 17 }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (2 targets)
+    Target 'BabyLoading' in project 'BabyLoading'
+        ➜ Explicit dependency on target 'BabyProgressWidgetExtension' in project 'BabyLoading'
+    Target 'BabyProgressWidgetExtension' in project 'BabyLoading' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 2f7b0ddad2c12e08186d3c3cb5405d3e
+Build description path: /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/XCBuildData/2f7b0ddad2c12e08186d3c3cb5405d3e.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    builtin-create-build-directory /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading-8ce7e8071caea86659d86f1587a66dcf-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading-8ce7e8071caea86659d86f1587a66dcf-VFS-iphonesimulator/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/empty-BabyLoading.plist (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/empty-BabyLoading.plist
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/Entitlements-Simulated.plist (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading-OutputFileMap.json (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading_const_extract_protocols.json (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.LinkFileList (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.LinkFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_const_extract_protocols.json (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftFileList (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftConstValuesFileList (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-OutputFileMap.json (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.DependencyStaticMetadataFileList (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.DependencyMetadataFileList (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-project-headers.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-project-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-own-target-headers.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-generated-files.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-generated-files.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-target-headers.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-non-framework-target-headers.hmap (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugEntryPoint-normal-arm64.txt (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugEntryPoint-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugDylibPath-normal-arm64.txt (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugDylibInstallName-normal-arm64.txt (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.SwiftFileList (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.SwiftFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.SwiftConstValuesFileList (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.LinkFileList (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.LinkFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.DependencyStaticMetadataFileList (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.DependencyMetadataFileList (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-project-headers.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-project-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-own-target-headers.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-generated-files.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-generated-files.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-all-target-headers.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/Entitlements-Simulated.plist (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-all-non-framework-target-headers.hmap (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-DebugDylibPath-normal-arm64.txt (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-DebugDylibInstallName-normal-arm64.txt (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    write-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-DebugDylibInstallName-normal-arm64.txt
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app/PlugIns (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app/PlugIns
+
+ProcessProductPackaging /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidgetExtension.entitlements /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidgetExtension.entitlements -entitlements -format xml -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent
+
+ProcessProductPackaging /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidgetExtension.entitlements /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "9UT6S74KT6.com.pablo.ruiz.BabyLoading.BabyProgressWidget";
+    "com.apple.security.application-groups" =     (
+        "group.com.pablo.BabyLoading"
+    );
+}
+    
+    builtin-productPackagingUtility /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidgetExtension.entitlements -entitlements -format xml -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent
+
+ProcessProductPackagingDER /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent.der (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /usr/bin/derq query -f xml -i /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent.der --raw
+
+ProcessProductPackagingDER /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent.der (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /usr/bin/derq query -f xml -i /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex.xcent.der --raw
+
+Ld /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex/__preview.dylib normal (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.2-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -O0 -L/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -install_name @rpath/BabyProgressWidgetExtension.debug.dylib -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension.appex-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex/__preview.dylib
+
+GenerateAssetSymbols /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets --compile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex --output-format human-readable-text --notices --warnings --export-dependency-info /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_dependencies --output-partial-info-plist /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_generated_info.plist --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.2 --platform iphonesimulator --bundle-identifier com.pablo.ruiz.BabyLoading.BabyProgressWidget --generate-swift-asset-symbols /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_output/thinned (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_output/thinned
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_output/unthinned (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_output/unthinned
+
+CompileAssetCatalogVariant thinned /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets --compile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/assetcatalog_generated_info.plist_thinned --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --filter-for-thinning-device-configuration iPhone18,3 --filter-for-device-os-version 26.2 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.2 --platform iphonesimulator
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Dashboard/DashboardView.swift:161:1: error: extraneous '}' at top level
+}
+^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:112:9: error: expected declaration
+        .onChange(of: selectedItems) { _, newItems in
+        ^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:7:8: note: in declaration of 'GalleryView'
+struct GalleryView: View {
+       ^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:136:1: error: extraneous '}' at top level
+}
+^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Journey/JourneyView.swift:40:1: error: extraneous '}' at top level
+}
+^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Settings/SettingsView.swift:112:1: error: extraneous '}' at top level
+}
+^
+
+SwiftDriver BabyProgressWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name BabyProgressWidgetExtension -Onone -enforce-exclusivity\=checked @/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios26.2-simulator -g -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-generated-files.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-own-target-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-project-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-Swift.h -working-directory /Users/pablo.ruiz.local/Documents/XCode/BabyLoading -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ DependencyContainer.swift,\ WidgetReloader.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/DependencyContainer.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/WidgetReloader.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/DependencyContainer.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/DependencyContainer.swift:24:9: warning: main actor-isolated property 'viewModel' can not be mutated from a nonisolated context; this is an error in the Swift 6 language mode
+        viewModel = BabyProgressViewModel(repository: repository, widgetReloader: widgetReloader)
+        ^
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/DependencyContainer.swift:16:20: note: mutation of this property is only permitted within the actor
+    @MainActor let viewModel: BabyProgressViewModel
+                   ^
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/WidgetReloader.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ BabyProgressDataSource.swift,\ BabyProgressRepository.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Data/BabyProgressDataSource.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Data/BabyProgressRepository.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Data/BabyProgressDataSource.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Data/BabyProgressRepository.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ BabyProgressTimelineProvider.swift,\ BabyProgressWidget.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressTimelineProvider.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidget.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressTimelineProvider.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidget.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ BabySize.swift,\ PregnancyCalculator.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Domain/BabySize.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Domain/PregnancyCalculator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Domain/BabySize.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Domain/PregnancyCalculator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ BabyProgressWidgetBundle.swift,\ BabyProgressWidgetEntryView.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidgetBundle.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidgetEntryView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidgetBundle.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/BabyProgressWidgetEntryView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ BabyProgressWidgetExtension (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+EmitSwiftModule normal arm64 (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ AppCoordinator.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Navigation/AppCoordinator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Navigation/AppCoordinator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ ContentView.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/ContentView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/ContentView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ SimpleEntry.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/SimpleEntry.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/SimpleEntry.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling SimpleEntry.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 Compiling\ BabyProgressViewModel.swift /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/BabyProgressViewModel.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftCompile normal arm64 /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/BabyProgressViewModel.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling DependencyContainer.swift, WidgetReloader.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BabySize.swift, PregnancyCalculator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BabyProgressTimelineProvider.swift, BabyProgressWidget.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppCoordinator.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for BabyProgressWidgetExtension (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriver\ Compilation\ Requirements BabyProgressWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name BabyProgressWidgetExtension -Onone -enforce-exclusivity\=checked @/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios26.2-simulator -g -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-generated-files.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-own-target-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-project-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-Swift.h -working-directory /Users/pablo.ruiz.local/Documents/XCode/BabyLoading -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling BabyProgressDataSource.swift, BabyProgressRepository.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftMergeGeneratedHeaders /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/BabyProgressWidgetExtension-Swift.h /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-Swift.h (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-swiftHeaderTool -arch arm64 /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-Swift.h -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/BabyProgressWidgetExtension-Swift.h
+
+Copy /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.abi.json (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.abi.json /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftdoc (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftdoc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftsourceinfo (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftsourceinfo /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+ProcessProductPackaging /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/BabyLoading.entitlements /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/BabyLoading.entitlements -entitlements -format xml -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent
+
+ProcessProductPackaging /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/BabyLoading.entitlements /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "9UT6S74KT6.com.pablo.ruiz.BabyLoading";
+    "com.apple.security.application-groups" =     (
+        "group.com.pablo.BabyLoading"
+    );
+}
+    
+    builtin-productPackagingUtility /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/App/BabyLoading.entitlements -entitlements -format xml -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent
+
+ProcessProductPackagingDER /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent.der (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /usr/bin/derq query -f xml -i /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app.xcent.der --raw
+
+ProcessProductPackagingDER /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent.der (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /usr/bin/derq query -f xml -i /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading.app-Simulated.xcent.der --raw
+
+SwiftDriverJobDiscovery normal arm64 Compiling BabyProgressWidgetBundle.swift, BabyProgressWidgetEntryView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+GenerateAssetSymbols /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Resources/Assets.xcassets (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Resources/Assets.xcassets --compile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_dependencies --output-partial-info-plist /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.2 --platform iphonesimulator --bundle-identifier com.pablo.ruiz.BabyLoading --generate-swift-asset-symbols /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_output/thinned (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_output/thinned
+
+MkDir /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_output/unthinned (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /bin/mkdir -p /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_output/unthinned
+
+CompileAssetCatalogVariant thinned /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyLoading.app /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Resources/Assets.xcassets (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyProgressWidget/Assets.xcassets /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Resources/Assets.xcassets --compile /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone18,3 --filter-for-device-os-version 26.2 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.2 --platform iphonesimulator
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriver BabyLoading normal arm64 com.apple.xcode.tools.swift.compiler (in target 'BabyLoading' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name BabyLoading -Onone -enforce-exclusivity\=checked @/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios26.2-simulator -g -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading_const_extract_protocols.json -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-generated-files.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-own-target-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-all-target-headers.hmap -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/BabyLoading-project-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources-normal/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyLoading.build/Objects-normal/arm64/BabyLoading-Swift.h -working-directory /Users/pablo.ruiz.local/Documents/XCode/BabyLoading -experimental-emit-module-separately -disable-cmo
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Dashboard/DashboardView.swift:161:1: error: Extraneous '}' at top level
+}
+^ (in target 'BabyLoading' from project 'BabyLoading')
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:112:9: error: Expected declaration
+        .onChange(of: selectedItems) { _, newItems in
+        ^ (in target 'BabyLoading' from project 'BabyLoading')
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:7:8: note: In declaration of 'GalleryView'
+struct GalleryView: View {
+       ^ (in target 'BabyLoading' from project 'BabyLoading')
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Gallery/GalleryView.swift:136:1: error: Extraneous '}' at top level
+}
+^ (in target 'BabyLoading' from project 'BabyLoading')
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Journey/JourneyView.swift:40:1: error: Extraneous '}' at top level
+}
+^ (in target 'BabyLoading' from project 'BabyLoading')
+/Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading/Presentation/Modules/Settings/SettingsView.swift:112:1: error: Extraneous '}' at top level
+}
+^ (in target 'BabyLoading' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BabyProgressViewModel.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriverJobDiscovery normal arm64 Compiling ContentView.swift (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+
+SwiftDriver\ Compilation BabyProgressWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name BabyProgressWidgetExtension -Onone -enforce-exclusivity\=checked @/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios26.2-simulator -g -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-generated-files.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-own-target-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/BabyProgressWidgetExtension-project-headers.hmap -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-Swift.h -working-directory /Users/pablo.ruiz.local/Documents/XCode/BabyLoading -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex/BabyProgressWidgetExtension.debug.dylib normal (in target 'BabyProgressWidgetExtension' from project 'BabyLoading')
+    cd /Users/pablo.ruiz.local/Documents/XCode/BabyLoading
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.2-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -O0 -L/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -F/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator -filelist /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.LinkFileList -install_name @rpath/BabyProgressWidgetExtension.debug.dylib -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/../../Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension_dependency_info.dat -fapplication-extension -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension.swiftmodule @/Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Intermediates.noindex/BabyLoading.build/Debug-iphonesimulator/BabyProgressWidgetExtension.build/Objects-normal/arm64/BabyProgressWidgetExtension-linker-args.resp -Xlinker -alias -Xlinker _NSExtensionMain -Xlinker ___debug_main_executable_dylib_entry_point -framework SwiftUI -framework WidgetKit -Xlinker -no_adhoc_codesign -o /Users/pablo.ruiz.local/Library/Developer/Xcode/DerivedData/BabyLoading-devgcdutwgmnjvbujxkuusisadmd/Build/Products/Debug-iphonesimulator/BabyProgressWidgetExtension.appex/BabyProgressWidgetExtension.debug.dylib
+
+note: Disabling hardened runtime with ad-hoc codesigning. (in target 'BabyLoading' from project 'BabyLoading')
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftDriver BabyLoading normal arm64 com.apple.xcode.tools.swift.compiler (in target 'BabyLoading' from project 'BabyLoading')
+	Building project BabyLoading with scheme BabyLoading
+(2 failures)

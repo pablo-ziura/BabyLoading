@@ -2,6 +2,7 @@ import Foundation
 import Observation
 
 @Observable
+@MainActor
 class BabyProgressViewModel {
     var lastPeriodDate: Date
     var estimatedDueDate: Date?

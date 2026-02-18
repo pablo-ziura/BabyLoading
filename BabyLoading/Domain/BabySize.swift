@@ -57,7 +57,7 @@ enum BabySize: String, CaseIterable {
         case .banana: return "un plátano"
         case .carrot: return "una zanahoria"
         case .papaya: return "una papaya"
-        case .grapefruit: return "un omelo"
+        case .grapefruit: return "un pomelo"
         case .corn: return "una mazorca"
         case .eggplant: return "una berenjena"
         case .cucumber: return "un pepino"
@@ -73,7 +73,7 @@ enum BabySize: String, CaseIterable {
         case .jicama: return "una jícama"
         case .butternutSquash: return "una calabaza cacahuete"
         case .leek: return "un puerro enorme"
-        case .watermelon: return "una aandía"
+        case .watermelon: return "una sandía"
         case .pumpkin: return "una calabaza"
         default: return "un misterio"
         }
