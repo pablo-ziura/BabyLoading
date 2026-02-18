@@ -49,7 +49,7 @@ enum BabySize: String, CaseIterable {
         case .plum: return "una ciruela"
         case .peach: return "un melocotón"
         case .lemon: return "un limón"
-        case .apple: return "una anzana"
+        case .apple: return "una manzana"
         case .avocado: return "un aguacate"
         case .pear: return "una pera"
         case .pomegranate: return "una ranada"
@@ -77,6 +77,10 @@ enum BabySize: String, CaseIterable {
         case .pumpkin: return "una calabaza"
         default: return "un misterio"
         }
+    }
+
+    var imageName: String {
+        "img_\(rawValue.lowercased())"
     }
 
     static func from(week: Int) -> BabySize {

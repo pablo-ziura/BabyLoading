@@ -4,7 +4,7 @@ import SwiftUI
 struct BabyLoadingApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
                 .preferredColorScheme(.light)
         }
     }
