@@ -3,6 +3,14 @@ import SwiftUI
 struct JourneyView: View {
     var viewModel: BabyProgressViewModel
 
+    private var currentDayOffset: Int {
+        let calendar = Calendar.current
+        let startDate = calendar.startOfDay(for: viewModel.lastPeriodDate)
+        let today = calendar.startOfDay(for: .now)
+        let elapsedDays = calendar.dateComponents([.day], from: startDate, to: today).day ?? 0
+        return max(0, elapsedDays) % 7
+    }
+
     var body: some View {
         ZStack {
             GradientBackground()
@@ -24,7 +32,9 @@ struct JourneyView: View {
                             WeekRow(
                                 week: week,
                                 babySize: size,
-                                isCurrent: isCurrent
+                                isCurrent: isCurrent,
+                                currentWeek: viewModel.pregnancyWeek,
+                                currentDayOffset: currentDayOffset
                             )
                         }
                     }
