@@ -5,14 +5,30 @@ struct WeekRow: View {
     let week: Int
     let babySize: BabySize
     let isCurrent: Bool
+    let currentWeek: Int?
+    let currentDayOffset: Int
+
+    private var highlightedTopDay: Int? {
+        guard let currentWeek, currentWeek + 1 == week, (4 ... 6).contains(currentDayOffset) else {
+            return nil
+        }
+        return currentDayOffset - 4
+    }
+
+    private var highlightedBottomDay: Int? {
+        guard currentWeek == week, (0 ... 3).contains(currentDayOffset) else {
+            return nil
+        }
+        return currentDayOffset
+    }
 
     var body: some View {
         HStack(spacing: 16) {
             VStack(spacing: 0) {
-                Rectangle()
-                    .fill(.white.opacity(0.3))
-                    .frame(width: 2)
-                    .frame(maxHeight: .infinity)
+                TimelineDaySegment(
+                    dayCount: 3,
+                    highlightedDayIndex: highlightedTopDay
+                )
 
                 Circle()
                     .fill(isCurrent ? .pink : .white.opacity(0.5))
@@ -24,10 +40,10 @@ struct WeekRow: View {
                         }
                     }
 
-                Rectangle()
-                    .fill(.white.opacity(0.3))
-                    .frame(width: 2)
-                    .frame(maxHeight: .infinity)
+                TimelineDaySegment(
+                    dayCount: 4,
+                    highlightedDayIndex: highlightedBottomDay
+                )
             }
             .frame(width: 16)
 
@@ -86,5 +102,38 @@ struct WeekRow: View {
             .shadow(color: isCurrent ? .pink.opacity(0.15) : .clear, radius: 8, y: 4)
             .padding(.vertical, 6)
         }
+    }
+}
+
+private struct TimelineDaySegment: View {
+    let dayCount: Int
+    let highlightedDayIndex: Int?
+
+    var body: some View {
+        GeometryReader { proxy in
+            ZStack {
+                Rectangle()
+                    .fill(.white.opacity(0.3))
+                    .frame(width: 2)
+                    .frame(maxHeight: .infinity)
+
+                ForEach(0 ..< dayCount, id: \.self) { index in
+                    let isHighlighted = index == highlightedDayIndex
+                    let yPosition = proxy.size.height * (CGFloat(index + 1) / 4)
+
+                    Circle()
+                        .fill(isHighlighted ? .pink : .white.opacity(0.65))
+                        .frame(width: isHighlighted ? 7 : 4, height: isHighlighted ? 7 : 4)
+                        .overlay {
+                            if isHighlighted {
+                                Circle()
+                                    .strokeBorder(.white, lineWidth: 1)
+                            }
+                        }
+                        .position(x: proxy.size.width / 2, y: yPosition)
+                }
+            }
+        }
+        .frame(maxHeight: .infinity)
     }
 }
