@@ -44,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyLoadingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabyProgressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,12 +164,13 @@
 		DA1C91492F41F1E9003EC367 = {
 			isa = PBXGroup;
 			children = (
-				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
+				DA0AB2002F59E2370075D5DA /* AppNetwork */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
 				DA1C91892F41F266003EC367 /* BabyProgressWidget */,
 				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
+				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
