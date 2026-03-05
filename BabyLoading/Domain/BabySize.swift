@@ -6,34 +6,34 @@ enum BabySize: String, CaseIterable {
     case raspberry
     case cherry
     case strawberry
-    case fig            // CHANGED: Replaces lime (more accurate for 4cm)
+    case fig
     case plum
     case peach
     case lemon
     case apple
     case avocado
     case pear
-    case bellPepper     // CHANGED: Common in Spain, fits 14cm size well
+    case bellPepper
     case mango
-    case sweetPotato    // REORDERED: Moved from late weeks to reflect 16cm size
-    case carrot         // REORDERED: Marks the shift to total length measurement (~26cm)
-    case banana         // REORDERED: Better fit here for length (~28cm)
-    case eggplant       // REORDERED: Fits ~29cm
+    case sweetPotato
+    case carrot
+    case banana
+    case eggplant
     case corn
-    case cauliflower    // CHANGED: Starts the volume/weight gain phase (~34cm)
+    case cauliflower
     case zucchini
     case cucumber
-    case coconut        // REORDERED
+    case coconut
     case butternutSquash
-    case cabbage        // CHANGED: Replaces Napa Cabbage
+    case cabbage
     case bunchOfGrapes
-    case pineapple      // REORDERED
+    case pineapple
     case cantaloupe
-    case honeydew       // CHANGED: "Melón piel de sapo", extremely common in Spain
-    case papaya         // REORDERED: Moved here to represent a large fruit (~46cm)
-    case winterSquash   // CHANGED: "Calabaza de asar", round and heavy
-    case bunchOfBananas // CHANGED: Replaces the illogical leek. Represents ~3kg weight.
-    case smallWatermelon // CHANGED: Smoother transition to the final pumpkin
+    case honeydew
+    case papaya
+    case winterSquash
+    case bunchOfBananas
+    case smallWatermelon
     case watermelon
     case pumpkin
     case unknown
