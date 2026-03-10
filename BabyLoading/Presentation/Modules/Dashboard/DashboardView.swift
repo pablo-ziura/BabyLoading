@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     var viewModel: BabyProgressViewModel
 
     var body: some View {
@@ -13,11 +14,13 @@ struct DashboardView: View {
                         Text("dashboard.title")
                             .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h1)
 
                         Text("dashboard.subtitle")
                             .font(.system(.subheadline, design: .rounded))
-                            .foregroundStyle(.white.opacity(0.85))
+                            .foregroundStyle(.primary.opacity(0.75))
                     }
                     .padding(.top, 24)
 
@@ -26,6 +29,7 @@ struct DashboardView: View {
                     Text("✨")
                         .font(.title2)
                         .opacity(0.5)
+                        .accessibilityHidden(true)
 
                     statsSection
 
@@ -54,17 +58,20 @@ struct DashboardView: View {
                                 )
                             )
                             .frame(width: 200, height: 200)
+                            .accessibilityHidden(true)
 
                         Circle()
                             .fill(.white)
                             .frame(width: 160, height: 160)
                             .shadow(color: .pink.opacity(0.2), radius: 16, y: 8)
+                            .accessibilityHidden(true)
 
                         Image(content.babySize.imageName)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 130, height: 130)
                             .clipShape(Circle())
+                            .accessibilityHidden(true)
 
                         Circle()
                             .strokeBorder(
@@ -76,6 +83,7 @@ struct DashboardView: View {
                                 lineWidth: 3
                             )
                             .frame(width: 160, height: 160)
+                            .accessibilityHidden(true)
                     }
 
                     Text(
@@ -107,15 +115,17 @@ struct DashboardView: View {
                         .strokeBorder(.white.opacity(0.4), lineWidth: 1)
                 )
                 .padding(.horizontal, 20)
+                .accessibilityElement(children: .combine)
             } else if viewModel.pregnancyWeek == nil {
                 VStack(spacing: 12) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 50))
-                        .foregroundStyle(.white.opacity(0.5))
+                        .foregroundStyle(.primary.opacity(0.45))
+                        .accessibilityHidden(true)
 
                     Text("dashboard.configureDate")
                         .font(.system(.body, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(.primary.opacity(0.75))
                 }
                 .padding(.vertical, 24)
                 .padding(.horizontal, 20)
@@ -125,6 +135,7 @@ struct DashboardView: View {
                         .fill(.ultraThinMaterial)
                 )
                 .padding(.horizontal, 20)
+                .accessibilityElement(children: .combine)
             }
         }
     }
@@ -132,17 +143,16 @@ struct DashboardView: View {
     private var statsSection: some View {
         VStack(spacing: 12) {
             if let week = viewModel.pregnancyWeek {
-                HStack(spacing: 16) {
-                    StatCard(
-                        title: String(localized: "dashboard.stats.week", defaultValue: "Week"),
-                        value: "\(week)",
-                        icon: "calendar.circle.fill"
-                    )
-                    StatCard(
-                        title: String(localized: "dashboard.stats.daysRemaining", defaultValue: "Days remaining"),
-                        value: "\(viewModel.daysRemaining ?? 0)",
-                        icon: "clock.fill"
-                    )
+                Group {
+                    if dynamicTypeSize.isAccessibilitySize {
+                        VStack(spacing: 12) {
+                            statsCards(for: week)
+                        }
+                    } else {
+                        HStack(spacing: 16) {
+                            statsCards(for: week)
+                        }
+                    }
                 }
                 .padding(.horizontal)
             }
@@ -151,11 +161,12 @@ struct DashboardView: View {
                 VStack(spacing: 6) {
                     Text("dashboard.dueDate")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(.white.opacity(0.8))
+                        .foregroundStyle(.secondary)
+                        .accessibilityLabel(Text("settings.dueDate"))
                     Text(fpp.formatted(date: .long, time: .omitted))
                         .font(.system(.title3, design: .rounded))
                         .fontWeight(.semibold)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -169,6 +180,7 @@ struct DashboardView: View {
                         .strokeBorder(.white.opacity(0.35), lineWidth: 1)
                 )
                 .padding(.horizontal)
+                .accessibilityElement(children: .combine)
             }
         }
     }
@@ -180,10 +192,13 @@ struct DashboardView: View {
                     HStack(spacing: 8) {
                         Text("🐣")
                             .font(.title2)
+                            .accessibilityHidden(true)
                         Text(content.milestoneTitle)
                             .font(.system(.headline, design: .rounded))
                             .fontWeight(.bold)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.primary)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h2)
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -191,6 +206,7 @@ struct DashboardView: View {
                             HStack(alignment: .top, spacing: 8) {
                                 Text("✨")
                                     .font(.caption)
+                                    .accessibilityHidden(true)
                                 Text(event)
                                     .font(.system(.subheadline, design: .rounded))
                                     .foregroundStyle(.primary.opacity(0.9))
@@ -202,6 +218,7 @@ struct DashboardView: View {
                                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                                     .fill(.pink.opacity(0.08))
                             )
+                            .accessibilityElement(children: .combine)
                         }
                     }
 
@@ -209,6 +226,7 @@ struct DashboardView: View {
                         HStack(alignment: .top, spacing: 8) {
                             Text("💕")
                                 .font(.subheadline)
+                                .accessibilityHidden(true)
                             Text(impact)
                                 .font(.system(.footnote, design: .rounded))
                                 .foregroundStyle(.primary.opacity(0.75))
@@ -219,6 +237,7 @@ struct DashboardView: View {
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
                                 .fill(.purple.opacity(0.06))
                         )
+                        .accessibilityElement(children: .combine)
                     }
                 }
                 .padding(20)
@@ -235,6 +254,21 @@ struct DashboardView: View {
                 .padding(.horizontal, 20)
             }
         }
+    }
+
+    @ViewBuilder
+    private func statsCards(for week: Int) -> some View {
+        StatCard(
+            title: String(localized: "dashboard.stats.week", defaultValue: "Week"),
+            value: "\(week)",
+            icon: "calendar.circle.fill"
+        )
+
+        StatCard(
+            title: String(localized: "dashboard.stats.daysRemaining", defaultValue: "Days remaining"),
+            value: "\(viewModel.daysRemaining ?? 0)",
+            icon: "clock.fill"
+        )
     }
 }
 
