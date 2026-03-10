@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 
 struct WeekRow: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     let content: WeekContent
     let isCurrent: Bool
     let currentWeek: Int?
@@ -23,90 +25,142 @@ struct WeekRow: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            VStack(spacing: 0) {
-                TimelineDaySegment(
-                    dayCount: 3,
-                    highlightedDayIndex: highlightedTopDay
-                )
+            timeline
+
+            rowCard
+        }
+    }
+
+    private var timeline: some View {
+        VStack(spacing: 0) {
+            TimelineDaySegment(
+                dayCount: 3,
+                highlightedDayIndex: highlightedTopDay
+            )
+
+            Circle()
+                .fill(isCurrent ? .pink : .white.opacity(0.5))
+                .frame(width: isCurrent ? 14 : 8, height: isCurrent ? 14 : 8)
+                .overlay {
+                    if isCurrent {
+                        Circle()
+                            .strokeBorder(.white, lineWidth: 2)
+                    }
+                }
+
+            TimelineDaySegment(
+                dayCount: 4,
+                highlightedDayIndex: highlightedBottomDay
+            )
+        }
+        .frame(width: 16)
+        .accessibilityHidden(true)
+    }
+
+    private var rowCard: some View {
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 12) {
+                    rowMainContent
+
+                    if isCurrent {
+                        currentWeekBadge
+                    }
+                }
+            } else {
+                HStack(spacing: 12) {
+                    rowMainContent
+
+                    Spacer(minLength: 12)
+
+                    if isCurrent {
+                        currentWeekBadge
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(isCurrent ? .white : .white.opacity(0.88))
+        )
+        .shadow(color: isCurrent ? .pink.opacity(0.15) : .clear, radius: 8, y: 4)
+        .padding(.vertical, 6)
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(isCurrent ? Text("journey.youAreHere") : Text(verbatim: ""))
+        .accessibilityAddTraits(isCurrent ? .isSelected : [])
+    }
+
+    private var rowMainContent: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(.white)
+                    .frame(width: 40, height: 40)
+
+                Image(content.babySize.imageName)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 34, height: 34)
+                    .clipShape(Circle())
+                    .accessibilityHidden(true)
 
                 Circle()
-                    .fill(isCurrent ? .pink : .white.opacity(0.5))
-                    .frame(width: isCurrent ? 14 : 8, height: isCurrent ? 14 : 8)
-                    .overlay {
-                        if isCurrent {
-                            Circle()
-                                .strokeBorder(.white, lineWidth: 2)
-                        }
-                    }
-
-                TimelineDaySegment(
-                    dayCount: 4,
-                    highlightedDayIndex: highlightedBottomDay
-                )
+                    .strokeBorder(.pink.opacity(0.2), lineWidth: 1.5)
+                    .frame(width: 40, height: 40)
             }
-            .frame(width: 16)
+            .accessibilityHidden(true)
 
-            HStack(spacing: 12) {
-                ZStack {
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 40, height: 40)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(
+                    String(
+                        format: String(localized: "common.week", defaultValue: "Week %d"),
+                        locale: .current,
+                        content.week
+                    )
+                )
+                    .font(.system(.headline, design: .rounded))
+                    .fontWeight(isCurrent ? .bold : .medium)
 
-                    Image(content.babySize.imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 34, height: 34)
-                        .clipShape(Circle())
-
-                    Circle()
-                        .strokeBorder(.pink.opacity(0.2), lineWidth: 1.5)
-                        .frame(width: 40, height: 40)
-                }
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(
-                        String(
-                            format: String(localized: "common.week", defaultValue: "Week %d"),
-                            locale: .current,
-                            content.week
+                Text(content.babySizeLabel.localizedCapitalized)
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundStyle(.secondary)
+                    .accessibilityLabel(
+                        Text(
+                            String(
+                                format: String(
+                                    localized: "dashboard.babySize",
+                                    defaultValue: "Your baby is now the size of %@"
+                                ),
+                                locale: .current,
+                                content.babySizeLabel
+                            )
                         )
                     )
-                        .font(.system(.headline, design: .rounded))
-                        .fontWeight(isCurrent ? .bold : .medium)
-
-                    Text(content.babySizeLabel.localizedCapitalized)
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer()
-
-                if isCurrent {
-                    Text("journey.youAreHere")
-                        .font(.system(.caption2, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(
-                            Capsule()
-                                .fill(LinearGradient(
-                                    colors: [.pink, .purple.opacity(0.8)],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ))
-                        )
-                }
             }
-            .padding(.vertical, 10)
-            .padding(.horizontal, 14)
-            .background(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(isCurrent ? .white : .white.opacity(0.6))
-            )
-            .shadow(color: isCurrent ? .pink.opacity(0.15) : .clear, radius: 8, y: 4)
-            .padding(.vertical, 6)
         }
+    }
+
+    private var currentWeekBadge: some View {
+        Text("journey.youAreHere")
+            .font(.system(.caption2, design: .rounded))
+            .fontWeight(.bold)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(
+                Capsule()
+                    .fill(
+                        LinearGradient(
+                            colors: [.pink, .purple.opacity(0.8)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            )
+            .accessibilityHidden(true)
     }
 }
 
