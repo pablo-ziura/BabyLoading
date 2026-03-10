@@ -15,13 +15,17 @@ struct SettingsView: View {
                     Text("settings.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
                         .padding(.top, 24)
 
                     VStack(spacing: 0) {
                         Text("settings.lastPeriodPrompt")
                             .font(.system(.headline, design: .rounded))
                             .foregroundStyle(.secondary)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h2)
                             .padding(.bottom, 8)
 
                         Group {
@@ -54,9 +58,10 @@ struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                                 Text(fpp.formatted(date: .long, time: .omitted))
                                     .font(.system(.headline, design: .rounded))
-                                    .foregroundStyle(.pink)
+                                    .foregroundStyle(.primary)
                             }
                             .padding(.bottom, 8)
+                            .accessibilityElement(children: .combine)
                         }
                     }
                     .softCard()
@@ -81,19 +86,22 @@ struct SettingsView: View {
                             .shadow(color: .pink.opacity(0.4), radius: 10, y: 5)
                     }
                     .padding(.horizontal, 40)
+                    .accessibilityHint(Text("accessibility.settings.setDateHint"))
 
                     VStack(spacing: 8) {
                         Image(systemName: "info.circle")
                             .font(.title3)
-                            .foregroundStyle(.white.opacity(0.6))
+                            .foregroundStyle(.primary.opacity(0.6))
+                            .accessibilityHidden(true)
 
                         Text("settings.info")
                             .font(.system(.caption, design: .rounded))
-                            .foregroundStyle(.white.opacity(0.6))
+                            .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 32)
                     }
                     .padding(.top, 8)
+                    .accessibilityElement(children: .combine)
 
                     Spacer(minLength: 100)
                 }
