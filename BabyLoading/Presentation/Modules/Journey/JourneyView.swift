@@ -17,7 +17,7 @@ struct JourneyView: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    Text("Tu embarazo semana a semana")
+                    Text("journey.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)

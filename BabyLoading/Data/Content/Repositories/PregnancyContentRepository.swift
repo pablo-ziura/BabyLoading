@@ -1,6 +1,7 @@
 import Foundation
 
 final class PregnancyContentRepository: PregnancyContentRepositoryProtocol {
+    private let expectedLocale: String
     private let bundleSource: PregnancyContentBundleSourceProtocol
     private let cacheStore: PregnancyContentCacheStoreProtocol
     private let remoteSource: PregnancyContentRemoteSourceProtocol
@@ -10,12 +11,14 @@ final class PregnancyContentRepository: PregnancyContentRepositoryProtocol {
     private var snapshot: PregnancyContentDocument
 
     init(
+        expectedLocale: String = PregnancyContentLocalization.fallbackLocale,
         bundleSource: PregnancyContentBundleSourceProtocol,
         cacheStore: PregnancyContentCacheStoreProtocol,
         remoteSource: PregnancyContentRemoteSourceProtocol,
         refreshInterval: TimeInterval = 60 * 60 * 12,
         now: @escaping () -> Date = Date.init
     ) {
+        self.expectedLocale = expectedLocale
         self.bundleSource = bundleSource
         self.cacheStore = cacheStore
         self.remoteSource = remoteSource
@@ -28,7 +31,7 @@ final class PregnancyContentRepository: PregnancyContentRepositoryProtocol {
         } else if let bundledSnapshot = bundleSource.loadDocument() {
             snapshot = bundledSnapshot
         } else {
-            snapshot = .empty
+            snapshot = .empty(locale: expectedLocale)
         }
     }
 
@@ -70,7 +73,10 @@ final class PregnancyContentRepository: PregnancyContentRepositoryProtocol {
                 cacheStore.lastFetchAt = fetchDate
 
             case let .success(document, eTag):
-                let validatedDocument = try document.validated(minimumRevision: cacheStore.revision)
+                let validatedDocument = try document.validated(
+                    expectedLocale: expectedLocale,
+                    minimumRevision: cacheStore.revision
+                )
                 guard cacheStore.saveDocument(validatedDocument) else {
                     return
                 }

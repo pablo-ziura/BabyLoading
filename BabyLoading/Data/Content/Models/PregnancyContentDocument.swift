@@ -2,26 +2,29 @@ import Foundation
 
 struct PregnancyContentDocument: Codable, Equatable {
     static let schemaVersionSupported = 1
-    static let supportedLocale = "es"
     static let coveredWeeks = Array(6 ... 40)
-    static let empty = PregnancyContentDocument(
-        schemaVersion: schemaVersionSupported,
-        locale: supportedLocale,
-        revision: 0,
-        weeks: []
-    )
+    static let empty = empty(locale: PregnancyContentLocalization.fallbackLocale)
 
     let schemaVersion: Int
     let locale: String
     let revision: Int
     let weeks: [WeekContent]
 
-    func validated(minimumRevision: Int? = nil) throws -> PregnancyContentDocument {
+    static func empty(locale: String) -> PregnancyContentDocument {
+        PregnancyContentDocument(
+            schemaVersion: schemaVersionSupported,
+            locale: locale,
+            revision: 0,
+            weeks: []
+        )
+    }
+
+    func validated(expectedLocale: String, minimumRevision: Int? = nil) throws -> PregnancyContentDocument {
         guard schemaVersion == Self.schemaVersionSupported else {
             throw PregnancyContentValidationError.unsupportedSchemaVersion(schemaVersion)
         }
 
-        guard locale == Self.supportedLocale else {
+        guard locale == expectedLocale else {
             throw PregnancyContentValidationError.unsupportedLocale(locale)
         }
 
@@ -67,10 +70,11 @@ struct PregnancyContentDocument: Codable, Equatable {
 
     static func decodeValidated(
         from data: Data,
+        expectedLocale: String,
         minimumRevision: Int? = nil
     ) throws -> PregnancyContentDocument {
         let decoder = JSONDecoder()
         let document = try decoder.decode(PregnancyContentDocument.self, from: data)
-        return try document.validated(minimumRevision: minimumRevision)
+        return try document.validated(expectedLocale: expectedLocale, minimumRevision: minimumRevision)
     }
 }

@@ -9,7 +9,7 @@ struct BabyProgressTimelineProvider: TimelineProvider {
             eventDate: .now,
             week: 40,
             babySize: .pumpkin,
-            babySizeLabel: "una calabaza"
+            babySizeLabel: String(localized: "widget.placeholderPumpkinSize", defaultValue: "a pumpkin")
         )
     }
 
@@ -24,7 +24,7 @@ struct BabyProgressTimelineProvider: TimelineProvider {
             eventDate: dueDate,
             week: week,
             babySize: weekContent?.babySize ?? .unknown,
-            babySizeLabel: weekContent?.babySizeLabel ?? "un misterio"
+            babySizeLabel: weekContent?.babySizeLabel ?? String(localized: "widget.unknownSize", defaultValue: "a mystery")
         )
         completion(entry)
     }
@@ -34,7 +34,9 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         let lastPeriodDate = repository.getEventDate()
         let dueDate = lastPeriodDate.map(PregnancyCalculator.calculateDueDate)
         
-        print("🔍 [BabyProgressTimelineProvider] getTimeline -> lastPeriod: \(lastPeriodDate), dueDate: \(dueDate)")
+        print(
+            "🔍 [BabyProgressTimelineProvider] getTimeline -> lastPeriod: \(String(describing: lastPeriodDate)), dueDate: \(String(describing: dueDate))"
+        )
 
         let week = repository.getPregnancyWeek() ?? 0
         let weekContent = repository.getCurrentWeekContent()
@@ -46,7 +48,7 @@ struct BabyProgressTimelineProvider: TimelineProvider {
             eventDate: dueDate,
             week: week,
             babySize: size,
-            babySizeLabel: weekContent?.babySizeLabel ?? "un misterio"
+            babySizeLabel: weekContent?.babySizeLabel ?? String(localized: "widget.unknownSize", defaultValue: "a mystery")
         )
         print("✅ [BabyProgressTimelineProvider] Created entry: \(entry)")
 

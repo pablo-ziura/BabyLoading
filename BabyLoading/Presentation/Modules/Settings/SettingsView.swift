@@ -12,14 +12,14 @@ struct SettingsView: View {
 
             ScrollView {
                 VStack(spacing: 24) {
-                    Text("Ajustes")
+                    Text("settings.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .padding(.top, 24)
 
                     VStack(spacing: 0) {
-                        Text("¿Cuándo fue tu última menstruación? 🌸")
+                        Text("settings.lastPeriodPrompt")
                             .font(.system(.headline, design: .rounded))
                             .foregroundStyle(.secondary)
                             .padding(.bottom, 8)
@@ -27,7 +27,7 @@ struct SettingsView: View {
                         Group {
                             if isLandscape {
                                 DatePicker(
-                                    "Fecha de última menstruación",
+                                    "settings.lastPeriodDate",
                                     selection: $viewModel.lastPeriodDate,
                                     in: ...Date.now,
                                     displayedComponents: [.date]
@@ -35,7 +35,7 @@ struct SettingsView: View {
                                 .datePickerStyle(.compact)
                             } else {
                                 DatePicker(
-                                    "Fecha de última menstruación",
+                                    "settings.lastPeriodDate",
                                     selection: $viewModel.lastPeriodDate,
                                     in: ...Date.now,
                                     displayedComponents: [.date]
@@ -49,7 +49,7 @@ struct SettingsView: View {
                         if let fpp = viewModel.estimatedDueDate {
                             Divider().padding(.vertical, 8)
                             VStack(spacing: 4) {
-                                Text("Fecha probable de parto")
+                                Text("settings.dueDate")
                                     .font(.system(.caption, design: .rounded))
                                     .foregroundStyle(.secondary)
                                 Text(fpp.formatted(date: .long, time: .omitted))
@@ -65,7 +65,7 @@ struct SettingsView: View {
                     Button {
                         viewModel.updateDate(viewModel.lastPeriodDate)
                     } label: {
-                        Text("Fijar fecha ✨")
+                        Text("settings.setDate")
                             .font(.system(.headline, design: .rounded))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
@@ -87,7 +87,7 @@ struct SettingsView: View {
                             .font(.title3)
                             .foregroundStyle(.white.opacity(0.6))
 
-                        Text("Cambia la fecha de tu última menstruación para recalcular toda tu información de embarazo.")
+                        Text("settings.info")
                             .font(.system(.caption, design: .rounded))
                             .foregroundStyle(.white.opacity(0.6))
                             .multilineTextAlignment(.center)

@@ -6,6 +6,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         let bundleDocument = makeDocument(revision: 1)
         let cacheStore = MockCacheStore(document: nil)
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: bundleDocument),
             cacheStore: cacheStore,
             remoteSource: MockRemoteSource()
@@ -18,6 +19,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
     func testCurrentSnapshot_PrefersCacheOverBundle() {
         let cachedDocument = makeDocument(revision: 3)
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: makeDocument(revision: 1)),
             cacheStore: MockCacheStore(document: cachedDocument),
             remoteSource: MockRemoteSource()
@@ -33,6 +35,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         let remoteSource = MockRemoteSource(result: .success(.notModified))
         let expectedDate = Date(timeIntervalSince1970: 1234)
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: makeDocument(revision: 1)),
             cacheStore: cacheStore,
             remoteSource: remoteSource,
@@ -54,6 +57,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         let cacheStore = MockCacheStore(document: cachedDocument)
         cacheStore.revision = 1
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: cachedDocument),
             cacheStore: cacheStore,
             remoteSource: MockRemoteSource(
@@ -77,6 +81,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         let cacheStore = MockCacheStore(document: cachedDocument)
         cacheStore.revision = 2
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: makeDocument(revision: 1)),
             cacheStore: cacheStore,
             remoteSource: MockRemoteSource(
@@ -96,13 +101,14 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         let cachedDocument = makeDocument(revision: 2)
         let invalidDocument = PregnancyContentDocument(
             schemaVersion: 1,
-            locale: "es",
+            locale: "en",
             revision: 3,
             weeks: Array(makeDocument(revision: 3).weeks.prefix(2))
         )
         let cacheStore = MockCacheStore(document: cachedDocument)
         cacheStore.revision = 2
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: makeDocument(revision: 1)),
             cacheStore: cacheStore,
             remoteSource: MockRemoteSource(
@@ -125,6 +131,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
         cacheStore.revision = 1
         cacheStore.eTag = "etag-1"
         let repository = PregnancyContentRepository(
+            expectedLocale: "en",
             bundleSource: MockBundleSource(document: cachedDocument),
             cacheStore: cacheStore,
             remoteSource: MockRemoteSource(
@@ -159,7 +166,7 @@ final class PregnancyContentRepositoryTests: XCTestCase {
 
         return PregnancyContentDocument(
             schemaVersion: 1,
-            locale: "es",
+            locale: "en",
             revision: revision,
             weeks: weeks
         )

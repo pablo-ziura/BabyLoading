@@ -1,24 +1,21 @@
 import Foundation
 
 final class SharedContentCacheStore: PregnancyContentCacheStoreProtocol {
-    private enum Keys {
-        static let eTag = "pregnancyContentETag"
-        static let lastFetchAt = "pregnancyContentLastFetchAt"
-        static let revision = "pregnancyContentRevision"
-    }
-
     private let fileManager: FileManager
     private let defaults: UserDefaults?
     private let fileName: String
+    private let localization: PregnancyContentLocalization
 
     init(
+        localization: PregnancyContentLocalization,
         fileManager: FileManager = .default,
         defaults: UserDefaults? = SharedAppGroup.userDefaults(),
-        fileName: String = "pregnancy-content.es.json"
+        fileName: String? = nil
     ) {
+        self.localization = localization
         self.fileManager = fileManager
         self.defaults = defaults
-        self.fileName = fileName
+        self.fileName = fileName ?? localization.fileName
     }
 
     private var fileURL: URL? {
@@ -33,7 +30,10 @@ final class SharedContentCacheStore: PregnancyContentCacheStoreProtocol {
             return nil
         }
 
-        return try? PregnancyContentDocument.decodeValidated(from: data)
+        return try? PregnancyContentDocument.decodeValidated(
+            from: data,
+            expectedLocale: localization.localeCode
+        )
     }
 
     @discardableResult
@@ -58,22 +58,23 @@ final class SharedContentCacheStore: PregnancyContentCacheStoreProtocol {
     }
 
     var eTag: String? {
-        get { defaults?.string(forKey: Keys.eTag) }
-        set { defaults?.set(newValue, forKey: Keys.eTag) }
+        get { defaults?.string(forKey: localization.metadataKey("eTag")) }
+        set { defaults?.set(newValue, forKey: localization.metadataKey("eTag")) }
     }
 
     var lastFetchAt: Date? {
-        get { defaults?.object(forKey: Keys.lastFetchAt) as? Date }
-        set { defaults?.set(newValue, forKey: Keys.lastFetchAt) }
+        get { defaults?.object(forKey: localization.metadataKey("lastFetchAt")) as? Date }
+        set { defaults?.set(newValue, forKey: localization.metadataKey("lastFetchAt")) }
     }
 
     var revision: Int? {
         get {
-            guard defaults?.object(forKey: Keys.revision) != nil else {
+            let key = localization.metadataKey("revision")
+            guard defaults?.object(forKey: key) != nil else {
                 return nil
             }
-            return defaults?.integer(forKey: Keys.revision)
+            return defaults?.integer(forKey: key)
         }
-        set { defaults?.set(newValue, forKey: Keys.revision) }
+        set { defaults?.set(newValue, forKey: localization.metadataKey("revision")) }
     }
 }
