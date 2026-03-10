@@ -10,12 +10,12 @@ struct DashboardView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 4) {
-                        Text("Baby Loading…")
+                        Text("dashboard.title")
                             .font(.system(.largeTitle, design: .rounded))
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
 
-                        Text("Tu aventura semana a semana 🌸")
+                        Text("dashboard.subtitle")
                             .font(.system(.subheadline, design: .rounded))
                             .foregroundStyle(.white.opacity(0.85))
                     }
@@ -78,7 +78,16 @@ struct DashboardView: View {
                             .frame(width: 160, height: 160)
                     }
 
-                    Text("Tu bebé ahora es del tamaño de \(content.babySizeLabel)")
+                    Text(
+                        String(
+                            format: String(
+                                localized: "dashboard.babySize",
+                                defaultValue: "Your baby is now the size of %@"
+                            ),
+                            locale: .current,
+                            content.babySizeLabel
+                        )
+                    )
                         .font(.system(.body, design: .rounded))
                         .fontWeight(.medium)
                         .foregroundStyle(.primary.opacity(0.8))
@@ -104,7 +113,7 @@ struct DashboardView: View {
                         .font(.system(size: 50))
                         .foregroundStyle(.white.opacity(0.5))
 
-                    Text("Configura tu fecha en Ajustes")
+                    Text("dashboard.configureDate")
                         .font(.system(.body, design: .rounded))
                         .foregroundStyle(.white.opacity(0.7))
                 }
@@ -125,12 +134,12 @@ struct DashboardView: View {
             if let week = viewModel.pregnancyWeek {
                 HStack(spacing: 16) {
                     StatCard(
-                        title: "Semana",
+                        title: String(localized: "dashboard.stats.week", defaultValue: "Week"),
                         value: "\(week)",
                         icon: "calendar.circle.fill"
                     )
                     StatCard(
-                        title: "Días restantes",
+                        title: String(localized: "dashboard.stats.daysRemaining", defaultValue: "Days remaining"),
                         value: "\(viewModel.daysRemaining ?? 0)",
                         icon: "clock.fill"
                     )
@@ -140,7 +149,7 @@ struct DashboardView: View {
 
             if let fpp = viewModel.estimatedDueDate {
                 VStack(spacing: 6) {
-                    Text("🎀  Fecha probable de parto")
+                    Text("dashboard.dueDate")
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(.white.opacity(0.8))
                     Text(fpp.formatted(date: .long, time: .omitted))
@@ -168,7 +177,6 @@ struct DashboardView: View {
         Group {
             if let content = viewModel.currentWeekContent {
                 VStack(alignment: .leading, spacing: 16) {
-                    // Header
                     HStack(spacing: 8) {
                         Text("🐣")
                             .font(.title2)
@@ -178,7 +186,6 @@ struct DashboardView: View {
                             .foregroundStyle(.white)
                     }
 
-                    // Key events as chips
                     VStack(alignment: .leading, spacing: 8) {
                         ForEach(Array(content.keyEvents.enumerated()), id: \.offset) { _, event in
                             HStack(alignment: .top, spacing: 8) {
@@ -198,7 +205,6 @@ struct DashboardView: View {
                         }
                     }
 
-                    // Physiological impact callout
                     if let impact = content.physiologicalImpact {
                         HStack(alignment: .top, spacing: 8) {
                             Text("💕")

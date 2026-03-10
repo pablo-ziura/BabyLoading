@@ -50,18 +50,23 @@ Leer este archivo antes de proponer cambios o tocar codigo.
 
 ## Contenido semanal del embarazo
 
-- La fuente base es `BabyLoading/Resources/pregnancy-content.es.json`.
+- Las fuentes base son `BabyLoading/Resources/pregnancy-content.en.json`
+  y `BabyLoading/Resources/pregnancy-content.es.json`.
 - Los tipos de contenido viven en `BabyLoading/Data/Content/` separados por responsabilidad:
   modelos, sources, stores, repositorios y extensiones.
+- La resolución de locale del contenido vive en `BabyLoading/Data/Content/Localization/`
+  y hace fallback a `en` cuando el idioma del dispositivo no está soportado.
 - Los protocolos de contenido se mantienen junto a la implementación concreta de su capa,
   no en una carpeta global de `Protocols`.
 - `PregnancyContentDocument` valida:
   `schemaVersion`, `locale`, `revision`, cobertura completa de semanas 6...40 y ausencia de `keyEvents` vacios.
 - `PregnancyContentRepository` resuelve el snapshot inicial con esta prioridad:
   cache del App Group -> bundle -> `.empty`.
-- La actualizacion remota es opcional y depende de `INFOPLIST_KEY_PregnancyContentURL`.
+- La actualizacion remota es opcional y depende de `INFOPLIST_KEY_PregnancyContentURL`
+  o de `INFOPLIST_KEY_PregnancyContentURLTemplate` con placeholder `{locale}`.
 - Si `PregnancyContentURL` esta vacia, la sincronizacion remota queda desactivada.
 - La cache compartida guarda JSON, `ETag`, `lastFetchAt` y `revision`.
+- La cache compartida se separa por locale para no mezclar snapshots de idiomas distintos.
 - No bypasses las validaciones del documento para "hacer que funcione". Si cambia el schema, hay que actualizar validacion, tests y recurso base.
 
 ## Concurrencia
@@ -79,6 +84,7 @@ Leer este archivo antes de proponer cambios o tocar codigo.
 - Mantener la seleccion y los stacks por tab en `AppCoordinator`.
 - Reutilizar los componentes comunes de `Presentation/Common` antes de crear nuevos wrappers visuales.
 - La app esta forzada a `.preferredColorScheme(.light)`. No introducir dark mode parcial sin una decision explicita del proyecto.
+- Los textos visibles de app y widget viven en `Localizable.xcstrings` (`en` y `es` por ahora).
 
 ## Widget
 

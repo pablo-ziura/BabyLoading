@@ -5,7 +5,7 @@ final class PregnancyContentDocumentTests: XCTestCase {
     func testDecodeValidated_acceptsValidDocument() throws {
         let data = try makeJSONData(document: makeDocument())
 
-        let document = try PregnancyContentDocument.decodeValidated(from: data)
+        let document = try PregnancyContentDocument.decodeValidated(from: data, expectedLocale: "en")
 
         XCTAssertEqual(document.weeks.count, PregnancyContentDocument.coveredWeeks.count)
         XCTAssertEqual(document.weeks.map(\.week), PregnancyContentDocument.coveredWeeks)
@@ -20,7 +20,7 @@ final class PregnancyContentDocumentTests: XCTestCase {
             weeks: document.weeks
         )
 
-        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document))) { error in
+        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document), expectedLocale: "en")) { error in
             XCTAssertEqual(
                 error as? PregnancyContentValidationError,
                 .unsupportedSchemaVersion(2)
@@ -31,14 +31,9 @@ final class PregnancyContentDocumentTests: XCTestCase {
     func testDecodeValidated_rejectsDuplicateWeeks() throws {
         var duplicateWeeks = makeDocument().weeks
         duplicateWeeks[1] = duplicateWeeks[0]
-        let document = PregnancyContentDocument(
-            schemaVersion: 1,
-            locale: "es",
-            revision: 1,
-            weeks: duplicateWeeks
-        )
+        let document = PregnancyContentDocument(schemaVersion: 1, locale: "en", revision: 1, weeks: duplicateWeeks)
 
-        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document))) { error in
+        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document), expectedLocale: "en")) { error in
             XCTAssertEqual(
                 error as? PregnancyContentValidationError,
                 .duplicateWeeks([6])
@@ -47,17 +42,23 @@ final class PregnancyContentDocumentTests: XCTestCase {
     }
 
     func testDecodeValidated_rejectsIncompleteCoverage() throws {
-        let document = PregnancyContentDocument(
-            schemaVersion: 1,
-            locale: "es",
-            revision: 1,
-            weeks: Array(makeDocument().weeks.prefix(2))
-        )
+        let document = PregnancyContentDocument(schemaVersion: 1, locale: "en", revision: 1, weeks: Array(makeDocument().weeks.prefix(2)))
 
-        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document))) { error in
+        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document), expectedLocale: "en")) { error in
             XCTAssertEqual(
                 error as? PregnancyContentValidationError,
                 .invalidWeekCoverage([6, 7])
+            )
+        }
+    }
+
+    func testDecodeValidated_rejectsUnexpectedLocale() throws {
+        let document = PregnancyContentDocument(schemaVersion: 1, locale: "es", revision: 1, weeks: makeDocument().weeks)
+
+        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: try makeJSONData(document: document), expectedLocale: "en")) { error in
+            XCTAssertEqual(
+                error as? PregnancyContentValidationError,
+                .unsupportedLocale("es")
             )
         }
     }
@@ -66,7 +67,7 @@ final class PregnancyContentDocumentTests: XCTestCase {
         let json = """
         {
           "schemaVersion": 1,
-          "locale": "es",
+          "locale": "en",
           "revision": 1,
           "weeks": [
             {
@@ -81,7 +82,7 @@ final class PregnancyContentDocumentTests: XCTestCase {
         }
         """.data(using: .utf8)!
 
-        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: json))
+        XCTAssertThrowsError(try PregnancyContentDocument.decodeValidated(from: json, expectedLocale: "en"))
     }
 
     private func makeJSONData(document: PregnancyContentDocument) throws -> Data {
@@ -104,7 +105,7 @@ final class PregnancyContentDocumentTests: XCTestCase {
 
         return PregnancyContentDocument(
             schemaVersion: 1,
-            locale: "es",
+            locale: "en",
             revision: revision,
             weeks: weeks
         )

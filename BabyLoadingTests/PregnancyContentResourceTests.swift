@@ -2,14 +2,17 @@
 import XCTest
 
 final class PregnancyContentResourceTests: XCTestCase {
-    func testBundledPregnancyContent_isPresentAndValid() throws {
+    func testBundledPregnancyContent_isPresentAndValidForSupportedLocales() throws {
         let bundle = Bundle(for: BundleMarker.self)
-        let url = try XCTUnwrap(bundle.url(forResource: "pregnancy-content.es", withExtension: "json"))
-        let data = try Data(contentsOf: url)
+        for locale in ["en", "es"] {
+            let url = try XCTUnwrap(bundle.url(forResource: "pregnancy-content.\(locale)", withExtension: "json"))
+            let data = try Data(contentsOf: url)
 
-        let document = try PregnancyContentDocument.decodeValidated(from: data)
+            let document = try PregnancyContentDocument.decodeValidated(from: data, expectedLocale: locale)
 
-        XCTAssertEqual(document.weeks.map(\.week), PregnancyContentDocument.coveredWeeks)
+            XCTAssertEqual(document.locale, locale)
+            XCTAssertEqual(document.weeks.map(\.week), PregnancyContentDocument.coveredWeeks)
+        }
     }
 }
 

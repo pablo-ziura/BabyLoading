@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C20D9571147D96B8CDBE45D /* PregnancyContentLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */; };
+		D11C12F553674DE62CA3CE91 /* PregnancyContentLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F03DE3D7C399182DDCE835EC /* pregnancy-content.en.json in Resources */ = {isa = PBXBuildFile; fileRef = BF238E7AA94B01389274E590 /* pregnancy-content.en.json */; };
+		F6617512ABB44EE7C162FD3B /* pregnancy-content.en.json in Resources */ = {isa = PBXBuildFile; fileRef = BF238E7AA94B01389274E590 /* pregnancy-content.en.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PregnancyContentLocalization.swift; sourceTree = "<group>"; };
+		BF238E7AA94B01389274E590 /* pregnancy-content.en.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = "pregnancy-content.en.json"; sourceTree = "<group>"; };
 		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyLoadingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,14 +61,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */ = {
+		DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
+		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/DependencyContainer.swift,
@@ -75,10 +81,10 @@
 				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
 				Data/Content/Models/PregnancyContentValidationError.swift,
 				Data/Content/Models/WeekContent.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Repositories/PregnancyContentRepository.swift,
-				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
+				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Sources/BundleContentSource.swift,
+				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
 				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
 				Data/Content/Sources/RemoteContentSource.swift,
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
@@ -89,11 +95,12 @@
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
+				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.es.json",
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
-		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
+		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/DependencyContainer.swift,
@@ -106,10 +113,10 @@
 				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
 				Data/Content/Models/PregnancyContentValidationError.swift,
 				Data/Content/Models/WeekContent.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Repositories/PregnancyContentRepository.swift,
-				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
+				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Sources/BundleContentSource.swift,
+				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
 				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
 				Data/Content/Sources/RemoteContentSource.swift,
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
@@ -120,18 +127,19 @@
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
+				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.es.json",
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
+		DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
 			);
 			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
 		};
-		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
+		DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
@@ -141,30 +149,13 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
-				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
-			);
-			path = BabyLoading;
-			sourceTree = "<group>";
-		};
+		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyLoading; sourceTree = "<group>"; };
 		DA1C91622F41F1EA003EC367 /* BabyLoadingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BabyLoadingTests;
 			sourceTree = "<group>";
 		};
-		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
-				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
-				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
-			);
-			path = BabyProgressWidget;
-			sourceTree = "<group>";
-		};
+		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyProgressWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +185,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B417596BE22D3149662E660 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				F0FB4DAD6858E0B8CE2C5386 /* Localization */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		473F87874C435892EA049E37 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1B417596BE22D3149662E660 /* Content */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		DA1C91492F41F1E9003EC367 = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +212,7 @@
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
+				F2C488989B7716BCA1295F9A /* BabyLoading */,
 			);
 			sourceTree = "<group>";
 		};
@@ -225,6 +233,31 @@
 				DA1C91872F41F266003EC367 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F0FB4DAD6858E0B8CE2C5386 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		F2C488989B7716BCA1295F9A /* BabyLoading */ = {
+			isa = PBXGroup;
+			children = (
+				473F87874C435892EA049E37 /* Data */,
+				FD3431DDEF72FB44C5254140 /* Resources */,
+			);
+			path = BabyLoading;
+			sourceTree = "<group>";
+		};
+		FD3431DDEF72FB44C5254140 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BF238E7AA94B01389274E590 /* pregnancy-content.en.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,6 +388,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F03DE3D7C399182DDCE835EC /* pregnancy-content.en.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6617512ABB44EE7C162FD3B /* pregnancy-content.en.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C20D9571147D96B8CDBE45D /* PregnancyContentLocalization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +422,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D11C12F553674DE62CA3CE91 /* PregnancyContentLocalization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +503,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -524,6 +562,7 @@
 				MTL_FAST_MATH = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};

@@ -19,13 +19,17 @@ class DependencyContainer {
     @MainActor let viewModel: BabyProgressViewModel
 
     private init() {
+        let contentLocalization = PregnancyContentLocalization(bundle: .main)
+
         dataSource = BabyProgressDataSource()
         contentRepository = PregnancyContentRepository(
-            bundleSource: BundleContentSource(bundle: .main),
-            cacheStore: SharedContentCacheStore(),
+            expectedLocale: contentLocalization.localeCode,
+            bundleSource: BundleContentSource(bundle: .main, localization: contentLocalization),
+            cacheStore: SharedContentCacheStore(localization: contentLocalization),
             remoteSource: RemoteContentSource(
                 session: .shared,
-                url: Bundle.main.pregnancyContentRemoteURL
+                url: Bundle.main.pregnancyContentRemoteURL(localeCode: contentLocalization.localeCode),
+                expectedLocale: contentLocalization.localeCode
             )
         )
         repository = BabyProgressRepository(
@@ -55,10 +59,10 @@ enum TabItem: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .dashboard: return "Inicio"
-        case .journey: return "Mi Viaje"
-        case .gallery: return "Galería"
-        case .settings: return "Ajustes"
+        case .dashboard: return String(localized: "tabs.dashboard", defaultValue: "Home")
+        case .journey: return String(localized: "tabs.journey", defaultValue: "My Journey")
+        case .gallery: return String(localized: "tabs.gallery", defaultValue: "Gallery")
+        case .settings: return String(localized: "tabs.settings", defaultValue: "Settings")
         }
     }
 

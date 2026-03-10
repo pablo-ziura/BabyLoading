@@ -25,11 +25,26 @@ struct BabyProgressWidgetEntryView: View {
             fruitProgressRing(progress: progress)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Semana \(entry.week)")
+                Text(
+                    String(
+                        format: String(localized: "common.week", defaultValue: "Week %d"),
+                        locale: .current,
+                        entry.week
+                    )
+                )
                     .font(.system(size: 15, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
 
-                Text("El bebé 🤰🏽 ahora tiene el tamaño de \(entry.babySizeLabel)")
+                Text(
+                    String(
+                        format: String(
+                            localized: "widget.babySize",
+                            defaultValue: "The baby 🤰🏽 is now the size of %@"
+                        ),
+                        locale: .current,
+                        entry.babySizeLabel
+                    )
+                )
                     .font(.system(size: 11, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.85))
                     .lineLimit(3)
@@ -41,7 +56,7 @@ struct BabyProgressWidgetEntryView: View {
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(days)")
                         .font(.system(size: 28, weight: .black, design: .rounded))
-                    Text("días")
+                    Text("widget.days")
                         .font(.system(size: 12, weight: .semibold, design: .rounded))
                 }
                 .foregroundStyle(.white)
@@ -102,7 +117,7 @@ struct BabyProgressWidgetEntryView: View {
                 .font(.system(size: 36))
                 .foregroundStyle(.white.opacity(0.8))
 
-            Text("Configura la fecha\nen la app")
+            Text("widget.configureDate")
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(.white.opacity(0.7))

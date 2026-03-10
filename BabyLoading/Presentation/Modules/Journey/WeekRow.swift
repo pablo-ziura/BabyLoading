@@ -64,11 +64,17 @@ struct WeekRow: View {
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Semana \(content.week)")
+                    Text(
+                        String(
+                            format: String(localized: "common.week", defaultValue: "Week %d"),
+                            locale: .current,
+                            content.week
+                        )
+                    )
                         .font(.system(.headline, design: .rounded))
                         .fontWeight(isCurrent ? .bold : .medium)
 
-                    Text(content.babySizeLabel.capitalized)
+                    Text(content.babySizeLabel.localizedCapitalized)
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -76,7 +82,7 @@ struct WeekRow: View {
                 Spacer()
 
                 if isCurrent {
-                    Text("Aquí estás")
+                    Text("journey.youAreHere")
                         .font(.system(.caption2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)

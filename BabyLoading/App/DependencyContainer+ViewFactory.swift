@@ -29,7 +29,13 @@ extension DependencyContainer {
     func view(for route: AppRoute) -> some View {
         switch route {
         case let .detail(id):
-            Text("Detail \(id)")
+            Text(
+                String(
+                    format: String(localized: "detail.title", defaultValue: "Detail %@"),
+                    locale: .current,
+                    id
+                )
+            )
         case .settings:
             makeSettingsView()
         }

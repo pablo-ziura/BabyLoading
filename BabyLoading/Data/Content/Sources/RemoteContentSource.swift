@@ -3,6 +3,7 @@ import Foundation
 struct RemoteContentSource: PregnancyContentRemoteSourceProtocol {
     let session: URLSession
     let url: URL?
+    let expectedLocale: String
 
     var isEnabled: Bool { url != nil }
 
@@ -26,7 +27,10 @@ struct RemoteContentSource: PregnancyContentRemoteSourceProtocol {
 
         switch httpResponse.statusCode {
         case 200:
-            let document = try PregnancyContentDocument.decodeValidated(from: data)
+            let document = try PregnancyContentDocument.decodeValidated(
+                from: data,
+                expectedLocale: expectedLocale
+            )
             return .success(
                 document: document,
                 eTag: httpResponse.value(forHTTPHeaderField: "ETag")
