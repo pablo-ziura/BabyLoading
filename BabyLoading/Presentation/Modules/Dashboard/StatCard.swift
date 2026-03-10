@@ -17,6 +17,7 @@ struct StatCard: View {
                         endPoint: .bottomTrailing
                     )
                 )
+                .accessibilityHidden(true)
 
             Text(value)
                 .font(.system(.title, design: .rounded))
@@ -29,5 +30,8 @@ struct StatCard: View {
         }
         .frame(maxWidth: .infinity)
         .softCard()
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(title))
+        .accessibilityValue(Text(value))
     }
 }
