@@ -20,7 +20,9 @@ struct JourneyView: View {
                     Text("journey.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
                         .padding(.top, 24)
                         .padding(.bottom, 16)
 
