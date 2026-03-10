@@ -6,6 +6,7 @@ class DependencyContainer {
     static let shared = DependencyContainer()
 
     let dataSource: BabyProgressDataSourceProtocol
+    let contentRepository: PregnancyContentRepositoryProtocol
     let repository: BabyProgressRepositoryProtocol
     let widgetReloader: WidgetReloaderProtocol
 
@@ -19,7 +20,18 @@ class DependencyContainer {
 
     private init() {
         dataSource = BabyProgressDataSource()
-        repository = BabyProgressRepository(dataSource: dataSource)
+        contentRepository = PregnancyContentRepository(
+            bundleSource: BundleContentSource(bundle: .main),
+            cacheStore: SharedContentCacheStore(),
+            remoteSource: RemoteContentSource(
+                session: .shared,
+                url: Bundle.main.pregnancyContentRemoteURL
+            )
+        )
+        repository = BabyProgressRepository(
+            dataSource: dataSource,
+            contentRepository: contentRepository
+        )
         widgetReloader = DefaultWidgetReloader()
         viewModel = BabyProgressViewModel(repository: repository, widgetReloader: widgetReloader)
     }

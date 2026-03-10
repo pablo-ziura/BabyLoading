@@ -5,7 +5,10 @@ protocol BabyProgressRepositoryProtocol {
     func setEventDate(_ date: Date?)
     func daysUntilEvent() -> Int?
     func getPregnancyWeek() -> Int?
-    func getBabySize() -> BabySize?
+    func getCurrentWeekContent() -> WeekContent?
+    func getAllWeekContent() -> [WeekContent]
+    func currentContentSnapshot() -> PregnancyContentDocument
+    func refreshContentIfNeeded() async
     func savePhoto(data: Data?)
     func fetchPhoto() -> Data?
     func deletePhoto()
@@ -18,9 +21,14 @@ protocol BabyProgressRepositoryProtocol {
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
     private let dataSource: BabyProgressDataSourceProtocol
+    private let contentRepository: PregnancyContentRepositoryProtocol
 
-    init(dataSource: BabyProgressDataSourceProtocol) {
+    init(
+        dataSource: BabyProgressDataSourceProtocol,
+        contentRepository: PregnancyContentRepositoryProtocol
+    ) {
         self.dataSource = dataSource
+        self.contentRepository = contentRepository
     }
 
     func getEventDate() -> Date? {
@@ -48,9 +56,21 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         return PregnancyCalculator.currentWeek(lastPeriod: lastPeriodDate)
     }
 
-    func getBabySize() -> BabySize? {
-        guard let lastPeriodDate = getEventDate() else { return nil }
-        return PregnancyCalculator.babySize(for: lastPeriodDate)
+    func getCurrentWeekContent() -> WeekContent? {
+        guard let week = getPregnancyWeek() else { return nil }
+        return contentRepository.weekContent(for: week)
+    }
+
+    func getAllWeekContent() -> [WeekContent] {
+        contentRepository.allWeekContent()
+    }
+
+    func currentContentSnapshot() -> PregnancyContentDocument {
+        contentRepository.currentSnapshot()
+    }
+
+    func refreshContentIfNeeded() async {
+        await contentRepository.refreshIfNeeded()
     }
 
     func savePhoto(data: Data?) {

@@ -25,6 +25,8 @@ struct DashboardView: View {
 
                     statsSection
 
+                    developmentSection
+
                     Spacer(minLength: 100)
                 }
                 .frame(maxWidth: 600)
@@ -34,8 +36,8 @@ struct DashboardView: View {
     }
 
     private var heroFruitSection: some View {
-        VStack(spacing: 16) {
-            if let babySize = viewModel.currentBabySize {
+        Group {
+            if let content = viewModel.currentWeekContent {
                 VStack(spacing: 16) {
                     ZStack {
                         Circle()
@@ -54,7 +56,7 @@ struct DashboardView: View {
                             .frame(width: 160, height: 160)
                             .shadow(color: .pink.opacity(0.2), radius: 16, y: 8)
 
-                        Image(babySize.imageName)
+                        Image(content.babySize.imageName)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 130, height: 130)
@@ -72,7 +74,7 @@ struct DashboardView: View {
                             .frame(width: 160, height: 160)
                     }
 
-                    Text("Tu bebé ahora es del tamaño de \(babySize.description)")
+                    Text("Tu bebé ahora es del tamaño de \(content.babySizeLabel)")
                         .font(.system(.body, design: .rounded))
                         .fontWeight(.medium)
                         .foregroundStyle(.primary.opacity(0.8))
@@ -92,8 +94,7 @@ struct DashboardView: View {
                         .strokeBorder(.white.opacity(0.4), lineWidth: 1)
                 )
                 .padding(.horizontal, 20)
-
-            } else {
+            } else if viewModel.pregnancyWeek == nil {
                 VStack(spacing: 12) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 50))
@@ -142,6 +143,42 @@ struct DashboardView: View {
                         .font(.system(.title3, design: .rounded))
                         .fontWeight(.semibold)
                         .foregroundStyle(.pink)
+                }
+                .softCard()
+                .padding(.horizontal)
+            }
+        }
+    }
+
+    private var developmentSection: some View {
+        Group {
+            if let content = viewModel.currentWeekContent {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Desarrollo fetal")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundStyle(.secondary)
+
+                    Text(content.milestoneTitle)
+                        .font(.system(.headline, design: .rounded))
+                        .fontWeight(.semibold)
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(Array(content.keyEvents.enumerated()), id: \.offset) { _, event in
+                            HStack(alignment: .top, spacing: 6) {
+                                Text("•")
+                                    .foregroundStyle(.pink)
+                                Text(event)
+                                    .font(.system(.subheadline, design: .rounded))
+                                    .foregroundStyle(.primary.opacity(0.85))
+                            }
+                        }
+                    }
+
+                    if let impact = content.physiologicalImpact {
+                        Text("Impacto fisiológico: \(impact)")
+                            .font(.system(.footnote, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .softCard()
                 .padding(.horizontal)

@@ -17,6 +17,12 @@ struct BabyProgressWidget: Widget {
 #Preview(as: .systemMedium) {
     BabyProgressWidget()
 } timeline: {
-    SimpleEntry(date: .now, eventDate: .now.addingTimeInterval(86400 * 5), week: 20, babySize: .banana)
-    SimpleEntry(date: .now, eventDate: nil, week: 0, babySize: .unknown)
+    SimpleEntry(
+        date: .now,
+        eventDate: .now.addingTimeInterval(86400 * 5),
+        week: 20,
+        babySize: .banana,
+        babySizeLabel: "un plátano"
+    )
+    SimpleEntry(date: .now, eventDate: nil, week: 0, babySize: .unknown, babySizeLabel: "un misterio")
 }

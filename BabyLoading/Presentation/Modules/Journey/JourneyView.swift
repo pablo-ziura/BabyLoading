@@ -25,13 +25,11 @@ struct JourneyView: View {
                         .padding(.bottom, 16)
 
                     LazyVStack(spacing: 0) {
-                        ForEach(6 ... 40, id: \.self) { week in
-                            let size = BabySize.from(week: week)
-                            let isCurrent = viewModel.pregnancyWeek == week
+                        ForEach(viewModel.allWeekContent) { content in
+                            let isCurrent = viewModel.pregnancyWeek == content.week
 
                             WeekRow(
-                                week: week,
-                                babySize: size,
+                                content: content,
                                 isCurrent: isCurrent,
                                 currentWeek: viewModel.pregnancyWeek,
                                 currentDayOffset: currentDayOffset

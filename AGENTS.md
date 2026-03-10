@@ -51,7 +51,10 @@ Leer este archivo antes de proponer cambios o tocar codigo.
 ## Contenido semanal del embarazo
 
 - La fuente base es `BabyLoading/Resources/pregnancy-content.es.json`.
-- El modelo esta en `PregnancyContent.swift`.
+- Los tipos de contenido viven en `BabyLoading/Data/Content/` separados por responsabilidad:
+  modelos, sources, stores, repositorios y extensiones.
+- Los protocolos de contenido se mantienen junto a la implementación concreta de su capa,
+  no en una carpeta global de `Protocols`.
 - `PregnancyContentDocument` valida:
   `schemaVersion`, `locale`, `revision`, cobertura completa de semanas 6...40 y ausencia de `keyEvents` vacios.
 - `PregnancyContentRepository` resuelve el snapshot inicial con esta prioridad:
