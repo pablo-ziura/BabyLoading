@@ -9,7 +9,10 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var setEventDateCalled = false
     var daysUntilEventCalled = false
     var getPregnancyWeekCalled = false
-    var getBabySizeCalled = false
+    var getCurrentWeekContentCalled = false
+    var getAllWeekContentCalled = false
+    var currentContentSnapshotCalled = false
+    var refreshContentIfNeededCalled = false
     var savePhotoCalled = false
     var fetchPhotoCalled = false
     var deletePhotoCalled = false
@@ -18,7 +21,10 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var deletePhotoAtCalled = false
 
     var pregnancyWeek: Int?
-    var babySize: BabySize?
+    var currentWeekContent: WeekContent?
+    var allWeekContent: [WeekContent] = []
+    var contentSnapshot = PregnancyContentDocument.empty
+    var refreshContentIfNeededHandler: (() -> Void)?
     var storedPhotoData: Data?
     var storedPhotos: [Data] = []
 
@@ -42,9 +48,24 @@ class MockRepository: BabyProgressRepositoryProtocol {
         return pregnancyWeek
     }
 
-    func getBabySize() -> BabySize? {
-        getBabySizeCalled = true
-        return babySize
+    func getCurrentWeekContent() -> WeekContent? {
+        getCurrentWeekContentCalled = true
+        return currentWeekContent
+    }
+
+    func getAllWeekContent() -> [WeekContent] {
+        getAllWeekContentCalled = true
+        return allWeekContent
+    }
+
+    func currentContentSnapshot() -> PregnancyContentDocument {
+        currentContentSnapshotCalled = true
+        return contentSnapshot
+    }
+
+    func refreshContentIfNeeded() async {
+        refreshContentIfNeededCalled = true
+        refreshContentIfNeededHandler?()
     }
 
     func savePhoto(data: Data?) {

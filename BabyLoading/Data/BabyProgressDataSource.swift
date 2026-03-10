@@ -14,7 +14,7 @@ protocol BabyProgressDataSourceProtocol {
 }
 
 class BabyProgressDataSource: BabyProgressDataSourceProtocol {
-    private let suiteName = "group.com.pablo.BabyLoading"
+    private let suiteName = SharedAppGroup.identifier
     private let photoFileName = "user_photo.jpg"
     private let photosDirName = "gallery"
 

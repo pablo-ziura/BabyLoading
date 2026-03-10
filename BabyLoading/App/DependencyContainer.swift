@@ -6,6 +6,7 @@ class DependencyContainer {
     static let shared = DependencyContainer()
 
     let dataSource: BabyProgressDataSourceProtocol
+    let contentRepository: PregnancyContentRepositoryProtocol
     let repository: BabyProgressRepositoryProtocol
     let widgetReloader: WidgetReloaderProtocol
 
@@ -18,8 +19,23 @@ class DependencyContainer {
     @MainActor let viewModel: BabyProgressViewModel
 
     private init() {
+        let contentLocalization = PregnancyContentLocalization(bundle: .main)
+
         dataSource = BabyProgressDataSource()
-        repository = BabyProgressRepository(dataSource: dataSource)
+        contentRepository = PregnancyContentRepository(
+            expectedLocale: contentLocalization.localeCode,
+            bundleSource: BundleContentSource(bundle: .main, localization: contentLocalization),
+            cacheStore: SharedContentCacheStore(localization: contentLocalization),
+            remoteSource: RemoteContentSource(
+                session: .shared,
+                url: Bundle.main.pregnancyContentRemoteURL(localeCode: contentLocalization.localeCode),
+                expectedLocale: contentLocalization.localeCode
+            )
+        )
+        repository = BabyProgressRepository(
+            dataSource: dataSource,
+            contentRepository: contentRepository
+        )
         widgetReloader = DefaultWidgetReloader()
         viewModel = BabyProgressViewModel(repository: repository, widgetReloader: widgetReloader)
     }
@@ -43,10 +59,10 @@ enum TabItem: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .dashboard: return "Inicio"
-        case .journey: return "Mi Viaje"
-        case .gallery: return "Galería"
-        case .settings: return "Ajustes"
+        case .dashboard: return String(localized: "tabs.dashboard", defaultValue: "Home")
+        case .journey: return String(localized: "tabs.journey", defaultValue: "My Journey")
+        case .gallery: return String(localized: "tabs.gallery", defaultValue: "Gallery")
+        case .settings: return String(localized: "tabs.settings", defaultValue: "Settings")
         }
     }
 

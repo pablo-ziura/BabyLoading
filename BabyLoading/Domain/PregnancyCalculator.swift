@@ -26,9 +26,4 @@ struct PregnancyCalculator {
         // 7 days = 1 week (meaning "start of 2nd week" or "1 week pregnant")
         return daysElapsed / 7
     }
-
-    static func babySize(for lastPeriod: Date, currentDate: Date = .now) -> BabySize {
-        let week = currentWeek(lastPeriod: lastPeriod, currentDate: currentDate)
-        return BabySize.from(week: week)
-    }
 }
