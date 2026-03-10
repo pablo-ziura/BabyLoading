@@ -6,4 +6,5 @@ struct SimpleEntry: TimelineEntry {
     let eventDate: Date?
     let week: Int
     let babySize: BabySize
+    let babySizeLabel: String
 }
