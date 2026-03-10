@@ -8,8 +8,8 @@ class BabyProgressViewModel {
     var estimatedDueDate: Date?
     var daysRemaining: Int?
     var pregnancyWeek: Int?
-    var babySizeString: String?
-    var currentBabySize: BabySize?
+    var currentWeekContent: WeekContent?
+    var allWeekContent: [WeekContent]
     var photoData: Data?
     var photosData: [Data] = []
     var showingPhotoPicker = false
@@ -24,27 +24,33 @@ class BabyProgressViewModel {
         self.repository = repository ?? DependencyContainer.shared.repository
         self.widgetReloader = widgetReloader ?? DependencyContainer.shared.widgetReloader
 
-        let date = self.repository.getEventDate() ?? .now
-        lastPeriodDate = date
-
-        estimatedDueDate = PregnancyCalculator.calculateDueDate(lastPeriod: date)
-        daysRemaining = self.repository.daysUntilEvent()
-        pregnancyWeek = self.repository.getPregnancyWeek()
-        currentBabySize = self.repository.getBabySize()
-        babySizeString = currentBabySize?.description
+        lastPeriodDate = self.repository.getEventDate() ?? .now
+        allWeekContent = self.repository.getAllWeekContent()
         photoData = self.repository.fetchPhoto()
         photosData = self.repository.fetchAllPhotos()
+        estimatedDueDate = nil
+        daysRemaining = nil
+        pregnancyWeek = nil
+        currentWeekContent = nil
+
+        reloadProgressState()
     }
 
     func updateDate(_ date: Date) {
         lastPeriodDate = date
-        estimatedDueDate = PregnancyCalculator.calculateDueDate(lastPeriod: date)
         repository.setEventDate(date)
-        daysRemaining = repository.daysUntilEvent()
-        pregnancyWeek = repository.getPregnancyWeek()
-        currentBabySize = repository.getBabySize()
-        babySizeString = currentBabySize?.description
+        reloadProgressState()
         widgetReloader.reloadAllTimelines()
+    }
+
+    func refreshContentIfNeeded() async {
+        let previousSnapshot = repository.currentContentSnapshot()
+        await repository.refreshContentIfNeeded()
+        reloadProgressState()
+
+        if repository.currentContentSnapshot() != previousSnapshot {
+            widgetReloader.reloadAllTimelines()
+        }
     }
 
     func savePhoto(_ data: Data?) {
@@ -67,5 +73,14 @@ class BabyProgressViewModel {
     func deleteGalleryPhoto(at index: Int) {
         repository.deletePhoto(at: index)
         photosData = repository.fetchAllPhotos()
+    }
+
+    private func reloadProgressState() {
+        let savedDate = repository.getEventDate()
+        estimatedDueDate = savedDate.map(PregnancyCalculator.calculateDueDate)
+        daysRemaining = repository.daysUntilEvent()
+        pregnancyWeek = repository.getPregnancyWeek()
+        currentWeekContent = repository.getCurrentWeekContent()
+        allWeekContent = repository.getAllWeekContent()
     }
 }

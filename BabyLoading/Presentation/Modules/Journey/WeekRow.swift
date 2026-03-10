@@ -2,21 +2,20 @@ import Foundation
 import SwiftUI
 
 struct WeekRow: View {
-    let week: Int
-    let babySize: BabySize
+    let content: WeekContent
     let isCurrent: Bool
     let currentWeek: Int?
     let currentDayOffset: Int
 
     private var highlightedTopDay: Int? {
-        guard let currentWeek, currentWeek + 1 == week, (4 ... 6).contains(currentDayOffset) else {
+        guard let currentWeek, currentWeek + 1 == content.week, (4 ... 6).contains(currentDayOffset) else {
             return nil
         }
         return currentDayOffset - 4
     }
 
     private var highlightedBottomDay: Int? {
-        guard currentWeek == week, (0 ... 3).contains(currentDayOffset) else {
+        guard currentWeek == content.week, (0 ... 3).contains(currentDayOffset) else {
             return nil
         }
         return currentDayOffset
@@ -53,7 +52,7 @@ struct WeekRow: View {
                         .fill(.white)
                         .frame(width: 40, height: 40)
 
-                    Image(babySize.imageName)
+                    Image(content.babySize.imageName)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 34, height: 34)
@@ -65,11 +64,17 @@ struct WeekRow: View {
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Semana \(week)")
+                    Text(
+                        String(
+                            format: String(localized: "common.week", defaultValue: "Week %d"),
+                            locale: .current,
+                            content.week
+                        )
+                    )
                         .font(.system(.headline, design: .rounded))
                         .fontWeight(isCurrent ? .bold : .medium)
 
-                    Text(babySize.description.capitalized)
+                    Text(content.babySizeLabel.localizedCapitalized)
                         .font(.system(.caption, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -77,7 +82,7 @@ struct WeekRow: View {
                 Spacer()
 
                 if isCurrent {
-                    Text("Aquí estás")
+                    Text("journey.youAreHere")
                         .font(.system(.caption2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)

@@ -1,0 +1,462 @@
+{
+  "schemaVersion" : 1,
+  "locale" : "en",
+  "revision" : 1,
+  "weeks" : [
+    {
+      "week" : 6,
+      "babySize" : "lentil",
+      "babySizeLabel" : "a lentil",
+      "milestoneTitle" : "Neural Tube Closure and Early Cardiac Pulsation",
+      "keyEvents" : [
+        "The structure that will become the brain and spinal cord is closing step by step.",
+        "The tiny heart begins to fold and take the shape it will later have.",
+        "The first visible heartbeats may already appear on an early ultrasound.",
+        "The small body starts moving the blood it needs to keep growing."
+      ],
+      "physiologicalImpact" : "Neural closure prevents major defects such as anencephaly or spina bifida, and the early heartbeat sustains rapid growth."
+    },
+    {
+      "week" : 7,
+      "babySize" : "blueberry",
+      "babySizeLabel" : "a blueberry",
+      "milestoneTitle" : "Accelerated Cephalization and Limb Specialization",
+      "keyEvents" : [
+        "The head grows very quickly because the brain is advancing at high speed.",
+        "The areas that will later become the nose and eyes begin to take shape.",
+        "The first structures related to taste start to appear.",
+        "The arms look like tiny paddles and the legs keep lengthening."
+      ],
+      "physiologicalImpact" : "Priority growth of the head speeds up the organization of the central nervous system and the basis of early sensory function."
+    },
+    {
+      "week" : 8,
+      "babySize" : "raspberry",
+      "babySizeLabel" : "a raspberry",
+      "milestoneTitle" : "Facial Morphogenesis and Finger Separation",
+      "keyEvents" : [
+        "The body begins to look a little straighter and less curved than at the beginning.",
+        "The lungs take important steps by forming their first internal branches.",
+        "The fingers begin to separate and look more defined.",
+        "The face starts taking shape with a growing nose, upper lip and ears."
+      ],
+      "physiologicalImpact" : "Finger separation and lung branching are critical for future fine motor and respiratory function."
+    },
+    {
+      "week" : 9,
+      "babySize" : "cherry",
+      "babySizeLabel" : "a cherry",
+      "milestoneTitle" : "Chondrogenesis and Completion of Essential Organs",
+      "keyEvents" : [
+        "The foundation of the main organs is already in place and will keep maturing over the coming months.",
+        "The arms bend better and elbows and wrists can already be distinguished.",
+        "The toes can already be seen separated.",
+        "The eyelids begin to close to protect the eyes while they keep developing."
+      ],
+      "physiologicalImpact" : "The phase of basic anatomical setup closes and a stage of progressive tissue maturation begins."
+    },
+    {
+      "week" : 10,
+      "babySize" : "strawberry",
+      "babySizeLabel" : "a strawberry",
+      "milestoneTitle" : "Transition to the Fetal Stage and Intestinal Rotation",
+      "keyEvents" : [
+        "The baby leaves the embryonic stage behind and officially enters the fetal stage.",
+        "The intestines begin settling into the place they should occupy inside the abdomen.",
+        "The eyelids remain closed for a while to keep protecting the eyes.",
+        "The heartbeat can already be heard with medical tools such as a Doppler."
+      ],
+      "physiologicalImpact" : "Intestinal return corrects physiological herniation and consolidates the final abdominal anatomy."
+    },
+    {
+      "week" : 11,
+      "babySize" : "fig",
+      "babySizeLabel" : "a fig",
+      "milestoneTitle" : "Hepatic Hematopoiesis and Sexual Differentiation",
+      "keyEvents" : [
+        "The head is still large in proportion because the brain keeps growing strongly.",
+        "The liver takes center stage and helps produce blood cells.",
+        "The external genitals begin to orient toward male or female features.",
+        "The hands can already make small movements, like closing into a tiny fist."
+      ],
+      "physiologicalImpact" : "The shift of blood-cell production to the liver keeps oxygen delivery adequate during rapid tissue expansion."
+    },
+    {
+      "week" : 12,
+      "babySize" : "plum",
+      "babySizeLabel" : "a plum",
+      "milestoneTitle" : "Nail Bed and Tooth Formation",
+      "keyEvents" : [
+        "The foundations of the fingernails and toenails begin to form.",
+        "The eyes gradually move closer to the center of the face.",
+        "The ears continue moving upward toward their final position.",
+        "Under the gums, the future baby teeth are already getting ready."
+      ],
+      "physiologicalImpact" : "Highly detailed facial and limb structures continue refining before sustained fetal growth takes over."
+    },
+    {
+      "week" : 13,
+      "babySize" : "peach",
+      "babySizeLabel" : "a peach",
+      "milestoneTitle" : "Fluid Self-Regulation and Endochondral Ossification",
+      "keyEvents" : [
+        "The kidneys begin producing urine and taking part in balancing amniotic fluid.",
+        "The baby swallows amniotic fluid, which is important for practice and continued maturation.",
+        "The little bones begin hardening little by little.",
+        "The legs and head keep strengthening their initial bone structure."
+      ],
+      "physiologicalImpact" : "Fetal kidney function starts determining much of the amniotic fluid volume."
+    },
+    {
+      "week" : 14,
+      "babySize" : "lemon",
+      "babySizeLabel" : "a lemon",
+      "milestoneTitle" : "Hematopoietic Expansion and Sexual Visibility",
+      "keyEvents" : [
+        "The neck lengthens and the body starts looking more proportionate.",
+        "The spleen joins the task of helping form red blood cells.",
+        "Sex may start to be seen more clearly on an ultrasound.",
+        "The baby now reaches a much more recognizable size and weight for this stage."
+      ],
+      "physiologicalImpact" : "The spleen strengthens blood-forming capacity as metabolic demand keeps rising."
+    },
+    {
+      "week" : 15,
+      "babySize" : "apple",
+      "babySizeLabel" : "an apple",
+      "milestoneTitle" : "Bone Mineralization and Follicular Patterns",
+      "keyEvents" : [
+        "The bones keep getting stronger and are easier to see on ultrasounds.",
+        "Hair growth patterns on the scalp begin to appear.",
+        "The skin is still very thin and lets the tiny vessels underneath show through.",
+        "The body keeps gaining shape with an increasingly firm structure."
+      ],
+      "physiologicalImpact" : "Progressive mineralization increases mechanical support for continuous body growth."
+    },
+    {
+      "week" : 16,
+      "babySize" : "avocado",
+      "babySizeLabel" : "an avocado",
+      "milestoneTitle" : "Early Eye Movement and Ear Positioning",
+      "keyEvents" : [
+        "The eyes can already make small movements even though the eyelids remain closed.",
+        "The ears are almost in their final position.",
+        "The arms and legs move with more coordination.",
+        "You may still not feel those movements because the baby is still small and floats easily."
+      ],
+      "physiologicalImpact" : "Neuromuscular maturation improves motor coordination, even if it is not yet felt consistently."
+    },
+    {
+      "week" : 17,
+      "babySize" : "pear",
+      "babySizeLabel" : "a pear",
+      "milestoneTitle" : "High Cardiac Output and Toenail Development",
+      "keyEvents" : [
+        "The heart works with tremendous energy to carry blood throughout the body.",
+        "Toenails begin to develop as well.",
+        "There is still plenty of space to move, turn and change position.",
+        "Every movement and every heartbeat helps the organs keep getting stronger."
+      ],
+      "physiologicalImpact" : "High cardiac output sustains organ perfusion during a phase of intense expansion and growth."
+    },
+    {
+      "week" : 18,
+      "babySize" : "bellPepper",
+      "babySizeLabel" : "a bell pepper",
+      "milestoneTitle" : "First Sensory Bridge and Digestive Practice",
+      "keyEvents" : [
+        "The baby begins to hear the sounds that will accompany each day inside you.",
+        "Heartbeat, intestinal noises and the constant movement of your body can already be perceived.",
+        "The eyes continue shifting into a more frontal position.",
+        "The digestive system begins practicing gentle movements while swallowing amniotic fluid."
+      ],
+      "physiologicalImpact" : "Functional fetal hearing becomes established and early gastrointestinal motility improves."
+    },
+    {
+      "week" : 19,
+      "babySize" : "mango",
+      "babySizeLabel" : "a mango",
+      "milestoneTitle" : "Vernix Caseosa and Reproductive Canal Development",
+      "keyEvents" : [
+        "The skin begins to be covered by a white creamy layer called vernix.",
+        "That coating protects from continuous contact with amniotic fluid.",
+        "The natural barrier against the outside world inside the uterus grows stronger.",
+        "In girls, the uterus and vaginal canal keep taking shape."
+      ],
+      "physiologicalImpact" : "This lipid-rich skin protection preserves skin integrity during prolonged intra-amniotic immersion."
+    },
+    {
+      "week" : 20,
+      "babySize" : "sweetPotato",
+      "babySizeLabel" : "a sweet potato",
+      "milestoneTitle" : "Gestational Midpoint, Quickening and Circadian Rhythms",
+      "keyEvents" : [
+        "You reach the halfway point of pregnancy and the baby already has more strength to make its presence known.",
+        "You may very well begin to feel the first movements clearly.",
+        "Small cycles of sleep and wakefulness begin to organize.",
+        "Strong sounds or vibrations can already trigger movement or wakefulness."
+      ],
+      "physiologicalImpact" : "Maternal perception of movement reflects greater motor strength and neurobehavioral maturity."
+    },
+    {
+      "week" : 21,
+      "babySize" : "carrot",
+      "babySizeLabel" : "a carrot",
+      "milestoneTitle" : "Protective Lanugo and Sucking Reflex",
+      "keyEvents" : [
+        "The body is covered with a very fine hair called lanugo.",
+        "That hair helps the vernix stay attached to the skin.",
+        "The baby starts practicing sucking by bringing a hand or finger to the mouth.",
+        "Hearing gets better too, and amniotic fluid is swallowed more often."
+      ],
+      "physiologicalImpact" : "Brainstem coordination of the mouth and face prepares for newborn feeding and improves skin protection."
+    },
+    {
+      "week" : 22,
+      "babySize" : "banana",
+      "babySizeLabel" : "a banana",
+      "milestoneTitle" : "Brown Fat Thermogenesis, Testicular Descent and Meconium",
+      "keyEvents" : [
+        "The body begins storing a special type of fat that will help preserve heat after birth.",
+        "In boys, the testicles begin their descent toward the scrotal area.",
+        "Meconium starts to accumulate in the intestine and will become the first stool.",
+        "The heart can already be heard even with simpler instruments during a visit."
+      ],
+      "physiologicalImpact" : "Brown fat improves thermal response at birth, and meconium confirms active fetal digestion."
+    },
+    {
+      "week" : 23,
+      "babySize" : "eggplant",
+      "babySizeLabel" : "an eggplant",
+      "milestoneTitle" : "Fingerprints, REM Sleep and Diaphragmatic Spasms",
+      "keyEvents" : [
+        "Fingerprints are forming and will stay for life.",
+        "More advanced sleep phases begin to appear, including REM sleep.",
+        "Small hiccups may happen in the uterus while breathing movements are practiced.",
+        "The brain keeps organizing itself with tremendous activity."
+      ],
+      "physiologicalImpact" : "REM sleep and fetal hiccups reflect neurological maturation and early respiratory training."
+    },
+    {
+      "week" : 24,
+      "babySize" : "corn",
+      "babySizeLabel" : "an ear of corn",
+      "milestoneTitle" : "Translucent Skin and Immature Skin Architecture",
+      "keyEvents" : [
+        "The skin is still thin and still lacks fat underneath to look fuller.",
+        "That is why it can look wrinkled and reddish.",
+        "Blood vessels can be seen easily through the skin.",
+        "The baby keeps gaining weight and presence inside the uterus."
+      ],
+      "physiologicalImpact" : "Immature subcutaneous tissue keeps the skin delicate despite steady fetal weight gain."
+    },
+    {
+      "week" : 25,
+      "babySize" : "cauliflower",
+      "babySizeLabel" : "a cauliflower",
+      "milestoneTitle" : "Audio-Motor Integration and Bone Marrow Hematopoiesis",
+      "keyEvents" : [
+        "Sounds from outside, including your voice, are recognized better and better.",
+        "Those familiar sounds can trigger movement in response.",
+        "Bone marrow begins taking over the production of blood cells.",
+        "The lungs continue preparing little by little for the moment of breathing."
+      ],
+      "physiologicalImpact" : "The move of blood-cell production to the bone marrow establishes autonomous and sustained blood formation."
+    },
+    {
+      "week" : 26,
+      "babySize" : "zucchini",
+      "babySizeLabel" : "a zucchini",
+      "milestoneTitle" : "Alveolar Surfactant and Protective Reflexes",
+      "keyEvents" : [
+        "The lungs keep maturing and begin preparing the tiny sacs where air will enter.",
+        "A key substance starts being produced so those lungs can open well at birth.",
+        "The body practices startle responses to intense noises.",
+        "Each week adds a little more preparation for life outside the uterus."
+      ],
+      "physiologicalImpact" : "Initial surfactant production improves respiratory viability, although it is still an early stage."
+    },
+    {
+      "week" : 27,
+      "babySize" : "cucumber",
+      "babySizeLabel" : "a cucumber",
+      "milestoneTitle" : "Brain Folding and Subcutaneous Fat Storage",
+      "keyEvents" : [
+        "The brain keeps growing and forming more folds to gain capacity.",
+        "More fat begins to accumulate under the skin.",
+        "Because of that, the body starts to look a little less thin and wrinkled.",
+        "This marks a period of very intense growth before the later third trimester."
+      ],
+      "physiologicalImpact" : "Cortical expansion and fat reserves prepare postnatal neurological and energy needs."
+    },
+    {
+      "week" : 28,
+      "babySize" : "coconut",
+      "babySizeLabel" : "a coconut",
+      "milestoneTitle" : "Visual Awakening and Autonomic Control",
+      "keyEvents" : [
+        "The eyelids begin to open after many weeks closed.",
+        "Changes in light coming from outside can already be noticed.",
+        "The nervous system works better to regulate basic functions such as heart rhythm.",
+        "Practice breathing movements become more coordinated."
+      ],
+      "physiologicalImpact" : "Fetal visual interaction with the environment begins and self-regulation of vital functions improves."
+    },
+    {
+      "week" : 29,
+      "babySize" : "butternutSquash",
+      "babySizeLabel" : "a butternut squash",
+      "milestoneTitle" : "Intrauterine Breathing Rhythm and Safer Viability",
+      "keyEvents" : [
+        "The baby practices breathing movements inside the uterus more and more.",
+        "The chest and diaphragm move rhythmically for training.",
+        "That exercise helps the lungs keep maturing.",
+        "If birth happened early, the chances of doing well are already much better with medical support."
+      ],
+      "physiologicalImpact" : "Breathing practice and lung maturation raise the threshold of extrauterine viability."
+    },
+    {
+      "week" : 30,
+      "babySize" : "cabbage",
+      "babySizeLabel" : "a cabbage",
+      "milestoneTitle" : "Respiratory Consolidation and Behavioral Cycles",
+      "keyEvents" : [
+        "Rhythmic breathing practice continues as preparation for birth.",
+        "Clearer moments of rest and intense activity begin to appear.",
+        "The baby can stretch strongly and change position with energy.",
+        "The body gains more readiness to cope with an early arrival if it happened."
+      ],
+      "physiologicalImpact" : "Cardiorespiratory and behavioral stability improve early neonatal adaptability."
+    },
+    {
+      "week" : 31,
+      "babySize" : "bunchOfGrapes",
+      "babySizeLabel" : "a bunch of grapes",
+      "milestoneTitle" : "Intensive Mineral Uptake and Iron Reserves",
+      "keyEvents" : [
+        "The baby begins storing iron that will be useful after birth.",
+        "Calcium and phosphorus are also taken in to keep strengthening the bones.",
+        "The skeleton continues to harden week by week.",
+        "This is a stage of high nutrient demand to keep growing strongly."
+      ],
+      "physiologicalImpact" : "Iron and mineral reserves lower the risk of anemia and support bone maturity at birth."
+    },
+    {
+      "week" : 32,
+      "babySize" : "pineapple",
+      "babySizeLabel" : "a pineapple",
+      "milestoneTitle" : "Bone Strengthening and Functional Skull Flexibility",
+      "keyEvents" : [
+        "The bones keep getting stronger, especially in the arms and legs.",
+        "Even so, the bones of the head remain naturally separated.",
+        "That flexibility will be very important for passing through the birth canal.",
+        "The baby keeps making the most of the minerals received to mature."
+      ],
+      "physiologicalImpact" : "The balance between bone rigidity and skull flexibility supports vaginal birth mechanics."
+    },
+    {
+      "week" : 33,
+      "babySize" : "cantaloupe",
+      "babySizeLabel" : "a cantaloupe",
+      "milestoneTitle" : "Slower Length Growth and Fat Filling",
+      "keyEvents" : [
+        "Growth in length slows down and the focus turns more toward gaining weight.",
+        "Fat accumulates under the skin to look rounder and more prepared.",
+        "The body stores energy better for the first days outside the uterus.",
+        "With less space available, movements begin to feel different."
+      ],
+      "physiologicalImpact" : "Subcutaneous fat storage improves energy reserves and newborn temperature control."
+    },
+    {
+      "week" : 34,
+      "babySize" : "honeydew",
+      "babySizeLabel" : "a honeydew melon",
+      "milestoneTitle" : "Distal Nail Growth and Mechanical Movement Adaptation",
+      "keyEvents" : [
+        "Fingernails are already reaching close to the tips of the fingers.",
+        "The baby now weighs more and takes up much more room inside the uterus.",
+        "Because of that, big turns are no longer possible like before.",
+        "It is now more common to feel stretches, pressure and very specific pushes."
+      ],
+      "physiologicalImpact" : "Increased size shifts fetal mechanics toward more limited and focused movements."
+    },
+    {
+      "week" : 35,
+      "babySize" : "papaya",
+      "babySizeLabel" : "a papaya",
+      "milestoneTitle" : "Early Term and Initial Systemic Maturity",
+      "keyEvents" : [
+        "The baby now usually exceeds a weight that provides a better safety margin at birth.",
+        "The heart, muscles and bones are much more prepared for life outside the uterus.",
+        "The body would tolerate an early arrival better than it would have weeks before.",
+        "A stage is approaching in which maturity is already considered very advanced."
+      ],
+      "physiologicalImpact" : "Multisystem maturation reduces the need for major medical support in births close to term."
+    },
+    {
+      "week" : 36,
+      "babySize" : "winterSquash",
+      "babySizeLabel" : "a winter squash",
+      "milestoneTitle" : "Maximum Vernix and Preparation for Birth Passage",
+      "keyEvents" : [
+        "The skin is now very well protected by fat and by an abundant layer of vernix.",
+        "That coating will also help the baby slide better during labor.",
+        "The nervous system keeps refining basic control and rest functions.",
+        "The baby is putting the finishing touches on practical details for birth."
+      ],
+      "physiologicalImpact" : "Stronger skin protection improves dermal resilience and helps the mechanics of birth."
+    },
+    {
+      "week" : 37,
+      "babySize" : "bunchOfBananas",
+      "babySizeLabel" : "a bunch of bananas",
+      "milestoneTitle" : "Final Definition of Neurovascular Maturity",
+      "keyEvents" : [
+        "Sleep and activity rhythms become increasingly stable.",
+        "The body regulates important functions like blood pressure and circulation better.",
+        "Vital systems are ready to support themselves with much more autonomy.",
+        "The baby is now very close to being fully ready to meet you."
+      ],
+      "physiologicalImpact" : "Neurohemodynamic stability improves cardiorespiratory adaptation at birth."
+    },
+    {
+      "week" : 38,
+      "babySize" : "smallWatermelon",
+      "babySizeLabel" : "a small watermelon",
+      "milestoneTitle" : "Lanugo Regression and Meconium Accumulation",
+      "keyEvents" : [
+        "Much of the fine hair that covered the body begins to disappear.",
+        "That hair passes into the amniotic fluid along with other natural skin debris.",
+        "By swallowing that fluid, the intestine keeps filling with meconium.",
+        "The baby is already in a stage fully compatible with term birth."
+      ],
+      "physiologicalImpact" : "Lanugo regression and increasing meconium reflect the final shift toward newborn physiology."
+    },
+    {
+      "week" : 39,
+      "babySize" : "watermelon",
+      "babySizeLabel" : "a watermelon",
+      "milestoneTitle" : "Distal Keratinization and Thick Scalp Hair",
+      "keyEvents" : [
+        "The nails may already extend a little beyond the fingertips.",
+        "Hair on the head can be quite abundant by now.",
+        "Only small traces of lanugo usually remain in certain areas.",
+        "The skin and overall appearance show maturity very close to birth."
+      ],
+      "physiologicalImpact" : "Maturity of nails, hair and skin coverage confirms the final stage of fetal skin development."
+    },
+    {
+      "week" : 40,
+      "babySize" : "pumpkin",
+      "babySizeLabel" : "a pumpkin",
+      "milestoneTitle" : "Somatic Peak and Preparation for Birth",
+      "keyEvents" : [
+        "The lungs are ready to expand with the first breaths.",
+        "The body prepares to clear the fluid that still remains in them before birth.",
+        "The baby usually settles lower, with the head well positioned for labor.",
+        "The entire body is ready to take the great step into life outside the uterus."
+      ],
+      "physiologicalImpact" : "Respiratory readiness and head descent support the transition to full-term birth."
+    }
+  ]
+}

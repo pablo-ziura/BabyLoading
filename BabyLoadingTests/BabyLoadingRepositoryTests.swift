@@ -5,11 +5,17 @@ import Testing
 struct BabyLoadingRepositoryTests {
     private var repository: BabyProgressRepository
     private var mockDataSource: MockDataSource
+    private var mockContentRepository: MockPregnancyContentRepository
 
     init() {
         let dataSource = MockDataSource()
+        let contentRepository = MockPregnancyContentRepository()
         mockDataSource = dataSource
-        repository = BabyProgressRepository(dataSource: dataSource)
+        mockContentRepository = contentRepository
+        repository = BabyProgressRepository(
+            dataSource: dataSource,
+            contentRepository: contentRepository
+        )
     }
 
     @Test func getEventDate_WhenDateExists_ReturnsDate() {
@@ -78,5 +84,49 @@ struct BabyLoadingRepositoryTests {
         let days = repository.daysUntilEvent()
 
         #expect(days == nil)
+    }
+
+    @Test func getCurrentWeekContent_WhenWeekExists_ReturnsWeekContent() {
+        let calendar = Calendar.current
+        let content = WeekContent(
+            week: 20,
+            babySize: .sweetPotato,
+            babySizeLabel: "un boniato",
+            milestoneTitle: "Semana 20",
+            keyEvents: ["Evento"],
+            physiologicalImpact: "Impacto"
+        )
+        mockContentRepository.snapshot = PregnancyContentDocument(
+            schemaVersion: 1,
+            locale: "es",
+            revision: 1,
+            weeks: [content]
+        )
+        mockDataSource.storedDate = calendar.date(byAdding: .day, value: -(20 * 7), to: .now)
+
+        let result = repository.getCurrentWeekContent()
+
+        #expect(result == content)
+    }
+
+    @Test func getAllWeekContent_ReturnsAllContent() {
+        let content = WeekContent(
+            week: 22,
+            babySize: .banana,
+            babySizeLabel: "un plátano",
+            milestoneTitle: "Semana 22",
+            keyEvents: ["Evento"],
+            physiologicalImpact: nil
+        )
+        mockContentRepository.snapshot = PregnancyContentDocument(
+            schemaVersion: 1,
+            locale: "es",
+            revision: 1,
+            weeks: [content]
+        )
+
+        let result = repository.getAllWeekContent()
+
+        #expect(result == [content])
     }
 }

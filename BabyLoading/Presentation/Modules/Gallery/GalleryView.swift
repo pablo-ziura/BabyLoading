@@ -19,7 +19,7 @@ struct GalleryView: View {
 
             ScrollView {
                 VStack(spacing: 20) {
-                    Text("Galería de ecografías")
+                    Text("gallery.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
@@ -66,7 +66,7 @@ struct GalleryView: View {
                                     .font(.system(size: 32))
                                     .foregroundStyle(.white.opacity(0.7))
 
-                                Text("Añadir foto")
+                                Text("gallery.addPhoto")
                                     .font(.system(.caption, design: .rounded))
                                     .fontWeight(.medium)
                                     .foregroundStyle(.white.opacity(0.7))
@@ -89,11 +89,11 @@ struct GalleryView: View {
                                 .font(.system(size: 40))
                                 .foregroundStyle(.white.opacity(0.4))
 
-                            Text("Aquí aparecerán tus ecografías 📸")
+                            Text("gallery.emptyTitle")
                                 .font(.system(.body, design: .rounded))
                                 .foregroundStyle(.white.opacity(0.6))
 
-                            Text("Toca el + para subir tu primera foto")
+                            Text("gallery.emptySubtitle")
                                 .font(.system(.caption, design: .rounded))
                                 .foregroundStyle(.white.opacity(0.4))
                         }
