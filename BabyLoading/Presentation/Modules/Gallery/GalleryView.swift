@@ -5,13 +5,20 @@ import SwiftUI
 #endif
 
 struct GalleryView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     var viewModel: BabyProgressViewModel
     @State private var selectedItems: [PhotosPickerItem] = []
 
-    private let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12),
-    ]
+    private var columns: [GridItem] {
+        if dynamicTypeSize.isAccessibilitySize {
+            [GridItem(.flexible(), spacing: 12)]
+        } else {
+            [
+                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12),
+            ]
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -22,7 +29,9 @@ struct GalleryView: View {
                     Text("gallery.title")
                         .font(.system(.title2, design: .rounded))
                         .fontWeight(.bold)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
                         .padding(.top, 24)
 
 
@@ -36,6 +45,14 @@ struct GalleryView: View {
                                             Image(uiImage: uiImage)
                                                 .resizable()
                                                 .scaledToFill()
+                                                .accessibilityLabel(
+                                                    Text(
+                                                        photoAccessibilityLabel(
+                                                            index: index,
+                                                            total: viewModel.photosData.count
+                                                        )
+                                                    )
+                                                )
                                         }
                                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                                         .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
@@ -51,6 +68,15 @@ struct GalleryView: View {
                                             .foregroundStyle(.white, .black.opacity(0.5))
                                             .padding(8)
                                     }
+                                    .accessibilityLabel(
+                                        Text(
+                                            deletePhotoAccessibilityLabel(
+                                                index: index,
+                                                total: viewModel.photosData.count
+                                            )
+                                        )
+                                    )
+                                    .accessibilityHint(Text("accessibility.gallery.deletePhotoHint"))
                                 }
                                 .transition(.scale.combined(with: .opacity))
                             }
@@ -64,12 +90,13 @@ struct GalleryView: View {
                             VStack(spacing: 10) {
                                 Image(systemName: "plus.circle.fill")
                                     .font(.system(size: 32))
-                                    .foregroundStyle(.white.opacity(0.7))
+                                    .foregroundStyle(.primary.opacity(0.75))
+                                    .accessibilityHidden(true)
 
                                 Text("gallery.addPhoto")
                                     .font(.system(.caption, design: .rounded))
                                     .fontWeight(.medium)
-                                    .foregroundStyle(.white.opacity(0.7))
+                                    .foregroundStyle(.primary.opacity(0.75))
                             }
                             .frame(maxWidth: .infinity)
                             .frame(height: 180)
@@ -80,6 +107,7 @@ struct GalleryView: View {
                                     .strokeBorder(.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
                             )
                         }
+                        .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
                     }
                     .padding(.horizontal)
 
@@ -87,17 +115,19 @@ struct GalleryView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "photo.on.rectangle.angled")
                                 .font(.system(size: 40))
-                                .foregroundStyle(.white.opacity(0.4))
+                                .foregroundStyle(.primary.opacity(0.45))
+                                .accessibilityHidden(true)
 
                             Text("gallery.emptyTitle")
                                 .font(.system(.body, design: .rounded))
-                                .foregroundStyle(.white.opacity(0.6))
+                                .foregroundStyle(.primary.opacity(0.8))
 
                             Text("gallery.emptySubtitle")
                                 .font(.system(.caption, design: .rounded))
-                                .foregroundStyle(.white.opacity(0.4))
+                                .foregroundStyle(.secondary)
                         }
                         .padding(.top, 40)
+                        .accessibilityElement(children: .combine)
                     }
 
                     Spacer(minLength: 100)
@@ -127,6 +157,30 @@ struct GalleryView: View {
                 selectedItems = []
             }
         }
+    }
+
+    private func photoAccessibilityLabel(index: Int, total: Int) -> String {
+        String(
+            format: String(
+                localized: "accessibility.gallery.photoPosition",
+                defaultValue: "Ultrasound photo %1$d of %2$d"
+            ),
+            locale: .current,
+            index + 1,
+            total
+        )
+    }
+
+    private func deletePhotoAccessibilityLabel(index: Int, total: Int) -> String {
+        String(
+            format: String(
+                localized: "accessibility.gallery.deletePhoto",
+                defaultValue: "Delete photo %1$d of %2$d"
+            ),
+            locale: .current,
+            index + 1,
+            total
+        )
     }
 }
 
