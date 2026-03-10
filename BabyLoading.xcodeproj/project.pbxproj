@@ -45,13 +45,13 @@
 
 /* Begin PBXFileReference section */
 		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
-		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyLoadingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabyProgressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
+		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -69,11 +69,27 @@
 				App/WidgetReloader.swift,
 				Data/BabyProgressDataSource.swift,
 				Data/BabyProgressRepository.swift,
+				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
+				Data/Content/Models/PregnancyContentDocument.swift,
+				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
+				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
+				Data/Content/Models/PregnancyContentValidationError.swift,
+				Data/Content/Models/WeekContent.swift,
+				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
+				Data/Content/Repositories/PregnancyContentRepository.swift,
+				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
+				Data/Content/Sources/BundleContentSource.swift,
+				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
+				Data/Content/Sources/RemoteContentSource.swift,
+				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
+				Data/Content/Stores/SharedContentCacheStore.swift,
+				Data/Infrastructure/SharedAppGroup.swift,
 				Domain/BabySize.swift,
 				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
+				"Resources/pregnancy-content.es.json",
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
@@ -84,11 +100,27 @@
 				App/WidgetReloader.swift,
 				Data/BabyProgressDataSource.swift,
 				Data/BabyProgressRepository.swift,
+				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
+				Data/Content/Models/PregnancyContentDocument.swift,
+				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
+				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
+				Data/Content/Models/PregnancyContentValidationError.swift,
+				Data/Content/Models/WeekContent.swift,
+				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
+				Data/Content/Repositories/PregnancyContentRepository.swift,
+				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
+				Data/Content/Sources/BundleContentSource.swift,
+				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
+				Data/Content/Sources/RemoteContentSource.swift,
+				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
+				Data/Content/Stores/SharedContentCacheStore.swift,
+				Data/Infrastructure/SharedAppGroup.swift,
 				Domain/BabySize.swift,
 				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
+				"Resources/pregnancy-content.es.json",
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
@@ -275,7 +307,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2620;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					DA1C91512F41F1E9003EC367 = {
 						CreatedOnToolsVersion = 26.2;
@@ -378,6 +410,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -407,6 +440,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -430,6 +464,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -440,6 +475,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -469,6 +505,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -485,6 +522,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -497,12 +535,14 @@
 				CODE_SIGN_ENTITLEMENTS = BabyLoading/App/BabyLoading.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -542,12 +582,14 @@
 				CODE_SIGN_ENTITLEMENTS = BabyLoading/App/BabyLoading.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -585,6 +627,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
@@ -611,6 +654,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;

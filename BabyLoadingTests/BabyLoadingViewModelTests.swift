@@ -20,7 +20,16 @@ struct BabyLoadingViewModelTests {
         let newDate = Date.now
         mockRepository.daysRemaining = 5
         mockRepository.pregnancyWeek = 20
-        mockRepository.babySize = .banana
+        let weekContent = WeekContent(
+            week: 20,
+            babySize: .banana,
+            babySizeLabel: "un plátano",
+            milestoneTitle: "Semana 20",
+            keyEvents: ["Evento"],
+            physiologicalImpact: nil
+        )
+        mockRepository.currentWeekContent = weekContent
+        mockRepository.allWeekContent = [weekContent]
 
         viewModel.updateDate(newDate)
 
@@ -33,8 +42,10 @@ struct BabyLoadingViewModelTests {
         #expect(mockRepository.getPregnancyWeekCalled)
         #expect(viewModel.pregnancyWeek == 20)
 
-        #expect(mockRepository.getBabySizeCalled)
-        #expect(viewModel.babySizeString == "un plátano")
+        #expect(mockRepository.getCurrentWeekContentCalled)
+        #expect(viewModel.currentWeekContent?.babySizeLabel == "un plátano")
+        #expect(mockRepository.getAllWeekContentCalled)
+        #expect(viewModel.allWeekContent == [weekContent])
 
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
@@ -58,5 +69,34 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.photoData == nil)
         #expect(mockRepository.deletePhotoCalled)
         #expect(mockRepository.storedPhotoData == nil)
+    }
+
+    @Test func refreshContentIfNeeded_WhenSnapshotChanges_ReloadsWidgetAndState() async throws {
+        let updatedContent = WeekContent(
+            week: 22,
+            babySize: .banana,
+            babySizeLabel: "un plátano",
+            milestoneTitle: "Semana 22",
+            keyEvents: ["Evento"],
+            physiologicalImpact: nil
+        )
+        mockRepository.contentSnapshot = .empty
+        mockRepository.refreshContentIfNeededHandler = {
+            self.mockRepository.contentSnapshot = PregnancyContentDocument(
+                schemaVersion: 1,
+                locale: "es",
+                revision: 2,
+                weeks: [updatedContent]
+            )
+            self.mockRepository.currentWeekContent = updatedContent
+            self.mockRepository.allWeekContent = [updatedContent]
+        }
+
+        await viewModel.refreshContentIfNeeded()
+
+        #expect(mockRepository.refreshContentIfNeededCalled)
+        #expect(viewModel.currentWeekContent == updatedContent)
+        #expect(viewModel.allWeekContent == [updatedContent])
+        #expect(mockReloader.reloadAllTimelinesCalled)
     }
 }

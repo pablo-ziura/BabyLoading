@@ -29,7 +29,7 @@ struct BabyProgressWidgetEntryView: View {
                     .font(.system(size: 15, weight: .heavy, design: .rounded))
                     .foregroundStyle(.white)
 
-                Text("El bebé 🤰🏽 ahora tiene el tamaño de \(entry.babySize.description)")
+                Text("El bebé 🤰🏽 ahora tiene el tamaño de \(entry.babySizeLabel)")
                     .font(.system(size: 11, weight: .medium, design: .rounded))
                     .foregroundStyle(.white.opacity(0.85))
                     .lineLimit(3)
@@ -88,7 +88,7 @@ struct BabyProgressWidgetEntryView: View {
                 .rotationEffect(.degrees(-90))
                 .frame(width: ringSize, height: ringSize)
 
-            Image("img_\(entry.babySize.rawValue.lowercased())")
+            Image(entry.babySize.imageName)
                 .resizable()
                 .scaledToFill()
                 .frame(width: imageSize, height: imageSize)

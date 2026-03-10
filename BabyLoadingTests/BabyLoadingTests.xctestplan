@@ -19,14 +19,6 @@
         "identifier" : "DA1C915E2F41F1EA003EC367",
         "name" : "BabyLoadingTests"
       }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:Packages\/AppNetwork",
-        "identifier" : "AppNetworkTests",
-        "name" : "AppNetworkTests"
-      }
     }
   ],
   "version" : 1
