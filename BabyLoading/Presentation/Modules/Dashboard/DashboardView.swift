@@ -23,6 +23,10 @@ struct DashboardView: View {
 
                     heroFruitSection
 
+                    Text("✨")
+                        .font(.title2)
+                        .opacity(0.5)
+
                     statsSection
 
                     developmentSection
@@ -136,15 +140,25 @@ struct DashboardView: View {
 
             if let fpp = viewModel.estimatedDueDate {
                 VStack(spacing: 6) {
-                    Text("Fecha probable de parto")
+                    Text("🎀  Fecha probable de parto")
                         .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.white.opacity(0.8))
                     Text(fpp.formatted(date: .long, time: .omitted))
                         .font(.system(.title3, design: .rounded))
                         .fontWeight(.semibold)
-                        .foregroundStyle(.pink)
+                        .foregroundStyle(.white)
                 }
-                .softCard()
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .shadow(color: .black.opacity(0.08), radius: 12, y: 6)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .strokeBorder(.white.opacity(0.35), lineWidth: 1)
+                )
                 .padding(.horizontal)
             }
         }
@@ -153,35 +167,66 @@ struct DashboardView: View {
     private var developmentSection: some View {
         Group {
             if let content = viewModel.currentWeekContent {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Desarrollo fetal")
-                        .font(.system(.caption, design: .rounded))
-                        .foregroundStyle(.secondary)
+                VStack(alignment: .leading, spacing: 16) {
+                    // Header
+                    HStack(spacing: 8) {
+                        Text("🐣")
+                            .font(.title2)
+                        Text(content.milestoneTitle)
+                            .font(.system(.headline, design: .rounded))
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                    }
 
-                    Text(content.milestoneTitle)
-                        .font(.system(.headline, design: .rounded))
-                        .fontWeight(.semibold)
-
+                    // Key events as chips
                     VStack(alignment: .leading, spacing: 8) {
                         ForEach(Array(content.keyEvents.enumerated()), id: \.offset) { _, event in
-                            HStack(alignment: .top, spacing: 6) {
-                                Text("•")
-                                    .foregroundStyle(.pink)
+                            HStack(alignment: .top, spacing: 8) {
+                                Text("✨")
+                                    .font(.caption)
                                 Text(event)
                                     .font(.system(.subheadline, design: .rounded))
-                                    .foregroundStyle(.primary.opacity(0.85))
+                                    .foregroundStyle(.primary.opacity(0.9))
                             }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(
+                                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                    .fill(.pink.opacity(0.08))
+                            )
                         }
                     }
 
+                    // Physiological impact callout
                     if let impact = content.physiologicalImpact {
-                        Text("Impacto fisiológico: \(impact)")
-                            .font(.system(.footnote, design: .rounded))
-                            .foregroundStyle(.secondary)
+                        HStack(alignment: .top, spacing: 8) {
+                            Text("💕")
+                                .font(.subheadline)
+                            Text(impact)
+                                .font(.system(.footnote, design: .rounded))
+                                .foregroundStyle(.primary.opacity(0.75))
+                        }
+                        .padding(12)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                .fill(.purple.opacity(0.06))
+                        )
                     }
                 }
-                .softCard()
-                .padding(.horizontal)
+                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(
+                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .shadow(color: .black.opacity(0.08), radius: 20, y: 10)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                        .strokeBorder(.white.opacity(0.4), lineWidth: 1)
+                )
+                .padding(.horizontal, 20)
             }
         }
     }
