@@ -1,7 +1,7 @@
 {
   "schemaVersion" : 1,
   "locale" : "es",
-  "revision" : 1,
+  "revision" : 2,
   "weeks" : [
     {
       "week" : 6,
@@ -9,10 +9,10 @@
       "babySizeLabel" : "una lenteja",
       "milestoneTitle" : "Cierre del Tubo Neural y Pulsación Cardiovascular",
       "keyEvents" : [
-        "La base que formara su cerebro y su medula espinal se esta cerrando paso a paso.",
-        "Su corazoncito empieza a doblarse y a tomar la forma que mas adelante tendra.",
-        "Ya pueden aparecer los primeros latidos visibles en una ecografia temprana.",
-        "Su pequeno cuerpo empieza a mover la sangre necesaria para seguir creciendo."
+        "La base que formará su cerebro y su médula espinal se está cerrando paso a paso.",
+        "Su corazoncito empieza a doblarse y a tomar la forma que más adelante tendrá.",
+        "Ya pueden aparecer los primeros latidos visibles en una ecografía temprana.",
+        "Su pequeño cuerpo empieza a mover la sangre necesaria para seguir creciendo."
       ],
       "physiologicalImpact" : "El cierre neural evita defectos graves como anencefalia o espina bífida, y el latido temprano sostiene el crecimiento acelerado."
     },
@@ -22,10 +22,10 @@
       "babySizeLabel" : "un arándano",
       "milestoneTitle" : "Cefalización Acelerada y Especialización Apendicular",
       "keyEvents" : [
-        "La cabecita de tu bebe crece muy rapido porque su cerebro esta avanzando a gran velocidad.",
-        "Empiezan a dibujarse las zonas que despues seran la nariz y los ojos.",
+        "La cabecita de tu bebé crece muy rápido porque su cerebro está avanzando a gran velocidad.",
+        "Empiezan a dibujarse las zonas que después serán la nariz y los ojos.",
         "Comienzan a aparecer las primeras estructuras relacionadas con el gusto.",
-        "Sus bracitos parecen pequenas palitas y sus piernas siguen alargandose."
+        "Sus bracitos parecen pequeñas palitas y sus piernas siguen alargándose."
       ],
       "physiologicalImpact" : "La prioridad cefálica acelera la organización del sistema nervioso central y la base de funciones sensoriales tempranas."
     },
@@ -35,9 +35,9 @@
       "babySizeLabel" : "una frambuesa",
       "milestoneTitle" : "Morfogénesis Facial y Separación Interdigital",
       "keyEvents" : [
-        "Su cuerpo empieza a verse un poco mas recto y menos curvado que al principio.",
+        "Su cuerpo empieza a verse un poco más recto y menos curvado que al principio.",
         "Sus pulmones dan pasos importantes al formar las primeras ramificaciones internas.",
-        "Sus deditos comienzan a separarse y a verse cada vez mas definidos.",
+        "Sus deditos comienzan a separarse y a verse cada vez más definidos.",
         "Su carita empieza a tomar forma con nariz, labio superior y orejitas en desarrollo."
       ],
       "physiologicalImpact" : "La apoptosis interdigital y la ramificación pulmonar son procesos críticos para la futura función motora fina y respiratoria."
@@ -48,10 +48,10 @@
       "babySizeLabel" : "una cereza",
       "milestoneTitle" : "Condrogénesis y Cierre de Órganos Esenciales",
       "keyEvents" : [
-        "La base de sus organos principales ya esta colocada y seguira madurando en los proximos meses.",
-        "Sus brazos se doblan mejor y ya se distinguen codos y munecas.",
+        "La base de sus órganos principales ya está colocada y seguirá madurando en los próximos meses.",
+        "Sus brazos se doblan mejor y ya se distinguen codos y muñecas.",
         "Los deditos de los pies ya pueden verse separados.",
-        "Sus parpados empiezan a cerrarse para proteger los ojitos mientras siguen formandose."
+        "Sus párpados empiezan a cerrarse para proteger los ojitos mientras siguen formándose."
       ],
       "physiologicalImpact" : "Se cierra la fase de establecimiento anatómico básico e inicia una etapa de maduración histológica progresiva."
     },
@@ -61,10 +61,10 @@
       "babySizeLabel" : "una fresa",
       "milestoneTitle" : "Transición a la Etapa Fetal y Rotación Intestinal",
       "keyEvents" : [
-        "Tu bebe deja atras la etapa embrionaria y entra oficialmente en la etapa fetal.",
+        "Tu bebé deja atrás la etapa embrionaria y entra oficialmente en la etapa fetal.",
         "Sus intestinos empiezan a colocarse en el lugar que les corresponde dentro del abdomen.",
-        "Sus parpados quedan cerrados por un tiempo para seguir protegiendo los ojos.",
-        "Su latido ya puede escucharse con herramientas medicas como el Doppler."
+        "Sus párpados quedan cerrados por un tiempo para seguir protegiendo los ojos.",
+        "Su latido ya puede escucharse con herramientas médicas como el Doppler."
       ],
       "physiologicalImpact" : "El retorno intestinal corrige la herniación fisiológica y consolida la anatomía abdominal definitiva."
     },
@@ -74,10 +74,10 @@
       "babySizeLabel" : "un higo",
       "milestoneTitle" : "Hematopoyesis Hepática y Dimorfismo Sexual",
       "keyEvents" : [
-        "Su cabeza sigue siendo grande en proporcion porque el cerebro continua creciendo con fuerza.",
-        "Su higado toma protagonismo y ayuda a producir las celulas de la sangre.",
+        "Su cabeza sigue siendo grande en proporción porque el cerebro continúa creciendo con fuerza.",
+        "Su hígado toma protagonismo y ayuda a producir las células de la sangre.",
         "Sus genitales externos empiezan a orientarse hacia rasgos masculinos o femeninos.",
-        "Sus manitas ya pueden hacer pequenos movimientos, como cerrarse en un punito."
+        "Sus manitas ya pueden hacer pequeños movimientos, como cerrarse en un puñito."
       ],
       "physiologicalImpact" : "El relevo hematopoyético hacia el hígado mantiene la oxigenación adecuada durante la expansión tisular acelerada."
     },
@@ -87,10 +87,10 @@
       "babySizeLabel" : "una ciruela",
       "milestoneTitle" : "Integumento Apendicular y Formación Dentaria",
       "keyEvents" : [
-        "Empiezan a formarse las bases de las unas de manos y pies.",
+        "Empiezan a formarse las bases de las uñas de manos y pies.",
         "Sus ojos se van moviendo hacia el centro de la carita.",
-        "Las orejitas siguen subiendo hasta acercarse a su posicion final.",
-        "Bajo las encias ya se estan preparando los futuros dientes de leche."
+        "Las orejitas siguen subiendo hasta acercarse a su posición final.",
+        "Bajo las encías ya se están preparando los futuros dientes de leche."
       ],
       "physiologicalImpact" : "Se refinan estructuras faciales y apendiculares de alta resolución anatómica previas al crecimiento fetal sostenido."
     },
@@ -100,10 +100,10 @@
       "babySizeLabel" : "un melocotón",
       "milestoneTitle" : "Autorregulación de Fluidos y Osificación Endocondral",
       "keyEvents" : [
-        "Sus rinones ya empiezan a producir orina y a participar en el equilibrio del liquido amniotico.",
-        "Tu bebe ya traga liquido amniotico, algo importante para practicar y seguir madurando.",
+        "Sus riñones ya empiezan a producir orina y a participar en el equilibrio del líquido amniótico.",
+        "Tu bebé ya traga líquido amniótico, algo importante para practicar y seguir madurando.",
         "Sus huesitos comienzan a endurecerse poco a poco.",
-        "Las piernas y la cabeza siguen fortaleciendo su estructura osea inicial."
+        "Las piernas y la cabeza siguen fortaleciendo su estructura ósea inicial."
       ],
       "physiologicalImpact" : "La función renal fetal pasa a determinar gran parte del volumen del líquido amniótico."
     },
@@ -113,10 +113,10 @@
       "babySizeLabel" : "un limón",
       "milestoneTitle" : "Expansión Hematopoyética y Evidencia Feno-Genital",
       "keyEvents" : [
-        "Su cuello se alarga y su cuerpo empieza a verse mas proporcionado.",
+        "Su cuello se alarga y su cuerpo empieza a verse más proporcionado.",
         "El bazo se suma a la tarea de ayudar a formar glóbulos rojos.",
-        "Su sexo puede empezar a verse con mas claridad en una ecografia.",
-        "Tu bebe ya alcanza un tamano y un peso mucho mas reconocibles para esta etapa."
+        "Su sexo puede empezar a verse con más claridad en una ecografía.",
+        "Tu bebé ya alcanza un tamaño y un peso mucho más reconocibles para esta etapa."
       ],
       "physiologicalImpact" : "La incorporación del bazo fortalece la capacidad hematopoyética ante la creciente demanda metabólica."
     },
@@ -126,10 +126,10 @@
       "babySizeLabel" : "una manzana",
       "milestoneTitle" : "Mineralización Ósea y Patrones Foliculares",
       "keyEvents" : [
-        "Sus huesos siguen fortaleciendose y cada vez se ven mejor en las ecografias.",
+        "Sus huesos siguen fortaleciéndose y cada vez se ven mejor en las ecografías.",
         "Empiezan a marcarse los patrones de crecimiento del cabello en la cabeza.",
         "Su piel sigue siendo muy finita y deja ver los vasitos que pasan por debajo.",
-        "Su cuerpo sigue ganando forma con una estructura cada vez mas firme."
+        "Su cuerpo sigue ganando forma con una estructura cada vez más firme."
       ],
       "physiologicalImpact" : "La mineralización progresiva incrementa el soporte mecánico para el crecimiento corporal continuo."
     },
@@ -139,10 +139,10 @@
       "babySizeLabel" : "un aguacate",
       "milestoneTitle" : "Oculomotricidad Temprana y Posicionamiento Auricular",
       "keyEvents" : [
-        "Sus ojitos ya pueden hacer pequenos movimientos aunque los parpados sigan cerrados.",
-        "Las orejitas estan llegando casi a su lugar definitivo.",
-        "Sus brazos y piernas se mueven con mas coordinacion.",
-        "Aun es posible que no notes esos movimientos porque tu bebe sigue siendo pequeno y flota con facilidad."
+        "Sus ojitos ya pueden hacer pequeños movimientos aunque los párpados sigan cerrados.",
+        "Las orejitas están llegando casi a su lugar definitivo.",
+        "Sus brazos y piernas se mueven con más coordinación.",
+        "Aún es posible que no notes esos movimientos porque tu bebé sigue siendo pequeño y flota con facilidad."
       ],
       "physiologicalImpact" : "La maduración neuromuscular mejora la coordinación motora, aunque sin percepción materna consistente todavía."
     },
@@ -152,10 +152,10 @@
       "babySizeLabel" : "una pera",
       "milestoneTitle" : "Gasto Cardíaco Elevado y Desarrollo Ungueal Pedio",
       "keyEvents" : [
-        "Su corazon trabaja con muchisima energia para llevar sangre a todo su cuerpo.",
-        "Las unas de los pies empiezan a desarrollarse tambien.",
-        "Todavia tiene bastante espacio para moverse, girar y cambiar de postura.",
-        "Cada movimiento y cada latido ayudan a que sus organos sigan fortaleciendose."
+        "Su corazón trabaja con muchísima energía para llevar sangre a todo su cuerpo.",
+        "Las uñas de los pies empiezan a desarrollarse también.",
+        "Todavía tiene bastante espacio para moverse, girar y cambiar de postura.",
+        "Cada movimiento y cada latido ayudan a que sus órganos sigan fortaleciéndose."
       ],
       "physiologicalImpact" : "El alto gasto cardíaco sostiene la perfusión de órganos en plena expansión y crecimiento."
     },
@@ -165,10 +165,10 @@
       "babySizeLabel" : "un pimiento",
       "milestoneTitle" : "Primer Puente Sensorial y Funcionalidad Digestiva",
       "keyEvents" : [
-        "Tu bebe empieza a oir los sonidos que lo acompanaran cada dia dentro de ti.",
+        "Tu bebé empieza a oír los sonidos que lo acompañarán cada día dentro de ti.",
         "Puede percibir latidos, ruidos intestinales y el movimiento constante de tu cuerpo.",
-        "Sus ojos siguen colocandose en una posicion mas frontal.",
-        "Su sistema digestivo empieza a practicar movimientos suaves al tragar liquido amniotico."
+        "Sus ojos siguen colocándose en una posición más frontal.",
+        "Su sistema digestivo empieza a practicar movimientos suaves al tragar líquido amniótico."
       ],
       "physiologicalImpact" : "Se establece la audición fetal funcional y mejora la motilidad gastrointestinal temprana."
     },
@@ -179,9 +179,9 @@
       "milestoneTitle" : "Vérnix Caseosa y Canalización Reproductiva",
       "keyEvents" : [
         "Su piel empieza a cubrirse con una capita blanca y cremosa llamada vernix.",
-        "Esa capa lo protege del contacto continuo con el liquido amniotico.",
-        "Su barrera natural frente al exterior dentro del utero se vuelve mas fuerte.",
-        "En las ninas, el utero y el canal vaginal siguen tomando forma."
+        "Esa capa lo protege del contacto continuo con el líquido amniótico.",
+        "Su barrera natural frente al exterior dentro del útero se vuelve más fuerte.",
+        "En las niñas, el útero y el canal vaginal siguen tomando forma."
       ],
       "physiologicalImpact" : "La protección dérmica lipídica preserva la integridad cutánea durante la inmersión intraamniótica prolongada."
     },
@@ -191,9 +191,9 @@
       "babySizeLabel" : "un boniato",
       "milestoneTitle" : "Ecuador Gestacional, Quickening y Ritmos Circadianos",
       "keyEvents" : [
-        "Llegais a la mitad del embarazo y tu bebe ya tiene mas fuerza para hacerse notar.",
+        "Llegáis a la mitad del embarazo y tu bebé ya tiene más fuerza para hacerse notar.",
         "Es muy posible que empieces a sentir sus primeros movimientos con claridad.",
-        "Empieza a organizar pequenos ciclos de sueno y vigilia.",
+        "Empieza a organizar pequeños ciclos de sueño y vigilia.",
         "Los sonidos o vibraciones fuertes ya pueden provocar que se mueva o despierte."
       ],
       "physiologicalImpact" : "La percepción materna del movimiento refleja mayor fuerza motora y madurez neuroconductual."
@@ -206,8 +206,8 @@
       "keyEvents" : [
         "Su cuerpo se cubre de un vello muy fino llamado lanugo.",
         "Ese vello ayuda a que la vernix se mantenga bien pegada a su piel.",
-        "Tu bebe empieza a practicar la succion llevando la mano o el dedo a la boca.",
-        "Tambien oye mejor y traga con mas frecuencia el liquido amniotico."
+        "Tu bebé empieza a practicar la succión llevando la mano o el dedo a la boca.",
+        "También oye mejor y traga con más frecuencia el líquido amniótico."
       ],
       "physiologicalImpact" : "La coordinación troncoencefálica orofacial prepara la alimentación neonatal y mejora la protección cutánea."
     },
@@ -217,10 +217,10 @@
       "babySizeLabel" : "un plátano",
       "milestoneTitle" : "Termogénesis Parda, Descenso Testicular y Meconio",
       "keyEvents" : [
-        "Su cuerpo empieza a guardar una grasa especial que le ayudara a conservar calor al nacer.",
-        "En los ninos, los testiculos empiezan su descenso hacia la zona escrotal.",
-        "En su intestino comienza a acumularse el meconio, que sera su primera caquita.",
-        "Su corazon ya puede escucharse incluso con instrumentos mas sencillos en consulta."
+        "Su cuerpo empieza a guardar una grasa especial que le ayudará a conservar calor al nacer.",
+        "En los niños, los testículos empiezan su descenso hacia la zona escrotal.",
+        "En su intestino comienza a acumularse el meconio, que será su primera caquita.",
+        "Su corazón ya puede escucharse incluso con instrumentos más sencillos en consulta."
       ],
       "physiologicalImpact" : "La grasa parda mejora la respuesta térmica al nacer y el meconio evidencia actividad digestiva fetal."
     },
@@ -230,10 +230,10 @@
       "babySizeLabel" : "una berenjena",
       "milestoneTitle" : "Dermatoglifos, Sueño REM y Espasmos Diafragmáticos",
       "keyEvents" : [
-        "Se estan formando las huellas dactilares que lo acompanaran toda la vida.",
-        "Empiezan a aparecer fases de sueno mas avanzadas, incluyendo el sueno REM.",
-        "Puede tener pequenos hipos dentro del utero mientras practica movimientos respiratorios.",
-        "Su cerebro sigue organizandose con muchisima actividad."
+        "Se están formando las huellas dactilares que lo acompañarán toda la vida.",
+        "Empiezan a aparecer fases de sueño más avanzadas, incluyendo el sueño REM.",
+        "Puede tener pequeños hipos dentro del útero mientras practica movimientos respiratorios.",
+        "Su cerebro sigue organizándose con muchísima actividad."
       ],
       "physiologicalImpact" : "El sueño REM y el hipo fetal reflejan maduración neurológica y entrenamiento respiratorio temprano."
     },
@@ -243,10 +243,10 @@
       "babySizeLabel" : "una mazorca de maíz",
       "milestoneTitle" : "Piel Translúcida y Arquitectura Tegumentaria Inmadura",
       "keyEvents" : [
-        "Su piel sigue siendo fina y aun le falta grasa por debajo para verse mas rellena.",
+        "Su piel sigue siendo fina y aún le falta grasa por debajo para verse más rellena.",
         "Por eso puede verse arrugadita y con un tono rojizo.",
-        "Los vasos sanguineos se transparentan con facilidad a traves de la piel.",
-        "Tu bebe sigue ganando peso y presencia dentro del utero."
+        "Los vasos sanguíneos se transparentan con facilidad a través de la piel.",
+        "Tu bebé sigue ganando peso y presencia dentro del útero."
       ],
       "physiologicalImpact" : "La inmadurez del tejido subcutáneo mantiene fragilidad cutánea pese al incremento de peso fetal."
     },
@@ -258,8 +258,8 @@
       "keyEvents" : [
         "Cada vez reconoce mejor los sonidos que oye desde fuera, incluida tu voz.",
         "Esos sonidos familiares pueden hacer que se mueva en respuesta.",
-        "La medula osea empieza a tomar el relevo en la formacion de las celulas de la sangre.",
-        "Sus pulmones siguen preparandose poco a poco para el momento de respirar."
+        "La médula ósea empieza a tomar el relevo en la formación de las células de la sangre.",
+        "Sus pulmones siguen preparándose poco a poco para el momento de respirar."
       ],
       "physiologicalImpact" : "El relevo hematopoyético a médula ósea establece producción sanguínea autónoma y sostenida."
     },
@@ -269,10 +269,10 @@
       "babySizeLabel" : "un calabacín",
       "milestoneTitle" : "Surfactante Alveolar y Reflejos de Protección",
       "keyEvents" : [
-        "Sus pulmones siguen madurando y ya empiezan a preparar las pequenas bolsitas donde entrara el aire.",
+        "Sus pulmones siguen madurando y ya empiezan a preparar las pequeñas bolsitas donde entrará el aire.",
         "Comienza a producir una sustancia clave para que esos pulmones puedan abrirse bien al nacer.",
         "Su cuerpo ensaya respuestas de sobresalto ante ruidos intensos.",
-        "Cada semana suma un poco mas de preparacion para la vida fuera del utero."
+        "Cada semana suma un poco más de preparación para la vida fuera del útero."
       ],
       "physiologicalImpact" : "La producción inicial de surfactante mejora viabilidad respiratoria, aunque aún en fase prematura."
     },
@@ -282,10 +282,10 @@
       "babySizeLabel" : "un pepino",
       "milestoneTitle" : "Giroencefalización y Acumulación Subcutánea",
       "keyEvents" : [
-        "Su cerebro sigue creciendo y formando mas pliegues para ganar capacidad.",
-        "Empieza a acumular mas grasa bajo la piel.",
+        "Su cerebro sigue creciendo y formando más pliegues para ganar capacidad.",
+        "Empieza a acumular más grasa bajo la piel.",
         "Gracias a eso, su cuerpo comienza a verse un poco menos delgado y arrugado.",
-        "Tu bebe entra en una etapa de crecimiento muy intensa antes del tercer trimestre avanzado."
+        "Tu bebé entra en una etapa de crecimiento muy intensa antes del tercer trimestre avanzado."
       ],
       "physiologicalImpact" : "La expansión cortical y la reserva adiposa preparan funciones neurológicas y energéticas posnatales."
     },
@@ -295,10 +295,10 @@
       "babySizeLabel" : "un coco",
       "milestoneTitle" : "Despertar Visual y Control Neurovegetativo",
       "keyEvents" : [
-        "Sus parpados empiezan a abrirse despues de muchas semanas cerrados.",
+        "Sus párpados empiezan a abrirse después de muchas semanas cerrados.",
         "Ya puede notar cambios de luz que llegan desde el exterior.",
-        "Su sistema nervioso trabaja mejor para regular funciones basicas como el ritmo cardiaco.",
-        "Sus movimientos respiratorios de practica se vuelven mas coordinados."
+        "Su sistema nervioso trabaja mejor para regular funciones básicas como el ritmo cardíaco.",
+        "Sus movimientos respiratorios de práctica se vuelven más coordinados."
       ],
       "physiologicalImpact" : "Se inaugura la interacción visual fetal con el entorno y mejora la autorregulación de constantes vitales."
     },
@@ -308,10 +308,10 @@
       "babySizeLabel" : "una calabaza cacahuete",
       "milestoneTitle" : "Rítmica Respiratoria Intracavitaria y Viabilidad Segura",
       "keyEvents" : [
-        "Tu bebe practica cada vez mas los movimientos de respirar dentro del utero.",
+        "Tu bebé practica cada vez más los movimientos de respirar dentro del útero.",
         "Su pecho y su diafragma se mueven con ritmo para entrenarse.",
         "Ese ejercicio ayuda a que sus pulmones sigan madurando.",
-        "Si naciera antes de tiempo, sus probabilidades de salir adelante ya son mucho mejores con apoyo medico."
+        "Si naciera antes de tiempo, sus probabilidades de salir adelante ya son mucho mejores con apoyo médico."
       ],
       "physiologicalImpact" : "La práctica respiratoria y la maduración pulmonar elevan el umbral de viabilidad extrauterina."
     },
@@ -321,9 +321,9 @@
       "babySizeLabel" : "un repollo",
       "milestoneTitle" : "Consolidación Respiratoria y Ciclos Conductuales",
       "keyEvents" : [
-        "Sigue practicando la respiracion de forma ritmica como preparacion para el nacimiento.",
-        "Empieza a tener momentos mas claros de descanso y de actividad intensa.",
-        "Puede estirarse con fuerza y cambiar de postura con energia.",
+        "Sigue practicando la respiración de forma rítmica como preparación para el nacimiento.",
+        "Empieza a tener momentos más claros de descanso y de actividad intensa.",
+        "Puede estirarse con fuerza y cambiar de postura con energía.",
         "Su cuerpo gana seguridad para afrontar cada vez mejor una llegada anticipada si ocurriera."
       ],
       "physiologicalImpact" : "La estabilidad cardiorrespiratoria y conductual mejora la capacidad de adaptación neonatal temprana."
@@ -334,9 +334,9 @@
       "babySizeLabel" : "un racimo de uvas",
       "milestoneTitle" : "Captación Mineral Intensiva y Reserva de Hierro",
       "keyEvents" : [
-        "Tu bebe empieza a guardar hierro que le servira despues del nacimiento.",
-        "Tambien toma calcio y fosforo para seguir fortaleciendo sus huesos.",
-        "Su esqueleto continua endureciendose semana a semana.",
+        "Tu bebé empieza a guardar hierro que le servirá después del nacimiento.",
+        "También toma calcio y fósforo para seguir fortaleciendo sus huesos.",
+        "Su esqueleto continúa endureciéndose semana a semana.",
         "Es una etapa de gran demanda de nutrientes para seguir creciendo con fuerza."
       ],
       "physiologicalImpact" : "Las reservas de hierro y minerales reducen riesgo de anemia y sostienen madurez ósea al nacer."
@@ -347,10 +347,10 @@
       "babySizeLabel" : "una piña",
       "milestoneTitle" : "Endurecimiento Óseo y Flexibilidad Craneal Funcional",
       "keyEvents" : [
-        "Sus huesos siguen fortaleciendose, sobre todo en brazos y piernas.",
-        "Aun asi, los huesos de su cabecita siguen separados de forma natural.",
-        "Esa flexibilidad sera muy importante para pasar por el canal del parto.",
-        "Tu bebe sigue aprovechando al maximo los minerales que recibe para madurar."
+        "Sus huesos siguen fortaleciéndose, sobre todo en brazos y piernas.",
+        "Aun así, los huesos de su cabecita siguen separados de forma natural.",
+        "Esa flexibilidad será muy importante para pasar por el canal del parto.",
+        "Tu bebé sigue aprovechando al máximo los minerales que recibe para madurar."
       ],
       "physiologicalImpact" : "El equilibrio entre rigidez ósea y flexibilidad craneal optimiza la mecánica del parto vaginal."
     },
@@ -360,9 +360,9 @@
       "babySizeLabel" : "un melón cantalupo",
       "milestoneTitle" : "Desaceleración en Talla y Relleno Adiposo",
       "keyEvents" : [
-        "Ahora ya no crece tanto en largo como antes y empieza a centrarse mas en ganar peso.",
-        "Acumula grasa bajo la piel para verse mas redondito y preparado.",
-        "Su cuerpo guarda mejor energia para los primeros dias fuera del utero.",
+        "Ahora ya no crece tanto en largo como antes y empieza a centrarse más en ganar peso.",
+        "Acumula grasa bajo la piel para verse más redondito y preparado.",
+        "Su cuerpo guarda mejor energía para los primeros días fuera del útero.",
         "Con menos espacio disponible, sus movimientos empiezan a sentirse distintos."
       ],
       "physiologicalImpact" : "La acumulación de grasa subcutánea mejora reserva energética y termorregulación neonatal."
@@ -373,10 +373,10 @@
       "babySizeLabel" : "un melón piel de sapo",
       "milestoneTitle" : "Faneras Distales y Adaptación Mecánica de Movimiento",
       "keyEvents" : [
-        "Las unas de sus manos ya se acercan a la punta de los dedos.",
-        "Tu bebe tiene mas peso y ocupa mucho mas espacio dentro del utero.",
+        "Las uñas de sus manos ya se acercan a la punta de los dedos.",
+        "Tu bebé tiene más peso y ocupa mucho más espacio dentro del útero.",
         "Por eso ya no puede hacer grandes giros como antes.",
-        "Ahora es mas habitual notar estiramientos, presiones y empujones concretos."
+        "Ahora es más habitual notar estiramientos, presiones y empujones concretos."
       ],
       "physiologicalImpact" : "El incremento de tamaño condiciona la mecánica fetal hacia movimientos más limitados y focales."
     },
@@ -386,10 +386,10 @@
       "babySizeLabel" : "una papaya",
       "milestoneTitle" : "Término Precoz y Madurez Sistémica Inicial",
       "keyEvents" : [
-        "Tu bebe ya suele superar un peso que le da mas margen de seguridad al nacer.",
-        "Su corazon, sus musculos y sus huesos estan mucho mas preparados para la vida fuera del utero.",
-        "Su cuerpo toleraria mejor una llegada adelantada que semanas atras.",
-        "Se acerca a una etapa en la que ya se le considera muy avanzado en su maduracion."
+        "Tu bebé ya suele superar un peso que le da más margen de seguridad al nacer.",
+        "Su corazón, sus músculos y sus huesos están mucho más preparados para la vida fuera del útero.",
+        "Su cuerpo toleraría mejor una llegada adelantada que semanas atrás.",
+        "Se acerca a una etapa en la que ya se le considera muy avanzado en su maduración."
       ],
       "physiologicalImpact" : "La maduración multisistémica reduce la necesidad de soporte médico mayor en nacimientos cercanos a término."
     },
@@ -399,10 +399,10 @@
       "babySizeLabel" : "una calabaza de asar",
       "milestoneTitle" : "Vérnix Máxima y Preparación de Paso Obstétrico",
       "keyEvents" : [
-        "Su piel esta muy bien protegida por grasa y por una capa abundante de vernix.",
-        "Esa capa tambien le ayudara a deslizarse mejor durante el parto.",
-        "Su sistema nervioso sigue afinando funciones basicas de control y descanso.",
-        "Tu bebe esta ultimando detalles practicos para el momento de nacer."
+        "Su piel está muy bien protegida por grasa y por una capa abundante de vernix.",
+        "Esa capa también le ayudará a deslizarse mejor durante el parto.",
+        "Su sistema nervioso sigue afinando funciones básicas de control y descanso.",
+        "Tu bebé está ultimando detalles prácticos para el momento de nacer."
       ],
       "physiologicalImpact" : "El refuerzo tegumentario mejora protección dérmica y facilita la mecánica del parto."
     },
@@ -412,10 +412,10 @@
       "babySizeLabel" : "un racimo de plátanos",
       "milestoneTitle" : "Definición Final de Madurez Neurovascular",
       "keyEvents" : [
-        "Sus ritmos de sueno y actividad son cada vez mas estables.",
-        "Su cuerpo regula mejor funciones importantes como la presion y la circulacion.",
-        "Sus sistemas vitales estan listos para sostenerse con mucha mas autonomia.",
-        "Tu bebe ya esta muy cerca de estar completamente preparado para conoceros."
+        "Sus ritmos de sueño y actividad son cada vez más estables.",
+        "Su cuerpo regula mejor funciones importantes como la presión y la circulación.",
+        "Sus sistemas vitales están listos para sostenerse con mucha más autonomía.",
+        "Tu bebé ya está muy cerca de estar completamente preparado para conoceros."
       ],
       "physiologicalImpact" : "La estabilidad neurohemodinámica mejora la adaptación cardiorrespiratoria en el nacimiento."
     },
@@ -425,10 +425,10 @@
       "babySizeLabel" : "una sandía pequeña",
       "milestoneTitle" : "Regresión de Lanugo y Carga Intestinal de Meconio",
       "keyEvents" : [
-        "Gran parte del vello fino que cubria su cuerpo empieza a desaparecer.",
-        "Ese vello pasa al liquido amniotico junto con otros restos naturales de la piel.",
-        "Al tragar ese liquido, su intestino sigue llenandose de meconio.",
-        "Tu bebe ya esta en una etapa plenamente compatible con nacer a termino."
+        "Gran parte del vello fino que cubría su cuerpo empieza a desaparecer.",
+        "Ese vello pasa al líquido amniótico junto con otros restos naturales de la piel.",
+        "Al tragar ese líquido, su intestino sigue llenándose de meconio.",
+        "Tu bebé ya está en una etapa plenamente compatible con nacer a término."
       ],
       "physiologicalImpact" : "La regresión del lanugo y el aumento de meconio reflejan transición final hacia fisiología neonatal."
     },
@@ -438,9 +438,9 @@
       "babySizeLabel" : "una sandía",
       "milestoneTitle" : "Queratinización Distal y Cabello Cefálico Denso",
       "keyEvents" : [
-        "Sus unas pueden sobresalir ya un poco por delante de los dedos.",
+        "Sus uñas pueden sobresalir ya un poco por delante de los dedos.",
         "El cabello de su cabeza puede ser bastante abundante a estas alturas.",
-        "Solo suelen quedar pequenos restos de lanugo en algunas zonas concretas.",
+        "Solo suelen quedar pequeños restos de lanugo en algunas zonas concretas.",
         "Su piel y su aspecto general muestran una madurez muy cercana a la del nacimiento."
       ],
       "physiologicalImpact" : "La madurez de faneras y cobertura cutánea confirma el cierre del desarrollo tegumentario fetal."
@@ -449,12 +449,12 @@
       "week" : 40,
       "babySize" : "pumpkin",
       "babySizeLabel" : "una calabaza",
-      "milestoneTitle" : "Zenit Somático y Preparación para el Nacimiento",
+      "milestoneTitle" : "Cénit Somático y Preparación para el Nacimiento",
       "keyEvents" : [
-        "Sus pulmones estan listos para expandirse con las primeras respiraciones.",
-        "Su cuerpo se prepara para eliminar el liquido que aun queda en ellos antes de nacer.",
-        "Tu bebe suele colocarse mas abajo, con la cabeza bien apoyada para el parto.",
-        "Todo su organismo esta preparado para dar el gran paso a la vida fuera del utero."
+        "Sus pulmones están listos para expandirse con las primeras respiraciones.",
+        "Su cuerpo se prepara para eliminar el líquido que aún queda en ellos antes de nacer.",
+        "Tu bebé suele colocarse más abajo, con la cabeza bien apoyada para el parto.",
+        "Todo su organismo está preparado para dar el gran paso a la vida fuera del útero."
       ],
       "physiologicalImpact" : "La preparación respiratoria y el descenso cefálico habilitan la transición al nacimiento a término."
     }
