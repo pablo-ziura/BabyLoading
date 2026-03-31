@@ -99,4 +99,71 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.allWeekContent == [updatedContent])
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
+
+    @Test func init_LoadsBellyTrackingState() async throws {
+        let repository = MockRepository()
+        let entry = BellyTrackingEntry(
+            imageFileName: "tracking.jpg",
+            capturedAt: Date.now,
+            pregnancyWeekAtCapture: 21
+        )
+        repository.storedBellyTrackingEntries = [entry]
+        repository.storedBellyTrackingImages[entry.imageFileName] = Data([0x99])
+        repository.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
+        repository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 14, to: entry.capturedAt)
+
+        let viewModel = BabyProgressViewModel(repository: repository, widgetReloader: MockWidgetReloader())
+
+        #expect(viewModel.bellyTrackingEntries == [entry])
+        #expect(viewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
+        #expect(viewModel.lastBellyTrackingEntry == entry)
+        #expect(viewModel.lastBellyTrackingImageData == Data([0x99]))
+    }
+
+    @Test func saveBellyTrackingPhoto_UpdatesStateAndRepository() async throws {
+        mockRepository.pregnancyWeek = 24
+        viewModel.pregnancyWeek = 24
+        let fakeData = Data([0x0F, 0x0E, 0x0D])
+
+        let didSave = viewModel.saveBellyTrackingPhoto(fakeData)
+
+        #expect(didSave)
+        #expect(mockRepository.saveBellyTrackingPhotoCalled)
+        #expect(viewModel.bellyTrackingEntries.count == 1)
+        #expect(viewModel.lastBellyTrackingEntry?.pregnancyWeekAtCapture == 24)
+        #expect(viewModel.lastBellyTrackingImageData == fakeData)
+        #expect(viewModel.photosData == [fakeData])
+    }
+
+    @Test func updateBellyTrackingCadence_UpdatesStateAndRepository() async throws {
+        mockRepository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 14, to: .now)
+
+        viewModel.updateBellyTrackingCadence(intervalDays: 14)
+
+        #expect(mockRepository.saveBellyTrackingSettingsCalled)
+        #expect(mockRepository.storedBellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
+        #expect(viewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
+        #expect(viewModel.nextBellyTrackingDueDate == mockRepository.nextBellyTrackingDueDateValue)
+    }
+
+    @Test func deleteBellyTrackingEntry_WhenRemovingLastEntry_ClearsDerivedState() async throws {
+        let entry = BellyTrackingEntry(
+            imageFileName: "tracking.jpg",
+            capturedAt: Date.now,
+            pregnancyWeekAtCapture: 18
+        )
+        mockRepository.storedBellyTrackingEntries = [entry]
+        mockRepository.storedBellyTrackingImages[entry.imageFileName] = Data([0xAA])
+        mockRepository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 7, to: entry.capturedAt)
+        let freshViewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
+        mockRepository.nextBellyTrackingDueDateValue = nil
+
+        freshViewModel.deleteBellyTrackingEntry(id: entry.id)
+
+        #expect(mockRepository.deleteBellyTrackingEntryCalled)
+        #expect(freshViewModel.bellyTrackingEntries.isEmpty)
+        #expect(freshViewModel.lastBellyTrackingEntry == nil)
+        #expect(freshViewModel.lastBellyTrackingImageData == nil)
+        #expect(freshViewModel.nextBellyTrackingDueDate == nil)
+    }
 }

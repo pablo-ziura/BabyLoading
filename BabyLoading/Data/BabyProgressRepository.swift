@@ -17,6 +17,19 @@ protocol BabyProgressRepositoryProtocol {
     func addPhoto(data: Data)
     func fetchAllPhotos() -> [Data]
     func deletePhoto(at index: Int)
+
+    // Belly tracking
+    func fetchBellyTrackingEntries() -> [BellyTrackingEntry]
+    func fetchBellyTrackingImageData(for imageFileName: String) -> Data?
+    func saveBellyTrackingPhoto(
+        data: Data,
+        capturedAt: Date,
+        pregnancyWeekAtCapture: Int?
+    ) -> BellyTrackingEntry?
+    func deleteBellyTrackingEntry(id: UUID)
+    func fetchBellyTrackingSettings() -> BellyTrackingSettings
+    func saveBellyTrackingSettings(_ settings: BellyTrackingSettings)
+    func nextBellyTrackingDueDate() -> Date?
 }
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
@@ -97,5 +110,49 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
 
     func deletePhoto(at index: Int) {
         dataSource.deletePhoto(at: index)
+    }
+
+    // MARK: - Belly tracking
+
+    func fetchBellyTrackingEntries() -> [BellyTrackingEntry] {
+        dataSource.fetchBellyTrackingEntries()
+    }
+
+    func fetchBellyTrackingImageData(for imageFileName: String) -> Data? {
+        dataSource.fetchBellyTrackingImageData(for: imageFileName)
+    }
+
+    func saveBellyTrackingPhoto(
+        data: Data,
+        capturedAt: Date,
+        pregnancyWeekAtCapture: Int?
+    ) -> BellyTrackingEntry? {
+        dataSource.saveBellyTrackingPhoto(
+            data: data,
+            capturedAt: capturedAt,
+            pregnancyWeekAtCapture: pregnancyWeekAtCapture
+        )
+    }
+
+    func deleteBellyTrackingEntry(id: UUID) {
+        dataSource.deleteBellyTrackingEntry(id: id)
+    }
+
+    func fetchBellyTrackingSettings() -> BellyTrackingSettings {
+        dataSource.fetchBellyTrackingSettings()
+    }
+
+    func saveBellyTrackingSettings(_ settings: BellyTrackingSettings) {
+        dataSource.saveBellyTrackingSettings(settings)
+    }
+
+    func nextBellyTrackingDueDate() -> Date? {
+        guard let lastEntry = fetchBellyTrackingEntries().last else { return nil }
+
+        return Calendar.current.date(
+            byAdding: .day,
+            value: fetchBellyTrackingSettings().intervalDays,
+            to: lastEntry.capturedAt
+        )
     }
 }
