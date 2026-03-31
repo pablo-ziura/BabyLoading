@@ -557,6 +557,15 @@ struct GalleryView: View {
         }
         guard didSaveInApp else { return false }
 
+        let exportData = viewModel.lastBellyTrackingImageData ?? data
+        Task {
+            await exportCapturedBellyTrackingPhotoToPhotoLibrary(exportData)
+        }
+        return true
+    }
+
+    @MainActor
+    private func exportCapturedBellyTrackingPhotoToPhotoLibrary(_ data: Data) async {
         switch await PhotoLibraryExporter().saveImageData(data) {
         case .saved:
             break
@@ -575,8 +584,6 @@ struct GalleryView: View {
                 )
             )
         }
-
-        return true
     }
 }
 

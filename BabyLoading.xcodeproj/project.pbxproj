@@ -636,6 +636,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -686,6 +687,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
