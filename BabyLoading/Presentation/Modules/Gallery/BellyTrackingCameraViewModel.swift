@@ -28,6 +28,10 @@ final class BellyTrackingCameraViewModel {
         sessionController.session
     }
 
+    var cameraDevice: AVCaptureDevice? {
+        sessionController.cameraDevice
+    }
+
     init(hasReferenceImage: Bool) {
         self.hasReferenceImage = hasReferenceImage
         isShowingReference = hasReferenceImage
@@ -65,15 +69,20 @@ final class BellyTrackingCameraViewModel {
         errorMessage = nil
     }
 
-    func capturePhoto(save: AsyncBellyTrackingCaptureHandler) async -> Bool {
+    func capturePhoto(
+        captureRotationAngle: CGFloat,
+        save: AsyncBellyTrackingCaptureHandler
+    ) async -> Bool {
         guard authorizationState == .authorized else { return false }
 
         isCapturing = true
         defer { isCapturing = false }
 
         do {
-            let data = try await sessionController.capturePhoto()
-            guard await save(data) else {
+            let capturedData = try await sessionController.capturePhoto(
+                rotationAngle: captureRotationAngle
+            )
+            guard await save(capturedData) else {
                 errorMessage = String(
                     localized: "camera.bellyTracking.errorSave",
                     defaultValue: "We couldn't save your belly tracking photo."
@@ -143,6 +152,7 @@ private enum BellyTrackingCameraSessionError: LocalizedError {
 private final class BellyTrackingCameraSessionController: NSObject, @unchecked Sendable {
     nonisolated(unsafe) let session = AVCaptureSession()
     nonisolated(unsafe) private let photoOutput = AVCapturePhotoOutput()
+    nonisolated(unsafe) var cameraDevice: AVCaptureDevice?
     private let sessionQueue = DispatchQueue(label: "com.babyloading.bellyTracking.cameraSession")
     private let captureLock = NSLock()
     nonisolated(unsafe) private var isConfigured = false
@@ -186,9 +196,9 @@ private final class BellyTrackingCameraSessionController: NSObject, @unchecked S
         }
     }
 
-    nonisolated func capturePhoto() async throws -> Data {
+    nonisolated func capturePhoto(rotationAngle: CGFloat) async throws -> Data {
         try await withCheckedThrowingContinuation { continuation in
-            capturePhoto { result in
+            capturePhoto(rotationAngle: rotationAngle) { result in
                 continuation.resume(with: result)
             }
         }
@@ -203,6 +213,7 @@ private final class BellyTrackingCameraSessionController: NSObject, @unchecked S
         guard let cameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             throw BellyTrackingCameraSessionError.noCameraDevice
         }
+        self.cameraDevice = cameraDevice
 
         guard let cameraInput = try? AVCaptureDeviceInput(device: cameraDevice) else {
             throw BellyTrackingCameraSessionError.cannotCreateInput
@@ -213,6 +224,10 @@ private final class BellyTrackingCameraSessionController: NSObject, @unchecked S
         }
         session.addInput(cameraInput)
 
+        try cameraDevice.lockForConfiguration()
+        defer { cameraDevice.unlockForConfiguration() }
+        cameraDevice.videoZoomFactor = 1
+
         guard session.canAddOutput(photoOutput) else {
             throw BellyTrackingCameraSessionError.cannotAddOutput
         }
@@ -221,7 +236,10 @@ private final class BellyTrackingCameraSessionController: NSObject, @unchecked S
         isConfigured = true
     }
 
-    nonisolated private func capturePhoto(completion: @escaping (Result<Data, Error>) -> Void) {
+    nonisolated private func capturePhoto(
+        rotationAngle: CGFloat,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) {
         captureLock.lock()
         let isBusy = captureCompletion != nil
         if !isBusy {
@@ -235,7 +253,19 @@ private final class BellyTrackingCameraSessionController: NSObject, @unchecked S
         }
 
         sessionQueue.async {
-            let settings = AVCapturePhotoSettings()
+            if let connection = self.photoOutput.connection(with: .video),
+               connection.isVideoRotationAngleSupported(rotationAngle) {
+                connection.videoRotationAngle = rotationAngle
+            }
+
+            let settings: AVCapturePhotoSettings
+            if self.photoOutput.availablePhotoCodecTypes.contains(.hevc) {
+                settings = AVCapturePhotoSettings(
+                    format: [AVVideoCodecKey: AVVideoCodecType.hevc]
+                )
+            } else {
+                settings = AVCapturePhotoSettings()
+            }
             settings.photoQualityPrioritization = self.photoOutput.maxPhotoQualityPrioritization
             self.photoOutput.capturePhoto(with: settings, delegate: self)
         }
