@@ -46,6 +46,11 @@ Leer este archivo antes de proponer cambios o tocar codigo.
   foto legacy unica en archivo `user_photo.jpg`.
 - `BabyProgressDataSource` guarda tambien:
   galeria multi-foto en el directorio `gallery/` del contenedor compartido.
+- Las capturas de seguimiento se conservan en su formato nativo (HEIC cuando la camara lo soporta),
+  materializan primero la orientacion EXIF y despues aplican el mismo recorte central 9:16 del visor;
+  las capturas JPEG historicas siguen siendo compatibles.
+- El visor y `AVCapturePhotoOutput` comparten los angulos de `AVCaptureDevice.RotationCoordinator`
+  para mantener la misma orientacion, escala y relacion de aspecto durante la captura.
 - El widget depende de este almacenamiento compartido. Cualquier cambio de keys, nombres de archivo o ubicacion debe considerarse un cambio cross-target.
 
 ## Contenido semanal del embarazo

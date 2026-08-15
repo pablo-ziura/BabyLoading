@@ -18,7 +18,17 @@ extension DependencyContainer {
     }
 
     func makeGalleryView() -> some View {
-        GalleryView(viewModel: viewModel)
+        GalleryView(
+            viewModel: viewModel,
+            makeBellyTrackingCameraView: { referenceImageData, onPhotoCaptured in
+                AnyView(
+                    BellyTrackingCameraView(
+                        referenceImageData: referenceImageData,
+                        onPhotoCaptured: onPhotoCaptured
+                    )
+                )
+            }
+        )
     }
 
     func makeSettingsView() -> some View {
