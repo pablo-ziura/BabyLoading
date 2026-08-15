@@ -10,6 +10,7 @@ struct BellyTrackingCameraView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: BellyTrackingCameraViewModel
+    @State private var captureRotationAngle: CGFloat = 0
 
     init(
         referenceImageData: Data?,
@@ -78,34 +79,53 @@ struct BellyTrackingCameraView: View {
     }
 
     private var authorizedCameraView: some View {
-        ZStack {
-            CameraPreviewView(session: viewModel.session)
-                .ignoresSafeArea()
+        GeometryReader { proxy in
+            let guideSize = BellyTrackingGuideViewport(
+                photoAspectRatio: BellyTrackingGuideViewport.defaultPhotoAspectRatio
+            )
+            .size(in: proxy.size)
 
-            if let referenceImage, viewModel.hasReferenceImage, viewModel.isShowingReference {
-                Image(uiImage: referenceImage)
-                    .resizable()
-                    .scaledToFill()
-                    .opacity(viewModel.referenceOpacity)
-                    .ignoresSafeArea()
+            ZStack {
+                CameraPreviewView(
+                    session: viewModel.session,
+                    cameraDevice: viewModel.cameraDevice,
+                    captureRotationAngle: $captureRotationAngle
+                )
+                    .frame(width: guideSize.width, height: guideSize.height)
+                    .clipped()
+
+                if let referenceImage, viewModel.hasReferenceImage, viewModel.isShowingReference {
+                    Image(uiImage: referenceImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: guideSize.width, height: guideSize.height)
+                        .clipped()
+                        .opacity(viewModel.referenceOpacity)
+                        .allowsHitTesting(false)
+                }
+
+                BellyTrackingGridOverlay()
+                    .stroke(.white.opacity(0.25), style: StrokeStyle(lineWidth: 1, dash: [6, 6]))
+                    .frame(width: guideSize.width, height: guideSize.height)
+                    .allowsHitTesting(false)
+
+                Rectangle()
+                    .stroke(.white.opacity(0.45), lineWidth: 1)
+                    .frame(width: guideSize.width, height: guideSize.height)
                     .allowsHitTesting(false)
             }
-
-            BellyTrackingGridOverlay()
-                .stroke(.white.opacity(0.25), style: StrokeStyle(lineWidth: 1, dash: [6, 6]))
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-            headerBar
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-        }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            bottomControls
-                .padding(.horizontal, 20)
-                .padding(.top, 16)
-                .padding(.bottom, 12)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(alignment: .top) {
+                headerBar
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+            }
+            .overlay(alignment: .bottom) {
+                bottomControls
+                    .padding(.horizontal, 20)
+                    .padding(.top, 16)
+                    .padding(.bottom, 12)
+            }
         }
     }
 
@@ -186,7 +206,10 @@ struct BellyTrackingCameraView: View {
 
             Button {
                 Task {
-                    let didSave = await viewModel.capturePhoto(save: onPhotoCaptured)
+                    let didSave = await viewModel.capturePhoto(
+                        captureRotationAngle: captureRotationAngle,
+                        save: onPhotoCaptured
+                    )
                     if didSave {
                         dismiss()
                     }
@@ -255,30 +278,93 @@ struct BellyTrackingCameraView: View {
             nil
         #endif
     }
+
 }
 
 private struct CameraPreviewView: UIViewRepresentable {
     let session: AVCaptureSession
+    let cameraDevice: AVCaptureDevice?
+    @Binding var captureRotationAngle: CGFloat
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(captureRotationAngle: $captureRotationAngle)
+    }
 
     func makeUIView(context: Context) -> PreviewView {
         let view = PreviewView()
         view.videoPreviewLayer.videoGravity = .resizeAspectFill
-        view.videoPreviewLayer.session = session
+        view.onCaptureRotationAngleChanged = { [weak coordinator = context.coordinator] rotationAngle in
+            DispatchQueue.main.async {
+                guard let coordinator else { return }
+
+                if coordinator.captureRotationAngle.wrappedValue != rotationAngle {
+                    coordinator.captureRotationAngle.wrappedValue = rotationAngle
+                }
+            }
+        }
+        view.configure(session: session, cameraDevice: cameraDevice)
         return view
     }
 
     func updateUIView(_ uiView: PreviewView, context: Context) {
-        uiView.videoPreviewLayer.session = session
+        context.coordinator.captureRotationAngle = $captureRotationAngle
+        uiView.configure(session: session, cameraDevice: cameraDevice)
+    }
+
+    final class Coordinator {
+        var captureRotationAngle: Binding<CGFloat>
+
+        init(captureRotationAngle: Binding<CGFloat>) {
+            self.captureRotationAngle = captureRotationAngle
+        }
     }
 }
 
 private final class PreviewView: UIView {
+    var onCaptureRotationAngleChanged: ((CGFloat) -> Void)?
+    private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
+
     override class var layerClass: AnyClass {
         AVCaptureVideoPreviewLayer.self
     }
 
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         layer as! AVCaptureVideoPreviewLayer
+    }
+
+    func configure(
+        session: AVCaptureSession,
+        cameraDevice: AVCaptureDevice?
+    ) {
+        videoPreviewLayer.session = session
+
+        if rotationCoordinator == nil, let cameraDevice {
+            rotationCoordinator = AVCaptureDevice.RotationCoordinator(
+                device: cameraDevice,
+                previewLayer: videoPreviewLayer
+            )
+        }
+
+        updatePreviewGeometry()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updatePreviewGeometry()
+    }
+
+    private func updatePreviewGeometry() {
+        guard !bounds.isEmpty else { return }
+
+        let previewRotationAngle = rotationCoordinator?.videoRotationAngleForHorizonLevelPreview ?? 0
+        if let connection = videoPreviewLayer.connection,
+           connection.isVideoRotationAngleSupported(previewRotationAngle) {
+            connection.videoRotationAngle = previewRotationAngle
+        }
+
+        let captureRotationAngle = rotationCoordinator?.videoRotationAngleForHorizonLevelCapture ?? 0
+        onCaptureRotationAngleChanged?(captureRotationAngle)
     }
 }
 
