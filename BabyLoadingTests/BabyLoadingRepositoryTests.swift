@@ -129,4 +129,60 @@ struct BabyLoadingRepositoryTests {
 
         #expect(result == [content])
     }
+
+    @Test func saveBellyTrackingPhoto_PersistsEntryAndImageData() {
+        let capturedAt = Date.now
+        let data = Data([0x01, 0x02, 0x03])
+
+        let savedEntry = repository.saveBellyTrackingPhoto(
+            data: data,
+            capturedAt: capturedAt,
+            pregnancyWeekAtCapture: 18
+        )
+
+        #expect(mockDataSource.saveBellyTrackingPhotoCalled)
+        #expect(savedEntry != nil)
+        #expect(mockDataSource.storedBellyTrackingEntries.count == 1)
+        #expect(mockDataSource.storedBellyTrackingImages[savedEntry?.imageFileName ?? ""] == data)
+        #expect(mockDataSource.storedPhotos == [data])
+    }
+
+    @Test func deleteBellyTrackingEntry_RemovesSavedEntry() {
+        let entry = BellyTrackingEntry(
+            imageFileName: "tracking.jpg",
+            capturedAt: Date.now,
+            pregnancyWeekAtCapture: 20
+        )
+        mockDataSource.storedBellyTrackingEntries = [entry]
+        mockDataSource.storedBellyTrackingImages[entry.imageFileName] = Data([0x0A])
+
+        repository.deleteBellyTrackingEntry(id: entry.id)
+
+        #expect(mockDataSource.deleteBellyTrackingEntryCalled)
+        #expect(mockDataSource.storedBellyTrackingEntries.isEmpty)
+        #expect(mockDataSource.storedBellyTrackingImages[entry.imageFileName] == nil)
+    }
+
+    @Test func nextBellyTrackingDueDate_UsesLastEntryAndCadence() {
+        let calendar = Calendar.current
+        let firstCapture = calendar.date(byAdding: .day, value: -20, to: .now)!
+        let latestCapture = calendar.date(byAdding: .day, value: -7, to: .now)!
+        mockDataSource.storedBellyTrackingEntries = [
+            BellyTrackingEntry(
+                imageFileName: "first.jpg",
+                capturedAt: firstCapture,
+                pregnancyWeekAtCapture: 16
+            ),
+            BellyTrackingEntry(
+                imageFileName: "latest.jpg",
+                capturedAt: latestCapture,
+                pregnancyWeekAtCapture: 18
+            ),
+        ]
+        mockDataSource.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
+
+        let dueDate = repository.nextBellyTrackingDueDate()
+
+        #expect(dueDate == calendar.date(byAdding: .day, value: 14, to: latestCapture))
+    }
 }

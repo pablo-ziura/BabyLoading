@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C26AFBD7B13BA2F97BF56FD /* BellyTrackingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */; };
+		3B7849E71786FD626C1F4D26 /* BellyTrackingImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */; };
+		3DFF9BC189C111CDEB5CE80A /* PhotoLibraryExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */; };
+		44F80030A6B5C04ADA1CDDF9 /* BellyTrackingEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */; };
 		4C20D9571147D96B8CDBE45D /* PregnancyContentLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */; };
+		5A4BA2325E477B890B7ECBFD /* BellyTrackingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */; };
+		B27C693E7B14850C9A6D73CE /* BellyTrackingEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */; };
+		B676BF95B2274355EFAEA048 /* BellyTrackingManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */; };
+		BBE8D5E29465B747E28AB5AD /* BellyTrackingImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */; };
+		CD7693907C1017CD87D6F290 /* BellyTrackingManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */; };
 		D11C12F553674DE62CA3CE91 /* PregnancyContentLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
@@ -48,7 +57,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingSettings.swift; sourceTree = "<group>"; };
+		7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingEntry.swift; sourceTree = "<group>"; };
 		855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PregnancyContentLocalization.swift; sourceTree = "<group>"; };
+		986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingImageProcessor.swift; sourceTree = "<group>"; };
 		BF238E7AA94B01389274E590 /* pregnancy-content.en.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = "pregnancy-content.en.json"; sourceTree = "<group>"; };
 		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +70,8 @@
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
 		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
+		DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = PhotoLibraryExporter.swift; path = PhotoLibraryExporter.swift; sourceTree = "<group>"; };
+		E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingManifest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -197,8 +211,35 @@
 			isa = PBXGroup;
 			children = (
 				1B417596BE22D3149662E660 /* Content */,
+				E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */,
+				D1F3EE6151EF4033AEC62512 /* Infrastructure */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		4BFAD9BEF8CBB5136E87111E /* BabyLoadingTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BabyLoadingTests;
+			sourceTree = "<group>";
+		};
+		B1C323FC9FBB8B9C348664B7 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */,
+				0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		D1F3EE6151EF4033AEC62512 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */,
+				DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		DA1C91492F41F1E9003EC367 = {
@@ -213,6 +254,7 @@
 				DA1C91532F41F1E9003EC367 /* Products */,
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 				F2C488989B7716BCA1295F9A /* BabyLoading */,
+				4BFAD9BEF8CBB5136E87111E /* BabyLoadingTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -248,6 +290,7 @@
 			children = (
 				473F87874C435892EA049E37 /* Data */,
 				FD3431DDEF72FB44C5254140 /* Resources */,
+				B1C323FC9FBB8B9C348664B7 /* Domain */,
 			);
 			path = BabyLoading;
 			sourceTree = "<group>";
@@ -415,6 +458,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C20D9571147D96B8CDBE45D /* PregnancyContentLocalization.swift in Sources */,
+				44F80030A6B5C04ADA1CDDF9 /* BellyTrackingEntry.swift in Sources */,
+				5A4BA2325E477B890B7ECBFD /* BellyTrackingSettings.swift in Sources */,
+				B676BF95B2274355EFAEA048 /* BellyTrackingManifest.swift in Sources */,
+				3B7849E71786FD626C1F4D26 /* BellyTrackingImageProcessor.swift in Sources */,
+				3DFF9BC189C111CDEB5CE80A /* PhotoLibraryExporter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +471,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D11C12F553674DE62CA3CE91 /* PregnancyContentLocalization.swift in Sources */,
+				B27C693E7B14850C9A6D73CE /* BellyTrackingEntry.swift in Sources */,
+				0C26AFBD7B13BA2F97BF56FD /* BellyTrackingSettings.swift in Sources */,
+				CD7693907C1017CD87D6F290 /* BellyTrackingManifest.swift in Sources */,
+				BBE8D5E29465B747E28AB5AD /* BellyTrackingImageProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +633,10 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -628,6 +684,10 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

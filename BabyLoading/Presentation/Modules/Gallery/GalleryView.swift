@@ -4,12 +4,41 @@ import SwiftUI
     import UIKit
 #endif
 
+private enum GalleryAlertState: Identifiable {
+    case deleteBellyTrackingEntry(BellyTrackingEntry)
+    case photoLibraryExportWarning(String)
+
+    var id: String {
+        switch self {
+        case let .deleteBellyTrackingEntry(entry):
+            return "delete-\(entry.id.uuidString)"
+        case let .photoLibraryExportWarning(message):
+            return "warning-\(message)"
+        }
+    }
+}
+
+typealias AsyncBellyTrackingCaptureHandler = @MainActor (Data) async -> Bool
+typealias BellyTrackingCameraViewFactory = (Data?, @escaping AsyncBellyTrackingCaptureHandler) -> AnyView
+
 struct GalleryView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    var viewModel: BabyProgressViewModel
-    @State private var selectedItems: [PhotosPickerItem] = []
 
-    private var columns: [GridItem] {
+    var viewModel: BabyProgressViewModel
+    var makeBellyTrackingCameraView: BellyTrackingCameraViewFactory = { referenceImageData, onPhotoCaptured in
+        AnyView(
+            BellyTrackingCameraView(
+                referenceImageData: referenceImageData,
+                onPhotoCaptured: onPhotoCaptured
+            )
+        )
+    }
+
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var isShowingBellyTrackingCamera = false
+    @State private var activeAlert: GalleryAlertState?
+
+    private var photoColumns: [GridItem] {
         if dynamicTypeSize.isAccessibilitySize {
             [GridItem(.flexible(), spacing: 12)]
         } else {
@@ -26,118 +55,434 @@ struct GalleryView: View {
 
             ScrollView {
                 VStack(spacing: 20) {
-                    Text("gallery.title")
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.bold)
-                        .foregroundStyle(.primary)
-                        .accessibilityAddTraits(.isHeader)
-                        .accessibilityHeading(.h1)
-                        .padding(.top, 24)
-
-
-                    LazyVGrid(columns: columns, spacing: 12) {
-                        ForEach(Array(viewModel.photosData.enumerated()), id: \.offset) { index, photoData in
-                            if let uiImage = UIImage(data: photoData) {
-                                ZStack(alignment: .topTrailing) {
-                                    Color.clear
-                                        .frame(height: 180)
-                                        .overlay {
-                                            Image(uiImage: uiImage)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .accessibilityLabel(
-                                                    Text(
-                                                        photoAccessibilityLabel(
-                                                            index: index,
-                                                            total: viewModel.photosData.count
-                                                        )
-                                                    )
-                                                )
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                                        .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
-
-                                    Button {
-                                        withAnimation(.spring(duration: 0.3)) {
-                                            viewModel.deleteGalleryPhoto(at: index)
-                                        }
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .font(.title3)
-                                            .symbolRenderingMode(.palette)
-                                            .foregroundStyle(.white, .black.opacity(0.5))
-                                            .padding(8)
-                                    }
-                                    .accessibilityLabel(
-                                        Text(
-                                            deletePhotoAccessibilityLabel(
-                                                index: index,
-                                                total: viewModel.photosData.count
-                                            )
-                                        )
-                                    )
-                                    .accessibilityHint(Text("accessibility.gallery.deletePhotoHint"))
-                                }
-                                .transition(.scale.combined(with: .opacity))
-                            }
-                        }
-
-                        PhotosPicker(
-                            selection: $selectedItems,
-                            maxSelectionCount: 10,
-                            matching: .images
-                        ) {
-                            VStack(spacing: 10) {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.system(size: 32))
-                                    .foregroundStyle(.primary.opacity(0.75))
-                                    .accessibilityHidden(true)
-
-                                Text("gallery.addPhoto")
-                                    .font(.system(.caption, design: .rounded))
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.primary.opacity(0.75))
-                            }
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 180)
-                            .background(.ultraThinMaterial.opacity(0.5))
-                            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .strokeBorder(.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
-                            )
-                        }
-                        .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
-                    }
-                    .padding(.horizontal)
-
-                    if viewModel.photosData.isEmpty {
-                        VStack(spacing: 8) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 40))
-                                .foregroundStyle(.primary.opacity(0.45))
-                                .accessibilityHidden(true)
-
-                            Text("gallery.emptyTitle")
-                                .font(.system(.body, design: .rounded))
-                                .foregroundStyle(.primary.opacity(0.8))
-
-                            Text("gallery.emptySubtitle")
-                                .font(.system(.caption, design: .rounded))
-                                .foregroundStyle(.secondary)
-                        }
-                        .padding(.top, 40)
-                        .accessibilityElement(children: .combine)
-                    }
-
+                    header
+                    bellyTrackingSection
+                    ultrasoundGallerySection
                     Spacer(minLength: 100)
                 }
+                .padding(.horizontal)
+                .padding(.top, 24)
                 .frame(maxWidth: 600)
                 .frame(maxWidth: .infinity)
             }
         }
+        .fullScreenCover(isPresented: $isShowingBellyTrackingCamera) {
+            makeBellyTrackingCameraView(viewModel.lastBellyTrackingImageData) { capturedData in
+                await handleCapturedBellyTrackingPhoto(capturedData)
+            }
+        }
+        .alert(item: $activeAlert) { alertState in
+            switch alertState {
+            case let .deleteBellyTrackingEntry(entry):
+                return Alert(
+                    title: Text(
+                        String(
+                            localized: "gallery.bellyTracking.deleteEntryTitle",
+                            defaultValue: "Delete tracking photo?"
+                        )
+                    ),
+                    message: Text(
+                        String(
+                            localized: "gallery.bellyTracking.deleteEntryMessage",
+                            defaultValue: "This photo will be removed from your belly tracking timeline."
+                        )
+                    ),
+                    primaryButton: .destructive(
+                        Text(
+                            String(
+                                localized: "gallery.bellyTracking.deleteEntryConfirm",
+                                defaultValue: "Delete"
+                            )
+                        )
+                    ) {
+                        withAnimation(.spring(duration: 0.3)) {
+                            viewModel.deleteBellyTrackingEntry(id: entry.id)
+                        }
+                    },
+                    secondaryButton: .cancel(
+                        Text(String(localized: "common.cancel", defaultValue: "Cancel"))
+                    )
+                )
+            case let .photoLibraryExportWarning(message):
+                return Alert(
+                    title: Text(
+                        String(
+                            localized: "gallery.photoLibraryExportTitle",
+                            defaultValue: "Photo library sync"
+                        )
+                    ),
+                    message: Text(message),
+                    dismissButton: .default(
+                        Text(String(localized: "common.ok", defaultValue: "OK"))
+                    )
+                )
+            }
+        }
         .onChange(of: selectedItems) { _, newItems in
             handlePhotoSelection(newItems)
+        }
+    }
+
+    private var header: some View {
+        VStack(spacing: 8) {
+            Text("tabs.gallery")
+                .font(.system(.title2, design: .rounded))
+                .fontWeight(.bold)
+                .foregroundStyle(.primary)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityHeading(.h1)
+
+            Text("gallery.subtitle")
+                .font(.system(.body, design: .rounded))
+                .foregroundStyle(.primary.opacity(0.7))
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    private var bellyTrackingSection: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(alignment: .top, spacing: 12) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("gallery.bellyTracking.title")
+                        .font(.system(.title3, design: .rounded))
+                        .fontWeight(.bold)
+
+                    Text("gallery.bellyTracking.subtitle")
+                        .font(.system(.subheadline, design: .rounded))
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                dueBadge
+            }
+
+            HStack(spacing: 12) {
+                statCard(
+                    title: String(
+                        localized: "gallery.bellyTracking.totalPhotos",
+                        defaultValue: "Tracking photos"
+                    ),
+                    value: "\(viewModel.bellyTrackingEntries.count)"
+                )
+
+                statCard(
+                    title: String(
+                        localized: "gallery.bellyTracking.nextPhoto",
+                        defaultValue: "Next photo"
+                    ),
+                    value: nextPhotoValue
+                )
+            }
+
+            if let lastEntry = viewModel.lastBellyTrackingEntry {
+                lastCaptureCard(entry: lastEntry)
+            } else {
+                emptyBellyTrackingState
+            }
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text("gallery.bellyTracking.cadence")
+                    .font(.system(.subheadline, design: .rounded))
+                    .fontWeight(.semibold)
+
+                Picker(
+                    String(
+                        localized: "gallery.bellyTracking.cadence",
+                        defaultValue: "Cadence"
+                    ),
+                    selection: Binding(
+                        get: { viewModel.bellyTrackingSettings.intervalDays },
+                        set: { viewModel.updateBellyTrackingCadence(intervalDays: $0) }
+                    )
+                ) {
+                    ForEach(BellyTrackingSettings.supportedIntervals, id: \.self) { interval in
+                        Text(intervalLabel(interval))
+                            .tag(interval)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+
+            Button {
+                isShowingBellyTrackingCamera = true
+            } label: {
+                HStack {
+                    Image(systemName: "camera.fill")
+                    Text("gallery.bellyTracking.takePhoto")
+                }
+                .font(.system(.headline, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(Color.pink.opacity(0.16), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            }
+            .buttonStyle(.plain)
+
+            if !viewModel.bellyTrackingEntries.isEmpty {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("gallery.bellyTracking.timelineTitle")
+                        .font(.system(.subheadline, design: .rounded))
+                        .fontWeight(.semibold)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 14) {
+                            ForEach(viewModel.bellyTrackingEntries) { entry in
+                                bellyTrackingTimelineCard(entry: entry)
+                            }
+                        }
+                        .padding(.vertical, 2)
+                    }
+                }
+            }
+        }
+        .softCard()
+    }
+
+    private func lastCaptureCard(entry: BellyTrackingEntry) -> some View {
+        HStack(spacing: 14) {
+            previewImage(data: viewModel.bellyTrackingImageData(for: entry))
+                .frame(width: 104, height: 136)
+                .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text("gallery.bellyTracking.lastCapture")
+                    .font(.system(.subheadline, design: .rounded))
+                    .fontWeight(.semibold)
+
+                Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
+                    .font(.system(.body, design: .rounded))
+                    .foregroundStyle(.primary.opacity(0.8))
+
+                if let week = entry.pregnancyWeekAtCapture {
+                    Text(weekLabel(week))
+                        .font(.system(.caption, design: .rounded))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color.pink.opacity(0.14), in: Capsule())
+                }
+            }
+
+            Spacer()
+        }
+    }
+
+    private var emptyBellyTrackingState: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "figure.stand.line.dotted.figure.stand")
+                .font(.system(size: 34))
+                .foregroundStyle(.pink.opacity(0.7))
+                .accessibilityHidden(true)
+
+            Text("gallery.bellyTracking.emptyTitle")
+                .font(.system(.headline, design: .rounded))
+
+            Text("gallery.bellyTracking.emptySubtitle")
+                .font(.system(.subheadline, design: .rounded))
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 18)
+    }
+
+    private var ultrasoundGallerySection: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("gallery.title")
+                    .font(.system(.title3, design: .rounded))
+                    .fontWeight(.bold)
+
+                Text("gallery.freePhotosSubtitle")
+                    .font(.system(.subheadline, design: .rounded))
+                    .foregroundStyle(.secondary)
+            }
+
+            LazyVGrid(columns: photoColumns, spacing: 12) {
+                ForEach(Array(viewModel.photosData.enumerated()), id: \.offset) { index, photoData in
+                    if let uiImage = UIImage(data: photoData) {
+                        ZStack(alignment: .topTrailing) {
+                            Color.clear
+                                .frame(height: 180)
+                                .overlay {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .accessibilityLabel(
+                                            Text(
+                                                photoAccessibilityLabel(
+                                                    index: index,
+                                                    total: viewModel.photosData.count
+                                                )
+                                            )
+                                        )
+                                }
+                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
+
+                            Button {
+                                withAnimation(.spring(duration: 0.3)) {
+                                    viewModel.deleteGalleryPhoto(at: index)
+                                }
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.title3)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.white, .black.opacity(0.5))
+                                    .padding(8)
+                            }
+                            .accessibilityLabel(
+                                Text(
+                                    deletePhotoAccessibilityLabel(
+                                        index: index,
+                                        total: viewModel.photosData.count
+                                    )
+                                )
+                            )
+                            .accessibilityHint(Text("accessibility.gallery.deletePhotoHint"))
+                        }
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+
+                PhotosPicker(
+                    selection: $selectedItems,
+                    maxSelectionCount: 10,
+                    matching: .images
+                ) {
+                    VStack(spacing: 10) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundStyle(.primary.opacity(0.75))
+                            .accessibilityHidden(true)
+
+                        Text("gallery.addPhoto")
+                            .font(.system(.caption, design: .rounded))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.primary.opacity(0.75))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 180)
+                    .background(.ultraThinMaterial.opacity(0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .strokeBorder(.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
+                    )
+                }
+                .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
+            }
+
+            if viewModel.photosData.isEmpty {
+                VStack(spacing: 8) {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .font(.system(size: 40))
+                        .foregroundStyle(.primary.opacity(0.45))
+                        .accessibilityHidden(true)
+
+                    Text("gallery.emptyTitle")
+                        .font(.system(.body, design: .rounded))
+                        .foregroundStyle(.primary.opacity(0.8))
+
+                    Text("gallery.emptySubtitle")
+                        .font(.system(.caption, design: .rounded))
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.top, 12)
+                .frame(maxWidth: .infinity)
+                .accessibilityElement(children: .combine)
+            }
+        }
+        .softCard()
+    }
+
+    private var dueBadge: some View {
+        Text(viewModel.isBellyTrackingDue ? "gallery.bellyTracking.dueNow" : "gallery.bellyTracking.onTrack")
+            .font(.system(.caption, design: .rounded))
+            .fontWeight(.bold)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(
+                viewModel.isBellyTrackingDue
+                    ? Color.orange.opacity(0.18)
+                    : Color.green.opacity(0.18),
+                in: Capsule()
+            )
+    }
+
+    private var nextPhotoValue: String {
+        guard let nextBellyTrackingDueDate = viewModel.nextBellyTrackingDueDate else {
+            return String(localized: "gallery.bellyTracking.startNow", defaultValue: "Start now")
+        }
+
+        if viewModel.isBellyTrackingDue {
+            return String(localized: "gallery.bellyTracking.dueNow", defaultValue: "Ready now")
+        }
+
+        return nextBellyTrackingDueDate.formatted(date: .abbreviated, time: .omitted)
+    }
+
+    private func statCard(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.system(.caption, design: .rounded))
+                .foregroundStyle(.secondary)
+
+            Text(value)
+                .font(.system(.headline, design: .rounded))
+                .fontWeight(.bold)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(14)
+        .background(Color.white.opacity(0.75), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+
+    private func bellyTrackingTimelineCard(entry: BellyTrackingEntry) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            ZStack(alignment: .topTrailing) {
+                previewImage(data: viewModel.bellyTrackingImageData(for: entry))
+                    .frame(width: 148, height: 190)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+
+                Button {
+                    activeAlert = .deleteBellyTrackingEntry(entry)
+                } label: {
+                    Image(systemName: "trash.circle.fill")
+                        .font(.title3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.white, .black.opacity(0.45))
+                        .padding(8)
+                }
+                .buttonStyle(.plain)
+            }
+
+            Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
+                .font(.system(.subheadline, design: .rounded))
+                .fontWeight(.semibold)
+
+            if let week = entry.pregnancyWeekAtCapture {
+                Text(weekLabel(week))
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(width: 148, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private func previewImage(data: Data?) -> some View {
+        if let data, let uiImage = UIImage(data: data) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFill()
+        } else {
+            ZStack {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(Color.white.opacity(0.8))
+
+                Image(systemName: "photo.badge.exclamationmark")
+                    .font(.system(size: 28))
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 
@@ -157,6 +502,28 @@ struct GalleryView: View {
                 selectedItems = []
             }
         }
+    }
+
+    private func intervalLabel(_ interval: Int) -> String {
+        String(
+            format: String(
+                localized: "gallery.bellyTracking.intervalDays",
+                defaultValue: "%d days"
+            ),
+            locale: .current,
+            interval
+        )
+    }
+
+    private func weekLabel(_ week: Int) -> String {
+        String(
+            format: String(
+                localized: "common.week",
+                defaultValue: "Week %d"
+            ),
+            locale: .current,
+            week
+        )
     }
 
     private func photoAccessibilityLabel(index: Int, total: Int) -> String {
@@ -181,6 +548,42 @@ struct GalleryView: View {
             index + 1,
             total
         )
+    }
+
+    @MainActor
+    private func handleCapturedBellyTrackingPhoto(_ data: Data) async -> Bool {
+        let didSaveInApp = withAnimation(.spring(duration: 0.4)) {
+            viewModel.saveBellyTrackingPhoto(data)
+        }
+        guard didSaveInApp else { return false }
+
+        let exportData = viewModel.lastBellyTrackingImageData ?? data
+        Task {
+            await exportCapturedBellyTrackingPhotoToPhotoLibrary(exportData)
+        }
+        return true
+    }
+
+    @MainActor
+    private func exportCapturedBellyTrackingPhotoToPhotoLibrary(_ data: Data) async {
+        switch await PhotoLibraryExporter().saveImageData(data) {
+        case .saved:
+            break
+        case .permissionDenied:
+            activeAlert = .photoLibraryExportWarning(
+                String(
+                    localized: "gallery.photoLibraryExportDeniedMessage",
+                    defaultValue: "The photo was saved in the app, but not in your photo library because Photos access is disabled."
+                )
+            )
+        case .failed:
+            activeAlert = .photoLibraryExportWarning(
+                String(
+                    localized: "gallery.photoLibraryExportFailedMessage",
+                    defaultValue: "The photo was saved in the app, but we couldn't export it to your photo library."
+                )
+            )
+        }
     }
 }
 

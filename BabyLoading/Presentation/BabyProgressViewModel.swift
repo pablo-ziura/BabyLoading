@@ -12,10 +12,29 @@ class BabyProgressViewModel {
     var allWeekContent: [WeekContent]
     var photoData: Data?
     var photosData: [Data] = []
+    var bellyTrackingEntries: [BellyTrackingEntry] = []
+    var bellyTrackingSettings: BellyTrackingSettings
+    var nextBellyTrackingDueDate: Date?
     var showingPhotoPicker = false
 
     private let repository: BabyProgressRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
+    private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
+
+    var lastBellyTrackingEntry: BellyTrackingEntry? {
+        bellyTrackingEntries.last
+    }
+
+    var lastBellyTrackingImageData: Data? {
+        guard let lastBellyTrackingEntry else { return nil }
+        return bellyTrackingImageDataByEntryID[lastBellyTrackingEntry.id]
+    }
+
+    var isBellyTrackingDue: Bool {
+        guard let nextBellyTrackingDueDate else { return false }
+        let calendar = Calendar.current
+        return calendar.startOfDay(for: .now) >= calendar.startOfDay(for: nextBellyTrackingDueDate)
+    }
 
     init(
         repository: BabyProgressRepositoryProtocol? = nil,
@@ -28,12 +47,15 @@ class BabyProgressViewModel {
         allWeekContent = self.repository.getAllWeekContent()
         photoData = self.repository.fetchPhoto()
         photosData = self.repository.fetchAllPhotos()
+        bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
+        nextBellyTrackingDueDate = self.repository.nextBellyTrackingDueDate()
         estimatedDueDate = nil
         daysRemaining = nil
         pregnancyWeek = nil
         currentWeekContent = nil
 
         reloadProgressState()
+        reloadBellyTrackingState()
     }
 
     func updateDate(_ date: Date) {
@@ -75,6 +97,33 @@ class BabyProgressViewModel {
         photosData = repository.fetchAllPhotos()
     }
 
+    func saveBellyTrackingPhoto(_ data: Data) -> Bool {
+        let savedEntry = repository.saveBellyTrackingPhoto(
+            data: data,
+            capturedAt: .now,
+            pregnancyWeekAtCapture: pregnancyWeek
+        )
+
+        reloadBellyTrackingState()
+        photosData = repository.fetchAllPhotos()
+        return savedEntry != nil
+    }
+
+    func deleteBellyTrackingEntry(id: UUID) {
+        repository.deleteBellyTrackingEntry(id: id)
+        reloadBellyTrackingState()
+    }
+
+    func updateBellyTrackingCadence(intervalDays: Int) {
+        let settings = BellyTrackingSettings(intervalDays: intervalDays)
+        repository.saveBellyTrackingSettings(settings)
+        reloadBellyTrackingState()
+    }
+
+    func bellyTrackingImageData(for entry: BellyTrackingEntry) -> Data? {
+        bellyTrackingImageDataByEntryID[entry.id]
+    }
+
     private func reloadProgressState() {
         let savedDate = repository.getEventDate()
         estimatedDueDate = savedDate.map(PregnancyCalculator.calculateDueDate)
@@ -82,5 +131,20 @@ class BabyProgressViewModel {
         pregnancyWeek = repository.getPregnancyWeek()
         currentWeekContent = repository.getCurrentWeekContent()
         allWeekContent = repository.getAllWeekContent()
+    }
+
+    private func reloadBellyTrackingState() {
+        bellyTrackingEntries = repository.fetchBellyTrackingEntries()
+        bellyTrackingSettings = repository.fetchBellyTrackingSettings()
+        nextBellyTrackingDueDate = repository.nextBellyTrackingDueDate()
+        bellyTrackingImageDataByEntryID = Dictionary(
+            uniqueKeysWithValues: bellyTrackingEntries.compactMap { entry in
+                guard let data = repository.fetchBellyTrackingImageData(for: entry.imageFileName) else {
+                    return nil
+                }
+
+                return (entry.id, data)
+            }
+        )
     }
 }
