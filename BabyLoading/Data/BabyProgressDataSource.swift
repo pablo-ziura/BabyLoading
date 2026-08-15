@@ -205,16 +205,27 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
             return nil
         }
 
-        guard let normalizedData = BellyTrackingImageProcessor.normalizedJPEGData(from: data) else {
-            print("⚠️ [BabyProgressDataSource] Failed to normalize belly tracking photo")
+        guard let fileExtension = BellyTrackingImageProcessor.fileExtension(for: data) else {
+            print("⚠️ [BabyProgressDataSource] Unsupported belly tracking photo format")
             return nil
         }
 
-        guard let galleryPhotoURL = storeGalleryPhoto(data: normalizedData) else {
+        let storedData: Data
+        if fileExtension == "heic" {
+            guard let aspectAdjustedData = BellyTrackingImageProcessor.aspectAdjustedHEICData(from: data) else {
+                print("⚠️ [BabyProgressDataSource] Failed to apply the belly tracking photo aspect ratio")
+                return nil
+            }
+            storedData = aspectAdjustedData
+        } else {
+            storedData = data
+        }
+
+        guard let galleryPhotoURL = storeGalleryPhoto(data: storedData, fileExtension: fileExtension) else {
             return nil
         }
 
-        let imageFileName = "\(UUID().uuidString).jpg"
+        let imageFileName = "\(UUID().uuidString).\(fileExtension)"
         let imageURL = bellyTrackingDirURL.appendingPathComponent(imageFileName)
         let entry = BellyTrackingEntry(
             imageFileName: imageFileName,
@@ -223,7 +234,7 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
         )
 
         do {
-            try normalizedData.write(to: imageURL, options: .atomic)
+            try storedData.write(to: imageURL, options: .atomic)
 
             var manifest = loadBellyTrackingManifest()
             manifest.entries.append(entry)
@@ -316,13 +327,13 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     @discardableResult
-    private func storeGalleryPhoto(data: Data) -> URL? {
+    private func storeGalleryPhoto(data: Data, fileExtension: String = "jpg") -> URL? {
         guard let dir = photosDirURL else {
             print("⚠️ [BabyProgressDataSource] No gallery directory")
             return nil
         }
 
-        let filename = "\(UUID().uuidString).jpg"
+        let filename = "\(UUID().uuidString).\(fileExtension)"
         let url = dir.appendingPathComponent(filename)
 
         do {
