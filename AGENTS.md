@@ -3,6 +3,8 @@
 Documento vivo para cualquier agente que trabaje en `BabyLoading`.
 Leer este archivo antes de proponer cambios o tocar codigo.
 
+Antes de crear o modificar cualquier pantalla, componente reutilizable o widget que incluya texto, leer `DESIGN.md` y aplicar sus reglas de tipografía y accesibilidad.
+
 ## Resumen del proyecto
 
 - App iOS nativa en SwiftUI con target principal `BabyLoading`, target de widget `BabyProgressWidget` y target de tests `BabyLoadingTests`.

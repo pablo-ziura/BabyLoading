@@ -121,11 +121,15 @@ struct WeekRow: View {
                         content.week
                     )
                 )
-                    .font(.system(.headline, design: .rounded))
-                    .fontWeight(isCurrent ? .bold : .medium)
+                    .font(
+                        BabyLoadingTypography.text(
+                            .headline,
+                            weight: isCurrent ? .bold : .medium
+                        )
+                    )
 
                 Text(content.babySizeLabel.localizedCapitalized)
-                    .font(.system(.caption, design: .rounded))
+                    .font(BabyLoadingTypography.text(.caption))
                     .foregroundStyle(.secondary)
                     .accessibilityLabel(
                         Text(
@@ -145,8 +149,7 @@ struct WeekRow: View {
 
     private var currentWeekBadge: some View {
         Text("journey.youAreHere")
-            .font(.system(.caption2, design: .rounded))
-            .fontWeight(.bold)
+            .font(BabyLoadingTypography.text(.caption2, weight: .bold))
             .foregroundStyle(.white)
             .padding(.horizontal, 10)
             .padding(.vertical, 4)

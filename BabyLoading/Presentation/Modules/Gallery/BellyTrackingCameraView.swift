@@ -145,11 +145,11 @@ struct BellyTrackingCameraView: View {
 
             VStack(spacing: 4) {
                 Text("camera.bellyTracking.title")
-                    .font(.system(.headline, design: .rounded))
+                    .font(BabyLoadingTypography.text(.headline, weight: .semibold))
                     .foregroundStyle(.white)
 
                 Text("camera.bellyTracking.instructions")
-                    .font(.system(.caption, design: .rounded))
+                    .font(BabyLoadingTypography.text(.caption))
                     .foregroundStyle(.white.opacity(0.8))
             }
             .multilineTextAlignment(.center)
@@ -167,8 +167,7 @@ struct BellyTrackingCameraView: View {
             if viewModel.hasReferenceImage {
                 HStack(alignment: .center, spacing: 12) {
                     Text("camera.bellyTracking.referenceToggle")
-                        .font(.system(.subheadline, design: .rounded))
-                        .fontWeight(.semibold)
+                        .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
                         .foregroundStyle(.white)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
@@ -189,7 +188,7 @@ struct BellyTrackingCameraView: View {
                 if viewModel.isShowingReference {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("camera.bellyTracking.referenceOpacity")
-                            .font(.system(.caption, design: .rounded))
+                            .font(BabyLoadingTypography.text(.caption))
                             .foregroundStyle(.white.opacity(0.8))
 
                         Slider(
@@ -223,7 +222,7 @@ struct BellyTrackingCameraView: View {
                             .tint(.black)
                     } else {
                         Label("camera.bellyTracking.capture", systemImage: "camera.circle.fill")
-                            .font(.system(.headline, design: .rounded))
+                            .font(BabyLoadingTypography.text(.headline, weight: .semibold))
                     }
                     Spacer()
                 }
@@ -250,19 +249,18 @@ struct BellyTrackingCameraView: View {
                 .foregroundStyle(.white.opacity(0.9))
 
             Text(titleKey)
-                .font(.system(.title3, design: .rounded))
-                .fontWeight(.bold)
+                .font(BabyLoadingTypography.text(.title3, weight: .bold))
                 .foregroundStyle(.white)
 
             Text(subtitleKey)
-                .font(.system(.body, design: .rounded))
+                .font(BabyLoadingTypography.text(.body))
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.white.opacity(0.8))
 
             Button(String(localized: "camera.bellyTracking.close", defaultValue: "Close")) {
                 dismiss()
             }
-            .font(.system(.headline, design: .rounded))
+            .font(BabyLoadingTypography.text(.headline, weight: .semibold))
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
             .background(.white, in: Capsule())

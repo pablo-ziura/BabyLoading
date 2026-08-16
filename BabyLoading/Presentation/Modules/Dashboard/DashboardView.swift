@@ -12,14 +12,13 @@ struct DashboardView: View {
                 VStack(spacing: 24) {
                     VStack(spacing: 4) {
                         Text("dashboard.title")
-                            .font(.system(.largeTitle, design: .rounded))
-                            .fontWeight(.bold)
+                            .font(BabyLoadingTypography.text(.largeTitle, weight: .bold))
                             .foregroundStyle(.primary)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h1)
 
                         Text("dashboard.subtitle")
-                            .font(.system(.subheadline, design: .rounded))
+                            .font(BabyLoadingTypography.text(.subheadline))
                             .foregroundStyle(.primary.opacity(0.75))
                     }
                     .padding(.top, 24)
@@ -96,8 +95,7 @@ struct DashboardView: View {
                             content.babySizeLabel
                         )
                     )
-                        .font(.system(.body, design: .rounded))
-                        .fontWeight(.medium)
+                        .font(BabyLoadingTypography.text(.body, weight: .medium))
                         .foregroundStyle(.primary.opacity(0.8))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 16)
@@ -124,7 +122,7 @@ struct DashboardView: View {
                         .accessibilityHidden(true)
 
                     Text("dashboard.configureDate")
-                        .font(.system(.body, design: .rounded))
+                        .font(BabyLoadingTypography.text(.body))
                         .foregroundStyle(.primary.opacity(0.75))
                 }
                 .padding(.vertical, 24)
@@ -160,12 +158,11 @@ struct DashboardView: View {
             if let fpp = viewModel.estimatedDueDate {
                 VStack(spacing: 6) {
                     Text("dashboard.dueDate")
-                        .font(.system(.caption, design: .rounded))
+                        .font(BabyLoadingTypography.text(.caption))
                         .foregroundStyle(.secondary)
                         .accessibilityLabel(Text("settings.dueDate"))
                     Text(fpp.formatted(date: .long, time: .omitted))
-                        .font(.system(.title3, design: .rounded))
-                        .fontWeight(.semibold)
+                        .font(BabyLoadingTypography.text(.title3, weight: .semibold))
                         .foregroundStyle(.primary)
                 }
                 .padding()
@@ -194,8 +191,7 @@ struct DashboardView: View {
                             .font(.title2)
                             .accessibilityHidden(true)
                         Text(content.milestoneTitle)
-                            .font(.system(.headline, design: .rounded))
-                            .fontWeight(.bold)
+                            .font(BabyLoadingTypography.text(.headline, weight: .bold))
                             .foregroundStyle(.primary)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h2)
@@ -208,7 +204,7 @@ struct DashboardView: View {
                                     .font(.caption)
                                     .accessibilityHidden(true)
                                 Text(event)
-                                    .font(.system(.subheadline, design: .rounded))
+                                    .font(BabyLoadingTypography.text(.subheadline))
                                     .foregroundStyle(.primary.opacity(0.9))
                             }
                             .padding(.vertical, 8)
@@ -228,7 +224,7 @@ struct DashboardView: View {
                                 .font(.subheadline)
                                 .accessibilityHidden(true)
                             Text(impact)
-                                .font(.system(.footnote, design: .rounded))
+                                .font(BabyLoadingTypography.text(.footnote))
                                 .foregroundStyle(.primary.opacity(0.75))
                         }
                         .padding(12)
