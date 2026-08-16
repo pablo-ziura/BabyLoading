@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0C26AFBD7B13BA2F97BF56FD /* BellyTrackingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */; };
+		0F2FA37D429D14E2D4B4DAAD /* NunitoSans-Italic-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */; };
 		3B7849E71786FD626C1F4D26 /* BellyTrackingImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */; };
 		3DFF9BC189C111CDEB5CE80A /* PhotoLibraryExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */; };
 		44F80030A6B5C04ADA1CDDF9 /* BellyTrackingEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */; };
 		4C20D9571147D96B8CDBE45D /* PregnancyContentLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */; };
 		5A4BA2325E477B890B7ECBFD /* BellyTrackingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */; };
+		6EC4A6DDCFE542823493BA6A /* BabyLoadingTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */; };
+		A644136B58AA2FC9413D6E56 /* NunitoSans-Variable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB33FE501AD5F237A046BFA5 /* NunitoSans-Variable.ttf */; };
 		B27C693E7B14850C9A6D73CE /* BellyTrackingEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */; };
 		B676BF95B2274355EFAEA048 /* BellyTrackingManifest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */; };
 		BBE8D5E29465B747E28AB5AD /* BellyTrackingImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */; };
@@ -23,6 +26,7 @@
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F03DE3D7C399182DDCE835EC /* pregnancy-content.en.json in Resources */ = {isa = PBXBuildFile; fileRef = BF238E7AA94B01389274E590 /* pregnancy-content.en.json */; };
 		F6617512ABB44EE7C162FD3B /* pregnancy-content.en.json in Resources */ = {isa = PBXBuildFile; fileRef = BF238E7AA94B01389274E590 /* pregnancy-content.en.json */; };
+		F9C1750DC75C58FEDF535C55 /* NunitoSans-OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,8 +62,10 @@
 
 /* Begin PBXFileReference section */
 		0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingSettings.swift; sourceTree = "<group>"; };
+		2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = BabyLoadingTypography.swift; path = BabyLoadingTypography.swift; sourceTree = "<group>"; };
 		7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingEntry.swift; sourceTree = "<group>"; };
 		855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PregnancyContentLocalization.swift; sourceTree = "<group>"; };
+		90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */ = {isa = PBXFileReference; explicitFileType = text; lastKnownFileType = text; name = "NunitoSans-OFL.txt"; path = "NunitoSans-OFL.txt"; sourceTree = "<group>"; };
 		986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingImageProcessor.swift; sourceTree = "<group>"; };
 		BF238E7AA94B01389274E590 /* pregnancy-content.en.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = "pregnancy-content.en.json"; sourceTree = "<group>"; };
 		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
@@ -72,6 +78,8 @@
 		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 		DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = PhotoLibraryExporter.swift; path = PhotoLibraryExporter.swift; sourceTree = "<group>"; };
 		E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingManifest.swift; sourceTree = "<group>"; };
+		EB33FE501AD5F237A046BFA5 /* NunitoSans-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; lastKnownFileType = file; name = "NunitoSans-Variable.ttf"; path = "NunitoSans-Variable.ttf"; sourceTree = "<group>"; };
+		F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; lastKnownFileType = file; name = "NunitoSans-Italic-Variable.ttf"; path = "NunitoSans-Italic-Variable.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -207,6 +215,15 @@
 			path = Content;
 			sourceTree = "<group>";
 		};
+		3E15A525A7EB6BF927DE3A9D /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */,
+			);
+			name = Common;
+			path = Common;
+			sourceTree = "<group>";
+		};
 		473F87874C435892EA049E37 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,11 +234,31 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		49985106E91978BC64C945FF /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				3E15A525A7EB6BF927DE3A9D /* Common */,
+			);
+			name = Presentation;
+			path = Presentation;
+			sourceTree = "<group>";
+		};
 		4BFAD9BEF8CBB5136E87111E /* BabyLoadingTests */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = BabyLoadingTests;
+			sourceTree = "<group>";
+		};
+		8422F7AB6E297256DEF788B9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				EB33FE501AD5F237A046BFA5 /* NunitoSans-Variable.ttf */,
+				F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */,
+				90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */,
+			);
+			name = Fonts;
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		B1C323FC9FBB8B9C348664B7 /* Domain */ = {
@@ -291,6 +328,7 @@
 				473F87874C435892EA049E37 /* Data */,
 				FD3431DDEF72FB44C5254140 /* Resources */,
 				B1C323FC9FBB8B9C348664B7 /* Domain */,
+				49985106E91978BC64C945FF /* Presentation */,
 			);
 			path = BabyLoading;
 			sourceTree = "<group>";
@@ -299,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				BF238E7AA94B01389274E590 /* pregnancy-content.en.json */,
+				8422F7AB6E297256DEF788B9 /* Fonts */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -440,6 +479,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6617512ABB44EE7C162FD3B /* pregnancy-content.en.json in Resources */,
+				A644136B58AA2FC9413D6E56 /* NunitoSans-Variable.ttf in Resources */,
+				0F2FA37D429D14E2D4B4DAAD /* NunitoSans-Italic-Variable.ttf in Resources */,
+				F9C1750DC75C58FEDF535C55 /* NunitoSans-OFL.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +517,7 @@
 				0C26AFBD7B13BA2F97BF56FD /* BellyTrackingSettings.swift in Sources */,
 				CD7693907C1017CD87D6F290 /* BellyTrackingManifest.swift in Sources */,
 				BBE8D5E29465B747E28AB5AD /* BellyTrackingImageProcessor.swift in Sources */,
+				6EC4A6DDCFE542823493BA6A /* BabyLoadingTypography.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,12 +675,14 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
+				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -683,12 +728,14 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_PregnancyContentURL = "";
+				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
