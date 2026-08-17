@@ -32,7 +32,7 @@ struct BabyProgressWidgetEntryView: View {
                         entry.week
                     )
                 )
-                    .font(.system(size: 15, weight: .heavy, design: .rounded))
+                    .font(BabyLoadingTypography.widget(size: 15, weight: .extraBold))
                     .foregroundStyle(.white)
 
                 Text(
@@ -45,7 +45,7 @@ struct BabyProgressWidgetEntryView: View {
                         entry.babySizeLabel
                     )
                 )
-                    .font(.system(size: 11, weight: .medium, design: .rounded))
+                    .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
                     .foregroundStyle(.white.opacity(0.85))
                     .lineLimit(3)
                     .multilineTextAlignment(.leading)
@@ -55,9 +55,9 @@ struct BabyProgressWidgetEntryView: View {
 
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(days)")
-                        .font(.system(size: 28, weight: .black, design: .rounded))
+                        .font(BabyLoadingTypography.widget(size: 28, weight: .extraBold))
                     Text("widget.days")
-                        .font(.system(size: 12, weight: .semibold, design: .rounded))
+                        .font(BabyLoadingTypography.widget(size: 12, weight: .semibold))
                 }
                 .foregroundStyle(.white)
 
@@ -118,7 +118,7 @@ struct BabyProgressWidgetEntryView: View {
                 .foregroundStyle(.white.opacity(0.8))
 
             Text("widget.configureDate")
-                .font(.system(size: 13, weight: .medium, design: .rounded))
+                .font(BabyLoadingTypography.widget(size: 13, weight: .medium))
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(.white.opacity(0.7))
         }

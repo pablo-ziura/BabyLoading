@@ -18,8 +18,7 @@ struct JourneyView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     Text("journey.title")
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.bold)
+                        .font(BabyLoadingTypography.text(.title2, weight: .bold))
                         .foregroundStyle(.primary)
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityHeading(.h1)
