@@ -13,8 +13,7 @@ struct SettingsView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     Text("settings.title")
-                        .font(.system(.title2, design: .rounded))
-                        .fontWeight(.bold)
+                        .font(BabyLoadingTypography.text(.title2, weight: .bold))
                         .foregroundStyle(.primary)
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityHeading(.h1)
@@ -22,7 +21,7 @@ struct SettingsView: View {
 
                     VStack(spacing: 0) {
                         Text("settings.lastPeriodPrompt")
-                            .font(.system(.headline, design: .rounded))
+                            .font(BabyLoadingTypography.text(.headline))
                             .foregroundStyle(.secondary)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h2)
@@ -54,10 +53,10 @@ struct SettingsView: View {
                             Divider().padding(.vertical, 8)
                             VStack(spacing: 4) {
                                 Text("settings.dueDate")
-                                    .font(.system(.caption, design: .rounded))
+                                    .font(BabyLoadingTypography.text(.caption))
                                     .foregroundStyle(.secondary)
                                 Text(fpp.formatted(date: .long, time: .omitted))
-                                    .font(.system(.headline, design: .rounded))
+                                    .font(BabyLoadingTypography.text(.headline))
                                     .foregroundStyle(.primary)
                             }
                             .padding(.bottom, 8)
@@ -71,7 +70,7 @@ struct SettingsView: View {
                         viewModel.updateDate(viewModel.lastPeriodDate)
                     } label: {
                         Text("settings.setDate")
-                            .font(.system(.headline, design: .rounded))
+                            .font(BabyLoadingTypography.text(.headline, weight: .semibold))
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
@@ -95,7 +94,7 @@ struct SettingsView: View {
                             .accessibilityHidden(true)
 
                         Text("settings.info")
-                            .font(.system(.caption, design: .rounded))
+                            .font(BabyLoadingTypography.text(.caption))
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 32)

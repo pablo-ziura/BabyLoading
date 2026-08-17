@@ -126,14 +126,13 @@ struct GalleryView: View {
     private var header: some View {
         VStack(spacing: 8) {
             Text("tabs.gallery")
-                .font(.system(.title2, design: .rounded))
-                .fontWeight(.bold)
+                .font(BabyLoadingTypography.text(.title2, weight: .bold))
                 .foregroundStyle(.primary)
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(.h1)
 
             Text("gallery.subtitle")
-                .font(.system(.body, design: .rounded))
+                .font(BabyLoadingTypography.text(.body))
                 .foregroundStyle(.primary.opacity(0.7))
                 .multilineTextAlignment(.center)
         }
@@ -144,11 +143,10 @@ struct GalleryView: View {
             HStack(alignment: .top, spacing: 12) {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("gallery.bellyTracking.title")
-                        .font(.system(.title3, design: .rounded))
-                        .fontWeight(.bold)
+                        .font(BabyLoadingTypography.text(.title3, weight: .bold))
 
                     Text("gallery.bellyTracking.subtitle")
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(BabyLoadingTypography.text(.subheadline))
                         .foregroundStyle(.secondary)
                 }
 
@@ -183,8 +181,7 @@ struct GalleryView: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("gallery.bellyTracking.cadence")
-                    .font(.system(.subheadline, design: .rounded))
-                    .fontWeight(.semibold)
+                    .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
                 Picker(
                     String(
@@ -211,7 +208,7 @@ struct GalleryView: View {
                     Image(systemName: "camera.fill")
                     Text("gallery.bellyTracking.takePhoto")
                 }
-                .font(.system(.headline, design: .rounded))
+                .font(BabyLoadingTypography.text(.headline, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(Color.pink.opacity(0.16), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
@@ -221,8 +218,7 @@ struct GalleryView: View {
             if !viewModel.bellyTrackingEntries.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("gallery.bellyTracking.timelineTitle")
-                        .font(.system(.subheadline, design: .rounded))
-                        .fontWeight(.semibold)
+                        .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 14) {
@@ -246,16 +242,15 @@ struct GalleryView: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("gallery.bellyTracking.lastCapture")
-                    .font(.system(.subheadline, design: .rounded))
-                    .fontWeight(.semibold)
+                    .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
                 Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
-                    .font(.system(.body, design: .rounded))
+                    .font(BabyLoadingTypography.text(.body))
                     .foregroundStyle(.primary.opacity(0.8))
 
                 if let week = entry.pregnancyWeekAtCapture {
                     Text(weekLabel(week))
-                        .font(.system(.caption, design: .rounded))
+                        .font(BabyLoadingTypography.text(.caption))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                         .background(Color.pink.opacity(0.14), in: Capsule())
@@ -274,10 +269,10 @@ struct GalleryView: View {
                 .accessibilityHidden(true)
 
             Text("gallery.bellyTracking.emptyTitle")
-                .font(.system(.headline, design: .rounded))
+                .font(BabyLoadingTypography.text(.headline, weight: .semibold))
 
             Text("gallery.bellyTracking.emptySubtitle")
-                .font(.system(.subheadline, design: .rounded))
+                .font(BabyLoadingTypography.text(.subheadline))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -289,11 +284,10 @@ struct GalleryView: View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 6) {
                 Text("gallery.title")
-                    .font(.system(.title3, design: .rounded))
-                    .fontWeight(.bold)
+                    .font(BabyLoadingTypography.text(.title3, weight: .bold))
 
                 Text("gallery.freePhotosSubtitle")
-                    .font(.system(.subheadline, design: .rounded))
+                    .font(BabyLoadingTypography.text(.subheadline))
                     .foregroundStyle(.secondary)
             }
 
@@ -356,8 +350,7 @@ struct GalleryView: View {
                             .accessibilityHidden(true)
 
                         Text("gallery.addPhoto")
-                            .font(.system(.caption, design: .rounded))
-                            .fontWeight(.medium)
+                            .font(BabyLoadingTypography.text(.caption, weight: .medium))
                             .foregroundStyle(.primary.opacity(0.75))
                     }
                     .frame(maxWidth: .infinity)
@@ -380,11 +373,11 @@ struct GalleryView: View {
                         .accessibilityHidden(true)
 
                     Text("gallery.emptyTitle")
-                        .font(.system(.body, design: .rounded))
+                        .font(BabyLoadingTypography.text(.body))
                         .foregroundStyle(.primary.opacity(0.8))
 
                     Text("gallery.emptySubtitle")
-                        .font(.system(.caption, design: .rounded))
+                        .font(BabyLoadingTypography.text(.caption))
                         .foregroundStyle(.secondary)
                 }
                 .padding(.top, 12)
@@ -397,8 +390,7 @@ struct GalleryView: View {
 
     private var dueBadge: some View {
         Text(viewModel.isBellyTrackingDue ? "gallery.bellyTracking.dueNow" : "gallery.bellyTracking.onTrack")
-            .font(.system(.caption, design: .rounded))
-            .fontWeight(.bold)
+            .font(BabyLoadingTypography.text(.caption, weight: .bold))
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
             .background(
@@ -424,12 +416,11 @@ struct GalleryView: View {
     private func statCard(title: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
-                .font(.system(.caption, design: .rounded))
+                .font(BabyLoadingTypography.text(.caption))
                 .foregroundStyle(.secondary)
 
             Text(value)
-                .font(.system(.headline, design: .rounded))
-                .fontWeight(.bold)
+                .font(BabyLoadingTypography.text(.headline, weight: .bold))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(14)
@@ -456,12 +447,11 @@ struct GalleryView: View {
             }
 
             Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
-                .font(.system(.subheadline, design: .rounded))
-                .fontWeight(.semibold)
+                .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
             if let week = entry.pregnancyWeekAtCapture {
                 Text(weekLabel(week))
-                    .font(.system(.caption, design: .rounded))
+                    .font(BabyLoadingTypography.text(.caption))
                     .foregroundStyle(.secondary)
             }
         }
