@@ -20,12 +20,11 @@ struct StatCard: View {
                 .accessibilityHidden(true)
 
             Text(value)
-                .font(.system(.title, design: .rounded))
-                .fontWeight(.bold)
+                .font(BabyLoadingTypography.text(.title, weight: .bold))
                 .foregroundStyle(.primary)
 
             Text(title)
-                .font(.system(.caption, design: .rounded))
+                .font(BabyLoadingTypography.text(.caption))
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
