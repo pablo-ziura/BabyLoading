@@ -62,10 +62,10 @@
 
 /* Begin PBXFileReference section */
 		0F27D13A6FC5A9D0B377C5C6 /* BellyTrackingSettings.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingSettings.swift; sourceTree = "<group>"; };
-		2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = BabyLoadingTypography.swift; path = BabyLoadingTypography.swift; sourceTree = "<group>"; };
+		2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BabyLoadingTypography.swift; sourceTree = "<group>"; };
 		7E1601184305CDF7C5CF9B11 /* BellyTrackingEntry.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingEntry.swift; sourceTree = "<group>"; };
 		855A12151F6A173E7B5D1DD5 /* PregnancyContentLocalization.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PregnancyContentLocalization.swift; sourceTree = "<group>"; };
-		90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */ = {isa = PBXFileReference; explicitFileType = text; lastKnownFileType = text; name = "NunitoSans-OFL.txt"; path = "NunitoSans-OFL.txt"; sourceTree = "<group>"; };
+		90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */ = {isa = PBXFileReference; explicitFileType = text; path = "NunitoSans-OFL.txt"; sourceTree = "<group>"; };
 		986739657F94D3603049A5F9 /* BellyTrackingImageProcessor.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingImageProcessor.swift; sourceTree = "<group>"; };
 		BF238E7AA94B01389274E590 /* pregnancy-content.en.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = "pregnancy-content.en.json"; sourceTree = "<group>"; };
 		DA0AB2002F59E2370075D5DA /* AppNetwork */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppNetwork; path = Packages/AppNetwork; sourceTree = "<group>"; };
@@ -75,22 +75,24 @@
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
+		DAD90FF33033143600B66667 /* DESIGN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DESIGN.md; sourceTree = "<group>"; };
+		DAD90FF43033143600B66667 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
-		DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = PhotoLibraryExporter.swift; path = PhotoLibraryExporter.swift; sourceTree = "<group>"; };
+		DF077EC3D44179EDD0B29613 /* PhotoLibraryExporter.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = PhotoLibraryExporter.swift; sourceTree = "<group>"; };
 		E25FFFBC628473273BBE9EB5 /* BellyTrackingManifest.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = BellyTrackingManifest.swift; sourceTree = "<group>"; };
-		EB33FE501AD5F237A046BFA5 /* NunitoSans-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; lastKnownFileType = file; name = "NunitoSans-Variable.ttf"; path = "NunitoSans-Variable.ttf"; sourceTree = "<group>"; };
-		F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; lastKnownFileType = file; name = "NunitoSans-Italic-Variable.ttf"; path = "NunitoSans-Italic-Variable.ttf"; sourceTree = "<group>"; };
+		EB33FE501AD5F237A046BFA5 /* NunitoSans-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; path = "NunitoSans-Variable.ttf"; sourceTree = "<group>"; };
+		F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */ = {isa = PBXFileReference; explicitFileType = file; path = "NunitoSans-Italic-Variable.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/DependencyContainer.swift,
@@ -122,7 +124,7 @@
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
-		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/DependencyContainer.swift,
@@ -154,14 +156,14 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
 			);
 			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
 		};
-		DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
@@ -171,13 +173,30 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyLoading; sourceTree = "<group>"; };
+		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
+				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyLoading;
+			sourceTree = "<group>";
+		};
 		DA1C91622F41F1EA003EC367 /* BabyLoadingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BabyLoadingTests;
 			sourceTree = "<group>";
 		};
-		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyProgressWidget; sourceTree = "<group>"; };
+		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
+				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
+				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyProgressWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,7 +239,6 @@
 			children = (
 				2A58A656C9C2D3D6FB72F983 /* BabyLoadingTypography.swift */,
 			);
-			name = Common;
 			path = Common;
 			sourceTree = "<group>";
 		};
@@ -239,7 +257,6 @@
 			children = (
 				3E15A525A7EB6BF927DE3A9D /* Common */,
 			);
-			name = Presentation;
 			path = Presentation;
 			sourceTree = "<group>";
 		};
@@ -257,7 +274,6 @@
 				F8D4306B949754F546E84382 /* NunitoSans-Italic-Variable.ttf */,
 				90EA16F8E76D5B74F3F5052A /* NunitoSans-OFL.txt */,
 			);
-			name = Fonts;
 			path = Fonts;
 			sourceTree = "<group>";
 		};
@@ -283,6 +299,8 @@
 			isa = PBXGroup;
 			children = (
 				DAF0A0012F60000100A0B001 /* AGENTS.md */,
+				DAD90FF33033143600B66667 /* DESIGN.md */,
+				DAD90FF43033143600B66667 /* README.md */,
 				DA0AB2002F59E2370075D5DA /* AppNetwork */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
 				DA1C91892F41F266003EC367 /* BabyProgressWidget */,
