@@ -4,6 +4,7 @@ Documento vivo para cualquier agente que trabaje en `BabyLoading`.
 Leer este archivo antes de proponer cambios o tocar codigo.
 
 Antes de crear o modificar cualquier pantalla, componente reutilizable o widget que incluya texto, leer `DESIGN.md` y aplicar sus reglas de tipografía y accesibilidad.
+`DESIGN.md` es el contrato visual compartido entre iOS y Android: al cambiar una decisión visual, actualizar su documento equivalente de Android en la misma tarea y mapear cada token semántico en ambas plataformas.
 
 ## Resumen del proyecto
 
