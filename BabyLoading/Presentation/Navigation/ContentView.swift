@@ -3,6 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     @Bindable var coordinator: AppCoordinator
     let container: DependencyContainer
+    @Environment(\.locale) private var locale
 
     var body: some View {
         TabView(selection: $coordinator.selectedTab) {
@@ -11,11 +12,11 @@ struct MainTabView: View {
             NavigationStack(path: $coordinator.dashboardPath) {
                 container.makeDashboardView()
                     .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route)
+                        container.view(for: route, locale: locale)
                     }
             }
             .tabItem {
-                Label(TabItem.dashboard.title, systemImage: TabItem.dashboard.icon)
+                Label(TabItem.dashboard.titleKey, systemImage: TabItem.dashboard.icon)
             }
             .tag(TabItem.dashboard)
 
@@ -24,11 +25,11 @@ struct MainTabView: View {
             NavigationStack(path: $coordinator.journeyPath) {
                 container.makeJourneyView()
                     .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route)
+                        container.view(for: route, locale: locale)
                     }
             }
             .tabItem {
-                Label(TabItem.journey.title, systemImage: TabItem.journey.icon)
+                Label(TabItem.journey.titleKey, systemImage: TabItem.journey.icon)
             }
             .tag(TabItem.journey)
 
@@ -37,11 +38,11 @@ struct MainTabView: View {
             NavigationStack(path: $coordinator.galleryPath) {
                 container.makeGalleryView()
                     .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route)
+                        container.view(for: route, locale: locale)
                     }
             }
             .tabItem {
-                Label(TabItem.gallery.title, systemImage: TabItem.gallery.icon)
+                Label(TabItem.gallery.titleKey, systemImage: TabItem.gallery.icon)
             }
             .tag(TabItem.gallery)
 
@@ -50,11 +51,11 @@ struct MainTabView: View {
             NavigationStack(path: $coordinator.settingsPath) {
                 container.makeSettingsView()
                     .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route)
+                        container.view(for: route, locale: locale)
                     }
             }
             .tabItem {
-                Label(TabItem.settings.title, systemImage: TabItem.settings.icon)
+                Label(TabItem.settings.titleKey, systemImage: TabItem.settings.icon)
             }
             .tag(TabItem.settings)
         }

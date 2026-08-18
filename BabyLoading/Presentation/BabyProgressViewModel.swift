@@ -16,8 +16,12 @@ class BabyProgressViewModel {
     var bellyTrackingSettings: BellyTrackingSettings
     var nextBellyTrackingDueDate: Date?
     var showingPhotoPicker = false
+    var selectedLanguage: AppLanguage
+    let availableLanguages: [AppLanguage]
+    let appVersion: String
 
     private let repository: BabyProgressRepositoryProtocol
+    private let languageRepository: AppLanguageRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
 
@@ -38,10 +42,16 @@ class BabyProgressViewModel {
 
     init(
         repository: BabyProgressRepositoryProtocol? = nil,
+        languageRepository: AppLanguageRepositoryProtocol? = nil,
+        appVersionProvider: AppVersionProviding? = nil,
         widgetReloader: WidgetReloaderProtocol? = nil
     ) {
         self.repository = repository ?? DependencyContainer.shared.repository
+        self.languageRepository = languageRepository ?? DependencyContainer.shared.languageRepository
         self.widgetReloader = widgetReloader ?? DependencyContainer.shared.widgetReloader
+        selectedLanguage = self.languageRepository.selectedLanguage()
+        availableLanguages = self.languageRepository.availableLanguages
+        appVersion = (appVersionProvider ?? DependencyContainer.shared.appVersionProvider).marketingVersion()
 
         lastPeriodDate = self.repository.getEventDate() ?? .now
         allWeekContent = self.repository.getAllWeekContent()
@@ -61,6 +71,18 @@ class BabyProgressViewModel {
     func updateDate(_ date: Date) {
         lastPeriodDate = date
         repository.setEventDate(date)
+        reloadProgressState()
+        widgetReloader.reloadAllTimelines()
+    }
+
+    func updateLanguage(_ language: AppLanguage) {
+        guard language != selectedLanguage else {
+            return
+        }
+
+        languageRepository.updateSelectedLanguage(language)
+        selectedLanguage = language
+        repository.updateContentLanguage(language)
         reloadProgressState()
         widgetReloader.reloadAllTimelines()
     }

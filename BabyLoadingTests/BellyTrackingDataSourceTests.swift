@@ -1,4 +1,5 @@
 @testable import BabyLoading
+import AppPreferences
 import CoreImage
 import Foundation
 import ImageIO
@@ -154,8 +155,7 @@ struct BellyTrackingDataSourceTests {
 
         return DataSourceTestContext(
             dataSource: BabyProgressDataSource(
-                suiteName: suiteName,
-                userDefaults: userDefaults,
+                preferencesStore: UserDefaultsPreferencesStore(userDefaults: userDefaults),
                 fileManager: .default,
                 containerURL: temporaryDirectory
             ),
@@ -167,8 +167,7 @@ struct BellyTrackingDataSourceTests {
 
     private func makeDataSource(context: DataSourceTestContext) -> BabyProgressDataSource {
         BabyProgressDataSource(
-            suiteName: context.suiteName,
-            userDefaults: context.userDefaults,
+            preferencesStore: UserDefaultsPreferencesStore(userDefaults: context.userDefaults),
             fileManager: .default,
             containerURL: context.containerURL
         )

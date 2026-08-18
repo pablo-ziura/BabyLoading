@@ -6,9 +6,10 @@ class DependencyContainer {
     static let shared = DependencyContainer()
 
     let dataSource: BabyProgressDataSourceProtocol
-    let contentRepository: PregnancyContentRepositoryProtocol
+    let languageRepository: AppLanguageRepositoryProtocol
     let repository: BabyProgressRepositoryProtocol
     let widgetReloader: WidgetReloaderProtocol
+    let appVersionProvider: AppVersionProviding
 
     // MARK: - Coordinator
 
@@ -19,25 +20,26 @@ class DependencyContainer {
     @MainActor let viewModel: BabyProgressViewModel
 
     private init() {
-        let contentLocalization = PregnancyContentLocalization(bundle: .main)
-
         dataSource = BabyProgressDataSource()
-        contentRepository = PregnancyContentRepository(
-            expectedLocale: contentLocalization.localeCode,
-            bundleSource: BundleContentSource(bundle: .main, localization: contentLocalization),
-            cacheStore: SharedContentCacheStore(localization: contentLocalization),
-            remoteSource: RemoteContentSource(
-                session: .shared,
-                url: Bundle.main.pregnancyContentRemoteURL(localeCode: contentLocalization.localeCode),
-                expectedLocale: contentLocalization.localeCode
-            )
-        )
+        languageRepository = AppLanguageRepository()
         repository = BabyProgressRepository(
             dataSource: dataSource,
-            contentRepository: contentRepository
+            contentRepositoryFactory: PregnancyContentRepositoryFactory(),
+            initialLanguage: languageRepository.selectedLanguage()
         )
         widgetReloader = DefaultWidgetReloader()
-        viewModel = BabyProgressViewModel(repository: repository, widgetReloader: widgetReloader)
+        appVersionProvider = BundleAppVersionProvider()
+        viewModel = BabyProgressViewModel(
+            repository: repository,
+            languageRepository: languageRepository,
+            appVersionProvider: appVersionProvider,
+            widgetReloader: widgetReloader
+        )
+    }
+
+    static func makeWidgetContext() -> (repository: BabyProgressRepositoryProtocol, language: AppLanguage) {
+        let container = DependencyContainer()
+        return (container.repository, container.languageRepository.selectedLanguage())
     }
 }
 
@@ -57,12 +59,12 @@ enum TabItem: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    var title: String {
+    var titleKey: LocalizedStringKey {
         switch self {
-        case .dashboard: return String(localized: "tabs.dashboard", defaultValue: "Home")
-        case .journey: return String(localized: "tabs.journey", defaultValue: "My Journey")
-        case .gallery: return String(localized: "tabs.gallery", defaultValue: "Gallery")
-        case .settings: return String(localized: "tabs.settings", defaultValue: "Settings")
+        case .dashboard: "tabs.dashboard"
+        case .journey: "tabs.journey"
+        case .gallery: "tabs.gallery"
+        case .settings: "tabs.settings"
         }
     }
 
