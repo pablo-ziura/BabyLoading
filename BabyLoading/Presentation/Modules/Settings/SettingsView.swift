@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Bindable var viewModel: BabyProgressViewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.locale) private var locale
 
     private var isLandscape: Bool { verticalSizeClass == .compact }
 
@@ -46,7 +47,7 @@ struct SettingsView: View {
                                 .datePickerStyle(.graphical)
                             }
                         }
-                        .environment(\.locale, .current)
+                        .environment(\.locale, locale)
                         .tint(.pink)
 
                         if let fpp = viewModel.estimatedDueDate {
@@ -55,7 +56,7 @@ struct SettingsView: View {
                                 Text("settings.dueDate")
                                     .font(BabyLoadingTypography.text(.caption))
                                     .foregroundStyle(.secondary)
-                                Text(fpp.formatted(date: .long, time: .omitted))
+                                Text(fpp.formatted(.dateTime.year().month(.wide).day().locale(locale)))
                                     .font(BabyLoadingTypography.text(.headline))
                                     .foregroundStyle(.primary)
                             }
@@ -87,6 +88,36 @@ struct SettingsView: View {
                     .padding(.horizontal, 40)
                     .accessibilityHint(Text("accessibility.settings.setDateHint"))
 
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack(spacing: 12) {
+                            Image(systemName: "globe")
+                                .font(.title3)
+                                .foregroundStyle(.pink)
+                                .frame(width: 44, height: 44)
+                                .background(Color.pink.opacity(0.12), in: Circle())
+                                .accessibilityHidden(true)
+
+                            Text("settings.language")
+                                .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                                .foregroundStyle(.primary)
+                                .accessibilityAddTraits(.isHeader)
+                                .accessibilityHeading(.h2)
+                        }
+
+                        VStack(spacing: 8) {
+                            ForEach(viewModel.availableLanguages) { language in
+                                LanguageOptionButton(
+                                    language: language,
+                                    isSelected: language == viewModel.selectedLanguage
+                                ) {
+                                    viewModel.updateLanguage(language)
+                                }
+                            }
+                        }
+                    }
+                    .softCard()
+                    .padding(.horizontal)
+
                     VStack(spacing: 8) {
                         Image(systemName: "info.circle")
                             .font(.title3)
@@ -98,6 +129,20 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 32)
+
+                        Text(
+                            String(
+                                format: String(
+                                    localized: "settings.version",
+                                    defaultValue: "Version %@",
+                                    locale: locale
+                                ),
+                                locale: locale,
+                                viewModel.appVersion
+                            )
+                        )
+                        .font(BabyLoadingTypography.text(.caption))
+                        .foregroundStyle(.secondary)
                     }
                     .padding(.top, 8)
                     .accessibilityElement(children: .combine)
@@ -108,6 +153,46 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity)
             }
         }
+    }
+}
+
+private struct LanguageOptionButton: View {
+    let language: AppLanguage
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Text(language.nativeName)
+                    .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                    .foregroundStyle(.primary)
+
+                Spacer(minLength: 16)
+
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? Color.pink : Color.secondary.opacity(0.55))
+                    .accessibilityHidden(true)
+            }
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity, minHeight: 52)
+            .background(
+                isSelected ? Color.pink.opacity(0.12) : Color.secondary.opacity(0.06),
+                in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+            )
+            .overlay {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .strokeBorder(
+                        isSelected ? Color.pink.opacity(0.45) : Color.secondary.opacity(0.12),
+                        lineWidth: 1
+                    )
+            }
+            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(language.nativeName))
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

@@ -7,13 +7,21 @@ struct BabyLoadingViewModelTests {
     private var viewModel: BabyProgressViewModel
     private var mockRepository: MockRepository
     private var mockReloader: MockWidgetReloader
+    private var mockLanguageRepository: MockAppLanguageRepository
 
     init() async throws {
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
+        let languageRepository = MockAppLanguageRepository()
         mockRepository = repo
         mockReloader = reloader
-        viewModel = BabyProgressViewModel(repository: repo, widgetReloader: reloader)
+        mockLanguageRepository = languageRepository
+        viewModel = BabyProgressViewModel(
+            repository: repo,
+            languageRepository: languageRepository,
+            appVersionProvider: MockAppVersionProvider(version: "1.0"),
+            widgetReloader: reloader
+        )
     }
 
     @Test func updateDate_UpdatesRepositoryAndState() async throws {
@@ -48,6 +56,37 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.allWeekContent == [weekContent])
 
         #expect(mockReloader.reloadAllTimelinesCalled)
+    }
+
+    @Test func updateLanguage_PersistsLanguageReloadsContentAndWidget() async throws {
+        let spanishContent = WeekContent(
+            week: 20,
+            babySize: .banana,
+            babySizeLabel: "un plátano",
+            milestoneTitle: "Semana 20",
+            keyEvents: ["Evento"],
+            physiologicalImpact: nil
+        )
+        mockRepository.updateContentLanguageHandler = { language in
+            guard language == .spanish else { return }
+            self.mockRepository.currentWeekContent = spanishContent
+            self.mockRepository.allWeekContent = [spanishContent]
+        }
+
+        viewModel.updateLanguage(.spanish)
+
+        #expect(mockLanguageRepository.updateSelectedLanguageCalled)
+        #expect(mockLanguageRepository.storedLanguage == .spanish)
+        #expect(viewModel.selectedLanguage == .spanish)
+        #expect(mockRepository.updateContentLanguageCalled)
+        #expect(mockRepository.selectedContentLanguage == .spanish)
+        #expect(viewModel.currentWeekContent == spanishContent)
+        #expect(viewModel.allWeekContent == [spanishContent])
+        #expect(mockReloader.reloadAllTimelinesCalled)
+    }
+
+    @Test func init_ExposesInjectedAppVersion() async throws {
+        #expect(viewModel.appVersion == "1.0")
     }
 
     @Test func savePhoto_UpdatesStateAndRepository() async throws {

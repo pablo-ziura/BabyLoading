@@ -9,7 +9,7 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
 ## Resumen del proyecto
 
 - App iOS nativa en SwiftUI con target principal `BabyLoading`, target de widget `BabyProgressWidget` y target de tests `BabyLoadingTests`.
-- Stack actual: Swift 6.0, Observation (`@Observable`), SwiftUI NavigationStack, WidgetKit, App Group compartido y un paquete local `Packages/AppNetwork`.
+- Stack actual: Swift 6.0, Observation (`@Observable`), SwiftUI NavigationStack, WidgetKit, App Group compartido y los paquetes locales `Packages/AppNetwork` y `Packages/AppPreferences`.
 - Deployment target actual: iOS 26.2.
 - Simulador de referencia para builds y tests locales: `iPhone 17 Pro` con `iOS 26.2`.
 - El proyecto esta en una fase activa de evolucion alrededor de contenido de embarazo remoto/cacheado. No asumas que todo lo nuevo esta estabilizado todavia.
@@ -30,6 +30,8 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
   Mezcla de `Testing` y `XCTest`.
 - `Packages/AppNetwork`
   Paquete Swift local con `NetworkClient` actor y tests propios. Existe en el workspace, pero hoy no se ve usado desde los targets principales.
+- `Packages/AppPreferences`
+  Paquete Swift local y agnóstico de negocio para persistencia tipada sobre `UserDefaults`, inyectado desde la app con la suite apropiada.
 
 ## Arquitectura y flujo de datos
 
@@ -43,8 +45,8 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
 ## Persistencia y datos compartidos
 
 - El App Group actual es `group.com.pablo.BabyLoading`.
-- `BabyProgressDataSource` guarda:
-  `lastPeriodDate` en `UserDefaults(suiteName:)`.
+- `BabyProgressDataSource` guarda `lastPeriodDate` mediante `AppPreferences`; el paquete no conoce el App Group ni claves de negocio.
+- El idioma elegido por la persona usuaria se guarda mediante `AppPreferences` en el App Group y lo comparten app y widget.
 - `BabyProgressDataSource` guarda tambien:
   foto legacy unica en archivo `user_photo.jpg`.
 - `BabyProgressDataSource` guarda tambien:
@@ -111,6 +113,12 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
   o seguir con `URLSession` simple para este caso,
   o converger hacia `AppNetwork` en vez de crear una tercera abstraccion.
 
+## Preferencias
+
+- `Packages/AppPreferences` expone `PreferencesStoreProtocol`, `PreferenceKey` y `UserDefaultsPreferencesStore` para lectura, escritura y borrado tipados.
+- Inyecta el `UserDefaults` de la suite correspondiente desde `SharedAppGroup`; no accedas a `UserDefaults` directamente para nuevas preferencias de producto.
+- El cache de contenido sigue usando su acceso actual a `UserDefaults` hasta que se migre en una tarea dedicada.
+
 ## Testing
 
 - Hay tests tanto con `import Testing` como con `XCTest`.
@@ -124,6 +132,7 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
   `PregnancyContentResourceTests`,
   `BabySizeResourceTests`.
 - El paquete `AppNetwork` tiene tests aislados en `Packages/AppNetwork/Tests/AppNetworkTests`.
+- El paquete `AppPreferences` tiene tests aislados en `Packages/AppPreferences/Tests/AppPreferencesTests`.
 
 ## Reglas de extension para agentes
 
@@ -149,6 +158,7 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
   `xcodebuild test -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2'`
 - Ejecutar tests del paquete local:
   `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppNetwork`
+  y `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppPreferences`
 
 ## Notas de mantenimiento
 

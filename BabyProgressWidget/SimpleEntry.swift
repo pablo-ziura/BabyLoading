@@ -7,4 +7,5 @@ struct SimpleEntry: TimelineEntry {
     let week: Int
     let babySize: BabySize
     let babySizeLabel: String
+    let languageCode: String
 }
