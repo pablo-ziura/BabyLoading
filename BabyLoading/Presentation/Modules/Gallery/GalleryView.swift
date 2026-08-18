@@ -23,6 +23,7 @@ typealias BellyTrackingCameraViewFactory = (Data?, @escaping AsyncBellyTrackingC
 
 struct GalleryView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.locale) private var locale
 
     var viewModel: BabyProgressViewModel
     var makeBellyTrackingCameraView: BellyTrackingCameraViewFactory = { referenceImageData, onPhotoCaptured in
@@ -78,20 +79,23 @@ struct GalleryView: View {
                     title: Text(
                         String(
                             localized: "gallery.bellyTracking.deleteEntryTitle",
-                            defaultValue: "Delete tracking photo?"
+                            defaultValue: "Delete tracking photo?",
+                            locale: locale
                         )
                     ),
                     message: Text(
                         String(
                             localized: "gallery.bellyTracking.deleteEntryMessage",
-                            defaultValue: "This photo will be removed from your belly tracking timeline."
+                            defaultValue: "This photo will be removed from your belly tracking timeline.",
+                            locale: locale
                         )
                     ),
                     primaryButton: .destructive(
                         Text(
                             String(
                                 localized: "gallery.bellyTracking.deleteEntryConfirm",
-                                defaultValue: "Delete"
+                                defaultValue: "Delete",
+                                locale: locale
                             )
                         )
                     ) {
@@ -100,7 +104,7 @@ struct GalleryView: View {
                         }
                     },
                     secondaryButton: .cancel(
-                        Text(String(localized: "common.cancel", defaultValue: "Cancel"))
+                        Text(String(localized: "common.cancel", defaultValue: "Cancel", locale: locale))
                     )
                 )
             case let .photoLibraryExportWarning(message):
@@ -108,12 +112,13 @@ struct GalleryView: View {
                     title: Text(
                         String(
                             localized: "gallery.photoLibraryExportTitle",
-                            defaultValue: "Photo library sync"
+                            defaultValue: "Photo library sync",
+                            locale: locale
                         )
                     ),
                     message: Text(message),
                     dismissButton: .default(
-                        Text(String(localized: "common.ok", defaultValue: "OK"))
+                        Text(String(localized: "common.ok", defaultValue: "OK", locale: locale))
                     )
                 )
             }
@@ -244,7 +249,7 @@ struct GalleryView: View {
                 Text("gallery.bellyTracking.lastCapture")
                     .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
-                Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
+                Text(entry.capturedAt.formatted(.dateTime.year().month(.abbreviated).day().locale(locale)))
                     .font(BabyLoadingTypography.text(.body))
                     .foregroundStyle(.primary.opacity(0.8))
 
@@ -403,14 +408,14 @@ struct GalleryView: View {
 
     private var nextPhotoValue: String {
         guard let nextBellyTrackingDueDate = viewModel.nextBellyTrackingDueDate else {
-            return String(localized: "gallery.bellyTracking.startNow", defaultValue: "Start now")
+            return String(localized: "gallery.bellyTracking.startNow", defaultValue: "Start now", locale: locale)
         }
 
         if viewModel.isBellyTrackingDue {
-            return String(localized: "gallery.bellyTracking.dueNow", defaultValue: "Ready now")
+            return String(localized: "gallery.bellyTracking.dueNow", defaultValue: "Ready now", locale: locale)
         }
 
-        return nextBellyTrackingDueDate.formatted(date: .abbreviated, time: .omitted)
+        return nextBellyTrackingDueDate.formatted(.dateTime.year().month(.abbreviated).day().locale(locale))
     }
 
     private func statCard(title: String, value: String) -> some View {
@@ -446,7 +451,7 @@ struct GalleryView: View {
                 .buttonStyle(.plain)
             }
 
-            Text(entry.capturedAt.formatted(date: .abbreviated, time: .omitted))
+            Text(entry.capturedAt.formatted(.dateTime.year().month(.abbreviated).day().locale(locale)))
                 .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))
 
             if let week = entry.pregnancyWeekAtCapture {
@@ -498,9 +503,10 @@ struct GalleryView: View {
         String(
             format: String(
                 localized: "gallery.bellyTracking.intervalDays",
-                defaultValue: "%d days"
+                defaultValue: "%d days",
+                locale: locale
             ),
-            locale: .current,
+            locale: locale,
             interval
         )
     }
@@ -509,9 +515,10 @@ struct GalleryView: View {
         String(
             format: String(
                 localized: "common.week",
-                defaultValue: "Week %d"
+                defaultValue: "Week %d",
+                locale: locale
             ),
-            locale: .current,
+            locale: locale,
             week
         )
     }
@@ -520,9 +527,10 @@ struct GalleryView: View {
         String(
             format: String(
                 localized: "accessibility.gallery.photoPosition",
-                defaultValue: "Ultrasound photo %1$d of %2$d"
+                defaultValue: "Ultrasound photo %1$d of %2$d",
+                locale: locale
             ),
-            locale: .current,
+            locale: locale,
             index + 1,
             total
         )
@@ -532,9 +540,10 @@ struct GalleryView: View {
         String(
             format: String(
                 localized: "accessibility.gallery.deletePhoto",
-                defaultValue: "Delete photo %1$d of %2$d"
+                defaultValue: "Delete photo %1$d of %2$d",
+                locale: locale
             ),
-            locale: .current,
+            locale: locale,
             index + 1,
             total
         )

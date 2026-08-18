@@ -3,6 +3,7 @@ import SwiftUI
 
 struct WeekRow: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.locale) private var locale
 
     let content: WeekContent
     let isCurrent: Bool
@@ -116,8 +117,8 @@ struct WeekRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(
                     String(
-                        format: String(localized: "common.week", defaultValue: "Week %d"),
-                        locale: .current,
+                        format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
+                        locale: locale,
                         content.week
                     )
                 )
@@ -128,7 +129,7 @@ struct WeekRow: View {
                         )
                     )
 
-                Text(content.babySizeLabel.localizedCapitalized)
+                Text(content.babySizeLabel.capitalized(with: locale))
                     .font(BabyLoadingTypography.text(.caption))
                     .foregroundStyle(.secondary)
                     .accessibilityLabel(
@@ -136,9 +137,10 @@ struct WeekRow: View {
                             String(
                                 format: String(
                                     localized: "dashboard.babySize",
-                                    defaultValue: "Your baby is now the size of %@"
+                                    defaultValue: "Your baby is now the size of %@",
+                                    locale: locale
                                 ),
-                                locale: .current,
+                                locale: locale,
                                 content.babySizeLabel
                             )
                         )

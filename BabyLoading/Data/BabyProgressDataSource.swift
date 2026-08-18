@@ -1,33 +1,10 @@
+import AppPreferences
 import Foundation
 
-protocol BabyProgressDataSourceProtocol {
-    func save(date: Date?)
-    func fetchDate() -> Date?
-    func savePhoto(data: Data?)
-    func fetchPhoto() -> Data?
-    func deletePhoto()
-
-    // Multi-photo support
-    func addPhoto(data: Data)
-    func fetchAllPhotos() -> [Data]
-    func deletePhoto(at index: Int)
-
-    // Belly tracking
-    func fetchBellyTrackingEntries() -> [BellyTrackingEntry]
-    func fetchBellyTrackingImageData(for imageFileName: String) -> Data?
-    func saveBellyTrackingPhoto(
-        data: Data,
-        capturedAt: Date,
-        pregnancyWeekAtCapture: Int?
-    ) -> BellyTrackingEntry?
-    func deleteBellyTrackingEntry(id: UUID)
-    func fetchBellyTrackingSettings() -> BellyTrackingSettings
-    func saveBellyTrackingSettings(_ settings: BellyTrackingSettings)
-}
-
 class BabyProgressDataSource: BabyProgressDataSourceProtocol {
-    private let suiteName: String
-    private let userDefaults: UserDefaults?
+    private static let lastPeriodDateKey = PreferenceKey<Date>("lastPeriodDate")
+
+    private let preferencesStore: (any PreferencesStoreProtocol)?
     private let fileManager: FileManager
     private let containerURL: URL?
     private let photoFileName = "user_photo.jpg"
@@ -38,13 +15,11 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private let jsonDecoder: JSONDecoder
 
     init(
-        suiteName: String = SharedAppGroup.identifier,
-        userDefaults: UserDefaults? = SharedAppGroup.userDefaults(),
+        preferencesStore: (any PreferencesStoreProtocol)? = SharedAppGroup.preferencesStore(),
         fileManager: FileManager = .default,
         containerURL: URL? = SharedAppGroup.containerURL()
     ) {
-        self.suiteName = suiteName
-        self.userDefaults = userDefaults
+        self.preferencesStore = preferencesStore
         self.fileManager = fileManager
         self.containerURL = containerURL
 
@@ -86,26 +61,34 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     func save(date: Date?) {
-        print("💾 [BabyProgressDataSource] save lastPeriodDate -> \(String(describing: date)) (suite: \(suiteName))")
-        guard let userDefaults else {
-            print("⚠️ [BabyProgressDataSource] Failed to init UserDefaults with suite: \(suiteName)")
+        guard let preferencesStore else {
+            print("⚠️ [BabyProgressDataSource] Failed to initialize preferences store")
             return
         }
-        userDefaults.set(date, forKey: "lastPeriodDate")
+
+        do {
+            if let date {
+                try preferencesStore.write(date, for: Self.lastPeriodDateKey)
+            } else {
+                preferencesStore.remove(Self.lastPeriodDateKey)
+            }
+        } catch {
+            print("⚠️ [BabyProgressDataSource] Failed to save lastPeriodDate: \(error)")
+        }
     }
 
     func fetchDate() -> Date? {
-        guard let userDefaults else {
-            print("⚠️ [BabyProgressDataSource] Failed to init UserDefaults with suite: \(suiteName)")
+        guard let preferencesStore else {
+            print("⚠️ [BabyProgressDataSource] Failed to initialize preferences store")
             return nil
         }
 
-        if let lastPeriodDate = userDefaults.object(forKey: "lastPeriodDate") as? Date {
-            print("🔍 [BabyProgressDataSource] fetchDate -> lastPeriodDate found: \(lastPeriodDate)")
-            return lastPeriodDate
+        do {
+            return try preferencesStore.read(Self.lastPeriodDateKey)
+        } catch {
+            print("⚠️ [BabyProgressDataSource] Failed to fetch lastPeriodDate: \(error)")
+            return nil
         }
-
-        return nil
     }
 
     // MARK: - Single photo (legacy, used by widget)
