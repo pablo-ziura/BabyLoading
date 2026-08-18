@@ -13,6 +13,7 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var getAllWeekContentCalled = false
     var currentContentSnapshotCalled = false
     var refreshContentIfNeededCalled = false
+    var updateContentLanguageCalled = false
     var savePhotoCalled = false
     var fetchPhotoCalled = false
     var deletePhotoCalled = false
@@ -32,6 +33,8 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var allWeekContent: [WeekContent] = []
     var contentSnapshot = PregnancyContentDocument.empty
     var refreshContentIfNeededHandler: (() -> Void)?
+    var updateContentLanguageHandler: ((AppLanguage) -> Void)?
+    var selectedContentLanguage: AppLanguage?
     var storedPhotoData: Data?
     var storedPhotos: [Data] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
@@ -77,6 +80,12 @@ class MockRepository: BabyProgressRepositoryProtocol {
     func refreshContentIfNeeded() async {
         refreshContentIfNeededCalled = true
         refreshContentIfNeededHandler?()
+    }
+
+    func updateContentLanguage(_ language: AppLanguage) {
+        updateContentLanguageCalled = true
+        selectedContentLanguage = language
+        updateContentLanguageHandler?(language)
     }
 
     func savePhoto(data: Data?) {
