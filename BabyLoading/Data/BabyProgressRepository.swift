@@ -1,40 +1,9 @@
 import Foundation
 
-protocol BabyProgressRepositoryProtocol {
-    func getEventDate() -> Date?
-    func setEventDate(_ date: Date?)
-    func daysUntilEvent() -> Int?
-    func getPregnancyWeek() -> Int?
-    func getCurrentWeekContent() -> WeekContent?
-    func getAllWeekContent() -> [WeekContent]
-    func currentContentSnapshot() -> PregnancyContentDocument
-    func refreshContentIfNeeded() async
-    func savePhoto(data: Data?)
-    func fetchPhoto() -> Data?
-    func deletePhoto()
-
-    // Multi-photo
-    func addPhoto(data: Data)
-    func fetchAllPhotos() -> [Data]
-    func deletePhoto(at index: Int)
-
-    // Belly tracking
-    func fetchBellyTrackingEntries() -> [BellyTrackingEntry]
-    func fetchBellyTrackingImageData(for imageFileName: String) -> Data?
-    func saveBellyTrackingPhoto(
-        data: Data,
-        capturedAt: Date,
-        pregnancyWeekAtCapture: Int?
-    ) -> BellyTrackingEntry?
-    func deleteBellyTrackingEntry(id: UUID)
-    func fetchBellyTrackingSettings() -> BellyTrackingSettings
-    func saveBellyTrackingSettings(_ settings: BellyTrackingSettings)
-    func nextBellyTrackingDueDate() -> Date?
-}
-
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
     private let dataSource: BabyProgressDataSourceProtocol
-    private let contentRepository: PregnancyContentRepositoryProtocol
+    private let contentRepositoryFactory: PregnancyContentRepositoryFactoryProtocol?
+    private var contentRepository: PregnancyContentRepositoryProtocol
 
     init(
         dataSource: BabyProgressDataSourceProtocol,
@@ -42,6 +11,17 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
     ) {
         self.dataSource = dataSource
         self.contentRepository = contentRepository
+        contentRepositoryFactory = nil
+    }
+
+    init(
+        dataSource: BabyProgressDataSourceProtocol,
+        contentRepositoryFactory: PregnancyContentRepositoryFactoryProtocol,
+        initialLanguage: AppLanguage
+    ) {
+        self.dataSource = dataSource
+        self.contentRepositoryFactory = contentRepositoryFactory
+        contentRepository = contentRepositoryFactory.makeRepository(for: initialLanguage)
     }
 
     func getEventDate() -> Date? {
@@ -84,6 +64,14 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
 
     func refreshContentIfNeeded() async {
         await contentRepository.refreshIfNeeded()
+    }
+
+    func updateContentLanguage(_ language: AppLanguage) {
+        guard let contentRepositoryFactory else {
+            return
+        }
+
+        contentRepository = contentRepositoryFactory.makeRepository(for: language)
     }
 
     func savePhoto(data: Data?) {

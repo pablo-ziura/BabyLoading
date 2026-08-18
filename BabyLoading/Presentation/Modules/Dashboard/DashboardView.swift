@@ -2,6 +2,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.locale) private var locale
     var viewModel: BabyProgressViewModel
 
     var body: some View {
@@ -89,9 +90,10 @@ struct DashboardView: View {
                         String(
                             format: String(
                                 localized: "dashboard.babySize",
-                                defaultValue: "Your baby is now the size of %@"
+                                defaultValue: "Your baby is now the size of %@",
+                                locale: locale
                             ),
-                            locale: .current,
+                            locale: locale,
                             content.babySizeLabel
                         )
                     )
@@ -161,7 +163,7 @@ struct DashboardView: View {
                         .font(BabyLoadingTypography.text(.caption))
                         .foregroundStyle(.secondary)
                         .accessibilityLabel(Text("settings.dueDate"))
-                    Text(fpp.formatted(date: .long, time: .omitted))
+                    Text(fpp.formatted(.dateTime.year().month(.wide).day().locale(locale)))
                         .font(BabyLoadingTypography.text(.title3, weight: .semibold))
                         .foregroundStyle(.primary)
                 }
@@ -255,13 +257,13 @@ struct DashboardView: View {
     @ViewBuilder
     private func statsCards(for week: Int) -> some View {
         StatCard(
-            title: String(localized: "dashboard.stats.week", defaultValue: "Week"),
+            title: String(localized: "dashboard.stats.week", defaultValue: "Week", locale: locale),
             value: "\(week)",
             icon: "calendar.circle.fill"
         )
 
         StatCard(
-            title: String(localized: "dashboard.stats.daysRemaining", defaultValue: "Days remaining"),
+            title: String(localized: "dashboard.stats.daysRemaining", defaultValue: "Days remaining", locale: locale),
             value: "\(viewModel.daysRemaining ?? 0)",
             icon: "clock.fill"
         )

@@ -9,6 +9,7 @@ struct BellyTrackingCameraView: View {
     private let onPhotoCaptured: AsyncBellyTrackingCaptureHandler
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
     @State private var viewModel: BellyTrackingCameraViewModel
     @State private var captureRotationAngle: CGFloat = 0
 
@@ -61,7 +62,8 @@ struct BellyTrackingCameraView: View {
         .alert(
             String(
                 localized: "camera.bellyTracking.errorTitle",
-                defaultValue: "Camera error"
+                defaultValue: "Camera error",
+                locale: locale
             ),
             isPresented: Binding(
                 get: { viewModel.errorMessage != nil },
@@ -72,7 +74,7 @@ struct BellyTrackingCameraView: View {
                 }
             )
         ) {
-            Button(String(localized: "common.ok", defaultValue: "OK"), role: .cancel) {}
+            Button(String(localized: "common.ok", defaultValue: "OK", locale: locale), role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
@@ -257,7 +259,7 @@ struct BellyTrackingCameraView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.white.opacity(0.8))
 
-            Button(String(localized: "camera.bellyTracking.close", defaultValue: "Close")) {
+            Button(String(localized: "camera.bellyTracking.close", defaultValue: "Close", locale: locale)) {
                 dismiss()
             }
             .font(BabyLoadingTypography.text(.headline, weight: .semibold))
