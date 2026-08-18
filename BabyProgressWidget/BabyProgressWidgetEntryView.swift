@@ -6,14 +6,21 @@ struct BabyProgressWidgetEntryView: View {
     @Environment(\.widgetFamily) var family
     var entry: BabyProgressTimelineProvider.Entry
 
+    private var locale: Locale {
+        Locale(identifier: entry.languageCode)
+    }
+
     var body: some View {
-        if let eventDate = entry.eventDate {
-            configuredView(eventDate: eventDate)
-                .unredacted()
-        } else {
-            emptyStateView
-                .unredacted()
+        Group {
+            if let eventDate = entry.eventDate {
+                configuredView(eventDate: eventDate)
+                    .unredacted()
+            } else {
+                emptyStateView
+                    .unredacted()
+            }
         }
+        .environment(\.locale, locale)
     }
 
     @ViewBuilder
@@ -27,8 +34,8 @@ struct BabyProgressWidgetEntryView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(
                     String(
-                        format: String(localized: "common.week", defaultValue: "Week %d"),
-                        locale: .current,
+                        format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
+                        locale: locale,
                         entry.week
                     )
                 )
@@ -39,9 +46,10 @@ struct BabyProgressWidgetEntryView: View {
                     String(
                         format: String(
                             localized: "widget.babySize",
-                            defaultValue: "The baby 🤰🏽 is now the size of %@"
+                            defaultValue: "The baby 🤰🏽 is now the size of %@",
+                            locale: locale
                         ),
-                        locale: .current,
+                        locale: locale,
                         entry.babySizeLabel
                     )
                 )

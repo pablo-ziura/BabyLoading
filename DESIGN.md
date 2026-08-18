@@ -96,6 +96,8 @@ Los valores hex son la referencia visual para revisión. Implementa los colores 
 | Texto principal | `#211A1C` | Contenido legible de primera jerarquía | `colorScheme.onSurface` | `.primary` |
 | Texto secundario | `#504347` | Metadatos y apoyo | `colorScheme.onSurfaceVariant` | `.secondary` |
 | Separador y trazo pasivo | Blanco al 30–65 % | Línea temporal o borde no seleccionado sobre degradado | `Color.White.copy(alpha = …)` | `Color.white.opacity(…)` |
+| Estado al día | Verde suave | Seguimiento cuya próxima captura aún no vence | `BabyStatusPositiveContainer` | `Color.green.opacity(0.18)` |
+| Estado pendiente | Naranja suave | Seguimiento cuya próxima captura ya vence | `BabyStatusAttentionContainer` | `Color.orange.opacity(0.18)` |
 
 ### Reglas de color
 
