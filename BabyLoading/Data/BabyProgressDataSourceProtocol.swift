@@ -7,10 +7,10 @@ protocol BabyProgressDataSourceProtocol {
     func fetchPhoto() -> Data?
     func deletePhoto()
 
-    // Multi-photo support
-    func addPhoto(data: Data)
-    func fetchAllPhotos() -> [Data]
-    func deletePhoto(at index: Int)
+    // Ultrasound gallery
+    func addUltrasoundPhoto(data: Data)
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto]
+    func deleteUltrasoundPhoto(id: String)
 
     // Belly tracking
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry]

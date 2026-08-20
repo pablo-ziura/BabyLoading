@@ -11,10 +11,9 @@ class BabyProgressViewModel {
     var currentWeekContent: WeekContent?
     var allWeekContent: [WeekContent]
     var photoData: Data?
-    var photosData: [Data] = []
+    var ultrasoundPhotos: [UltrasoundPhoto] = []
     var bellyTrackingEntries: [BellyTrackingEntry] = []
     var bellyTrackingSettings: BellyTrackingSettings
-    var nextBellyTrackingDueDate: Date?
     var showingPhotoPicker = false
     var selectedLanguage: AppLanguage
     let availableLanguages: [AppLanguage]
@@ -34,10 +33,11 @@ class BabyProgressViewModel {
         return bellyTrackingImageDataByEntryID[lastBellyTrackingEntry.id]
     }
 
-    var isBellyTrackingDue: Bool {
-        guard let nextBellyTrackingDueDate else { return false }
-        let calendar = Calendar.current
-        return calendar.startOfDay(for: .now) >= calendar.startOfDay(for: nextBellyTrackingDueDate)
+    func bellyTrackingStatus(asOf date: Date) -> BellyTrackingStatus {
+        bellyTrackingSettings.trackingStatus(
+            lastCapture: lastBellyTrackingEntry?.capturedAt,
+            asOf: date
+        )
     }
 
     init(
@@ -56,9 +56,8 @@ class BabyProgressViewModel {
         lastPeriodDate = self.repository.getEventDate() ?? .now
         allWeekContent = self.repository.getAllWeekContent()
         photoData = self.repository.fetchPhoto()
-        photosData = self.repository.fetchAllPhotos()
+        ultrasoundPhotos = self.repository.fetchUltrasoundPhotos()
         bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
-        nextBellyTrackingDueDate = self.repository.nextBellyTrackingDueDate()
         estimatedDueDate = nil
         daysRemaining = nil
         pregnancyWeek = nil
@@ -107,16 +106,16 @@ class BabyProgressViewModel {
         repository.deletePhoto()
     }
 
-    // MARK: - Multi-photo gallery
+    // MARK: - Ultrasound gallery
 
-    func addGalleryPhoto(_ data: Data) {
-        repository.addPhoto(data: data)
-        photosData = repository.fetchAllPhotos()
+    func addUltrasoundPhoto(_ data: Data) {
+        repository.addUltrasoundPhoto(data: data)
+        ultrasoundPhotos = repository.fetchUltrasoundPhotos()
     }
 
-    func deleteGalleryPhoto(at index: Int) {
-        repository.deletePhoto(at: index)
-        photosData = repository.fetchAllPhotos()
+    func deleteUltrasoundPhoto(id: String) {
+        repository.deleteUltrasoundPhoto(id: id)
+        ultrasoundPhotos = repository.fetchUltrasoundPhotos()
     }
 
     func saveBellyTrackingPhoto(_ data: Data) -> Bool {
@@ -127,7 +126,6 @@ class BabyProgressViewModel {
         )
 
         reloadBellyTrackingState()
-        photosData = repository.fetchAllPhotos()
         return savedEntry != nil
     }
 
@@ -158,7 +156,6 @@ class BabyProgressViewModel {
     private func reloadBellyTrackingState() {
         bellyTrackingEntries = repository.fetchBellyTrackingEntries()
         bellyTrackingSettings = repository.fetchBellyTrackingSettings()
-        nextBellyTrackingDueDate = repository.nextBellyTrackingDueDate()
         bellyTrackingImageDataByEntryID = Dictionary(
             uniqueKeysWithValues: bellyTrackingEntries.compactMap { entry in
                 guard let data = repository.fetchBellyTrackingImageData(for: entry.imageFileName) else {

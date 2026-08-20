@@ -169,13 +169,15 @@ struct GalleryView: View {
                     value: "\(viewModel.bellyTrackingEntries.count)"
                 )
 
-                statCard(
-                    title: String(
-                        localized: "gallery.bellyTracking.nextPhoto",
-                        defaultValue: "Next photo"
-                    ),
-                    value: nextPhotoValue
-                )
+                TimelineView(.periodic(from: .now, by: 60)) { context in
+                    statCard(
+                        title: String(
+                            localized: "gallery.bellyTracking.nextPhoto",
+                            defaultValue: "Next photo"
+                        ),
+                        value: nextPhotoValue(for: viewModel.bellyTrackingStatus(asOf: context.date))
+                    )
+                }
             }
 
             if let lastEntry = viewModel.lastBellyTrackingEntry {
@@ -297,8 +299,8 @@ struct GalleryView: View {
             }
 
             LazyVGrid(columns: photoColumns, spacing: 12) {
-                ForEach(Array(viewModel.photosData.enumerated()), id: \.offset) { index, photoData in
-                    if let uiImage = UIImage(data: photoData) {
+                ForEach(viewModel.ultrasoundPhotos) { photo in
+                    if let uiImage = UIImage(data: photo.data) {
                         ZStack(alignment: .topTrailing) {
                             Color.clear
                                 .frame(height: 180)
@@ -309,8 +311,8 @@ struct GalleryView: View {
                                         .accessibilityLabel(
                                             Text(
                                                 photoAccessibilityLabel(
-                                                    index: index,
-                                                    total: viewModel.photosData.count
+                                                    index: ultrasoundPhotoIndex(photo),
+                                                    total: viewModel.ultrasoundPhotos.count
                                                 )
                                             )
                                         )
@@ -320,7 +322,7 @@ struct GalleryView: View {
 
                             Button {
                                 withAnimation(.spring(duration: 0.3)) {
-                                    viewModel.deleteGalleryPhoto(at: index)
+                                    viewModel.deleteUltrasoundPhoto(id: photo.id)
                                 }
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
@@ -332,8 +334,8 @@ struct GalleryView: View {
                             .accessibilityLabel(
                                 Text(
                                     deletePhotoAccessibilityLabel(
-                                        index: index,
-                                        total: viewModel.photosData.count
+                                        index: ultrasoundPhotoIndex(photo),
+                                        total: viewModel.ultrasoundPhotos.count
                                     )
                                 )
                             )
@@ -370,7 +372,7 @@ struct GalleryView: View {
                 .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
             }
 
-            if viewModel.photosData.isEmpty {
+            if viewModel.ultrasoundPhotos.isEmpty {
                 VStack(spacing: 8) {
                     Image(systemName: "photo.on.rectangle.angled")
                         .font(.system(size: 40))
@@ -394,28 +396,44 @@ struct GalleryView: View {
     }
 
     private var dueBadge: some View {
-        Text(viewModel.isBellyTrackingDue ? "gallery.bellyTracking.dueNow" : "gallery.bellyTracking.onTrack")
+        TimelineView(.periodic(from: .now, by: 60)) { context in
+            statusBadge(for: viewModel.bellyTrackingStatus(asOf: context.date))
+        }
+    }
+
+    private func statusBadge(for status: BellyTrackingStatus) -> some View {
+        let titleKey: LocalizedStringKey
+        let backgroundColor: Color
+
+        switch status {
+        case .upToDate:
+            titleKey = "gallery.bellyTracking.onTrack"
+            backgroundColor = .green.opacity(0.18)
+        case .needsInitialCapture:
+            titleKey = "gallery.bellyTracking.startNow"
+            backgroundColor = .orange.opacity(0.18)
+        case .pending:
+            titleKey = "gallery.bellyTracking.dueNow"
+            backgroundColor = .orange.opacity(0.18)
+        }
+
+        return Text(titleKey)
             .font(BabyLoadingTypography.text(.caption, weight: .bold))
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background(
-                viewModel.isBellyTrackingDue
-                    ? Color.orange.opacity(0.18)
-                    : Color.green.opacity(0.18),
-                in: Capsule()
-            )
+            .background(backgroundColor, in: Capsule())
+            .accessibilityLabel(Text(titleKey))
     }
 
-    private var nextPhotoValue: String {
-        guard let nextBellyTrackingDueDate = viewModel.nextBellyTrackingDueDate else {
+    private func nextPhotoValue(for status: BellyTrackingStatus) -> String {
+        switch status {
+        case .needsInitialCapture:
             return String(localized: "gallery.bellyTracking.startNow", defaultValue: "Start now", locale: locale)
-        }
-
-        if viewModel.isBellyTrackingDue {
+        case .upToDate(let nextDueDate):
+            return nextDueDate.formatted(.dateTime.year().month(.abbreviated).day().locale(locale))
+        case .pending:
             return String(localized: "gallery.bellyTracking.dueNow", defaultValue: "Ready now", locale: locale)
         }
-
-        return nextBellyTrackingDueDate.formatted(.dateTime.year().month(.abbreviated).day().locale(locale))
     }
 
     private func statCard(title: String, value: String) -> some View {
@@ -488,7 +506,7 @@ struct GalleryView: View {
                 if let data = try? await item.loadTransferable(type: Data.self) {
                     await MainActor.run {
                         withAnimation(.spring(duration: 0.4)) {
-                            viewModel.addGalleryPhoto(data)
+                            viewModel.addUltrasoundPhoto(data)
                         }
                     }
                 }
@@ -534,6 +552,10 @@ struct GalleryView: View {
             index + 1,
             total
         )
+    }
+
+    private func ultrasoundPhotoIndex(_ photo: UltrasoundPhoto) -> Int {
+        viewModel.ultrasoundPhotos.firstIndex(where: { $0.id == photo.id }) ?? 0
     }
 
     private func deletePhotoAccessibilityLabel(index: Int, total: Int) -> String {

@@ -149,7 +149,6 @@ struct BabyLoadingViewModelTests {
         repository.storedBellyTrackingEntries = [entry]
         repository.storedBellyTrackingImages[entry.imageFileName] = Data([0x99])
         repository.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
-        repository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 14, to: entry.capturedAt)
 
         let viewModel = BabyProgressViewModel(repository: repository, widgetReloader: MockWidgetReloader())
 
@@ -171,18 +170,52 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.bellyTrackingEntries.count == 1)
         #expect(viewModel.lastBellyTrackingEntry?.pregnancyWeekAtCapture == 24)
         #expect(viewModel.lastBellyTrackingImageData == fakeData)
-        #expect(viewModel.photosData == [fakeData])
+        #expect(viewModel.ultrasoundPhotos.isEmpty)
     }
 
-    @Test func updateBellyTrackingCadence_UpdatesStateAndRepository() async throws {
-        mockRepository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 14, to: .now)
+    @Test func ultrasoundPhotoOperations_UpdateOnlyUltrasoundState() async throws {
+        let fakeData = Data([0x0F, 0x0E, 0x0D])
 
-        viewModel.updateBellyTrackingCadence(intervalDays: 14)
+        viewModel.addUltrasoundPhoto(fakeData)
+
+        let photo = try #require(viewModel.ultrasoundPhotos.first)
+        #expect(mockRepository.addUltrasoundPhotoCalled)
+        #expect(photo.data == fakeData)
+        #expect(viewModel.bellyTrackingEntries.isEmpty)
+
+        viewModel.deleteUltrasoundPhoto(id: photo.id)
+
+        #expect(mockRepository.deleteUltrasoundPhotoCalled)
+        #expect(viewModel.ultrasoundPhotos.isEmpty)
+    }
+
+    @Test func updateBellyTrackingCadence_UpdatesStateAndStatus() async throws {
+        let calendar = Calendar.current
+        let referenceDate = Date.now
+        let capturedAt = try #require(calendar.date(byAdding: .day, value: -10, to: referenceDate))
+        let entry = BellyTrackingEntry(
+            imageFileName: "tracking.jpg",
+            capturedAt: capturedAt,
+            pregnancyWeekAtCapture: 20
+        )
+        mockRepository.storedBellyTrackingEntries = [entry]
+        mockRepository.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
+        let trackingViewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
+        let initialDueDate = try #require(
+            calendar.date(byAdding: .day, value: 14, to: calendar.startOfDay(for: capturedAt))
+        )
+
+        #expect(trackingViewModel.bellyTrackingStatus(asOf: referenceDate) == .upToDate(nextDueDate: initialDueDate))
+
+        trackingViewModel.updateBellyTrackingCadence(intervalDays: 7)
 
         #expect(mockRepository.saveBellyTrackingSettingsCalled)
-        #expect(mockRepository.storedBellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
-        #expect(viewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
-        #expect(viewModel.nextBellyTrackingDueDate == mockRepository.nextBellyTrackingDueDateValue)
+        #expect(mockRepository.storedBellyTrackingSettings == BellyTrackingSettings(intervalDays: 7))
+        #expect(trackingViewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 7))
+        let updatedDueDate = try #require(
+            calendar.date(byAdding: .day, value: 7, to: calendar.startOfDay(for: capturedAt))
+        )
+        #expect(trackingViewModel.bellyTrackingStatus(asOf: referenceDate) == .pending(nextDueDate: updatedDueDate))
     }
 
     @Test func deleteBellyTrackingEntry_WhenRemovingLastEntry_ClearsDerivedState() async throws {
@@ -193,9 +226,7 @@ struct BabyLoadingViewModelTests {
         )
         mockRepository.storedBellyTrackingEntries = [entry]
         mockRepository.storedBellyTrackingImages[entry.imageFileName] = Data([0xAA])
-        mockRepository.nextBellyTrackingDueDateValue = Calendar.current.date(byAdding: .day, value: 7, to: entry.capturedAt)
         let freshViewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
-        mockRepository.nextBellyTrackingDueDateValue = nil
 
         freshViewModel.deleteBellyTrackingEntry(id: entry.id)
 
@@ -203,6 +234,6 @@ struct BabyLoadingViewModelTests {
         #expect(freshViewModel.bellyTrackingEntries.isEmpty)
         #expect(freshViewModel.lastBellyTrackingEntry == nil)
         #expect(freshViewModel.lastBellyTrackingImageData == nil)
-        #expect(freshViewModel.nextBellyTrackingDueDate == nil)
+        #expect(freshViewModel.bellyTrackingStatus(asOf: .now) == .needsInitialCapture)
     }
 }
