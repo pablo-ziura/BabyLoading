@@ -14,10 +14,10 @@ protocol BabyProgressRepositoryProtocol {
     func fetchPhoto() -> Data?
     func deletePhoto()
 
-    // Multi-photo
-    func addPhoto(data: Data)
-    func fetchAllPhotos() -> [Data]
-    func deletePhoto(at index: Int)
+    // Ultrasound gallery
+    func addUltrasoundPhoto(data: Data)
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto]
+    func deleteUltrasoundPhoto(id: String)
 
     // Belly tracking
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry]
@@ -30,5 +30,4 @@ protocol BabyProgressRepositoryProtocol {
     func deleteBellyTrackingEntry(id: UUID)
     func fetchBellyTrackingSettings() -> BellyTrackingSettings
     func saveBellyTrackingSettings(_ settings: BellyTrackingSettings)
-    func nextBellyTrackingDueDate() -> Date?
 }
