@@ -51,9 +51,14 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
   foto legacy unica en archivo `user_photo.jpg`.
 - `BabyProgressDataSource` guarda tambien:
   galeria multi-foto en el directorio `gallery/` del contenedor compartido.
+- La galeria de ecografias expone `UltrasoundPhoto` con identidad estable basada en el nombre de archivo;
+  sus operaciones de guardar, leer y borrar son exclusivas de `gallery/`.
 - Las capturas de seguimiento se conservan en su formato nativo (HEIC cuando la camara lo soporta),
   materializan primero la orientacion EXIF y despues aplican el mismo recorte central 9:16 del visor;
   las capturas JPEG historicas siguen siendo compatibles.
+- Una captura guiada se guarda solo en `belly-tracking/` y su manifest; no se duplica en `gallery/`.
+- El estado de seguimiento compara dias de calendario con la cadencia elegida: sin captura o despues
+  de superar la cadencia queda pendiente; el dia exacto de la cadencia sigue al dia.
 - El visor y `AVCapturePhotoOutput` comparten los angulos de `AVCaptureDevice.RotationCoordinator`
   para mantener la misma orientacion, escala y relacion de aspecto durante la captura.
 - El widget depende de este almacenamiento compartido. Cualquier cambio de keys, nombres de archivo o ubicacion debe considerarse un cambio cross-target.
