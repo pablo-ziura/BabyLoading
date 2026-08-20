@@ -144,7 +144,7 @@ struct BabyLoadingRepositoryTests {
         #expect(savedEntry != nil)
         #expect(mockDataSource.storedBellyTrackingEntries.count == 1)
         #expect(mockDataSource.storedBellyTrackingImages[savedEntry?.imageFileName ?? ""] == data)
-        #expect(mockDataSource.storedPhotos == [data])
+        #expect(mockDataSource.storedUltrasoundPhotos.isEmpty)
     }
 
     @Test func deleteBellyTrackingEntry_RemovesSavedEntry() {
@@ -163,26 +163,19 @@ struct BabyLoadingRepositoryTests {
         #expect(mockDataSource.storedBellyTrackingImages[entry.imageFileName] == nil)
     }
 
-    @Test func nextBellyTrackingDueDate_UsesLastEntryAndCadence() {
-        let calendar = Calendar.current
-        let firstCapture = calendar.date(byAdding: .day, value: -20, to: .now)!
-        let latestCapture = calendar.date(byAdding: .day, value: -7, to: .now)!
-        mockDataSource.storedBellyTrackingEntries = [
-            BellyTrackingEntry(
-                imageFileName: "first.jpg",
-                capturedAt: firstCapture,
-                pregnancyWeekAtCapture: 16
-            ),
-            BellyTrackingEntry(
-                imageFileName: "latest.jpg",
-                capturedAt: latestCapture,
-                pregnancyWeekAtCapture: 18
-            ),
-        ]
-        mockDataSource.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
+    @Test func ultrasoundPhotoOperationsRemainSeparateFromBellyTracking() throws {
+        let data = Data([0x01, 0x02, 0x03])
 
-        let dueDate = repository.nextBellyTrackingDueDate()
+        repository.addUltrasoundPhoto(data: data)
 
-        #expect(dueDate == calendar.date(byAdding: .day, value: 14, to: latestCapture))
+        #expect(mockDataSource.addUltrasoundPhotoCalled)
+        #expect(mockDataSource.storedBellyTrackingEntries.isEmpty)
+        let photo = try #require(repository.fetchUltrasoundPhotos().first)
+        #expect(photo.data == data)
+
+        repository.deleteUltrasoundPhoto(id: photo.id)
+
+        #expect(mockDataSource.deleteUltrasoundPhotoCalled)
+        #expect(repository.fetchUltrasoundPhotos().isEmpty)
     }
 }

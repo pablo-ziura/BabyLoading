@@ -124,13 +124,13 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
         print("🗑️ [BabyProgressDataSource] Photo deleted")
     }
 
-    // MARK: - Multi-photo gallery
+    // MARK: - Ultrasound gallery
 
-    func addPhoto(data: Data) {
-        _ = storeGalleryPhoto(data: data)
+    func addUltrasoundPhoto(data: Data) {
+        _ = storeUltrasoundPhoto(data: data)
     }
 
-    func fetchAllPhotos() -> [Data] {
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
         guard let dir = photosDirURL else { return [] }
         do {
             let files = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.creationDateKey])
@@ -139,27 +139,28 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
                     let dateB = (try? b.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
                     return dateA < dateB
                 }
-            return files.compactMap { try? Data(contentsOf: $0) }
+            return files.compactMap { url in
+                guard let data = try? Data(contentsOf: url) else { return nil }
+                return UltrasoundPhoto(id: url.lastPathComponent, data: data)
+            }
         } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to read gallery: \(error)")
+            print("⚠️ [BabyProgressDataSource] Failed to read ultrasound gallery: \(error)")
             return []
         }
     }
 
-    func deletePhoto(at index: Int) {
+    func deleteUltrasoundPhoto(id: String) {
         guard let dir = photosDirURL else { return }
+        guard id == URL(fileURLWithPath: id).lastPathComponent else { return }
+
+        let photoURL = dir.appendingPathComponent(id)
+        guard fileManager.fileExists(atPath: photoURL.path) else { return }
+
         do {
-            let files = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.creationDateKey])
-                .sorted { a, b in
-                    let dateA = (try? a.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
-                    let dateB = (try? b.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
-                    return dateA < dateB
-                }
-            guard index >= 0 && index < files.count else { return }
-            try fileManager.removeItem(at: files[index])
-            print("🗑️ [BabyProgressDataSource] Gallery photo deleted at index \(index)")
+            try fileManager.removeItem(at: photoURL)
+            print("🗑️ [BabyProgressDataSource] Ultrasound photo deleted")
         } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to delete gallery photo: \(error)")
+            print("⚠️ [BabyProgressDataSource] Failed to delete ultrasound photo: \(error)")
         }
     }
 
@@ -204,10 +205,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
             storedData = data
         }
 
-        guard let galleryPhotoURL = storeGalleryPhoto(data: storedData, fileExtension: fileExtension) else {
-            return nil
-        }
-
         let imageFileName = "\(UUID().uuidString).\(fileExtension)"
         let imageURL = bellyTrackingDirURL.appendingPathComponent(imageFileName)
         let entry = BellyTrackingEntry(
@@ -225,13 +222,11 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
 
             guard saveBellyTrackingManifest(manifest) else {
                 try? fileManager.removeItem(at: imageURL)
-                try? fileManager.removeItem(at: galleryPhotoURL)
                 return nil
             }
 
             return entry
         } catch {
-            try? fileManager.removeItem(at: galleryPhotoURL)
             print("⚠️ [BabyProgressDataSource] Failed to save belly tracking photo: \(error)")
             return nil
         }
@@ -310,7 +305,7 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     @discardableResult
-    private func storeGalleryPhoto(data: Data, fileExtension: String = "jpg") -> URL? {
+    private func storeUltrasoundPhoto(data: Data, fileExtension: String = "jpg") -> URL? {
         guard let dir = photosDirURL else {
             print("⚠️ [BabyProgressDataSource] No gallery directory")
             return nil
@@ -321,10 +316,10 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
 
         do {
             try data.write(to: url, options: .atomic)
-            print("💾 [BabyProgressDataSource] Gallery photo saved (\(data.count) bytes)")
+            print("💾 [BabyProgressDataSource] Ultrasound photo saved (\(data.count) bytes)")
             return url
         } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to save gallery photo: \(error)")
+            print("⚠️ [BabyProgressDataSource] Failed to save ultrasound photo: \(error)")
             return nil
         }
     }

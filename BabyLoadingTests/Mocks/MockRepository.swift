@@ -17,16 +17,15 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var savePhotoCalled = false
     var fetchPhotoCalled = false
     var deletePhotoCalled = false
-    var addPhotoCalled = false
-    var fetchAllPhotosCalled = false
-    var deletePhotoAtCalled = false
+    var addUltrasoundPhotoCalled = false
+    var fetchUltrasoundPhotosCalled = false
+    var deleteUltrasoundPhotoCalled = false
     var fetchBellyTrackingEntriesCalled = false
     var fetchBellyTrackingImageDataCalled = false
     var saveBellyTrackingPhotoCalled = false
     var deleteBellyTrackingEntryCalled = false
     var fetchBellyTrackingSettingsCalled = false
     var saveBellyTrackingSettingsCalled = false
-    var nextBellyTrackingDueDateCalled = false
 
     var pregnancyWeek: Int?
     var currentWeekContent: WeekContent?
@@ -36,11 +35,10 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var updateContentLanguageHandler: ((AppLanguage) -> Void)?
     var selectedContentLanguage: AppLanguage?
     var storedPhotoData: Data?
-    var storedPhotos: [Data] = []
+    var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
-    var nextBellyTrackingDueDateValue: Date?
 
     func getEventDate() -> Date? {
         getEventDateCalled = true
@@ -103,20 +101,19 @@ class MockRepository: BabyProgressRepositoryProtocol {
         storedPhotoData = nil
     }
 
-    func addPhoto(data: Data) {
-        addPhotoCalled = true
-        storedPhotos.append(data)
+    func addUltrasoundPhoto(data: Data) {
+        addUltrasoundPhotoCalled = true
+        storedUltrasoundPhotos.append(UltrasoundPhoto(id: UUID().uuidString, data: data))
     }
 
-    func fetchAllPhotos() -> [Data] {
-        fetchAllPhotosCalled = true
-        return storedPhotos
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
+        fetchUltrasoundPhotosCalled = true
+        return storedUltrasoundPhotos
     }
 
-    func deletePhoto(at index: Int) {
-        deletePhotoAtCalled = true
-        guard index >= 0 && index < storedPhotos.count else { return }
-        storedPhotos.remove(at: index)
+    func deleteUltrasoundPhoto(id: String) {
+        deleteUltrasoundPhotoCalled = true
+        storedUltrasoundPhotos.removeAll { $0.id == id }
     }
 
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry] {
@@ -143,7 +140,6 @@ class MockRepository: BabyProgressRepositoryProtocol {
         storedBellyTrackingEntries.append(entry)
         storedBellyTrackingEntries.sort { $0.capturedAt < $1.capturedAt }
         storedBellyTrackingImages[entry.imageFileName] = data
-        storedPhotos.append(data)
         return entry
     }
 
@@ -164,8 +160,4 @@ class MockRepository: BabyProgressRepositoryProtocol {
         storedBellyTrackingSettings = settings
     }
 
-    func nextBellyTrackingDueDate() -> Date? {
-        nextBellyTrackingDueDateCalled = true
-        return nextBellyTrackingDueDateValue
-    }
 }
