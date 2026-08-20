@@ -1,18 +1,18 @@
 # BabyLoading
 
-## Espanol
+## Español
 
-`BabyLoading` es una app iOS en SwiftUI para seguir el progreso del embarazo a partir de la fecha de la ultima menstruacion. Calcula la semana actual y la fecha estimada de parto con la regla de Naegele, muestra hitos semanales localizados, mantiene una galeria de fotos y expone el progreso en un widget compartido.
+`BabyLoading` es una app iOS en SwiftUI para seguir el progreso del embarazo a partir de la fecha de la última menstruación. Calcula la semana actual y la fecha estimada de parto con la regla de Naegele, muestra hitos semanales localizados, mantiene una galería de fotos y expone el progreso en un widget compartido.
 
-### Que incluye
+### Qué incluye
 
-- `Dashboard`: semana actual, fecha estimada de parto, dias restantes y resumen del desarrollo.
+- `Dashboard`: semana actual, fecha estimada de parto, días restantes y resumen del desarrollo.
 - `Journey`: timeline semanal con contenido para las semanas `6...40`.
-- `Gallery`: galeria multi foto persistida en el App Group compartido.
-- `Settings`: configuracion de la fecha base desde `DatePicker`.
+- `Gallery`: galería multifoto persistida en el App Group compartido.
+- `Settings`: configuración de la fecha base desde `DatePicker`.
 - `BabyProgressWidget`: widget que reutiliza el mismo repositorio y almacenamiento compartido.
 
-### Stack tecnico
+### Stack técnico
 
 - Swift 6.0
 - SwiftUI + Observation con `@Observable`
@@ -20,35 +20,35 @@
 - `WidgetKit`
 - App Group compartido `group.com.pablo.BabyLoading`
 - Contenido localizado en `en` y `es`
-- Modulo local de networking en `Packages/AppNetwork/`; los targets principales siguen usando `URLSession` desde `RemoteContentSource`
+- Módulo local de networking en `Packages/AppNetwork/`; los targets principales siguen usando `URLSession` desde `RemoteContentSource`
 
 ### Arquitectura
 
 - Flujo principal: `Presentation -> Repository -> Data/Domain`
-- Composicion central en `DependencyContainer.shared`
+- Composición central en `DependencyContainer.shared`
 - Estado principal de UI en `BabyProgressViewModel`, marcado como `@MainActor` y `@Observable`
-- Navegacion por tabs en `AppCoordinator`
-- Fabricas de vistas en `BabyLoading/App/DependencyContainer+ViewFactory.swift`
+- Navegación por tabs en `AppCoordinator`
+- Fábricas de vistas en `BabyLoading/App/DependencyContainer+ViewFactory.swift`
 - La app refresca el contenido remoto al arrancar y al volver a primer plano
 - El widget reutiliza `DependencyContainer.shared` para leer el mismo repositorio que la app
 
 ### Contenido semanal
 
 - Recursos base en `BabyLoading/Resources/pregnancy-content.en.json` y `BabyLoading/Resources/pregnancy-content.es.json`
-- Resolucion de locale en `BabyLoading/Data/Content/Localization/` con fallback a `en`
+- Resolución de locale en `BabyLoading/Data/Content/Localization/` con fallback a `en`
 - Snapshot inicial con prioridad `cache App Group -> bundle -> .empty`
-- Cache compartida por locale con JSON, `ETag`, `lastFetchAt` y `revision`
-- Sincronizacion remota opcional via `PregnancyContentURL` o `PregnancyContentURLTemplate`
+- Caché compartida por locale con JSON, `ETag`, `lastFetchAt` y `revision`
+- Sincronización remota opcional vía `PregnancyContentURL` o `PregnancyContentURLTemplate`
 - La plantilla `PregnancyContentURLTemplate` admite el placeholder `{locale}`
-- En el estado actual del proyecto, `INFOPLIST_KEY_PregnancyContentURL` esta vacia y la sincronizacion remota queda desactivada por defecto
+- En el estado actual del proyecto, `INFOPLIST_KEY_PregnancyContentURL` está vacía y la sincronización remota queda desactivada por defecto
 - `PregnancyContentRepository` intenta refrescar cada 12 horas cuando existe URL remota
-- `PregnancyContentDocument` valida `schemaVersion`, `locale`, `revision`, semanas duplicadas, cobertura completa `6...40` y `keyEvents` no vacios
+- `PregnancyContentDocument` valida `schemaVersion`, `locale`, `revision`, semanas duplicadas, cobertura completa `6...40` y `keyEvents` no vacíos
 
 ### Datos compartidos y widget
 
 - `lastPeriodDate` se guarda en `UserDefaults(suiteName:)`
-- La foto legacy unica se guarda como `user_photo.jpg`
-- La galeria multi foto se guarda en el directorio `gallery/` del contenedor compartido
+- La foto legacy única se guarda como `user_photo.jpg`
+- La galería multifoto se guarda en el directorio `gallery/` del contenedor compartido
 - Cambios de fecha o cambios de snapshot remoto disparan `WidgetReloader`
 - Cualquier cambio en keys, nombres de archivo o ubicaciones debe revisarse en app y widget a la vez
 
@@ -99,9 +99,9 @@ xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPla
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build
 ```
 
-### Configuracion del contenido remoto
+### Configuración del contenido remoto
 
-Puedes habilitar la sincronizacion remota definiendo una de estas keys en el `Info.plist`:
+Puedes habilitar la sincronización remota definiendo una de estas keys en el `Info.plist`:
 
 ```text
 PregnancyContentURL = https://example.com/pregnancy-content.es.json
@@ -115,24 +115,24 @@ PregnancyContentURLTemplate = https://example.com/pregnancy-content.{locale}.jso
 
 Notas:
 
-- Si ambas keys estan vacias, la app usa el bundle y la cache compartida
+- Si ambas keys están vacías, la app usa el bundle y la caché compartida
 - El documento remoto debe respetar el schema validado por `PregnancyContentDocument`
-- La `revision` remota debe ser mayor que la almacenada en cache para sustituir el snapshot actual
-- Si el servidor devuelve `ETag`, la app enviara `If-None-Match` en refrescos posteriores
+- La `revision` remota debe ser mayor que la almacenada en caché para sustituir el snapshot actual
+- Si el servidor devuelve `ETag`, la app enviará `If-None-Match` en refrescos posteriores
 
 ### Testing
 
 - Hay tests con `XCTest` y `Testing`
 - Cobertura relevante en `PregnancyCalculatorTests`, `BabyLoadingRepositoryTests`, `BabyLoadingViewModelTests`, `PregnancyContentDocumentTests`, `PregnancyContentRepositoryTests`, `PregnancyContentResourceTests` y `BabySizeResourceTests`
-- `Packages/AppNetwork/` tambien contiene tests aislados bajo `Packages/AppNetwork/Tests/AppNetworkTests/`
+- `Packages/AppNetwork/` también contiene tests aislados bajo `Packages/AppNetwork/Tests/AppNetworkTests/`
 
 ### Notas de desarrollo
 
-- `AGENTS.md` es la guia viva de arquitectura, dependencias y reglas de extension del proyecto
-- No mover logica de negocio a las vistas
-- No introducir nuevos singletons; la composicion actual vive en `DependencyContainer.shared`
+- `AGENTS.md` es la guía viva de arquitectura, dependencias y reglas de extensión del proyecto
+- No mover lógica de negocio a las vistas
+- No introducir nuevos singletons; la composición actual vive en `DependencyContainer.shared`
 - Si una feature toca datos compartidos, revisar siempre app y widget en conjunto
-- Si una decision depende de APIs Apple, concurrencia Swift 6 o restricciones de WidgetKit, validar primero con documentacion oficial
+- Si una decisión depende de APIs Apple, concurrencia Swift 6 o restricciones de WidgetKit, validar primero con documentación oficial
 
 ## English
 
