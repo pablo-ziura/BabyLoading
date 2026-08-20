@@ -4,7 +4,7 @@ import Foundation
 class MockDataSource: BabyProgressDataSourceProtocol {
     var storedDate: Date?
     var storedPhotoData: Data?
-    var storedPhotos: [Data] = []
+    var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
@@ -13,9 +13,9 @@ class MockDataSource: BabyProgressDataSourceProtocol {
     var savePhotoCalled = false
     var fetchPhotoCalled = false
     var deletePhotoCalled = false
-    var addPhotoCalled = false
-    var fetchAllPhotosCalled = false
-    var deletePhotoAtCalled = false
+    var addUltrasoundPhotoCalled = false
+    var fetchUltrasoundPhotosCalled = false
+    var deleteUltrasoundPhotoCalled = false
     var fetchBellyTrackingEntriesCalled = false
     var fetchBellyTrackingImageDataCalled = false
     var saveBellyTrackingPhotoCalled = false
@@ -48,20 +48,19 @@ class MockDataSource: BabyProgressDataSourceProtocol {
         storedPhotoData = nil
     }
 
-    func addPhoto(data: Data) {
-        addPhotoCalled = true
-        storedPhotos.append(data)
+    func addUltrasoundPhoto(data: Data) {
+        addUltrasoundPhotoCalled = true
+        storedUltrasoundPhotos.append(UltrasoundPhoto(id: UUID().uuidString, data: data))
     }
 
-    func fetchAllPhotos() -> [Data] {
-        fetchAllPhotosCalled = true
-        return storedPhotos
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
+        fetchUltrasoundPhotosCalled = true
+        return storedUltrasoundPhotos
     }
 
-    func deletePhoto(at index: Int) {
-        deletePhotoAtCalled = true
-        guard index >= 0 && index < storedPhotos.count else { return }
-        storedPhotos.remove(at: index)
+    func deleteUltrasoundPhoto(id: String) {
+        deleteUltrasoundPhotoCalled = true
+        storedUltrasoundPhotos.removeAll { $0.id == id }
     }
 
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry] {
@@ -88,7 +87,6 @@ class MockDataSource: BabyProgressDataSourceProtocol {
         storedBellyTrackingEntries.append(entry)
         storedBellyTrackingEntries.sort { $0.capturedAt < $1.capturedAt }
         storedBellyTrackingImages[entry.imageFileName] = data
-        storedPhotos.append(data)
         return entry
     }
 

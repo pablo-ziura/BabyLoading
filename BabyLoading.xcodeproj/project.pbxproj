@@ -59,14 +59,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */ = {
+		DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
+		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/AppVersionProvider.swift,
@@ -113,7 +113,7 @@
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
-		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
+		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/AppVersionProvider.swift,
@@ -160,14 +160,14 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
+		DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
 			);
 			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
 		};
-		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
+		DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
@@ -177,30 +177,13 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
-				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
-			);
-			path = BabyLoading;
-			sourceTree = "<group>";
-		};
+		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyLoading; sourceTree = "<group>"; };
 		DA1C91622F41F1EA003EC367 /* BabyLoadingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BabyLoadingTests;
 			sourceTree = "<group>";
 		};
-		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
-				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
-				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
-			);
-			path = BabyProgressWidget;
-			sourceTree = "<group>";
-		};
+		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyProgressWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

@@ -86,18 +86,18 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         dataSource.deletePhoto()
     }
 
-    // MARK: - Multi-photo
+    // MARK: - Ultrasound gallery
 
-    func addPhoto(data: Data) {
-        dataSource.addPhoto(data: data)
+    func addUltrasoundPhoto(data: Data) {
+        dataSource.addUltrasoundPhoto(data: data)
     }
 
-    func fetchAllPhotos() -> [Data] {
-        return dataSource.fetchAllPhotos()
+    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
+        dataSource.fetchUltrasoundPhotos()
     }
 
-    func deletePhoto(at index: Int) {
-        dataSource.deletePhoto(at: index)
+    func deleteUltrasoundPhoto(id: String) {
+        dataSource.deleteUltrasoundPhoto(id: id)
     }
 
     // MARK: - Belly tracking
@@ -134,13 +134,4 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         dataSource.saveBellyTrackingSettings(settings)
     }
 
-    func nextBellyTrackingDueDate() -> Date? {
-        guard let lastEntry = fetchBellyTrackingEntries().last else { return nil }
-
-        return Calendar.current.date(
-            byAdding: .day,
-            value: fetchBellyTrackingSettings().intervalDays,
-            to: lastEntry.capturedAt
-        )
-    }
 }
