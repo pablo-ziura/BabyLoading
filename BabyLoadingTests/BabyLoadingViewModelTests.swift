@@ -58,7 +58,7 @@ struct BabyLoadingViewModelTests {
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
 
-    @Test func updateLanguage_PersistsLanguageReloadsContentAndWidget() async throws {
+    @Test func refreshContentIfNeeded_WhenSystemLanguageChanges_ReloadsContentAndWidget() async throws {
         let spanishContent = WeekContent(
             week: 20,
             babySize: .banana,
@@ -73,11 +73,11 @@ struct BabyLoadingViewModelTests {
             self.mockRepository.allWeekContent = [spanishContent]
         }
 
-        viewModel.updateLanguage(.spanish)
+        mockLanguageRepository.systemLanguage = .spanish
 
-        #expect(mockLanguageRepository.updateSelectedLanguageCalled)
-        #expect(mockLanguageRepository.storedLanguage == .spanish)
-        #expect(viewModel.selectedLanguage == .spanish)
+        await viewModel.refreshContentIfNeeded()
+
+        #expect(viewModel.appLanguage == .spanish)
         #expect(mockRepository.updateContentLanguageCalled)
         #expect(mockRepository.selectedContentLanguage == .spanish)
         #expect(viewModel.currentWeekContent == spanishContent)

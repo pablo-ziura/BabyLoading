@@ -10,8 +10,8 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
 
 - App iOS nativa en SwiftUI con target principal `BabyLoading`, target de widget `BabyProgressWidget` y target de tests `BabyLoadingTests`.
 - Stack actual: Swift 6.0, Observation (`@Observable`), SwiftUI NavigationStack, WidgetKit, App Group compartido y los paquetes locales `Packages/AppNetwork` y `Packages/AppPreferences`.
-- Deployment target actual: iOS 26.2.
-- Simulador de referencia para builds y tests locales: `iPhone 17 Pro` con `iOS 26.2`.
+- Deployment target actual: iOS 26.5.
+- Simulador de referencia para builds y tests locales: `iPhone 17 Pro Max` con `iOS 26.5`.
 - El proyecto esta en una fase activa de evolucion alrededor de contenido de embarazo remoto/cacheado. No asumas que todo lo nuevo esta estabilizado todavia.
 
 ## Estructura real del codebase
@@ -46,7 +46,7 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
 
 - El App Group actual es `group.com.pablo.BabyLoading`.
 - `BabyProgressDataSource` guarda `lastPeriodDate` mediante `AppPreferences`; el paquete no conoce el App Group ni claves de negocio.
-- El idioma elegido por la persona usuaria se guarda mediante `AppPreferences` en el App Group y lo comparten app y widget.
+- El idioma lo determina la preferencia por app de iOS; app y widget lo resuelven desde sus bundles y no guardan una selección propia.
 - `BabyProgressDataSource` guarda tambien:
   foto legacy unica en archivo `user_photo.jpg`.
 - `BabyProgressDataSource` guarda tambien:
@@ -158,9 +158,9 @@ Antes de crear o modificar cualquier pantalla, componente reutilizable o widget 
 - Abrir proyecto:
   `open /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj`
 - Build app en el simulador de referencia:
-  `xcodebuild -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build`
+  `xcodebuild -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build`
 - Ejecutar tests principales:
-  `xcodebuild test -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2'`
+  `xcodebuild test -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'`
 - Ejecutar tests del paquete local:
   `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppNetwork`
   y `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppPreferences`

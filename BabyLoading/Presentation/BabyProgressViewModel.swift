@@ -15,8 +15,7 @@ class BabyProgressViewModel {
     var bellyTrackingEntries: [BellyTrackingEntry] = []
     var bellyTrackingSettings: BellyTrackingSettings
     var showingPhotoPicker = false
-    var selectedLanguage: AppLanguage
-    let availableLanguages: [AppLanguage]
+    private(set) var appLanguage: AppLanguage
     let appVersion: String
 
     private let repository: BabyProgressRepositoryProtocol
@@ -49,8 +48,7 @@ class BabyProgressViewModel {
         self.repository = repository ?? DependencyContainer.shared.repository
         self.languageRepository = languageRepository ?? DependencyContainer.shared.languageRepository
         self.widgetReloader = widgetReloader ?? DependencyContainer.shared.widgetReloader
-        selectedLanguage = self.languageRepository.selectedLanguage()
-        availableLanguages = self.languageRepository.availableLanguages
+        appLanguage = self.languageRepository.resolvedLanguage()
         appVersion = (appVersionProvider ?? DependencyContainer.shared.appVersionProvider).marketingVersion()
 
         lastPeriodDate = self.repository.getEventDate() ?? .now
@@ -74,24 +72,13 @@ class BabyProgressViewModel {
         widgetReloader.reloadAllTimelines()
     }
 
-    func updateLanguage(_ language: AppLanguage) {
-        guard language != selectedLanguage else {
-            return
-        }
-
-        languageRepository.updateSelectedLanguage(language)
-        selectedLanguage = language
-        repository.updateContentLanguage(language)
-        reloadProgressState()
-        widgetReloader.reloadAllTimelines()
-    }
-
     func refreshContentIfNeeded() async {
+        let languageDidChange = reloadLanguageFromSystemIfNeeded()
         let previousSnapshot = repository.currentContentSnapshot()
         await repository.refreshContentIfNeeded()
         reloadProgressState()
 
-        if repository.currentContentSnapshot() != previousSnapshot {
+        if languageDidChange || repository.currentContentSnapshot() != previousSnapshot {
             widgetReloader.reloadAllTimelines()
         }
     }
@@ -151,6 +138,18 @@ class BabyProgressViewModel {
         pregnancyWeek = repository.getPregnancyWeek()
         currentWeekContent = repository.getCurrentWeekContent()
         allWeekContent = repository.getAllWeekContent()
+    }
+
+    private func reloadLanguageFromSystemIfNeeded() -> Bool {
+        let systemLanguage = languageRepository.resolvedLanguage()
+        guard systemLanguage != appLanguage else {
+            return false
+        }
+
+        appLanguage = systemLanguage
+        repository.updateContentLanguage(systemLanguage)
+        reloadProgressState()
+        return true
     }
 
     private func reloadBellyTrackingState() {

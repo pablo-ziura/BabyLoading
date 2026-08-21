@@ -46,7 +46,7 @@ struct BabyProgressWidgetEntryView: View {
                     String(
                         format: String(
                             localized: "widget.babySize",
-                            defaultValue: "The baby 🤰🏽 is now the size of %@",
+                            defaultValue: "The baby 🤰🏽 is now about the size of %@",
                             locale: locale
                         ),
                         locale: locale,
