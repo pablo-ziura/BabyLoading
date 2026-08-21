@@ -69,8 +69,8 @@ AGENTS.md
 
 ### Requisitos
 
-- Xcode con soporte para iOS 26.2
-- Simulador de referencia: `iPhone 17 Pro` con `iOS 26.2`
+- Xcode con soporte para iOS 
+- Simulador de referencia: `iPhone 17 Pro Max` con `iOS `
 - La app fuerza `.preferredColorScheme(.light)`
 
 ### Arranque local
@@ -84,19 +84,19 @@ open BabyLoading.xcodeproj
 2. Compila la app:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 ```
 
 3. Ejecuta los tests principales:
 
 ```bash
-xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2'
+xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
 ```
 
 4. Si necesitas compilar el widget por separado:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 ```
 
 ### Configuración del contenido remoto
@@ -203,8 +203,8 @@ AGENTS.md
 
 ### Requirements
 
-- Xcode with iOS 26.2 support
-- Reference simulator: `iPhone 17 Pro` running `iOS 26.2`
+- Xcode with iOS 26.5 support
+- Reference simulator: `iPhone 17 Pro Max` running `iOS 26.5`
 - The app forces `.preferredColorScheme(.light)`
 
 ### Local setup
@@ -218,19 +218,19 @@ open BabyLoading.xcodeproj
 2. Build the app:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 ```
 
 3. Run the main tests:
 
 ```bash
-xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2'
+xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
 ```
 
 4. If you need to build the widget separately:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=26.2' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 ```
 
 ### Remote content configuration

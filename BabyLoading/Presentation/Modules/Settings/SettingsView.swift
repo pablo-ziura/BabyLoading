@@ -1,9 +1,11 @@
 import SwiftUI
+import UIKit
 
 struct SettingsView: View {
     @Bindable var viewModel: BabyProgressViewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
+    @Environment(\.openURL) private var openURL
 
     private var isLandscape: Bool { verticalSizeClass == .compact }
 
@@ -104,15 +106,36 @@ struct SettingsView: View {
                                 .accessibilityHeading(.h2)
                         }
 
-                        VStack(spacing: 8) {
-                            ForEach(viewModel.availableLanguages) { language in
-                                LanguageOptionButton(
-                                    language: language,
-                                    isSelected: language == viewModel.selectedLanguage
-                                ) {
-                                    viewModel.updateLanguage(language)
-                                }
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("settings.language.current")
+                                .font(BabyLoadingTypography.text(.caption))
+                                .foregroundStyle(.secondary)
+
+                            Text(viewModel.appLanguage.nativeName)
+                                .font(BabyLoadingTypography.text(.title3, weight: .bold))
+                                .foregroundStyle(.primary)
+
+                            Text("settings.language.systemManaged")
+                                .font(BabyLoadingTypography.text(.body))
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+
+                            Button(action: openAppSettings) {
+                                Label("settings.language.openSettings", systemImage: "arrow.up.forward.app")
+                                    .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                                    .foregroundStyle(.primary)
+                                    .frame(maxWidth: .infinity, minHeight: 52)
+                                    .background(
+                                        Color.secondary.opacity(0.06),
+                                        in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                    )
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                            .strokeBorder(Color.secondary.opacity(0.12), lineWidth: 1)
+                                    }
                             }
+                            .buttonStyle(.plain)
+                            .accessibilityHint(Text("accessibility.settings.openLanguageSettingsHint"))
                         }
                     }
                     .softCard()
@@ -154,45 +177,13 @@ struct SettingsView: View {
             }
         }
     }
-}
 
-private struct LanguageOptionButton: View {
-    let language: AppLanguage
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 12) {
-                Text(language.nativeName)
-                    .font(BabyLoadingTypography.text(.headline, weight: .semibold))
-                    .foregroundStyle(.primary)
-
-                Spacer(minLength: 16)
-
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.title3)
-                    .foregroundStyle(isSelected ? Color.pink : Color.secondary.opacity(0.55))
-                    .accessibilityHidden(true)
-            }
-            .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity, minHeight: 52)
-            .background(
-                isSelected ? Color.pink.opacity(0.12) : Color.secondary.opacity(0.06),
-                in: RoundedRectangle(cornerRadius: 16, style: .continuous)
-            )
-            .overlay {
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .strokeBorder(
-                        isSelected ? Color.pink.opacity(0.45) : Color.secondary.opacity(0.12),
-                        lineWidth: 1
-                    )
-            }
-            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    private func openAppSettings() {
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            return
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text(language.nativeName))
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
+
+        openURL(settingsURL)
     }
 }
 
