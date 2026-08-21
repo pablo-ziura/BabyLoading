@@ -10,8 +10,7 @@ struct BabyLoadingApp: App {
         WindowGroup {
             DependencyContainer.shared.makeMainTabView()
                 .preferredColorScheme(.light)
-                .environment(\.locale, viewModel.selectedLanguage.locale)
-                .task(id: viewModel.selectedLanguage) {
+                .task {
                     await viewModel.refreshContentIfNeeded()
                 }
                 .onChange(of: scenePhase) { _, newPhase in

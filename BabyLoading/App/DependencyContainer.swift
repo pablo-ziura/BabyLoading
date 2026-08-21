@@ -25,7 +25,7 @@ class DependencyContainer {
         repository = BabyProgressRepository(
             dataSource: dataSource,
             contentRepositoryFactory: PregnancyContentRepositoryFactory(),
-            initialLanguage: languageRepository.selectedLanguage()
+            initialLanguage: languageRepository.resolvedLanguage()
         )
         widgetReloader = DefaultWidgetReloader()
         appVersionProvider = BundleAppVersionProvider()
@@ -39,7 +39,7 @@ class DependencyContainer {
 
     static func makeWidgetContext() -> (repository: BabyProgressRepositoryProtocol, language: AppLanguage) {
         let container = DependencyContainer()
-        return (container.repository, container.languageRepository.selectedLanguage())
+        return (container.repository, container.languageRepository.resolvedLanguage())
     }
 }
 
