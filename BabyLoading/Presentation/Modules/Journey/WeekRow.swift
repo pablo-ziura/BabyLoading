@@ -137,7 +137,7 @@ struct WeekRow: View {
                             String(
                                 format: String(
                                     localized: "dashboard.babySize",
-                                    defaultValue: "Your baby is now the size of %@",
+                                    defaultValue: "Your baby is now about the size of %@",
                                     locale: locale
                                 ),
                                 locale: locale,

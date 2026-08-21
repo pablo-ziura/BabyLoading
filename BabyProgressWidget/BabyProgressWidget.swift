@@ -5,7 +5,7 @@ struct BabyProgressWidget: Widget {
     let kind: String = "BabyProgressWidget"
 
     var body: some WidgetConfiguration {
-        let locale = AppLanguageRepository().selectedLanguage().locale
+        let locale = AppLanguageRepository().resolvedLanguage().locale
 
         return StaticConfiguration(kind: kind, provider: BabyProgressTimelineProvider()) { entry in
             BabyProgressWidgetEntryView(entry: entry)
