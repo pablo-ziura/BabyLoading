@@ -1,4 +1,7 @@
+import AppLocalization
+import BabyLoadingInfrastructure
 import BabyLoadingNavigation
+import Foundation
 import Observation
 
 @MainActor
@@ -16,9 +19,21 @@ final class Coordinator {
         router = AppRouter()
         viewModel = BabyProgressViewModel(
             repository: dependencyContainer.repository,
-            languageRepository: dependencyContainer.languageRepository,
-            appVersionProvider: dependencyContainer.appVersionProvider,
+            initialLanguage: dependencyContainer.initialLanguage,
+            appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
             widgetReloader: dependencyContainer.widgetReloader
         )
+    }
+
+    func reloadContentForCurrentLanguage() {
+        let language = dependencyContainer.resolveAppLanguageUseCase.execute(
+            preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
+        )
+
+        guard viewModel.applyContentLanguage(language) else {
+            return
+        }
+
+        dependencyContainer.widgetReloader.reloadAllTimelines()
     }
 }

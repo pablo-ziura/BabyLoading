@@ -1,4 +1,5 @@
 @testable import BabyLoading
+import AppLocalization
 import Foundation
 import Testing
 
@@ -7,19 +8,16 @@ struct BabyLoadingViewModelTests {
     private var viewModel: BabyProgressViewModel
     private var mockRepository: MockRepository
     private var mockReloader: MockWidgetReloader
-    private var mockLanguageRepository: MockAppLanguageRepository
 
     init() async throws {
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
-        let languageRepository = MockAppLanguageRepository()
         mockRepository = repo
         mockReloader = reloader
-        mockLanguageRepository = languageRepository
         viewModel = BabyProgressViewModel(
             repository: repo,
-            languageRepository: languageRepository,
-            appVersionProvider: MockAppVersionProvider(version: "1.0"),
+            initialLanguage: .english,
+            appVersion: "1.0",
             widgetReloader: reloader
         )
     }
@@ -58,7 +56,7 @@ struct BabyLoadingViewModelTests {
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
 
-    @Test func reloadContentForCurrentLanguage_WhenSystemLanguageChanges_ReloadsContentAndWidget() async throws {
+    @Test func applyContentLanguage_WhenLanguageChanges_ReloadsContent() async throws {
         let spanishContent = WeekContent(
             week: 20,
             babySize: .banana,
@@ -73,16 +71,15 @@ struct BabyLoadingViewModelTests {
             self.mockRepository.allWeekContent = [spanishContent]
         }
 
-        mockLanguageRepository.systemLanguage = .spanish
+        let didChangeLanguage = viewModel.applyContentLanguage(.spanish)
 
-        viewModel.reloadContentForCurrentLanguage()
-
+        #expect(didChangeLanguage)
         #expect(viewModel.appLanguage == .spanish)
         #expect(mockRepository.updateContentLanguageCalled)
         #expect(mockRepository.selectedContentLanguage == .spanish)
         #expect(viewModel.currentWeekContent == spanishContent)
         #expect(viewModel.allWeekContent == [spanishContent])
-        #expect(mockReloader.reloadAllTimelinesCalled)
+        #expect(!mockReloader.reloadAllTimelinesCalled)
     }
 
     @Test func init_ExposesInjectedAppVersion() async throws {
@@ -202,8 +199,8 @@ struct BabyLoadingViewModelTests {
     ) -> BabyProgressViewModel {
         BabyProgressViewModel(
             repository: repository,
-            languageRepository: MockAppLanguageRepository(),
-            appVersionProvider: MockAppVersionProvider(version: "1.0"),
+            initialLanguage: .english,
+            appVersion: "1.0",
             widgetReloader: widgetReloader
         )
     }

@@ -1,5 +1,6 @@
 @testable import BabyLoading
 import AppPreferences
+import BabyLoadingInfrastructure
 import Foundation
 import Testing
 

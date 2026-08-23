@@ -4,9 +4,9 @@ import Foundation
 class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private static let lastPeriodDateKey = PreferenceKey<Date>("lastPeriodDate")
 
-    private let preferencesStore: (any PreferencesStoreProtocol)?
+    private let preferencesStore: any PreferencesStoreProtocol
     private let fileManager: FileManager
-    private let containerURL: URL?
+    private let containerURL: URL
     private let photosDirName = "gallery"
     private let bellyTrackingDirName = "belly-tracking"
     private let bellyTrackingManifestFileName = "manifest.json"
@@ -14,9 +14,9 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private let jsonDecoder: JSONDecoder
 
     init(
-        preferencesStore: (any PreferencesStoreProtocol)? = SharedAppGroup.preferencesStore(),
-        fileManager: FileManager = .default,
-        containerURL: URL? = SharedAppGroup.containerURL()
+        preferencesStore: any PreferencesStoreProtocol,
+        fileManager: FileManager,
+        containerURL: URL
     ) {
         self.preferencesStore = preferencesStore
         self.fileManager = fileManager
@@ -33,15 +33,13 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     private var photosDirURL: URL? {
-        guard let container = containerURL else { return nil }
-        let dir = container.appendingPathComponent(photosDirName)
+        let dir = containerURL.appendingPathComponent(photosDirName)
         ensureDirectoryExists(at: dir)
         return dir
     }
 
     private var bellyTrackingDirURL: URL? {
-        guard let container = containerURL else { return nil }
-        let dir = container.appendingPathComponent(bellyTrackingDirName)
+        let dir = containerURL.appendingPathComponent(bellyTrackingDirName)
         ensureDirectoryExists(at: dir)
         return dir
     }
@@ -56,11 +54,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     func save(date: Date?) {
-        guard let preferencesStore else {
-            print("⚠️ [BabyProgressDataSource] Failed to initialize preferences store")
-            return
-        }
-
         do {
             if let date {
                 try preferencesStore.write(date, for: Self.lastPeriodDateKey)
@@ -73,11 +66,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     }
 
     func fetchDate() -> Date? {
-        guard let preferencesStore else {
-            print("⚠️ [BabyProgressDataSource] Failed to initialize preferences store")
-            return nil
-        }
-
         do {
             return try preferencesStore.read(Self.lastPeriodDateKey)
         } catch {
