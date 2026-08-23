@@ -4,7 +4,7 @@ extension DependencyContainer {
     // MARK: - Coordinator Factory
 
     func makeMainTabView() -> MainTabView {
-        MainTabView(coordinator: coordinator, container: self)
+        MainTabView(router: router, container: self)
     }
 
     // MARK: - View Factories
@@ -33,21 +33,5 @@ extension DependencyContainer {
 
     func makeSettingsView() -> some View {
         SettingsView(viewModel: viewModel)
-    }
-
-    @ViewBuilder
-    func view(for route: AppRoute, locale: Locale) -> some View {
-        switch route {
-        case let .detail(id):
-            Text(
-                String(
-                    format: String(localized: "detail.title", defaultValue: "Detail %@", locale: locale),
-                    locale: locale,
-                    id
-                )
-            )
-        case .settings:
-            makeSettingsView()
-        }
     }
 }
