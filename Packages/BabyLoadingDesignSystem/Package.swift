@@ -12,15 +12,27 @@ let package = Package(
         .library(
             name: "BabyLoadingDesignTokens",
             targets: ["BabyLoadingDesignTokens"]
+        ),
+        .library(
+            name: "BabyLoadingDesignComponents",
+            targets: ["BabyLoadingDesignComponents"]
         )
     ],
     targets: [
         .target(
             name: "BabyLoadingDesignTokens"
         ),
+        .target(
+            name: "BabyLoadingDesignComponents",
+            dependencies: ["BabyLoadingDesignTokens"]
+        ),
         .testTarget(
             name: "BabyLoadingDesignTokensTests",
             dependencies: ["BabyLoadingDesignTokens"]
+        ),
+        .testTarget(
+            name: "BabyLoadingDesignComponentsTests",
+            dependencies: ["BabyLoadingDesignComponents"]
         )
     ],
     swiftLanguageModes: [.v6]

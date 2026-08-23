@@ -1,10 +1,14 @@
 import BabyLoadingDesignTokens
 import SwiftUI
 
-struct SoftCard: ViewModifier {
-    var cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius
+public struct SoftCard: ViewModifier {
+    private let cornerRadius: CGFloat
 
-    func body(content: Content) -> some View {
+    public init(cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius) {
+        self.cornerRadius = cornerRadius
+    }
+
+    public func body(content: Content) -> some View {
         let shadow = BabyLoadingElevation.softCard
 
         content
@@ -20,10 +24,8 @@ struct SoftCard: ViewModifier {
     }
 }
 
-extension View {
-    func softCard(
-        cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius
-    ) -> some View {
+public extension View {
+    func softCard(cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius) -> some View {
         modifier(SoftCard(cornerRadius: cornerRadius))
     }
 }
