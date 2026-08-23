@@ -1,21 +1,30 @@
 @testable import BabyLoading
 import AppLocalization
 import Foundation
+import PregnancyProgress
 import Testing
 
 @MainActor
 struct BabyLoadingViewModelTests {
     private var viewModel: BabyProgressViewModel
+    private var mockLoadProgressUseCase: MockLoadPregnancyProgressUseCase
     private var mockRepository: MockRepository
     private var mockReloader: MockWidgetReloader
+    private var mockUpdateDateUseCase: MockUpdateLastPeriodDateUseCase
 
     init() async throws {
+        let loadProgressUseCase = MockLoadPregnancyProgressUseCase()
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
+        let updateDateUseCase = MockUpdateLastPeriodDateUseCase()
+        mockLoadProgressUseCase = loadProgressUseCase
         mockRepository = repo
         mockReloader = reloader
+        mockUpdateDateUseCase = updateDateUseCase
         viewModel = BabyProgressViewModel(
             repository: repo,
+            loadPregnancyProgressUseCase: loadProgressUseCase,
+            updateLastPeriodDateUseCase: updateDateUseCase,
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: reloader
@@ -24,8 +33,13 @@ struct BabyLoadingViewModelTests {
 
     @Test func updateDate_UpdatesRepositoryAndState() async throws {
         let newDate = Date.now
-        mockRepository.daysRemaining = 5
-        mockRepository.pregnancyWeek = 20
+        let dueDate = Date(timeIntervalSince1970: 1_800_000_000)
+        mockLoadProgressUseCase.result = PregnancyProgress(
+            lastPeriodDate: newDate,
+            dueDate: dueDate,
+            currentWeek: 20,
+            daysUntilDueDate: 5
+        )
         let weekContent = WeekContent(
             week: 20,
             babySize: .banana,
@@ -35,23 +49,19 @@ struct BabyLoadingViewModelTests {
             physiologicalImpact: nil
         )
         mockRepository.currentWeekContent = weekContent
-        mockRepository.allWeekContent = [weekContent]
 
-        viewModel.updateDate(newDate)
+        await viewModel.updateDate(newDate)
 
         #expect(viewModel.lastPeriodDate == newDate)
-        #expect(mockRepository.setEventDateCalled)
-        #expect(mockRepository.eventDate == newDate)
-        #expect(mockRepository.daysUntilEventCalled)
-        #expect(mockRepository.daysRemaining == 5)
-
-        #expect(mockRepository.getPregnancyWeekCalled)
+        #expect(mockUpdateDateUseCase.executeCalled)
+        #expect(mockUpdateDateUseCase.updatedDate == newDate)
+        #expect(mockLoadProgressUseCase.executeCalled)
+        #expect(viewModel.estimatedDueDate == dueDate)
+        #expect(viewModel.daysRemaining == 5)
         #expect(viewModel.pregnancyWeek == 20)
-
-        #expect(mockRepository.getCurrentWeekContentCalled)
+        #expect(mockRepository.weekContentCalled)
+        #expect(mockRepository.requestedWeek == 20)
         #expect(viewModel.currentWeekContent?.babySizeLabel == "un plátano")
-        #expect(mockRepository.getAllWeekContentCalled)
-        #expect(viewModel.allWeekContent == [weekContent])
 
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
@@ -65,18 +75,25 @@ struct BabyLoadingViewModelTests {
             keyEvents: ["Evento"],
             physiologicalImpact: nil
         )
+        mockLoadProgressUseCase.result = PregnancyProgress(
+            lastPeriodDate: Date(timeIntervalSince1970: 1_700_000_000),
+            dueDate: Date(timeIntervalSince1970: 1_724_192_000),
+            currentWeek: 20,
+            daysUntilDueDate: 140
+        )
         mockRepository.updateContentLanguageHandler = { language in
             guard language == .spanish else { return }
             self.mockRepository.currentWeekContent = spanishContent
             self.mockRepository.allWeekContent = [spanishContent]
         }
 
-        let didChangeLanguage = viewModel.applyContentLanguage(.spanish)
+        let didChangeLanguage = await viewModel.applyContentLanguage(.spanish)
 
         #expect(didChangeLanguage)
         #expect(viewModel.appLanguage == .spanish)
         #expect(mockRepository.updateContentLanguageCalled)
         #expect(mockRepository.selectedContentLanguage == .spanish)
+        #expect(mockLoadProgressUseCase.executeCalled)
         #expect(viewModel.currentWeekContent == spanishContent)
         #expect(viewModel.allWeekContent == [spanishContent])
         #expect(!mockReloader.reloadAllTimelinesCalled)
@@ -84,6 +101,72 @@ struct BabyLoadingViewModelTests {
 
     @Test func init_ExposesInjectedAppVersion() async throws {
         #expect(viewModel.appVersion == "1.0")
+    }
+
+    @Test func reloadProgress_WhenLoadingFails_PreservesLastValidState() async throws {
+        let lastPeriodDate = Date(timeIntervalSince1970: 1_700_000_000)
+        let dueDate = Date(timeIntervalSince1970: 1_724_192_000)
+        let content = WeekContent(
+            week: 18,
+            babySize: .sweetPotato,
+            babySizeLabel: "a sweet potato",
+            milestoneTitle: "Week 18",
+            keyEvents: ["Growth"],
+            physiologicalImpact: nil
+        )
+        mockRepository.currentWeekContent = content
+        mockLoadProgressUseCase.result = PregnancyProgress(
+            lastPeriodDate: lastPeriodDate,
+            dueDate: dueDate,
+            currentWeek: 18,
+            daysUntilDueDate: 154
+        )
+        await viewModel.reloadProgress(asOf: lastPeriodDate)
+
+        mockLoadProgressUseCase.error = MockPregnancyProgressError.loadFailed
+        await viewModel.reloadProgress(asOf: lastPeriodDate)
+
+        #expect(viewModel.lastPeriodDate == lastPeriodDate)
+        #expect(viewModel.estimatedDueDate == dueDate)
+        #expect(viewModel.daysRemaining == 154)
+        #expect(viewModel.pregnancyWeek == 18)
+        #expect(viewModel.currentWeekContent == content)
+        #expect(viewModel.pregnancyProgressState == .failed(.loadFailed))
+    }
+
+    @Test func updateDate_WhenPersistenceFails_PreservesLastValidState() async throws {
+        let lastPeriodDate = Date(timeIntervalSince1970: 1_700_000_000)
+        let dueDate = Date(timeIntervalSince1970: 1_724_192_000)
+        let content = WeekContent(
+            week: 18,
+            babySize: .sweetPotato,
+            babySizeLabel: "a sweet potato",
+            milestoneTitle: "Week 18",
+            keyEvents: ["Growth"],
+            physiologicalImpact: nil
+        )
+        mockRepository.currentWeekContent = content
+        mockLoadProgressUseCase.result = PregnancyProgress(
+            lastPeriodDate: lastPeriodDate,
+            dueDate: dueDate,
+            currentWeek: 18,
+            daysUntilDueDate: 154
+        )
+        await viewModel.reloadProgress(asOf: lastPeriodDate)
+        let progressLoadCallCount = mockLoadProgressUseCase.executeCallCount
+        mockUpdateDateUseCase.error = MockPregnancyProgressError.updateFailed
+
+        await viewModel.updateDate(Date(timeIntervalSince1970: 1_710_000_000))
+
+        #expect(mockUpdateDateUseCase.executeCallCount == 1)
+        #expect(mockLoadProgressUseCase.executeCallCount == progressLoadCallCount)
+        #expect(viewModel.lastPeriodDate == lastPeriodDate)
+        #expect(viewModel.estimatedDueDate == dueDate)
+        #expect(viewModel.daysRemaining == 154)
+        #expect(viewModel.pregnancyWeek == 18)
+        #expect(viewModel.currentWeekContent == content)
+        #expect(viewModel.pregnancyProgressState == .failed(.updateFailed))
+        #expect(!mockReloader.reloadAllTimelinesCalled)
     }
 
     @Test func init_LoadsBellyTrackingState() async throws {
@@ -109,7 +192,6 @@ struct BabyLoadingViewModelTests {
     }
 
     @Test func saveBellyTrackingPhoto_UpdatesStateAndRepository() async throws {
-        mockRepository.pregnancyWeek = 24
         viewModel.pregnancyWeek = 24
         let fakeData = Data([0x0F, 0x0E, 0x0D])
 
@@ -199,6 +281,8 @@ struct BabyLoadingViewModelTests {
     ) -> BabyProgressViewModel {
         BabyProgressViewModel(
             repository: repository,
+            loadPregnancyProgressUseCase: MockLoadPregnancyProgressUseCase(),
+            updateLastPeriodDateUseCase: MockUpdateLastPeriodDateUseCase(),
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: widgetReloader

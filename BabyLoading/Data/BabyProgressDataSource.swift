@@ -1,10 +1,6 @@
-import AppPreferences
 import Foundation
 
 class BabyProgressDataSource: BabyProgressDataSourceProtocol {
-    private static let lastPeriodDateKey = PreferenceKey<Date>("lastPeriodDate")
-
-    private let preferencesStore: any PreferencesStoreProtocol
     private let fileManager: FileManager
     private let containerURL: URL
     private let photosDirName = "gallery"
@@ -14,11 +10,9 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private let jsonDecoder: JSONDecoder
 
     init(
-        preferencesStore: any PreferencesStoreProtocol,
         fileManager: FileManager,
         containerURL: URL
     ) {
-        self.preferencesStore = preferencesStore
         self.fileManager = fileManager
         self.containerURL = containerURL
 
@@ -51,27 +45,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private func ensureDirectoryExists(at url: URL) {
         guard !fileManager.fileExists(atPath: url.path) else { return }
         try? fileManager.createDirectory(at: url, withIntermediateDirectories: true)
-    }
-
-    func save(date: Date?) {
-        do {
-            if let date {
-                try preferencesStore.write(date, for: Self.lastPeriodDateKey)
-            } else {
-                preferencesStore.remove(Self.lastPeriodDateKey)
-            }
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to save lastPeriodDate: \(error)")
-        }
-    }
-
-    func fetchDate() -> Date? {
-        do {
-            return try preferencesStore.read(Self.lastPeriodDateKey)
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to fetch lastPeriodDate: \(error)")
-            return nil
-        }
     }
 
     // MARK: - Ultrasound gallery

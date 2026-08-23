@@ -1,8 +1,6 @@
 import Foundation
 
 protocol BabyProgressDataSourceProtocol {
-    func save(date: Date?)
-    func fetchDate() -> Date?
     // Ultrasound gallery
     func addUltrasoundPhoto(data: Data)
     func fetchUltrasoundPhotos() -> [UltrasoundPhoto]

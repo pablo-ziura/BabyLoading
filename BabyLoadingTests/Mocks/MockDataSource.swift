@@ -2,13 +2,10 @@
 import Foundation
 
 class MockDataSource: BabyProgressDataSourceProtocol {
-    var storedDate: Date?
     var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
-    var saveCalled = false
-    var fetchCalled = false
     var addUltrasoundPhotoCalled = false
     var fetchUltrasoundPhotosCalled = false
     var deleteUltrasoundPhotoCalled = false
@@ -18,16 +15,6 @@ class MockDataSource: BabyProgressDataSourceProtocol {
     var deleteBellyTrackingEntryCalled = false
     var fetchBellyTrackingSettingsCalled = false
     var saveBellyTrackingSettingsCalled = false
-
-    func save(date: Date?) {
-        saveCalled = true
-        storedDate = date
-    }
-
-    func fetchDate() -> Date? {
-        fetchCalled = true
-        return storedDate
-    }
 
     func addUltrasoundPhoto(data: Data) {
         addUltrasoundPhotoCalled = true

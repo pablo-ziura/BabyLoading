@@ -2,6 +2,7 @@ import AppLocalization
 import AppPreferences
 import BabyLoadingInfrastructure
 import Foundation
+import PregnancyProgress
 
 @MainActor
 final class DependencyContainer {
@@ -10,6 +11,8 @@ final class DependencyContainer {
     let widgetReloader: WidgetReloaderProtocol
     let resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol
     let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
+    let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
+    let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
     let initialLanguage: AppLanguage
 
     init() {
@@ -31,11 +34,10 @@ final class DependencyContainer {
             preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
         )
 
-        dataSource = BabyProgressDataSource(
-            preferencesStore: preferencesStore,
-            fileManager: fileManager,
-            containerURL: containerURL
-        )
+        let pregnancyProgressStore = PregnancyProgressStore(preferencesStore: preferencesStore)
+        let pregnancyProgressRepository = PregnancyProgressRepository(store: pregnancyProgressStore)
+
+        dataSource = BabyProgressDataSource(fileManager: fileManager, containerURL: containerURL)
         repository = BabyProgressRepository(
             dataSource: dataSource,
             contentRepositoryFactory: PregnancyContentRepositoryFactory(
@@ -49,6 +51,13 @@ final class DependencyContainer {
         self.resolveAppLanguageUseCase = resolveAppLanguageUseCase
         loadAppVersionUseCase = LoadAppVersionUseCase(
             provider: BundleAppVersionProvider(bundle: .main)
+        )
+        loadPregnancyProgressUseCase = LoadPregnancyProgressUseCase(
+            repository: pregnancyProgressRepository,
+            calendar: .current
+        )
+        updateLastPeriodDateUseCase = UpdateLastPeriodDateUseCase(
+            repository: pregnancyProgressRepository
         )
         self.initialLanguage = initialLanguage
     }

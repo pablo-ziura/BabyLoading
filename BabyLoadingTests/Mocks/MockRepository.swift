@@ -3,14 +3,8 @@ import AppLocalization
 import Foundation
 
 class MockRepository: BabyProgressRepositoryProtocol {
-    var eventDate: Date?
-    var daysRemaining: Int?
-
-    var getEventDateCalled = false
-    var setEventDateCalled = false
-    var daysUntilEventCalled = false
-    var getPregnancyWeekCalled = false
-    var getCurrentWeekContentCalled = false
+    var requestedWeek: Int?
+    var weekContentCalled = false
     var getAllWeekContentCalled = false
     var currentContentSnapshotCalled = false
     var updateContentLanguageCalled = false
@@ -24,7 +18,6 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var fetchBellyTrackingSettingsCalled = false
     var saveBellyTrackingSettingsCalled = false
 
-    var pregnancyWeek: Int?
     var currentWeekContent: WeekContent?
     var allWeekContent: [WeekContent] = []
     var contentSnapshot = PregnancyContentDocument.empty
@@ -35,28 +28,9 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
 
-    func getEventDate() -> Date? {
-        getEventDateCalled = true
-        return eventDate
-    }
-
-    func setEventDate(_ date: Date?) {
-        setEventDateCalled = true
-        eventDate = date
-    }
-
-    func daysUntilEvent() -> Int? {
-        daysUntilEventCalled = true
-        return daysRemaining
-    }
-
-    func getPregnancyWeek() -> Int? {
-        getPregnancyWeekCalled = true
-        return pregnancyWeek
-    }
-
-    func getCurrentWeekContent() -> WeekContent? {
-        getCurrentWeekContentCalled = true
+    func weekContent(for week: Int) -> WeekContent? {
+        weekContentCalled = true
+        requestedWeek = week
         return currentWeekContent
     }
 

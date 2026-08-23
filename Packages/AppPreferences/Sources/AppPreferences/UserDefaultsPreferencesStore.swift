@@ -1,18 +1,14 @@
 import Foundation
 
-public final class UserDefaultsPreferencesStore: PreferencesStoreProtocol, @unchecked Sendable {
+public actor UserDefaultsPreferencesStore: PreferencesStoreProtocol {
     private let userDefaults: UserDefaults
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
 
-    public init(
-        userDefaults: UserDefaults,
-        encoder: JSONEncoder = .init(),
-        decoder: JSONDecoder = .init()
-    ) {
+    public init(userDefaults: sending UserDefaults) {
         self.userDefaults = userDefaults
-        self.encoder = encoder
-        self.decoder = decoder
+        encoder = JSONEncoder()
+        decoder = JSONDecoder()
     }
 
     public func read<Value: Codable & Sendable>(_ key: PreferenceKey<Value>) throws -> Value? {

@@ -10,11 +10,19 @@ let package = Package(
     ],
     products: [
         .library(name: "BabyLoadingInfrastructure", targets: ["BabyLoadingInfrastructure"]),
-        .library(name: "AppLocalization", targets: ["AppLocalization"])
+        .library(name: "AppLocalization", targets: ["AppLocalization"]),
+        .library(name: "PregnancyProgress", targets: ["PregnancyProgress"])
+    ],
+    dependencies: [
+        .package(path: "../AppPreferences")
     ],
     targets: [
         .target(name: "BabyLoadingInfrastructure"),
         .target(name: "AppLocalization"),
+        .target(
+            name: "PregnancyProgress",
+            dependencies: ["AppPreferences"]
+        ),
         .testTarget(
             name: "BabyLoadingInfrastructureTests",
             dependencies: ["BabyLoadingInfrastructure"]
@@ -22,6 +30,10 @@ let package = Package(
         .testTarget(
             name: "AppLocalizationTests",
             dependencies: ["AppLocalization"]
+        ),
+        .testTarget(
+            name: "PregnancyProgressTests",
+            dependencies: ["AppPreferences", "PregnancyProgress"]
         )
     ],
     swiftLanguageModes: [.v6]

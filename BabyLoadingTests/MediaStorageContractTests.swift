@@ -1,5 +1,4 @@
 @testable import BabyLoading
-import AppPreferences
 import CoreImage
 import Foundation
 import Testing
@@ -129,35 +128,23 @@ struct MediaStorageContractTests {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: containerURL, withIntermediateDirectories: true)
 
-        let suiteName = "MediaStorageContractTests.\(UUID().uuidString)"
-        let userDefaults = try #require(UserDefaults(suiteName: suiteName))
-        userDefaults.removePersistentDomain(forName: suiteName)
-        let preferencesStore = UserDefaultsPreferencesStore(userDefaults: userDefaults)
-
         return MediaStorageTestContext(
             dataSource: BabyProgressDataSource(
-                preferencesStore: preferencesStore,
                 fileManager: .default,
                 containerURL: containerURL
             ),
-            suiteName: suiteName,
-            userDefaults: userDefaults,
-            preferencesStore: preferencesStore,
             containerURL: containerURL
         )
     }
 
     private func makeDataSource(_ context: MediaStorageTestContext) -> BabyProgressDataSource {
         BabyProgressDataSource(
-            preferencesStore: context.preferencesStore,
             fileManager: .default,
             containerURL: context.containerURL
         )
     }
 
     private func cleanup(_ context: MediaStorageTestContext) {
-        context.userDefaults.removePersistentDomain(forName: context.suiteName)
-
         do {
             try FileManager.default.removeItem(at: context.containerURL)
         } catch {
@@ -193,9 +180,6 @@ struct MediaStorageContractTests {
 
 private struct MediaStorageTestContext {
     let dataSource: BabyProgressDataSource
-    let suiteName: String
-    let userDefaults: UserDefaults
-    let preferencesStore: UserDefaultsPreferencesStore
     let containerURL: URL
 }
 

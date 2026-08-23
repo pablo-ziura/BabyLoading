@@ -2,6 +2,7 @@ import AppLocalization
 import AppPreferences
 import BabyLoadingInfrastructure
 import Foundation
+import PregnancyProgress
 
 @MainActor
 final class WidgetDependencyContainer {
@@ -25,9 +26,14 @@ final class WidgetDependencyContainer {
         let language = ResolveAppLanguageUseCase().execute(
             preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
         )
+        let progressStore = PregnancyProgressStore(preferencesStore: preferencesStore)
+        let progressRepository = PregnancyProgressRepository(store: progressStore)
+        let loadPregnancyProgressUseCase = LoadPregnancyProgressUseCase(
+            repository: progressRepository,
+            calendar: .current
+        )
         let repository = BabyProgressRepository(
             dataSource: BabyProgressDataSource(
-                preferencesStore: preferencesStore,
                 fileManager: fileManager,
                 containerURL: containerURL
             ),
@@ -42,6 +48,7 @@ final class WidgetDependencyContainer {
         self.language = language
         timelineProvider = BabyProgressTimelineProvider(
             repository: repository,
+            loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
             language: language
         )
     }

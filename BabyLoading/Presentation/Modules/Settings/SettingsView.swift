@@ -73,7 +73,9 @@ struct SettingsView: View {
                     .padding(.horizontal)
 
                     Button {
-                        viewModel.updateDate(viewModel.lastPeriodDate)
+                        Task {
+                            await viewModel.updateDate(viewModel.lastPeriodDate)
+                        }
                     } label: {
                         Text("settings.setDate")
                             .font(BabyLoadingTypography.text(.headline, weight: .semibold))

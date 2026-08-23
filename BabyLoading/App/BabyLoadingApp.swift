@@ -10,9 +10,14 @@ struct BabyLoadingApp: App {
         WindowGroup {
             coordinator.makeMainTabView()
                 .preferredColorScheme(.light)
+                .task {
+                    await coordinator.start()
+                }
                 .onChange(of: scenePhase) { _, newPhase in
                     guard newPhase == .active else { return }
-                    coordinator.reloadContentForCurrentLanguage()
+                    Task {
+                        await coordinator.reloadContentForCurrentLanguage()
+                    }
                 }
         }
     }
