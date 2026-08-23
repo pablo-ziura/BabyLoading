@@ -1,12 +1,11 @@
-@testable import BabyLoading
+@testable import GalleryFeature
 @preconcurrency import AVFoundation
 import Foundation
 import Testing
 
 @MainActor
 struct BellyTrackingCameraViewModelTests {
-    @Test
-    func unavailableCameraDoesNotConfigureTheSession() async {
+    @Test func unavailableCameraDoesNotConfigureTheSession() async {
         let captureService = BellyTrackingCaptureServiceStub(isCameraAvailable: false)
         let viewModel = makeViewModel(captureService: captureService)
 
@@ -18,8 +17,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(snapshot.startCallCount == 0)
     }
 
-    @Test
-    func deniedAuthorizationDoesNotConfigureTheSession() async {
+    @Test func deniedAuthorizationDoesNotConfigureTheSession() async {
         let captureService = BellyTrackingCaptureServiceStub(
             authorizationStatus: .notDetermined,
             requestAccessResult: false
@@ -34,8 +32,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(snapshot.prepareCallCount == 0)
     }
 
-    @Test
-    func authorizedCameraConfiguresAndStartsTheSession() async {
+    @Test func authorizedCameraConfiguresAndStartsTheSession() async {
         let captureService = BellyTrackingCaptureServiceStub()
         let viewModel = makeViewModel(captureService: captureService)
 
@@ -47,8 +44,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(snapshot.startCallCount == 1)
     }
 
-    @Test
-    func configurationFailureMapsToFailedPresentationState() async {
+    @Test func configurationFailureMapsToFailedPresentationState() async {
         let captureService = BellyTrackingCaptureServiceStub(shouldFailPreparation: true)
         let viewModel = makeViewModel(captureService: captureService)
 
@@ -60,8 +56,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(snapshot.startCallCount == 0)
     }
 
-    @Test
-    func captureForwardsRotationAndSavesNativePhotoData() async {
+    @Test func captureForwardsRotationAndSavesNativePhotoData() async {
         let photoData = Data([0x01, 0x02, 0x03])
         let captureService = BellyTrackingCaptureServiceStub(capturedData: photoData)
         let viewModel = makeViewModel(captureService: captureService)
@@ -80,8 +75,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(snapshot.captureRotationAngle == 90)
     }
 
-    @Test
-    func captureFailureMapsToPresentationError() async {
+    @Test func captureFailureMapsToPresentationError() async {
         let captureService = BellyTrackingCaptureServiceStub(shouldFailCapture: true)
         let viewModel = makeViewModel(captureService: captureService)
         await viewModel.prepareSession()
@@ -96,8 +90,7 @@ struct BellyTrackingCameraViewModelTests {
         #expect(!viewModel.isCapturing)
     }
 
-    @Test
-    func stoppingTheModelStopsTheCaptureService() async {
+    @Test func stoppingTheModelStopsTheCaptureService() async {
         let captureService = BellyTrackingCaptureServiceStub()
         let viewModel = makeViewModel(captureService: captureService)
 

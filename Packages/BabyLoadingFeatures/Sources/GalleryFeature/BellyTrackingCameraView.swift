@@ -1,12 +1,9 @@
+#if os(iOS)
 import BabyLoadingDesignTokens
 import SwiftUI
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 
-typealias AsyncBellyTrackingCaptureHandler = @MainActor (Data) async -> Bool
-
-struct BellyTrackingCameraView: View {
+public struct BellyTrackingCameraView: View {
     private let referenceImageData: Data?
     private let onPhotoCaptured: AsyncBellyTrackingCaptureHandler
 
@@ -15,7 +12,7 @@ struct BellyTrackingCameraView: View {
     @State private var viewModel: BellyTrackingCameraViewModel
     @State private var captureRotationAngle: CGFloat = 0
 
-    init(
+    public init(
         referenceImageData: Data?,
         onPhotoCaptured: @escaping AsyncBellyTrackingCaptureHandler
     ) {
@@ -29,7 +26,7 @@ struct BellyTrackingCameraView: View {
         )
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
 
@@ -74,14 +71,7 @@ struct BellyTrackingCameraView: View {
                 defaultValue: "Camera error",
                 locale: locale
             ),
-            isPresented: Binding(
-                get: { viewModel.errorMessage != nil },
-                set: { isPresented in
-                    if !isPresented {
-                        viewModel.clearError()
-                    }
-                }
-            )
+            isPresented: cameraErrorBinding
         ) {
             Button(String(localized: "common.ok", defaultValue: "OK", locale: locale), role: .cancel) {}
         } message: {
@@ -101,8 +91,8 @@ struct BellyTrackingCameraView: View {
                     source: viewModel.previewSource,
                     captureRotationAngle: $captureRotationAngle
                 )
-                    .frame(width: guideSize.width, height: guideSize.height)
-                    .clipped()
+                .frame(width: guideSize.width, height: guideSize.height)
+                .clipped()
 
                 if let referenceImage, viewModel.hasReferenceImage, viewModel.isShowingReference {
                     Image(uiImage: referenceImage)
@@ -112,17 +102,20 @@ struct BellyTrackingCameraView: View {
                         .clipped()
                         .opacity(viewModel.referenceOpacity)
                         .allowsHitTesting(false)
+                        .accessibilityHidden(true)
                 }
 
                 BellyTrackingGridOverlay()
                     .stroke(.white.opacity(0.25), style: StrokeStyle(lineWidth: 1, dash: [6, 6]))
                     .frame(width: guideSize.width, height: guideSize.height)
                     .allowsHitTesting(false)
+                    .accessibilityHidden(true)
 
                 Rectangle()
                     .stroke(.white.opacity(0.45), lineWidth: 1)
                     .frame(width: guideSize.width, height: guideSize.height)
                     .allowsHitTesting(false)
+                    .accessibilityHidden(true)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay(alignment: .top) {
@@ -150,6 +143,7 @@ struct BellyTrackingCameraView: View {
                     .padding(12)
                     .background(.black.opacity(0.45), in: Circle())
             }
+            .accessibilityLabel(Text("camera.bellyTracking.close"))
 
             Spacer()
 
@@ -168,6 +162,7 @@ struct BellyTrackingCameraView: View {
 
             Color.clear
                 .frame(width: 44, height: 44)
+                .accessibilityHidden(true)
         }
         .frame(maxWidth: .infinity)
     }
@@ -181,11 +176,12 @@ struct BellyTrackingCameraView: View {
                         .foregroundStyle(.white)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityHidden(true)
 
                     Spacer(minLength: 12)
 
                     Toggle(
-                        "",
+                        "camera.bellyTracking.referenceToggle",
                         isOn: Binding(
                             get: { viewModel.isShowingReference },
                             set: { viewModel.isShowingReference = $0 }
@@ -200,6 +196,7 @@ struct BellyTrackingCameraView: View {
                         Text("camera.bellyTracking.referenceOpacity")
                             .font(BabyLoadingTypography.text(.caption))
                             .foregroundStyle(.white.opacity(0.8))
+                            .accessibilityHidden(true)
 
                         Slider(
                             value: Binding(
@@ -209,6 +206,7 @@ struct BellyTrackingCameraView: View {
                             in: 0...0.7
                         )
                         .tint(.white)
+                        .accessibilityLabel(Text("camera.bellyTracking.referenceOpacity"))
                     }
                 }
             }
@@ -241,6 +239,7 @@ struct BellyTrackingCameraView: View {
                 .foregroundStyle(.black)
             }
             .disabled(viewModel.isCapturing)
+            .accessibilityLabel(Text("camera.bellyTracking.capture"))
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -257,6 +256,7 @@ struct BellyTrackingCameraView: View {
             Image(systemName: symbol)
                 .font(.system(size: 48))
                 .foregroundStyle(.white.opacity(0.9))
+                .accessibilityHidden(true)
 
             Text(titleKey)
                 .font(BabyLoadingTypography.text(.title3, weight: .bold))
@@ -279,14 +279,20 @@ struct BellyTrackingCameraView: View {
         .padding(28)
     }
 
-    private var referenceImage: UIImage? {
-        #if canImport(UIKit)
-            referenceImageData.flatMap(UIImage.init(data:))
-        #else
-            nil
-        #endif
+    private var cameraErrorBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.errorMessage != nil },
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.clearError()
+                }
+            }
+        )
     }
 
+    private var referenceImage: UIImage? {
+        referenceImageData.flatMap(UIImage.init(data:))
+    }
 }
 
 private struct BellyTrackingGridOverlay: Shape {
@@ -298,16 +304,14 @@ private struct BellyTrackingGridOverlay: Shape {
 
         path.move(to: CGPoint(x: thirdWidth, y: 0))
         path.addLine(to: CGPoint(x: thirdWidth, y: rect.height))
-
         path.move(to: CGPoint(x: thirdWidth * 2, y: 0))
         path.addLine(to: CGPoint(x: thirdWidth * 2, y: rect.height))
-
         path.move(to: CGPoint(x: 0, y: thirdHeight))
         path.addLine(to: CGPoint(x: rect.width, y: thirdHeight))
-
         path.move(to: CGPoint(x: 0, y: thirdHeight * 2))
         path.addLine(to: CGPoint(x: rect.width, y: thirdHeight * 2))
 
         return path
     }
 }
+#endif

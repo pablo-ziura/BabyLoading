@@ -1,6 +1,7 @@
 import BabyLoadingDesignTokens
 import BabyLoadingNavigation
 import DashboardFeature
+import GalleryFeature
 import JourneyFeature
 import SettingsFeature
 import SwiftUI
@@ -78,5 +79,6 @@ struct MainTabView: View {
 }
 
 #Preview {
-    Coordinator().makeMainTabView()
+    @Previewable @State var coordinator = Coordinator()
+    coordinator.makeMainTabView()
 }

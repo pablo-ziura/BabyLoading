@@ -12,6 +12,7 @@ let package = Package(
         .library(name: "BabyLoadingNavigation", targets: ["BabyLoadingNavigation"]),
         .library(name: "DashboardFeature", targets: ["DashboardFeature"]),
         .library(name: "JourneyFeature", targets: ["JourneyFeature"]),
+        .library(name: "GalleryFeature", targets: ["GalleryFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"])
     ],
     dependencies: [
@@ -34,6 +35,17 @@ let package = Package(
             dependencies: [
                 .product(name: "PregnancyContent", package: "BabyLoadingCore"),
                 .product(name: "PregnancyProgress", package: "BabyLoadingCore"),
+                .product(name: "BabyLoadingDesignComponents", package: "BabyLoadingDesignSystem"),
+                .product(name: "BabyLoadingDesignTokens", package: "BabyLoadingDesignSystem")
+            ]
+        ),
+        .target(
+            name: "GalleryFeature",
+            dependencies: [
+                "BabyLoadingNavigation",
+                .product(name: "BellyTracking", package: "BabyLoadingCore"),
+                .product(name: "PregnancyProgress", package: "BabyLoadingCore"),
+                .product(name: "UltrasoundGallery", package: "BabyLoadingCore"),
                 .product(name: "BabyLoadingDesignComponents", package: "BabyLoadingDesignSystem"),
                 .product(name: "BabyLoadingDesignTokens", package: "BabyLoadingDesignSystem")
             ]
@@ -66,6 +78,15 @@ let package = Package(
                 "JourneyFeature",
                 .product(name: "PregnancyContent", package: "BabyLoadingCore"),
                 .product(name: "PregnancyProgress", package: "BabyLoadingCore")
+            ]
+        ),
+        .testTarget(
+            name: "GalleryFeatureTests",
+            dependencies: [
+                "GalleryFeature",
+                .product(name: "BellyTracking", package: "BabyLoadingCore"),
+                .product(name: "PregnancyProgress", package: "BabyLoadingCore"),
+                .product(name: "UltrasoundGallery", package: "BabyLoadingCore")
             ]
         ),
         .testTarget(

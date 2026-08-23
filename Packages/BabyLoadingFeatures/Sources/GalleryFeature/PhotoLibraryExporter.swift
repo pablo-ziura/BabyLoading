@@ -1,18 +1,23 @@
 import Foundation
-import Photos
+#if os(iOS)
+    import Photos
+#endif
 
-enum PhotoLibraryExportResult: Equatable, Sendable {
+public enum PhotoLibraryExportResult: Equatable, Sendable {
     case saved
     case permissionDenied
     case failed
 }
 
-protocol PhotoLibraryExportingProtocol: Sendable {
+public protocol PhotoLibraryExportingProtocol: Sendable {
     func saveImageData(_ data: Data) async -> PhotoLibraryExportResult
 }
 
-struct PhotoLibraryExporter: PhotoLibraryExportingProtocol {
-    func saveImageData(_ data: Data) async -> PhotoLibraryExportResult {
+#if os(iOS)
+public struct PhotoLibraryExporter: PhotoLibraryExportingProtocol {
+    public init() {}
+
+    public func saveImageData(_ data: Data) async -> PhotoLibraryExportResult {
         let authorizationStatus = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
         guard authorizationStatus == .authorized || authorizationStatus == .limited else {
             return .permissionDenied
@@ -29,3 +34,4 @@ struct PhotoLibraryExporter: PhotoLibraryExportingProtocol {
         }
     }
 }
+#endif

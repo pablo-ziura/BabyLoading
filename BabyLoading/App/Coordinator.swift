@@ -3,6 +3,7 @@ import BabyLoadingInfrastructure
 import BabyLoadingNavigation
 import DashboardFeature
 import Foundation
+import GalleryFeature
 import JourneyFeature
 import Observation
 import SettingsFeature
