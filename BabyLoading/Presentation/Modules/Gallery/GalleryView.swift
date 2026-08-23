@@ -1,4 +1,5 @@
 import BabyLoadingNavigation
+import BellyTracking
 import PhotosUI
 import SwiftUI
 import UltrasoundGallery
@@ -84,8 +85,8 @@ struct GalleryView: View {
                             )
                         )
                     ) {
-                        withAnimation(.spring(duration: 0.3)) {
-                            viewModel.deleteBellyTrackingEntry(id: entry.id)
+                        Task {
+                            await viewModel.deleteBellyTrackingEntry(id: entry.id)
                         }
                     },
                     secondaryButton: .cancel(
@@ -182,7 +183,13 @@ struct GalleryView: View {
                     ),
                     selection: Binding(
                         get: { viewModel.bellyTrackingSettings.intervalDays },
-                        set: { viewModel.updateBellyTrackingCadence(intervalDays: $0) }
+                        set: { intervalDays in
+                            Task {
+                                await viewModel.updateBellyTrackingCadence(
+                                    intervalDays: intervalDays
+                                )
+                            }
+                        }
                     )
                 ) {
                     ForEach(BellyTrackingSettings.supportedIntervals, id: \.self) { interval in
@@ -223,6 +230,10 @@ struct GalleryView: View {
                 }
             }
         }
+        .animation(
+            .spring(duration: 0.3),
+            value: viewModel.bellyTrackingEntries.map(\.id)
+        )
         .softCard()
     }
 
@@ -553,9 +564,7 @@ struct GalleryView: View {
 
     @MainActor
     private func handleCapturedBellyTrackingPhoto(_ data: Data) async -> Bool {
-        let didSaveInApp = withAnimation(.spring(duration: 0.4)) {
-            viewModel.saveBellyTrackingPhoto(data)
-        }
+        let didSaveInApp = await viewModel.saveBellyTrackingPhoto(data)
         guard didSaveInApp else { return false }
 
         let exportData = viewModel.lastBellyTrackingImageData ?? data

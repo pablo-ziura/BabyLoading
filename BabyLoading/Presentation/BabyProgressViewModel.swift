@@ -1,4 +1,5 @@
 import AppLocalization
+import BellyTracking
 import Foundation
 import Observation
 import PregnancyContent
@@ -28,6 +29,19 @@ enum UltrasoundGalleryViewError: Equatable {
     case deleteFailed
 }
 
+enum BellyTrackingViewState: Equatable {
+    case idle
+    case loaded
+    case failed(BellyTrackingViewError)
+}
+
+enum BellyTrackingViewError: Equatable {
+    case loadFailed
+    case captureFailed
+    case deleteFailed
+    case settingsUpdateFailed
+}
+
 @Observable
 @MainActor
 class BabyProgressViewModel {
@@ -43,10 +57,10 @@ class BabyProgressViewModel {
     var showingPhotoPicker = false
     private(set) var pregnancyProgressState: PregnancyProgressViewState = .idle
     private(set) var ultrasoundGalleryState: UltrasoundGalleryViewState = .idle
+    private(set) var bellyTrackingState: BellyTrackingViewState = .idle
     private(set) var appLanguage: AppLanguage
     let appVersion: String
 
-    private let repository: BabyProgressRepositoryProtocol
     private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     private let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
     private let widgetReloader: WidgetReloaderProtocol
@@ -55,6 +69,13 @@ class BabyProgressViewModel {
     private let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
     private let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
     private let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
+    private let loadBellyTrackingTimelineUseCase: any LoadBellyTrackingTimelineUseCaseProtocol
+    private let loadBellyTrackingImageUseCase: any LoadBellyTrackingImageUseCaseProtocol
+    private let captureBellyTrackingPhotoUseCase: any CaptureBellyTrackingPhotoUseCaseProtocol
+    private let deleteBellyTrackingEntryUseCase: any DeleteBellyTrackingEntryUseCaseProtocol
+    private let loadBellyTrackingSettingsUseCase: any LoadBellyTrackingSettingsUseCaseProtocol
+    private let updateBellyTrackingSettingsUseCase: any UpdateBellyTrackingSettingsUseCaseProtocol
+    private let resolveBellyTrackingStatusUseCase: any ResolveBellyTrackingStatusUseCaseProtocol
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
 
     var lastBellyTrackingEntry: BellyTrackingEntry? {
@@ -67,14 +88,14 @@ class BabyProgressViewModel {
     }
 
     func bellyTrackingStatus(asOf date: Date) -> BellyTrackingStatus {
-        bellyTrackingSettings.trackingStatus(
+        resolveBellyTrackingStatusUseCase.execute(
+            settings: bellyTrackingSettings,
             lastCapture: lastBellyTrackingEntry?.capturedAt,
             asOf: date
         )
     }
 
     init(
-        repository: BabyProgressRepositoryProtocol,
         loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
         updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol,
         loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
@@ -82,11 +103,17 @@ class BabyProgressViewModel {
         loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol,
         addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol,
         deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol,
+        loadBellyTrackingTimelineUseCase: any LoadBellyTrackingTimelineUseCaseProtocol,
+        loadBellyTrackingImageUseCase: any LoadBellyTrackingImageUseCaseProtocol,
+        captureBellyTrackingPhotoUseCase: any CaptureBellyTrackingPhotoUseCaseProtocol,
+        deleteBellyTrackingEntryUseCase: any DeleteBellyTrackingEntryUseCaseProtocol,
+        loadBellyTrackingSettingsUseCase: any LoadBellyTrackingSettingsUseCaseProtocol,
+        updateBellyTrackingSettingsUseCase: any UpdateBellyTrackingSettingsUseCaseProtocol,
+        resolveBellyTrackingStatusUseCase: any ResolveBellyTrackingStatusUseCaseProtocol,
         initialLanguage: AppLanguage,
         appVersion: String,
         widgetReloader: WidgetReloaderProtocol
     ) {
-        self.repository = repository
         self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
         self.updateLastPeriodDateUseCase = updateLastPeriodDateUseCase
         self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
@@ -94,19 +121,24 @@ class BabyProgressViewModel {
         self.loadUltrasoundPhotosUseCase = loadUltrasoundPhotosUseCase
         self.addUltrasoundPhotoUseCase = addUltrasoundPhotoUseCase
         self.deleteUltrasoundPhotoUseCase = deleteUltrasoundPhotoUseCase
+        self.loadBellyTrackingTimelineUseCase = loadBellyTrackingTimelineUseCase
+        self.loadBellyTrackingImageUseCase = loadBellyTrackingImageUseCase
+        self.captureBellyTrackingPhotoUseCase = captureBellyTrackingPhotoUseCase
+        self.deleteBellyTrackingEntryUseCase = deleteBellyTrackingEntryUseCase
+        self.loadBellyTrackingSettingsUseCase = loadBellyTrackingSettingsUseCase
+        self.updateBellyTrackingSettingsUseCase = updateBellyTrackingSettingsUseCase
+        self.resolveBellyTrackingStatusUseCase = resolveBellyTrackingStatusUseCase
         self.widgetReloader = widgetReloader
         appLanguage = initialLanguage
         self.appVersion = appVersion
 
         lastPeriodDate = .now
         allWeekContent = []
-        bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
+        bellyTrackingSettings = .default
         estimatedDueDate = nil
         daysRemaining = nil
         pregnancyWeek = nil
         currentWeekContent = nil
-
-        reloadBellyTrackingState()
     }
 
     func reloadProgress(asOf date: Date = .now) async {
@@ -187,26 +219,76 @@ class BabyProgressViewModel {
         }
     }
 
-    func saveBellyTrackingPhoto(_ data: Data) -> Bool {
-        let savedEntry = repository.saveBellyTrackingPhoto(
-            data: data,
-            capturedAt: .now,
-            pregnancyWeekAtCapture: pregnancyWeek
-        )
+    func reloadBellyTrackingState() async {
+        do {
+            let entries = try await loadBellyTrackingTimelineUseCase.execute()
+            let settings = try await loadBellyTrackingSettingsUseCase.execute()
+            var imageDataByEntryID: [UUID: Data] = [:]
 
-        reloadBellyTrackingState()
-        return savedEntry != nil
+            for entry in entries {
+                if let data = try await loadBellyTrackingImageUseCase.execute(
+                    imageFileName: entry.imageFileName
+                ) {
+                    imageDataByEntryID[entry.id] = data
+                }
+            }
+
+            bellyTrackingEntries = entries
+            bellyTrackingSettings = settings
+            bellyTrackingImageDataByEntryID = imageDataByEntryID
+            bellyTrackingState = .loaded
+        } catch {
+            bellyTrackingState = .failed(.loadFailed)
+        }
     }
 
-    func deleteBellyTrackingEntry(id: UUID) {
-        repository.deleteBellyTrackingEntry(id: id)
-        reloadBellyTrackingState()
+    func saveBellyTrackingPhoto(_ data: Data) async -> Bool {
+        let savedEntry: BellyTrackingEntry
+        do {
+            savedEntry = try await captureBellyTrackingPhotoUseCase.execute(
+                data: data,
+                capturedAt: .now,
+                pregnancyWeekAtCapture: pregnancyWeek
+            )
+        } catch {
+            bellyTrackingState = .failed(.captureFailed)
+            return false
+        }
+
+        bellyTrackingEntries.append(savedEntry)
+        bellyTrackingEntries.sort { $0.capturedAt < $1.capturedAt }
+
+        do {
+            bellyTrackingImageDataByEntryID[savedEntry.id] = try await loadBellyTrackingImageUseCase.execute(
+                imageFileName: savedEntry.imageFileName
+            )
+            bellyTrackingState = .loaded
+        } catch {
+            bellyTrackingState = .failed(.loadFailed)
+        }
+        return true
     }
 
-    func updateBellyTrackingCadence(intervalDays: Int) {
+    func deleteBellyTrackingEntry(id: UUID) async {
+        do {
+            try await deleteBellyTrackingEntryUseCase.execute(id: id)
+            bellyTrackingEntries.removeAll { $0.id == id }
+            bellyTrackingImageDataByEntryID[id] = nil
+            bellyTrackingState = .loaded
+        } catch {
+            bellyTrackingState = .failed(.deleteFailed)
+        }
+    }
+
+    func updateBellyTrackingCadence(intervalDays: Int) async {
         let settings = BellyTrackingSettings(intervalDays: intervalDays)
-        repository.saveBellyTrackingSettings(settings)
-        reloadBellyTrackingState()
+        do {
+            try await updateBellyTrackingSettingsUseCase.execute(settings)
+            bellyTrackingSettings = settings
+            bellyTrackingState = .loaded
+        } catch {
+            bellyTrackingState = .failed(.settingsUpdateFailed)
+        }
     }
 
     func bellyTrackingImageData(for entry: BellyTrackingEntry) -> Data? {
@@ -227,19 +309,5 @@ class BabyProgressViewModel {
         daysRemaining = progress.daysUntilDueDate
         pregnancyWeek = progress.currentWeek
         currentWeekContent = await loadPregnancyWeekContentUseCase.execute(week: progress.currentWeek)
-    }
-
-    private func reloadBellyTrackingState() {
-        bellyTrackingEntries = repository.fetchBellyTrackingEntries()
-        bellyTrackingSettings = repository.fetchBellyTrackingSettings()
-        bellyTrackingImageDataByEntryID = Dictionary(
-            uniqueKeysWithValues: bellyTrackingEntries.compactMap { entry in
-                guard let data = repository.fetchBellyTrackingImageData(for: entry.imageFileName) else {
-                    return nil
-                }
-
-                return (entry.id, data)
-            }
-        )
     }
 }

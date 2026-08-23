@@ -48,7 +48,7 @@ struct MainTabView: View {
                 BellyTrackingCameraView(
                     referenceImageData: viewModel.lastBellyTrackingImageData,
                     onPhotoCaptured: { capturedData in
-                        viewModel.saveBellyTrackingPhoto(capturedData)
+                        await viewModel.saveBellyTrackingPhoto(capturedData)
                     }
                 )
             }
