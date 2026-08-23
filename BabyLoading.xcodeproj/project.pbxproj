@@ -31,6 +31,7 @@
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
 		B4D56EF4E77BEFE3DFF2FA65 /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 24EE013097D541655B975711 /* PregnancyContent */; };
+		B8BCEF207F6D06B1FB678A79 /* GalleryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0ED665E93B103A38A077AA58 /* GalleryFeature */; };
 		CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */; };
 		D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
@@ -155,6 +156,7 @@
 				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
 				AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */,
 				23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */,
+				B8BCEF207F6D06B1FB678A79 /* GalleryFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +264,7 @@
 				4BB3FF04E2E98901D78846AB /* SettingsFeature */,
 				E261BB58408C4E903B6FE784 /* JourneyFeature */,
 				D7FBB1F6003EC1406A6F3225 /* DashboardFeature */,
+				0ED665E93B103A38A077AA58 /* GalleryFeature */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -925,6 +928,10 @@
 		0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PregnancyProgress;
+		};
+		0ED665E93B103A38A077AA58 /* GalleryFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GalleryFeature;
 		};
 		1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,7 +1,6 @@
-@testable import BabyLoading
+@testable import GalleryFeature
 import BellyTracking
 import Foundation
-import Observation
 import PregnancyProgress
 import Testing
 import UltrasoundGallery
@@ -17,7 +16,7 @@ struct GalleryViewModelTests {
             capturedAt: date,
             pregnancyWeekAtCapture: 20
         )
-        context.loadProgressUseCase.result = makeProgress(week: 20, asOf: date)
+        context.loadProgressUseCase.result = makeGalleryProgress(week: 20, asOf: date)
         context.loadUltrasoundPhotosUseCase.result = [originalPhoto]
         context.bellyTrackingRepository.timeline = [originalEntry]
         context.bellyTrackingRepository.imageDataByFileName[originalEntry.imageFileName] = Data([0x02])
@@ -104,11 +103,11 @@ struct GalleryViewModelTests {
         #expect(context.viewModel.operationState == .failed(.deleteUltrasoundPhoto))
     }
 
-    @Test func captureUsesLoadedPregnancyWeekAndExportsImage() async throws {
+    @Test func captureUsesLoadedPregnancyWeekAndExportsImage() async {
         let context = GalleryViewModelTestContext()
         let date = Date(timeIntervalSince1970: 1_700_000_000)
         let imageData = Data([0x01, 0x02, 0x03])
-        context.loadProgressUseCase.result = makeProgress(week: 24, asOf: date)
+        context.loadProgressUseCase.result = makeGalleryProgress(week: 24, asOf: date)
         await context.viewModel.reload(asOf: date)
 
         let didSave = await context.viewModel.saveCapturedBellyTrackingPhoto(imageData, capturedAt: date)
@@ -127,7 +126,7 @@ struct GalleryViewModelTests {
     @Test func failedProgressReloadDoesNotReuseStaleWeekForCapture() async {
         let context = GalleryViewModelTestContext()
         let date = Date(timeIntervalSince1970: 1_700_000_000)
-        context.loadProgressUseCase.result = makeProgress(week: 24, asOf: date)
+        context.loadProgressUseCase.result = makeGalleryProgress(week: 24, asOf: date)
         await context.viewModel.reload(asOf: date)
 
         context.loadProgressUseCase.error = GalleryViewModelTestError.requestedFailure
@@ -179,7 +178,7 @@ struct GalleryViewModelTests {
         await context.photoLibraryExporter.suspendNextSave()
         #expect(await context.viewModel.saveCapturedBellyTrackingPhoto(data))
         await context.photoLibraryExporter.waitForSaveCount(1)
-        await resumeExportAndWaitForAlert(context)
+        await resumeGalleryExportAndWaitForAlert(context)
         #expect(context.viewModel.activeAlert == .photoLibraryPermissionDenied)
 
         context.viewModel.clearActiveAlert()
@@ -187,7 +186,7 @@ struct GalleryViewModelTests {
         await context.photoLibraryExporter.suspendNextSave()
         #expect(await context.viewModel.saveCapturedBellyTrackingPhoto(data))
         await context.photoLibraryExporter.waitForSaveCount(2)
-        await resumeExportAndWaitForAlert(context)
+        await resumeGalleryExportAndWaitForAlert(context)
         #expect(context.viewModel.activeAlert == .photoLibraryExportFailed)
     }
 
@@ -223,7 +222,7 @@ struct GalleryViewModelTests {
     }
 
     @Test func cadenceUpdatesStatusAndFailurePreservesCurrentSettings() async throws {
-        let calendar = makeCalendar()
+        let calendar = makeGalleryCalendar()
         let context = GalleryViewModelTestContext(calendar: calendar)
         let referenceDate = Date(timeIntervalSince1970: 1_700_000_000)
         let capturedAt = try #require(calendar.date(byAdding: .day, value: -10, to: referenceDate))
@@ -253,147 +252,5 @@ struct GalleryViewModelTests {
 
         #expect(context.viewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 7))
         #expect(context.viewModel.operationState == .failed(.updateTrackingCadence))
-    }
-}
-
-@MainActor
-private final class GalleryViewModelTestContext {
-    let loadProgressUseCase: MockLoadPregnancyProgressUseCase
-    let loadUltrasoundPhotosUseCase: MockLoadUltrasoundPhotosUseCase
-    let addUltrasoundPhotoUseCase: MockAddUltrasoundPhotoUseCase
-    let deleteUltrasoundPhotoUseCase: MockDeleteUltrasoundPhotoUseCase
-    let bellyTrackingRepository: MockBellyTrackingRepository
-    let photoLibraryExporter: GalleryPhotoLibraryExporterStub
-    let viewModel: GalleryViewModel
-
-    init(calendar: Calendar = makeCalendar()) {
-        let loadProgressUseCase = MockLoadPregnancyProgressUseCase()
-        let loadUltrasoundPhotosUseCase = MockLoadUltrasoundPhotosUseCase()
-        let addUltrasoundPhotoUseCase = MockAddUltrasoundPhotoUseCase()
-        let deleteUltrasoundPhotoUseCase = MockDeleteUltrasoundPhotoUseCase()
-        let bellyTrackingRepository = MockBellyTrackingRepository()
-        let photoLibraryExporter = GalleryPhotoLibraryExporterStub()
-
-        self.loadProgressUseCase = loadProgressUseCase
-        self.loadUltrasoundPhotosUseCase = loadUltrasoundPhotosUseCase
-        self.addUltrasoundPhotoUseCase = addUltrasoundPhotoUseCase
-        self.deleteUltrasoundPhotoUseCase = deleteUltrasoundPhotoUseCase
-        self.bellyTrackingRepository = bellyTrackingRepository
-        self.photoLibraryExporter = photoLibraryExporter
-        viewModel = GalleryViewModel(
-            loadPregnancyProgressUseCase: loadProgressUseCase,
-            loadUltrasoundPhotosUseCase: loadUltrasoundPhotosUseCase,
-            addUltrasoundPhotoUseCase: addUltrasoundPhotoUseCase,
-            deleteUltrasoundPhotoUseCase: deleteUltrasoundPhotoUseCase,
-            loadBellyTrackingTimelineUseCase: LoadBellyTrackingTimelineUseCase(repository: bellyTrackingRepository),
-            loadBellyTrackingImageUseCase: LoadBellyTrackingImageUseCase(repository: bellyTrackingRepository),
-            captureBellyTrackingPhotoUseCase: CaptureBellyTrackingPhotoUseCase(repository: bellyTrackingRepository),
-            deleteBellyTrackingEntryUseCase: DeleteBellyTrackingEntryUseCase(repository: bellyTrackingRepository),
-            loadBellyTrackingSettingsUseCase: LoadBellyTrackingSettingsUseCase(repository: bellyTrackingRepository),
-            updateBellyTrackingSettingsUseCase: UpdateBellyTrackingSettingsUseCase(repository: bellyTrackingRepository),
-            resolveBellyTrackingStatusUseCase: ResolveBellyTrackingStatusUseCase(calendar: calendar),
-            photoLibraryExporter: photoLibraryExporter
-        )
-    }
-}
-
-private actor GalleryPhotoLibraryExporterStub: PhotoLibraryExportingProtocol {
-    private var result: PhotoLibraryExportResult = .saved
-    private var savedData: [Data] = []
-    private var shouldSuspendNextSave = false
-    private var suspendedSaveContinuations: [CheckedContinuation<Void, Never>] = []
-    private var saveCountWaiters: [GalleryPhotoLibrarySaveCountWaiter] = []
-
-    func saveImageData(_ data: Data) async -> PhotoLibraryExportResult {
-        let result = result
-        savedData.append(data)
-        resumeSatisfiedSaveCountWaiters()
-
-        if shouldSuspendNextSave {
-            shouldSuspendNextSave = false
-            await withCheckedContinuation { continuation in
-                suspendedSaveContinuations.append(continuation)
-            }
-        }
-
-        return result
-    }
-
-    func setResult(_ result: PhotoLibraryExportResult) {
-        self.result = result
-    }
-
-    func suspendNextSave() {
-        shouldSuspendNextSave = true
-    }
-
-    func resumeNextSave() {
-        guard !suspendedSaveContinuations.isEmpty else { return }
-        suspendedSaveContinuations.removeFirst().resume()
-    }
-
-    func waitForSaveCount(_ count: Int) async {
-        guard savedData.count < count else { return }
-        await withCheckedContinuation { continuation in
-            saveCountWaiters.append(
-                GalleryPhotoLibrarySaveCountWaiter(
-                    expectedCount: count,
-                    continuation: continuation
-                )
-            )
-        }
-    }
-
-    func snapshot() -> GalleryPhotoLibraryExportSnapshot {
-        GalleryPhotoLibraryExportSnapshot(savedData: savedData)
-    }
-
-    private func resumeSatisfiedSaveCountWaiters() {
-        let satisfiedWaiters = saveCountWaiters.filter { savedData.count >= $0.expectedCount }
-        saveCountWaiters.removeAll { savedData.count >= $0.expectedCount }
-        satisfiedWaiters.forEach { $0.continuation.resume() }
-    }
-}
-
-private struct GalleryPhotoLibraryExportSnapshot: Sendable {
-    let savedData: [Data]
-}
-
-private struct GalleryPhotoLibrarySaveCountWaiter {
-    let expectedCount: Int
-    let continuation: CheckedContinuation<Void, Never>
-}
-
-private enum GalleryViewModelTestError: Error {
-    case requestedFailure
-}
-
-private func makeProgress(week: Int, asOf date: Date) -> PregnancyProgress {
-    PregnancyProgress(
-        lastPeriodDate: date,
-        dueDate: date.addingTimeInterval(120 * 86_400),
-        currentWeek: week,
-        daysUntilDueDate: 120
-    )
-}
-
-private func makeCalendar() -> Calendar {
-    var calendar = Calendar(identifier: .gregorian)
-    calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-    return calendar
-}
-
-@MainActor
-private func resumeExportAndWaitForAlert(_ context: GalleryViewModelTestContext) async {
-    await withCheckedContinuation { continuation in
-        withObservationTracking {
-            _ = context.viewModel.activeAlert
-        } onChange: {
-            continuation.resume()
-        }
-
-        Task {
-            await context.photoLibraryExporter.resumeNextSave()
-        }
     }
 }

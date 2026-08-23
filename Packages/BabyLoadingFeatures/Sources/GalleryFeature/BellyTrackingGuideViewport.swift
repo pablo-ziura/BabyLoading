@@ -1,7 +1,7 @@
 import BellyTracking
 import CoreGraphics
 
-struct BellyTrackingGuideViewport {
+struct BellyTrackingGuideViewport: Sendable {
     static let defaultPhotoAspectRatio = BellyTrackingImageProcessor.guidedPhotoAspectRatio
 
     private let photoAspectRatio: CGFloat

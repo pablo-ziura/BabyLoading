@@ -6,19 +6,19 @@ import PregnancyProgress
 import SwiftUI
 import UltrasoundGallery
 
-enum GalleryLoadFailure: Equatable, Sendable {
+public enum GalleryLoadFailure: Equatable, Sendable {
     case pregnancyProgress
     case ultrasoundPhotos
     case bellyTracking
 }
 
-enum GalleryLoadingState: Equatable, Sendable {
+public enum GalleryLoadingState: Equatable, Sendable {
     case idle
     case loaded
     case failed([GalleryLoadFailure])
 }
 
-enum GalleryOperation: Equatable, Sendable {
+public enum GalleryOperation: Equatable, Sendable {
     case importUltrasoundPhoto
     case deleteUltrasoundPhoto
     case captureBellyTrackingPhoto
@@ -27,17 +27,17 @@ enum GalleryOperation: Equatable, Sendable {
     case updateTrackingCadence
 }
 
-enum GalleryOperationState: Equatable, Sendable {
+public enum GalleryOperationState: Equatable, Sendable {
     case idle
     case failed(GalleryOperation)
 }
 
-enum GalleryAlertState: Identifiable, Equatable, Sendable {
+public enum GalleryAlertState: Identifiable, Equatable, Sendable {
     case confirmBellyTrackingDeletion(BellyTrackingEntry)
     case photoLibraryPermissionDenied
     case photoLibraryExportFailed
 
-    var id: String {
+    public var id: String {
         switch self {
         case let .confirmBellyTrackingDeletion(entry):
             "delete-\(entry.id.uuidString)"
@@ -51,15 +51,15 @@ enum GalleryAlertState: Identifiable, Equatable, Sendable {
 
 @MainActor
 @Observable
-final class GalleryViewModel {
-    var selectedPhotoPickerItems: [PhotosPickerItem] = []
-    private(set) var ultrasoundPhotos: [UltrasoundPhoto] = []
-    private(set) var bellyTrackingEntries: [BellyTrackingEntry] = []
-    private(set) var bellyTrackingSettings: BellyTrackingSettings = .default
-    private(set) var activeAlert: GalleryAlertState?
-    private(set) var loadingState: GalleryLoadingState = .idle
-    private(set) var operationState: GalleryOperationState = .idle
-    private(set) var isImportingPhotos = false
+public final class GalleryViewModel {
+    public var selectedPhotoPickerItems: [PhotosPickerItem] = []
+    public private(set) var ultrasoundPhotos: [UltrasoundPhoto] = []
+    public private(set) var bellyTrackingEntries: [BellyTrackingEntry] = []
+    public private(set) var bellyTrackingSettings: BellyTrackingSettings = .default
+    public private(set) var activeAlert: GalleryAlertState?
+    public private(set) var loadingState: GalleryLoadingState = .idle
+    public private(set) var operationState: GalleryOperationState = .idle
+    public private(set) var isImportingPhotos = false
 
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
     @ObservationIgnored private var currentPregnancyWeek: Int?
@@ -77,7 +77,7 @@ final class GalleryViewModel {
     @ObservationIgnored private let resolveBellyTrackingStatusUseCase: any ResolveBellyTrackingStatusUseCaseProtocol
     @ObservationIgnored private let photoLibraryExporter: any PhotoLibraryExportingProtocol
 
-    init(
+    public init(
         loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
         loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol,
         addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol,
@@ -105,20 +105,20 @@ final class GalleryViewModel {
         self.photoLibraryExporter = photoLibraryExporter
     }
 
-    var lastBellyTrackingEntry: BellyTrackingEntry? {
+    public var lastBellyTrackingEntry: BellyTrackingEntry? {
         bellyTrackingEntries.last
     }
 
-    var lastBellyTrackingImageData: Data? {
+    public var lastBellyTrackingImageData: Data? {
         guard let lastBellyTrackingEntry else { return nil }
         return bellyTrackingImageDataByEntryID[lastBellyTrackingEntry.id]
     }
 
-    func bellyTrackingImageData(for entry: BellyTrackingEntry) -> Data? {
+    public func bellyTrackingImageData(for entry: BellyTrackingEntry) -> Data? {
         bellyTrackingImageDataByEntryID[entry.id]
     }
 
-    func bellyTrackingStatus(asOf date: Date) -> BellyTrackingStatus {
+    public func bellyTrackingStatus(asOf date: Date) -> BellyTrackingStatus {
         resolveBellyTrackingStatusUseCase.execute(
             settings: bellyTrackingSettings,
             lastCapture: lastBellyTrackingEntry?.capturedAt,
@@ -126,7 +126,7 @@ final class GalleryViewModel {
         )
     }
 
-    func reload(asOf date: Date = .now) async {
+    public func reload(asOf date: Date = .now) async {
         var failures: [GalleryLoadFailure] = []
 
         do {
@@ -152,7 +152,7 @@ final class GalleryViewModel {
         loadingState = failures.isEmpty ? .loaded : .failed(failures)
     }
 
-    func importSelectedPhotos() async {
+    public func importSelectedPhotos() async {
         let selectedItems = selectedPhotoPickerItems
         guard !selectedItems.isEmpty else { return }
 
@@ -178,7 +178,7 @@ final class GalleryViewModel {
         operationState = importFailed ? .failed(.importUltrasoundPhoto) : .idle
     }
 
-    func addUltrasoundPhoto(_ data: Data) async {
+    public func addUltrasoundPhoto(_ data: Data) async {
         do {
             let photo = try await addUltrasoundPhotoUseCase.execute(data: data)
             appendUltrasoundPhoto(photo)
@@ -188,7 +188,7 @@ final class GalleryViewModel {
         }
     }
 
-    func deleteUltrasoundPhoto(id: String) async {
+    public func deleteUltrasoundPhoto(id: String) async {
         do {
             try await deleteUltrasoundPhotoUseCase.execute(id: id)
             ultrasoundPhotos.removeAll { $0.id == id }
@@ -198,7 +198,7 @@ final class GalleryViewModel {
         }
     }
 
-    func saveCapturedBellyTrackingPhoto(
+    public func saveCapturedBellyTrackingPhoto(
         _ data: Data,
         capturedAt: Date = .now
     ) async -> Bool {
@@ -236,11 +236,11 @@ final class GalleryViewModel {
         return true
     }
 
-    func requestBellyTrackingDeletion(_ entry: BellyTrackingEntry) {
+    public func requestBellyTrackingDeletion(_ entry: BellyTrackingEntry) {
         activeAlert = .confirmBellyTrackingDeletion(entry)
     }
 
-    func deleteBellyTrackingEntry(id: UUID) async {
+    public func deleteBellyTrackingEntry(id: UUID) async {
         do {
             try await deleteBellyTrackingEntryUseCase.execute(id: id)
             bellyTrackingEntries.removeAll { $0.id == id }
@@ -251,7 +251,7 @@ final class GalleryViewModel {
         }
     }
 
-    func updateBellyTrackingCadence(intervalDays: Int) async {
+    public func updateBellyTrackingCadence(intervalDays: Int) async {
         let settings = BellyTrackingSettings(intervalDays: intervalDays)
         do {
             try await updateBellyTrackingSettingsUseCase.execute(settings)
@@ -262,7 +262,7 @@ final class GalleryViewModel {
         }
     }
 
-    func clearActiveAlert() {
+    public func clearActiveAlert() {
         activeAlert = nil
     }
 

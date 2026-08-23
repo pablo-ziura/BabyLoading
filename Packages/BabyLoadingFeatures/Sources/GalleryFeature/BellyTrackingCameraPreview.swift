@@ -1,3 +1,4 @@
+#if os(iOS)
 @preconcurrency import AVFoundation
 import SwiftUI
 import UIKit
@@ -71,7 +72,6 @@ final class BellyTrackingPreviewView: UIView, BellyTrackingCameraPreviewTargetPr
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         updatePreviewGeometry()
     }
 
@@ -88,3 +88,4 @@ final class BellyTrackingPreviewView: UIView, BellyTrackingCameraPreviewTargetPr
         onCaptureRotationAngleChanged?(captureRotationAngle)
     }
 }
+#endif

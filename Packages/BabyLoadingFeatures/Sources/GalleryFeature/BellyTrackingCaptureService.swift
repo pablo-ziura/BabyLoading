@@ -1,7 +1,9 @@
 @preconcurrency import AVFoundation
 import CoreGraphics
-import Dispatch
 import Foundation
+#if os(iOS)
+    import Dispatch
+#endif
 
 protocol BellyTrackingCameraPreviewSourceProtocol: Sendable {
     func connect(to target: any BellyTrackingCameraPreviewTargetProtocol)
@@ -52,6 +54,7 @@ enum BellyTrackingCaptureServiceError: LocalizedError {
     }
 }
 
+#if os(iOS)
 actor BellyTrackingCaptureService: BellyTrackingCaptureServiceProtocol {
     nonisolated let previewSource: any BellyTrackingCameraPreviewSourceProtocol
 
@@ -207,3 +210,4 @@ private final class BellyTrackingPhotoCaptureDelegate: NSObject, AVCapturePhotoC
         continuation.resume(returning: data)
     }
 }
+#endif

@@ -1,8 +1,11 @@
 @preconcurrency import AVFoundation
+import CoreGraphics
 import Foundation
 import Observation
 
-enum BellyTrackingCameraAuthorizationState: Equatable {
+public typealias AsyncBellyTrackingCaptureHandler = @MainActor (Data) async -> Bool
+
+enum BellyTrackingCameraAuthorizationState: Equatable, Sendable {
     case idle
     case requesting
     case authorized
@@ -11,8 +14,8 @@ enum BellyTrackingCameraAuthorizationState: Equatable {
     case failed
 }
 
-@Observable
 @MainActor
+@Observable
 final class BellyTrackingCameraViewModel {
     let hasReferenceImage: Bool
 
@@ -113,5 +116,4 @@ final class BellyTrackingCameraViewModel {
             )
         }
     }
-
 }
