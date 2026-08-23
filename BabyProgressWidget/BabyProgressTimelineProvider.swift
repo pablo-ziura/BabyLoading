@@ -1,17 +1,27 @@
 import AppLocalization
 import Foundation
+import OSLog
+import PregnancyProgress
 import WidgetKit
 
 @MainActor
 struct BabyProgressTimelineProvider: TimelineProvider {
+    private static let logger = Logger(
+        subsystem: "com.pablo.BabyLoading.widget",
+        category: "PregnancyProgress"
+    )
+
     private let repository: BabyProgressRepositoryProtocol
+    private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     private let language: AppLanguage
 
     init(
         repository: BabyProgressRepositoryProtocol,
+        loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
         language: AppLanguage
     ) {
         self.repository = repository
+        self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
         self.language = language
     }
 
@@ -31,26 +41,40 @@ struct BabyProgressTimelineProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        completion(makeEntry())
+        Task {
+            completion(await makeEntry())
+        }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let entry = makeEntry()
+        Task {
+            let entry = await makeEntry()
+            let nextUpdate = Date.now.addingTimeInterval(60 * 60)
+            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
 
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        completion(timeline)
+            completion(timeline)
+        }
     }
 
-    private func makeEntry() -> SimpleEntry {
-        let lastPeriodDate = repository.getEventDate()
-        let dueDate = lastPeriodDate.map(PregnancyCalculator.calculateDueDate)
-        let week = repository.getPregnancyWeek() ?? 0
-        let weekContent = repository.getCurrentWeekContent()
+    private func makeEntry() async -> SimpleEntry {
+        let date = Date.now
+        let progress: PregnancyProgress?
+
+        do {
+            progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
+        } catch {
+            Self.logger.error(
+                "Failed to load pregnancy progress: \(String(describing: error), privacy: .public)"
+            )
+            progress = nil
+        }
+
+        let week = progress?.currentWeek ?? 0
+        let weekContent = repository.weekContent(for: week)
 
         return SimpleEntry(
-            date: .now,
-            eventDate: dueDate,
+            date: date,
+            eventDate: progress?.dueDate,
             week: week,
             babySize: weekContent?.babySize ?? .unknown,
             babySizeLabel: weekContent?.babySizeLabel ?? String(

@@ -1,5 +1,4 @@
 @testable import BabyLoading
-import AppPreferences
 import CoreImage
 import Foundation
 import ImageIO
@@ -169,33 +168,28 @@ struct BellyTrackingDataSourceTests {
             .appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
 
-        let suiteName = "BellyTrackingDataSourceTests.\(UUID().uuidString)"
-        let userDefaults = try #require(UserDefaults(suiteName: suiteName))
-        userDefaults.removePersistentDomain(forName: suiteName)
-
         return DataSourceTestContext(
             dataSource: BabyProgressDataSource(
-                preferencesStore: UserDefaultsPreferencesStore(userDefaults: userDefaults),
                 fileManager: .default,
                 containerURL: temporaryDirectory
             ),
-            suiteName: suiteName,
-            userDefaults: userDefaults,
             containerURL: temporaryDirectory
         )
     }
 
     private func makeDataSource(context: DataSourceTestContext) -> BabyProgressDataSource {
         BabyProgressDataSource(
-            preferencesStore: UserDefaultsPreferencesStore(userDefaults: context.userDefaults),
             fileManager: .default,
             containerURL: context.containerURL
         )
     }
 
     private func cleanup(_ context: DataSourceTestContext) {
-        context.userDefaults.removePersistentDomain(forName: context.suiteName)
-        try? FileManager.default.removeItem(at: context.containerURL)
+        do {
+            try FileManager.default.removeItem(at: context.containerURL)
+        } catch {
+            Issue.record("Failed to remove test container: \(error)")
+        }
     }
 
     private func isoDate(_ string: String) -> Date? {
@@ -215,7 +209,5 @@ struct BellyTrackingDataSourceTests {
 
 private struct DataSourceTestContext {
     let dataSource: BabyProgressDataSource
-    let suiteName: String
-    let userDefaults: UserDefaults
     let containerURL: URL
 }

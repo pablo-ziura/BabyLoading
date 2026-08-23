@@ -25,33 +25,7 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         contentRepository = contentRepositoryFactory.makeRepository(for: initialLanguage)
     }
 
-    func getEventDate() -> Date? {
-        return dataSource.fetchDate()
-    }
-
-    func setEventDate(_ date: Date?) {
-        dataSource.save(date: date)
-    }
-
-    func daysUntilEvent() -> Int? {
-        guard let lastPeriodDate = getEventDate() else { return nil }
-        let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
-
-        let calendar = Calendar.current
-        let startOfToday = calendar.startOfDay(for: .now)
-        let startOfDueDate = calendar.startOfDay(for: dueDate)
-
-        let components = calendar.dateComponents([.day], from: startOfToday, to: startOfDueDate)
-        return max(0, components.day ?? 0)
-    }
-
-    func getPregnancyWeek() -> Int? {
-        guard let lastPeriodDate = getEventDate() else { return nil }
-        return PregnancyCalculator.currentWeek(lastPeriod: lastPeriodDate)
-    }
-
-    func getCurrentWeekContent() -> WeekContent? {
-        guard let week = getPregnancyWeek() else { return nil }
+    func weekContent(for week: Int) -> WeekContent? {
         return contentRepository.weekContent(for: week)
     }
 

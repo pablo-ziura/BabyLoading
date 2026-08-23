@@ -2,11 +2,7 @@ import AppLocalization
 import Foundation
 
 protocol BabyProgressRepositoryProtocol {
-    func getEventDate() -> Date?
-    func setEventDate(_ date: Date?)
-    func daysUntilEvent() -> Int?
-    func getPregnancyWeek() -> Int?
-    func getCurrentWeekContent() -> WeekContent?
+    func weekContent(for week: Int) -> WeekContent?
     func getAllWeekContent() -> [WeekContent]
     func currentContentSnapshot() -> PregnancyContentDocument
     func updateContentLanguage(_ language: AppLanguage)

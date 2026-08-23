@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */; };
+		21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = DBA67C2A3FAF854E35322A36 /* PregnancyProgress */; };
 		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
 		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
 		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
@@ -18,6 +19,8 @@
 		B10000000000000000000001 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000011 /* AppPreferences */; };
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
+		CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */; };
+		D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -100,7 +103,6 @@
 				Domain/BabySize.swift,
 				Domain/BellyTrackingEntry.swift,
 				Domain/BellyTrackingSettings.swift,
-				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Common/BabyLoadingTypography.swift,
 				Resources/Assets.xcassets,
@@ -135,7 +137,6 @@
 				Domain/BabySize.swift,
 				Domain/BellyTrackingEntry.swift,
 				Domain/BellyTrackingSettings.swift,
-				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Common/BabyLoadingTypography.swift,
 				Resources/Assets.xcassets,
@@ -180,6 +181,7 @@
 				3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */,
 				4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */,
 				669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */,
+				D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +193,7 @@
 				1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */,
 				AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */,
 				44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */,
+				21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +206,7 @@
 				DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */,
 				8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */,
 				9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */,
+				CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +274,7 @@
 				FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */,
 				AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */,
 				21E54CBD2AE3C900CC207895 /* AppLocalization */,
+				1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -298,6 +303,7 @@
 				03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */,
 				41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */,
 				988DF16458041719A05EB808 /* AppLocalization */,
+				DBA67C2A3FAF854E35322A36 /* PregnancyProgress */,
 			);
 			productName = BabyLoadingTests;
 			productReference = DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */;
@@ -324,6 +330,7 @@
 				B10000000000000000000013 /* AppPreferences */,
 				3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */,
 				75223AE41654D5E7AFAE46E2 /* AppLocalization */,
+				0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */,
 			);
 			productName = BabyProgressWidgetExtension;
 			productReference = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */;
@@ -917,6 +924,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingNavigation;
 		};
+		0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
+		};
+		1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
+		};
 		21E54CBD2AE3C900CC207895 /* AppLocalization */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppLocalization;
@@ -952,6 +967,10 @@
 		B10000000000000000000013 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
+		};
+		DBA67C2A3FAF854E35322A36 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
 		};
 		FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */ = {
 			isa = XCSwiftPackageProductDependency;

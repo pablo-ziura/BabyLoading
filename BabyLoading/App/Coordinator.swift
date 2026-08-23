@@ -19,18 +19,24 @@ final class Coordinator {
         router = AppRouter()
         viewModel = BabyProgressViewModel(
             repository: dependencyContainer.repository,
+            loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
+            updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
             initialLanguage: dependencyContainer.initialLanguage,
             appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
             widgetReloader: dependencyContainer.widgetReloader
         )
     }
 
-    func reloadContentForCurrentLanguage() {
+    func start() async {
+        await viewModel.reloadProgress()
+    }
+
+    func reloadContentForCurrentLanguage() async {
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
             preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
         )
 
-        guard viewModel.applyContentLanguage(language) else {
+        guard await viewModel.applyContentLanguage(language) else {
             return
         }
 
