@@ -3,16 +3,15 @@ import SwiftUI
 @main
 struct BabyLoadingApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @State private var coordinator = Coordinator()
 
     var body: some Scene {
-        let viewModel = DependencyContainer.shared.viewModel
-
         WindowGroup {
-            DependencyContainer.shared.makeMainTabView()
+            coordinator.makeMainTabView()
                 .preferredColorScheme(.light)
                 .onChange(of: scenePhase) { _, newPhase in
                     guard newPhase == .active else { return }
-                    viewModel.reloadContentForCurrentLanguage()
+                    coordinator.viewModel.reloadContentForCurrentLanguage()
                 }
         }
     }

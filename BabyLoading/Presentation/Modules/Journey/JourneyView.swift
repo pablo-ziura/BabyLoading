@@ -51,6 +51,6 @@ struct JourneyView: View {
 #Preview {
     ZStack {
         GradientBackground()
-        JourneyView(viewModel: DependencyContainer.shared.viewModel)
+        JourneyView(viewModel: Coordinator().viewModel)
     }
 }
