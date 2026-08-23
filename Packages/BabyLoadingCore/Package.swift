@@ -14,7 +14,11 @@ let package = Package(
         .library(name: "PregnancyProgress", targets: ["PregnancyProgress"]),
         .library(name: "PregnancyContent", targets: ["PregnancyContent"]),
         .library(name: "UltrasoundGallery", targets: ["UltrasoundGallery"]),
-        .library(name: "BellyTracking", targets: ["BellyTracking"])
+        .library(name: "BellyTracking", targets: ["BellyTracking"]),
+        .library(
+            name: "BabyProgressWidgetSupport",
+            targets: ["BabyProgressWidgetSupport"]
+        )
     ],
     dependencies: [
         .package(path: "../AppPreferences")
@@ -29,6 +33,14 @@ let package = Package(
         .target(name: "PregnancyContent"),
         .target(name: "UltrasoundGallery"),
         .target(name: "BellyTracking"),
+        .target(
+            name: "BabyProgressWidgetSupport",
+            dependencies: [
+                "AppLocalization",
+                "PregnancyContent",
+                "PregnancyProgress"
+            ]
+        ),
         .testTarget(
             name: "BabyLoadingInfrastructureTests",
             dependencies: ["BabyLoadingInfrastructure"]
@@ -52,6 +64,15 @@ let package = Package(
         .testTarget(
             name: "BellyTrackingTests",
             dependencies: ["BellyTracking"]
+        ),
+        .testTarget(
+            name: "BabyProgressWidgetSupportTests",
+            dependencies: [
+                "AppLocalization",
+                "BabyProgressWidgetSupport",
+                "PregnancyContent",
+                "PregnancyProgress"
+            ]
         )
     ],
     swiftLanguageModes: [.v6]

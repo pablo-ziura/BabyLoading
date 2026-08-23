@@ -17,6 +17,7 @@
 		5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */; };
 		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
 		671671BC4713C50E04572C98 /* BellyTracking in Frameworks */ = {isa = PBXBuildFile; productRef = 6C98B10D9CBFEEDB83A47759 /* BellyTracking */; };
+		6AD517C7748775E31025BB12 /* BabyProgressWidgetSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */; };
 		6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */; };
 		79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6650DFD0E492D0A0F71539 /* PregnancyContent */; };
 		7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FA0771AB192F2142B1892836 /* UltrasoundGallery */; };
@@ -178,6 +179,7 @@
 				CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */,
 				AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */,
 				5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */,
+				6AD517C7748775E31025BB12 /* BabyProgressWidgetSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +314,7 @@
 				0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */,
 				EC3A24870F8A9D5800CB83D5 /* PregnancyContent */,
 				69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */,
+				50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */,
 			);
 			productName = BabyProgressWidgetExtension;
 			productReference = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */;
@@ -937,6 +940,10 @@
 		41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingInfrastructure;
+		};
+		50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyProgressWidgetSupport;
 		};
 		69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */ = {
 			isa = XCSwiftPackageProductDependency;

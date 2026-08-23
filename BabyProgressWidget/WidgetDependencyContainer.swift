@@ -1,6 +1,7 @@
 import AppLocalization
 import AppPreferences
 import BabyLoadingInfrastructure
+import BabyProgressWidgetSupport
 import Foundation
 import PregnancyContent
 import PregnancyProgress
@@ -48,9 +49,12 @@ final class WidgetDependencyContainer {
 
         self.language = language
         timelineProvider = BabyProgressTimelineProvider(
-            loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
-            loadPregnancyWeekContentUseCase: LoadPregnancyWeekContentUseCase(
-                repository: contentRepository
+            loadSnapshotUseCase: LoadBabyProgressWidgetSnapshotUseCase(
+                loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
+                loadPregnancyWeekContentUseCase: LoadPregnancyWeekContentUseCase(
+                    repository: contentRepository
+                ),
+                language: language
             ),
             language: language
         )
