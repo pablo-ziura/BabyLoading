@@ -10,7 +10,6 @@ class BabyProgressViewModel {
     var pregnancyWeek: Int?
     var currentWeekContent: WeekContent?
     var allWeekContent: [WeekContent]
-    var photoData: Data?
     var ultrasoundPhotos: [UltrasoundPhoto] = []
     var bellyTrackingEntries: [BellyTrackingEntry] = []
     var bellyTrackingSettings: BellyTrackingSettings
@@ -53,7 +52,6 @@ class BabyProgressViewModel {
 
         lastPeriodDate = self.repository.getEventDate() ?? .now
         allWeekContent = self.repository.getAllWeekContent()
-        photoData = self.repository.fetchPhoto()
         ultrasoundPhotos = self.repository.fetchUltrasoundPhotos()
         bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
         estimatedDueDate = nil
@@ -81,16 +79,6 @@ class BabyProgressViewModel {
         if languageDidChange || repository.currentContentSnapshot() != previousSnapshot {
             widgetReloader.reloadAllTimelines()
         }
-    }
-
-    func savePhoto(_ data: Data?) {
-        photoData = data
-        repository.savePhoto(data: data)
-    }
-
-    func deletePhoto() {
-        photoData = nil
-        repository.deletePhoto()
     }
 
     // MARK: - Ultrasound gallery

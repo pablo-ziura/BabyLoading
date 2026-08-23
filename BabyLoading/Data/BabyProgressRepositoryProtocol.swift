@@ -10,10 +10,6 @@ protocol BabyProgressRepositoryProtocol {
     func currentContentSnapshot() -> PregnancyContentDocument
     func refreshContentIfNeeded() async
     func updateContentLanguage(_ language: AppLanguage)
-    func savePhoto(data: Data?)
-    func fetchPhoto() -> Data?
-    func deletePhoto()
-
     // Ultrasound gallery
     func addUltrasoundPhoto(data: Data)
     func fetchUltrasoundPhotos() -> [UltrasoundPhoto]
