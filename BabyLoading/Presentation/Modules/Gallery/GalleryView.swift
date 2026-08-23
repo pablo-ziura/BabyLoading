@@ -1,3 +1,4 @@
+import BabyLoadingNavigation
 import PhotosUI
 import SwiftUI
 #if canImport(UIKit)
@@ -18,25 +19,13 @@ private enum GalleryAlertState: Identifiable {
     }
 }
 
-typealias AsyncBellyTrackingCaptureHandler = @MainActor (Data) async -> Bool
-typealias BellyTrackingCameraViewFactory = (Data?, @escaping AsyncBellyTrackingCaptureHandler) -> AnyView
-
 struct GalleryView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
-
-    var viewModel: BabyProgressViewModel
-    var makeBellyTrackingCameraView: BellyTrackingCameraViewFactory = { referenceImageData, onPhotoCaptured in
-        AnyView(
-            BellyTrackingCameraView(
-                referenceImageData: referenceImageData,
-                onPhotoCaptured: onPhotoCaptured
-            )
-        )
-    }
+    @Environment(AppRouter.self) private var router
+    @Environment(BabyProgressViewModel.self) private var viewModel
 
     @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var isShowingBellyTrackingCamera = false
     @State private var activeAlert: GalleryAlertState?
 
     private var photoColumns: [GridItem] {
@@ -65,11 +54,6 @@ struct GalleryView: View {
                 .padding(.top, 24)
                 .frame(maxWidth: 600)
                 .frame(maxWidth: .infinity)
-            }
-        }
-        .fullScreenCover(isPresented: $isShowingBellyTrackingCamera) {
-            makeBellyTrackingCameraView(viewModel.lastBellyTrackingImageData) { capturedData in
-                await handleCapturedBellyTrackingPhoto(capturedData)
             }
         }
         .alert(item: $activeAlert) { alertState in
@@ -209,7 +193,7 @@ struct GalleryView: View {
             }
 
             Button {
-                isShowingBellyTrackingCamera = true
+                router.present(.bellyTrackingCamera)
             } label: {
                 HStack {
                     Image(systemName: "camera.fill")
@@ -609,8 +593,11 @@ struct GalleryView: View {
 }
 
 #Preview {
+    let coordinator = Coordinator()
     ZStack {
         GradientBackground()
-        GalleryView(viewModel: Coordinator().viewModel)
+        GalleryView()
+            .environment(coordinator.router)
+            .environment(coordinator.viewModel)
     }
 }

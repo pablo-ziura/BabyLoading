@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 struct SettingsView: View {
-    @Bindable var viewModel: BabyProgressViewModel
+    @Environment(BabyProgressViewModel.self) private var viewModel
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.locale) private var locale
     @Environment(\.openURL) private var openURL
@@ -10,6 +10,8 @@ struct SettingsView: View {
     private var isLandscape: Bool { verticalSizeClass == .compact }
 
     var body: some View {
+        @Bindable var viewModel = viewModel
+
         ZStack {
             GradientBackground()
 
@@ -188,8 +190,10 @@ struct SettingsView: View {
 }
 
 #Preview {
+    let coordinator = Coordinator()
     ZStack {
         GradientBackground()
-        SettingsView(viewModel: Coordinator().viewModel)
+        SettingsView()
+            .environment(coordinator.viewModel)
     }
 }

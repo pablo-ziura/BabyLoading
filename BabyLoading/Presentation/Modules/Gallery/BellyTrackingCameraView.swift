@@ -4,6 +4,8 @@ import SwiftUI
     import UIKit
 #endif
 
+typealias AsyncBellyTrackingCaptureHandler = @MainActor (Data) async -> Bool
+
 struct BellyTrackingCameraView: View {
     private let referenceImageData: Data?
     private let onPhotoCaptured: AsyncBellyTrackingCaptureHandler
