@@ -12,7 +12,6 @@ import SettingsFeature
 @Observable
 final class Coordinator {
     let router: AppRouter
-    let viewModel: BabyProgressViewModel
     let dashboardViewModel: DashboardViewModel
     let journeyViewModel: JourneyViewModel
     let galleryViewModel: GalleryViewModel
@@ -29,6 +28,7 @@ final class Coordinator {
     )
 
     private let dependencyContainer: DependencyContainer
+    @ObservationIgnored private var appliedLanguage: AppLanguage
 
     init() {
         let dependencyContainer = DependencyContainer()
@@ -37,6 +37,7 @@ final class Coordinator {
         )
 
         self.dependencyContainer = dependencyContainer
+        appliedLanguage = dependencyContainer.initialLanguage
         router = AppRouter()
         dashboardViewModel = DashboardViewModel(
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
@@ -60,55 +61,28 @@ final class Coordinator {
             resolveBellyTrackingStatusUseCase: dependencyContainer.resolveBellyTrackingStatusUseCase,
             photoLibraryExporter: PhotoLibraryExporter()
         )
-        viewModel = BabyProgressViewModel(
-            loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
-            updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
-            loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
-            loadPregnancyTimelineUseCase: contentUseCases.loadTimeline,
-            loadUltrasoundPhotosUseCase: dependencyContainer.loadUltrasoundPhotosUseCase,
-            addUltrasoundPhotoUseCase: dependencyContainer.addUltrasoundPhotoUseCase,
-            deleteUltrasoundPhotoUseCase: dependencyContainer.deleteUltrasoundPhotoUseCase,
-            loadBellyTrackingTimelineUseCase: dependencyContainer.loadBellyTrackingTimelineUseCase,
-            loadBellyTrackingImageUseCase: dependencyContainer.loadBellyTrackingImageUseCase,
-            captureBellyTrackingPhotoUseCase: dependencyContainer.captureBellyTrackingPhotoUseCase,
-            deleteBellyTrackingEntryUseCase: dependencyContainer.deleteBellyTrackingEntryUseCase,
-            loadBellyTrackingSettingsUseCase: dependencyContainer.loadBellyTrackingSettingsUseCase,
-            updateBellyTrackingSettingsUseCase: dependencyContainer.updateBellyTrackingSettingsUseCase,
-            resolveBellyTrackingStatusUseCase: dependencyContainer.resolveBellyTrackingStatusUseCase,
-            initialLanguage: dependencyContainer.initialLanguage,
-            appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
-            widgetReloader: dependencyContainer.widgetReloader
-        )
     }
 
     func start() async {
-        await viewModel.reloadContent()
-        await viewModel.reloadProgress()
         await dashboardViewModel.reload()
         await journeyViewModel.reload()
         await galleryViewModel.reload()
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
 
-    func reloadContentForCurrentLanguage() async {
+    func reloadLocalizedFeaturesIfNeeded() async {
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
             preferredLanguages: preferredLanguages
         )
-        guard language != viewModel.appLanguage else {
+        guard language != appliedLanguage else {
             return
         }
 
+        appliedLanguage = language
         let contentUseCases = dependencyContainer.makePregnancyContentUseCases(for: language)
-        guard await viewModel.applyContentLanguage(
-            language,
-            loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
-            loadPregnancyTimelineUseCase: contentUseCases.loadTimeline
-        ) else {
-            return
-        }
-
         await dashboardViewModel.reloadCurrentWeekContent(using: contentUseCases.loadWeekContent)
         await journeyViewModel.reloadTimeline(using: contentUseCases.loadTimeline)
+        await galleryViewModel.reload()
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
         dependencyContainer.widgetReloader.reloadAllTimelines()
     }
@@ -120,8 +94,6 @@ final class Coordinator {
     private func handleSettingsOutput(_ output: SettingsViewModelOutput) async {
         switch output {
         case .lastPeriodDateUpdated:
-            await viewModel.reloadContent()
-            await viewModel.reloadProgress()
             await dashboardViewModel.reload()
             await journeyViewModel.reload()
             await galleryViewModel.reload()
