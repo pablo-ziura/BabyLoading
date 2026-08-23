@@ -1,19 +1,29 @@
+import BabyLoadingDesignTokens
 import SwiftUI
 
 struct SoftCard: ViewModifier {
-    var cornerRadius: CGFloat = 24
+    var cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius
 
     func body(content: Content) -> some View {
+        let shadow = BabyLoadingElevation.softCard
+
         content
-            .padding()
-            .background(.white)
+            .padding(BabyLoadingSpacing.medium)
+            .background(BabyLoadingColors.primaryCardSurface)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-            .shadow(color: .black.opacity(0.08), radius: 12, y: 6)
+            .shadow(
+                color: shadow.color,
+                radius: shadow.radius,
+                x: shadow.horizontalOffset,
+                y: shadow.verticalOffset
+            )
     }
 }
 
 extension View {
-    func softCard(cornerRadius: CGFloat = 24) -> some View {
+    func softCard(
+        cornerRadius: CGFloat = BabyLoadingShape.softCardCornerRadius
+    ) -> some View {
         modifier(SoftCard(cornerRadius: cornerRadius))
     }
 }

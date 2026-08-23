@@ -1,7 +1,7 @@
 import SwiftUI
 
-enum BabyLoadingTypography {
-    enum Weight {
+public enum BabyLoadingTypography {
+    public enum Weight: Sendable {
         case regular
         case medium
         case semibold
@@ -9,7 +9,7 @@ enum BabyLoadingTypography {
         case extraBold
     }
 
-    nonisolated static func text(
+    public nonisolated static func text(
         _ style: Font.TextStyle,
         weight: Weight = .regular,
         italic: Bool = false
@@ -21,7 +21,7 @@ enum BabyLoadingTypography {
         )
     }
 
-    nonisolated static func widget(
+    public nonisolated static func widget(
         size: CGFloat,
         weight: Weight = .regular,
         italic: Bool = false
@@ -32,7 +32,7 @@ enum BabyLoadingTypography {
         )
     }
 
-    nonisolated private static func fontName(for weight: Weight, italic: Bool) -> String {
+    nonisolated static func fontName(for weight: Weight, italic: Bool) -> String {
         switch (weight, italic) {
         case (.regular, false): "NunitoSans-12ptExtraLight_Regular"
         case (.medium, false): "NunitoSans-12ptExtraLight_Medium"
@@ -47,7 +47,7 @@ enum BabyLoadingTypography {
         }
     }
 
-    nonisolated private static func pointSize(for style: Font.TextStyle) -> CGFloat {
+    nonisolated static func pointSize(for style: Font.TextStyle) -> CGFloat {
         switch style {
         case .largeTitle: 34
         case .title: 28
