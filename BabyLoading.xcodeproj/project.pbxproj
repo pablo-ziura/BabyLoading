@@ -257,6 +257,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91732F41F1EA003EC367 /* Build configuration list for PBXNativeTarget "BabyLoading" */;
 			buildPhases = (
+				F4A7C130B8F304F8A15508DE /* SwiftLint */,
 				DA1C914E2F41F1E9003EC367 /* Sources */,
 				DA1C914F2F41F1E9003EC367 /* Frameworks */,
 				DA1C91502F41F1E9003EC367 /* Resources */,
@@ -282,6 +283,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91762F41F1EA003EC367 /* Build configuration list for PBXNativeTarget "BabyLoadingTests" */;
 			buildPhases = (
+				E33E081B7075E9259C10BD9B /* SwiftLint */,
 				DA1C915B2F41F1EA003EC367 /* Sources */,
 				DA1C915C2F41F1EA003EC367 /* Frameworks */,
 				DA1C915D2F41F1EA003EC367 /* Resources */,
@@ -306,6 +308,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91972F41F267003EC367 /* Build configuration list for PBXNativeTarget "BabyProgressWidgetExtension" */;
 			buildPhases = (
+				2A3E5016CBA794F3C373AB2D /* SwiftLint */,
 				DA1C917F2F41F266003EC367 /* Sources */,
 				DA1C91802F41F266003EC367 /* Frameworks */,
 				DA1C91812F41F266003EC367 /* Resources */,
@@ -395,6 +398,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2A3E5016CBA794F3C373AB2D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+		E33E081B7075E9259C10BD9B /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+		F4A7C130B8F304F8A15508DE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA1C914E2F41F1E9003EC367 /* Sources */ = {
@@ -571,6 +625,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
@@ -625,6 +680,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
@@ -674,6 +730,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -702,6 +759,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
@@ -731,6 +789,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BabyProgressWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BabyProgressWidget;
@@ -768,6 +827,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BabyProgressWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BabyProgressWidget;

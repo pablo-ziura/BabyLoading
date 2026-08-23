@@ -14,7 +14,7 @@ struct BabyLoadingTypographyTests {
             "NunitoSans-12ptExtraLightItalic_Medium-Italic",
             "NunitoSans-12ptExtraLightItalic_SemiBold-Italic",
             "NunitoSans-12ptExtraLightItalic_Bold-Italic",
-            "NunitoSans-12ptExtraLightItalic_ExtraBold-Italic",
+            "NunitoSans-12ptExtraLightItalic_ExtraBold-Italic"
         ]
 
         let missingFaces = requiredPostScriptNames.filter { name in

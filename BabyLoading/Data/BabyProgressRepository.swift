@@ -35,11 +35,11 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
     func daysUntilEvent() -> Int? {
         guard let lastPeriodDate = getEventDate() else { return nil }
         let dueDate = PregnancyCalculator.calculateDueDate(lastPeriod: lastPeriodDate)
-        
+
         let calendar = Calendar.current
         let startOfToday = calendar.startOfDay(for: .now)
         let startOfDueDate = calendar.startOfDay(for: dueDate)
-        
+
         let components = calendar.dateComponents([.day], from: startOfToday, to: startOfDueDate)
         return max(0, components.day ?? 0)
     }

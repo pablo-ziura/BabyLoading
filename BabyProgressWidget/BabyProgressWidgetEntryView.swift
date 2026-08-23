@@ -139,7 +139,7 @@ struct BabyProgressWidgetEntryView: View {
         LinearGradient(
             colors: [
                 Color(red: 0.93, green: 0.55, blue: 0.67),
-                Color(red: 0.70, green: 0.55, blue: 0.82),
+                Color(red: 0.70, green: 0.55, blue: 0.82)
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing

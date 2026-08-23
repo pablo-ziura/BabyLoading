@@ -45,7 +45,7 @@ struct GalleryView: View {
         } else {
             [
                 GridItem(.flexible(), spacing: 12),
-                GridItem(.flexible(), spacing: 12),
+                GridItem(.flexible(), spacing: 12)
             ]
         }
     }
