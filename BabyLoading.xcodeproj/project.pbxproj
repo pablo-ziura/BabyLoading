@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */; };
 		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
+		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
+		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
+		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
+		8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */; };
+		9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 75223AE41654D5E7AFAE46E2 /* AppLocalization */; };
+		AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */; };
 		B10000000000000000000001 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000011 /* AppPreferences */; };
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
@@ -71,7 +77,6 @@
 		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/AppVersionProvider.swift,
 				App/DependencyContainer.swift,
 				App/WidgetReloader.swift,
 				Data/BabyProgressDataSource.swift,
@@ -92,10 +97,6 @@
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
 				Data/Content/Stores/SharedContentCacheStore.swift,
 				Data/Infrastructure/BellyTrackingImageProcessor.swift,
-				Data/Infrastructure/SharedAppGroup.swift,
-				Data/Preferences/AppLanguageRepository.swift,
-				Data/Preferences/AppLanguageRepositoryProtocol.swift,
-				Domain/AppLanguage.swift,
 				Domain/BabySize.swift,
 				Domain/BellyTrackingEntry.swift,
 				Domain/BellyTrackingSettings.swift,
@@ -112,7 +113,6 @@
 		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/AppVersionProvider.swift,
 				App/WidgetReloader.swift,
 				Data/BabyProgressDataSource.swift,
 				Data/BabyProgressDataSourceProtocol.swift,
@@ -132,10 +132,6 @@
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
 				Data/Content/Stores/SharedContentCacheStore.swift,
 				Data/Infrastructure/BellyTrackingImageProcessor.swift,
-				Data/Infrastructure/SharedAppGroup.swift,
-				Data/Preferences/AppLanguageRepository.swift,
-				Data/Preferences/AppLanguageRepositoryProtocol.swift,
-				Domain/AppLanguage.swift,
 				Domain/BabySize.swift,
 				Domain/BellyTrackingEntry.swift,
 				Domain/BellyTrackingSettings.swift,
@@ -182,6 +178,8 @@
 			files = (
 				B10000000000000000000001 /* AppPreferences in Frameworks */,
 				3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */,
+				4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */,
+				669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +189,8 @@
 			files = (
 				B10000000000000000000002 /* AppPreferences in Frameworks */,
 				1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */,
+				AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */,
+				44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,6 +201,8 @@
 				B10000000000000000000003 /* AppPreferences in Frameworks */,
 				DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */,
 				DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */,
+				8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */,
+				9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +268,8 @@
 			packageProductDependencies = (
 				B10000000000000000000011 /* AppPreferences */,
 				FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */,
+				AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */,
+				21E54CBD2AE3C900CC207895 /* AppLocalization */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -292,6 +296,8 @@
 			packageProductDependencies = (
 				B10000000000000000000012 /* AppPreferences */,
 				03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */,
+				41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */,
+				988DF16458041719A05EB808 /* AppLocalization */,
 			);
 			productName = BabyLoadingTests;
 			productReference = DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */;
@@ -316,6 +322,8 @@
 			name = BabyProgressWidgetExtension;
 			packageProductDependencies = (
 				B10000000000000000000013 /* AppPreferences */,
+				3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */,
+				75223AE41654D5E7AFAE46E2 /* AppLocalization */,
 			);
 			productName = BabyProgressWidgetExtension;
 			productReference = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */;
@@ -356,6 +364,7 @@
 			packageReferences = (
 				B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */,
 				0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */,
+				9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -893,6 +902,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/BabyLoadingFeatures;
 		};
+		9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingCore;
+		};
 		B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/AppPreferences;
@@ -903,6 +916,30 @@
 		03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingNavigation;
+		};
+		21E54CBD2AE3C900CC207895 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
+		};
+		41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
+		};
+		75223AE41654D5E7AFAE46E2 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		988DF16458041719A05EB808 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
 		};
 		B10000000000000000000011 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;

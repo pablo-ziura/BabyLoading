@@ -1,4 +1,5 @@
 @testable import BabyLoading
+import AppLocalization
 import Foundation
 
 class MockRepository: BabyProgressRepositoryProtocol {

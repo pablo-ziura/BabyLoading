@@ -12,7 +12,7 @@ struct BabyLoadingApp: App {
                 .preferredColorScheme(.light)
                 .onChange(of: scenePhase) { _, newPhase in
                     guard newPhase == .active else { return }
-                    coordinator.viewModel.reloadContentForCurrentLanguage()
+                    coordinator.reloadContentForCurrentLanguage()
                 }
         }
     }

@@ -1,3 +1,4 @@
+import AppLocalization
 import Foundation
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {

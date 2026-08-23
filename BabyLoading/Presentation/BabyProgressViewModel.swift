@@ -1,3 +1,4 @@
+import AppLocalization
 import Foundation
 import Observation
 
@@ -18,7 +19,6 @@ class BabyProgressViewModel {
     let appVersion: String
 
     private let repository: BabyProgressRepositoryProtocol
-    private let languageRepository: AppLanguageRepositoryProtocol
     private let widgetReloader: WidgetReloaderProtocol
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
 
@@ -40,15 +40,14 @@ class BabyProgressViewModel {
 
     init(
         repository: BabyProgressRepositoryProtocol,
-        languageRepository: AppLanguageRepositoryProtocol,
-        appVersionProvider: AppVersionProviding,
+        initialLanguage: AppLanguage,
+        appVersion: String,
         widgetReloader: WidgetReloaderProtocol
     ) {
         self.repository = repository
-        self.languageRepository = languageRepository
         self.widgetReloader = widgetReloader
-        appLanguage = self.languageRepository.resolvedLanguage()
-        appVersion = appVersionProvider.marketingVersion()
+        appLanguage = initialLanguage
+        self.appVersion = appVersion
 
         lastPeriodDate = self.repository.getEventDate() ?? .now
         allWeekContent = self.repository.getAllWeekContent()
@@ -70,11 +69,16 @@ class BabyProgressViewModel {
         widgetReloader.reloadAllTimelines()
     }
 
-    func reloadContentForCurrentLanguage() {
-        let languageDidChange = reloadLanguageFromSystemIfNeeded()
-        if languageDidChange {
-            widgetReloader.reloadAllTimelines()
+    @discardableResult
+    func applyContentLanguage(_ language: AppLanguage) -> Bool {
+        guard language != appLanguage else {
+            return false
         }
+
+        appLanguage = language
+        repository.updateContentLanguage(language)
+        reloadProgressState()
+        return true
     }
 
     // MARK: - Ultrasound gallery
@@ -122,18 +126,6 @@ class BabyProgressViewModel {
         pregnancyWeek = repository.getPregnancyWeek()
         currentWeekContent = repository.getCurrentWeekContent()
         allWeekContent = repository.getAllWeekContent()
-    }
-
-    private func reloadLanguageFromSystemIfNeeded() -> Bool {
-        let systemLanguage = languageRepository.resolvedLanguage()
-        guard systemLanguage != appLanguage else {
-            return false
-        }
-
-        appLanguage = systemLanguage
-        repository.updateContentLanguage(systemLanguage)
-        reloadProgressState()
-        return true
     }
 
     private func reloadBellyTrackingState() {
