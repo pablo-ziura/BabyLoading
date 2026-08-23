@@ -39,16 +39,16 @@ class BabyProgressViewModel {
     }
 
     init(
-        repository: BabyProgressRepositoryProtocol? = nil,
-        languageRepository: AppLanguageRepositoryProtocol? = nil,
-        appVersionProvider: AppVersionProviding? = nil,
-        widgetReloader: WidgetReloaderProtocol? = nil
+        repository: BabyProgressRepositoryProtocol,
+        languageRepository: AppLanguageRepositoryProtocol,
+        appVersionProvider: AppVersionProviding,
+        widgetReloader: WidgetReloaderProtocol
     ) {
-        self.repository = repository ?? DependencyContainer.shared.repository
-        self.languageRepository = languageRepository ?? DependencyContainer.shared.languageRepository
-        self.widgetReloader = widgetReloader ?? DependencyContainer.shared.widgetReloader
+        self.repository = repository
+        self.languageRepository = languageRepository
+        self.widgetReloader = widgetReloader
         appLanguage = self.languageRepository.resolvedLanguage()
-        appVersion = (appVersionProvider ?? DependencyContainer.shared.appVersionProvider).marketingVersion()
+        appVersion = appVersionProvider.marketingVersion()
 
         lastPeriodDate = self.repository.getEventDate() ?? .now
         allWeekContent = self.repository.getAllWeekContent()

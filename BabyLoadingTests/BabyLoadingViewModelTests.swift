@@ -100,7 +100,10 @@ struct BabyLoadingViewModelTests {
         repository.storedBellyTrackingImages[entry.imageFileName] = Data([0x99])
         repository.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
 
-        let viewModel = BabyProgressViewModel(repository: repository, widgetReloader: MockWidgetReloader())
+        let viewModel = makeViewModel(
+            repository: repository,
+            widgetReloader: MockWidgetReloader()
+        )
 
         #expect(viewModel.bellyTrackingEntries == [entry])
         #expect(viewModel.bellyTrackingSettings == BellyTrackingSettings(intervalDays: 14))
@@ -150,7 +153,10 @@ struct BabyLoadingViewModelTests {
         )
         mockRepository.storedBellyTrackingEntries = [entry]
         mockRepository.storedBellyTrackingSettings = BellyTrackingSettings(intervalDays: 14)
-        let trackingViewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
+        let trackingViewModel = makeViewModel(
+            repository: mockRepository,
+            widgetReloader: mockReloader
+        )
         let initialDueDate = try #require(
             calendar.date(byAdding: .day, value: 14, to: calendar.startOfDay(for: capturedAt))
         )
@@ -176,7 +182,10 @@ struct BabyLoadingViewModelTests {
         )
         mockRepository.storedBellyTrackingEntries = [entry]
         mockRepository.storedBellyTrackingImages[entry.imageFileName] = Data([0xAA])
-        let freshViewModel = BabyProgressViewModel(repository: mockRepository, widgetReloader: mockReloader)
+        let freshViewModel = makeViewModel(
+            repository: mockRepository,
+            widgetReloader: mockReloader
+        )
 
         freshViewModel.deleteBellyTrackingEntry(id: entry.id)
 
@@ -185,5 +194,17 @@ struct BabyLoadingViewModelTests {
         #expect(freshViewModel.lastBellyTrackingEntry == nil)
         #expect(freshViewModel.lastBellyTrackingImageData == nil)
         #expect(freshViewModel.bellyTrackingStatus(asOf: .now) == .needsInitialCapture)
+    }
+
+    private func makeViewModel(
+        repository: BabyProgressRepositoryProtocol,
+        widgetReloader: WidgetReloaderProtocol
+    ) -> BabyProgressViewModel {
+        BabyProgressViewModel(
+            repository: repository,
+            languageRepository: MockAppLanguageRepository(),
+            appVersionProvider: MockAppVersionProvider(version: "1.0"),
+            widgetReloader: widgetReloader
+        )
     }
 }
