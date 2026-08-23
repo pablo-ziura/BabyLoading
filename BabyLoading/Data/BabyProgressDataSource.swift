@@ -7,7 +7,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private let preferencesStore: (any PreferencesStoreProtocol)?
     private let fileManager: FileManager
     private let containerURL: URL?
-    private let photoFileName = "user_photo.jpg"
     private let photosDirName = "gallery"
     private let bellyTrackingDirName = "belly-tracking"
     private let bellyTrackingManifestFileName = "manifest.json"
@@ -31,10 +30,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         jsonDecoder = decoder
-    }
-
-    private var photoFileURL: URL? {
-        containerURL?.appendingPathComponent(photoFileName)
     }
 
     private var photosDirURL: URL? {
@@ -89,39 +84,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
             print("⚠️ [BabyProgressDataSource] Failed to fetch lastPeriodDate: \(error)")
             return nil
         }
-    }
-
-    // MARK: - Single photo (legacy, used by widget)
-
-    func savePhoto(data: Data?) {
-        guard let url = photoFileURL else {
-            print("⚠️ [BabyProgressDataSource] No container URL for photo")
-            return
-        }
-        guard let data else {
-            deletePhoto()
-            return
-        }
-        do {
-            try data.write(to: url, options: .atomic)
-            print("💾 [BabyProgressDataSource] Photo saved (\(data.count) bytes)")
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to save photo: \(error)")
-        }
-    }
-
-    func fetchPhoto() -> Data? {
-        guard let url = photoFileURL,
-              fileManager.fileExists(atPath: url.path) else {
-            return nil
-        }
-        return try? Data(contentsOf: url)
-    }
-
-    func deletePhoto() {
-        guard let url = photoFileURL else { return }
-        try? fileManager.removeItem(at: url)
-        print("🗑️ [BabyProgressDataSource] Photo deleted")
     }
 
     // MARK: - Ultrasound gallery

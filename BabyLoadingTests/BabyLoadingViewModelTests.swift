@@ -89,27 +89,6 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.appVersion == "1.0")
     }
 
-    @Test func savePhoto_UpdatesStateAndRepository() async throws {
-        let fakeData = Data([0xFF, 0xD8, 0xFF, 0xE0])
-
-        viewModel.savePhoto(fakeData)
-
-        #expect(viewModel.photoData == fakeData)
-        #expect(mockRepository.savePhotoCalled)
-        #expect(mockRepository.storedPhotoData == fakeData)
-    }
-
-    @Test func deletePhoto_ClearsStateAndRepository() async throws {
-        let fakeData = Data([0xFF, 0xD8, 0xFF, 0xE0])
-        viewModel.savePhoto(fakeData)
-
-        viewModel.deletePhoto()
-
-        #expect(viewModel.photoData == nil)
-        #expect(mockRepository.deletePhotoCalled)
-        #expect(mockRepository.storedPhotoData == nil)
-    }
-
     @Test func refreshContentIfNeeded_WhenSnapshotChanges_ReloadsWidgetAndState() async throws {
         let updatedContent = WeekContent(
             week: 22,

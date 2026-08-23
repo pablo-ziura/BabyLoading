@@ -14,9 +14,6 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var currentContentSnapshotCalled = false
     var refreshContentIfNeededCalled = false
     var updateContentLanguageCalled = false
-    var savePhotoCalled = false
-    var fetchPhotoCalled = false
-    var deletePhotoCalled = false
     var addUltrasoundPhotoCalled = false
     var fetchUltrasoundPhotosCalled = false
     var deleteUltrasoundPhotoCalled = false
@@ -34,7 +31,6 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var refreshContentIfNeededHandler: (() -> Void)?
     var updateContentLanguageHandler: ((AppLanguage) -> Void)?
     var selectedContentLanguage: AppLanguage?
-    var storedPhotoData: Data?
     var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
@@ -84,21 +80,6 @@ class MockRepository: BabyProgressRepositoryProtocol {
         updateContentLanguageCalled = true
         selectedContentLanguage = language
         updateContentLanguageHandler?(language)
-    }
-
-    func savePhoto(data: Data?) {
-        savePhotoCalled = true
-        storedPhotoData = data
-    }
-
-    func fetchPhoto() -> Data? {
-        fetchPhotoCalled = true
-        return storedPhotoData
-    }
-
-    func deletePhoto() {
-        deletePhotoCalled = true
-        storedPhotoData = nil
     }
 
     func addUltrasoundPhoto(data: Data) {

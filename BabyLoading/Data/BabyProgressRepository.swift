@@ -74,18 +74,6 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         contentRepository = contentRepositoryFactory.makeRepository(for: language)
     }
 
-    func savePhoto(data: Data?) {
-        dataSource.savePhoto(data: data)
-    }
-
-    func fetchPhoto() -> Data? {
-        return dataSource.fetchPhoto()
-    }
-
-    func deletePhoto() {
-        dataSource.deletePhoto()
-    }
-
     // MARK: - Ultrasound gallery
 
     func addUltrasoundPhoto(data: Data) {
