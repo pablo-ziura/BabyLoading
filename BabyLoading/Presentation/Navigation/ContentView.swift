@@ -3,12 +3,12 @@ import SwiftUI
 
 struct MainTabView: View {
     @Bindable var router: AppRouter
-    let container: DependencyContainer
+    let coordinator: Coordinator
 
     var body: some View {
         TabView(selection: $router.selectedTab) {
             NavigationStack {
-                container.makeDashboardView()
+                coordinator.makeDashboardView()
             }
             .tabItem {
                 tabLabel(for: .dashboard)
@@ -16,7 +16,7 @@ struct MainTabView: View {
             .tag(AppTab.dashboard)
 
             NavigationStack {
-                container.makeJourneyView()
+                coordinator.makeJourneyView()
             }
             .tabItem {
                 tabLabel(for: .journey)
@@ -24,7 +24,7 @@ struct MainTabView: View {
             .tag(AppTab.journey)
 
             NavigationStack {
-                container.makeGalleryView()
+                coordinator.makeGalleryView()
             }
             .tabItem {
                 tabLabel(for: .gallery)
@@ -32,7 +32,7 @@ struct MainTabView: View {
             .tag(AppTab.gallery)
 
             NavigationStack {
-                container.makeSettingsView()
+                coordinator.makeSettingsView()
             }
             .tabItem {
                 tabLabel(for: .settings)
@@ -48,8 +48,9 @@ struct MainTabView: View {
 }
 
 #Preview {
+    let coordinator = Coordinator()
     MainTabView(
-        router: DependencyContainer.shared.router,
-        container: DependencyContainer.shared
+        router: coordinator.router,
+        coordinator: coordinator
     )
 }

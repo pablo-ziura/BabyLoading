@@ -190,6 +190,6 @@ struct SettingsView: View {
 #Preview {
     ZStack {
         GradientBackground()
-        SettingsView(viewModel: DependencyContainer.shared.viewModel)
+        SettingsView(viewModel: Coordinator().viewModel)
     }
 }

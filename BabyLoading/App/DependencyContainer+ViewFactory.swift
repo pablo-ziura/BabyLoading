@@ -1,10 +1,10 @@
 import SwiftUI
 
-extension DependencyContainer {
+extension Coordinator {
     // MARK: - Coordinator Factory
 
     func makeMainTabView() -> MainTabView {
-        MainTabView(router: router, container: self)
+        MainTabView(router: router, coordinator: self)
     }
 
     // MARK: - View Factories
