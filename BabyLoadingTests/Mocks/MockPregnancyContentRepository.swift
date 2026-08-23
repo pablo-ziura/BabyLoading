@@ -3,7 +3,6 @@ import Foundation
 
 final class MockPregnancyContentRepository: PregnancyContentRepositoryProtocol {
     var snapshot = PregnancyContentDocument.empty
-    var refreshIfNeededCalled = false
 
     func currentSnapshot() -> PregnancyContentDocument {
         snapshot
@@ -17,9 +16,5 @@ final class MockPregnancyContentRepository: PregnancyContentRepositoryProtocol {
 
     func allWeekContent() -> [WeekContent] {
         snapshot.weeks
-    }
-
-    func refreshIfNeeded() async {
-        refreshIfNeededCalled = true
     }
 }

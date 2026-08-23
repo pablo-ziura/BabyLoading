@@ -77,11 +77,8 @@
 				Data/BabyProgressRepository.swift,
 				Data/BabyProgressRepositoryProtocol.swift,
 				Data/BellyTrackingManifest.swift,
-				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
 				Data/Content/Localization/PregnancyContentLocalization.swift,
 				Data/Content/Models/PregnancyContentDocument.swift,
-				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
-				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
 				Data/Content/Models/PregnancyContentValidationError.swift,
 				Data/Content/Models/WeekContent.swift,
 				Data/Content/Repositories/PregnancyContentRepository.swift,
@@ -90,8 +87,6 @@
 				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Sources/BundleContentSource.swift,
 				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
-				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
-				Data/Content/Sources/RemoteContentSource.swift,
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
 				Data/Content/Stores/SharedContentCacheStore.swift,
 				Data/Infrastructure/BellyTrackingImageProcessor.swift,
@@ -124,11 +119,8 @@
 				Data/BabyProgressRepository.swift,
 				Data/BabyProgressRepositoryProtocol.swift,
 				Data/BellyTrackingManifest.swift,
-				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
 				Data/Content/Localization/PregnancyContentLocalization.swift,
 				Data/Content/Models/PregnancyContentDocument.swift,
-				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
-				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
 				Data/Content/Models/PregnancyContentValidationError.swift,
 				Data/Content/Models/WeekContent.swift,
 				Data/Content/Repositories/PregnancyContentRepository.swift,
@@ -137,8 +129,6 @@
 				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
 				Data/Content/Sources/BundleContentSource.swift,
 				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
-				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
-				Data/Content/Sources/RemoteContentSource.swift,
 				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
 				Data/Content/Stores/SharedContentCacheStore.swift,
 				Data/Infrastructure/BellyTrackingImageProcessor.swift,
@@ -633,7 +623,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
-				INFOPLIST_KEY_PregnancyContentURL = "";
 				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -688,7 +677,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
-				INFOPLIST_KEY_PregnancyContentURL = "";
 				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;

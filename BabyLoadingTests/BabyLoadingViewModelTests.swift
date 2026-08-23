@@ -58,7 +58,7 @@ struct BabyLoadingViewModelTests {
         #expect(mockReloader.reloadAllTimelinesCalled)
     }
 
-    @Test func refreshContentIfNeeded_WhenSystemLanguageChanges_ReloadsContentAndWidget() async throws {
+    @Test func reloadContentForCurrentLanguage_WhenSystemLanguageChanges_ReloadsContentAndWidget() async throws {
         let spanishContent = WeekContent(
             week: 20,
             babySize: .banana,
@@ -75,7 +75,7 @@ struct BabyLoadingViewModelTests {
 
         mockLanguageRepository.systemLanguage = .spanish
 
-        await viewModel.refreshContentIfNeeded()
+        viewModel.reloadContentForCurrentLanguage()
 
         #expect(viewModel.appLanguage == .spanish)
         #expect(mockRepository.updateContentLanguageCalled)
@@ -87,35 +87,6 @@ struct BabyLoadingViewModelTests {
 
     @Test func init_ExposesInjectedAppVersion() async throws {
         #expect(viewModel.appVersion == "1.0")
-    }
-
-    @Test func refreshContentIfNeeded_WhenSnapshotChanges_ReloadsWidgetAndState() async throws {
-        let updatedContent = WeekContent(
-            week: 22,
-            babySize: .banana,
-            babySizeLabel: "un plátano",
-            milestoneTitle: "Semana 22",
-            keyEvents: ["Evento"],
-            physiologicalImpact: nil
-        )
-        mockRepository.contentSnapshot = .empty
-        mockRepository.refreshContentIfNeededHandler = {
-            self.mockRepository.contentSnapshot = PregnancyContentDocument(
-                schemaVersion: 1,
-                locale: "es",
-                revision: 2,
-                weeks: [updatedContent]
-            )
-            self.mockRepository.currentWeekContent = updatedContent
-            self.mockRepository.allWeekContent = [updatedContent]
-        }
-
-        await viewModel.refreshContentIfNeeded()
-
-        #expect(mockRepository.refreshContentIfNeededCalled)
-        #expect(viewModel.currentWeekContent == updatedContent)
-        #expect(viewModel.allWeekContent == [updatedContent])
-        #expect(mockReloader.reloadAllTimelinesCalled)
     }
 
     @Test func init_LoadsBellyTrackingState() async throws {

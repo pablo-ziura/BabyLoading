@@ -8,7 +8,6 @@ protocol BabyProgressRepositoryProtocol {
     func getCurrentWeekContent() -> WeekContent?
     func getAllWeekContent() -> [WeekContent]
     func currentContentSnapshot() -> PregnancyContentDocument
-    func refreshContentIfNeeded() async
     func updateContentLanguage(_ language: AppLanguage)
     // Ultrasound gallery
     func addUltrasoundPhoto(data: Data)
