@@ -1,4 +1,5 @@
 import AppLocalization
+import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
 import SwiftUI
 import UIKit

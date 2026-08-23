@@ -1,3 +1,4 @@
+import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
 import BabyLoadingNavigation
 import BellyTracking

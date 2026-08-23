@@ -1,8 +1,10 @@
 import BabyLoadingDesignTokens
 import SwiftUI
 
-struct GradientBackground: View {
-    var body: some View {
+public struct GradientBackground: View {
+    public init() {}
+
+    public var body: some View {
         LinearGradient(
             colors: [
                 BabyLoadingColors.backgroundGradientTop,
@@ -13,8 +15,4 @@ struct GradientBackground: View {
         )
         .ignoresSafeArea()
     }
-}
-
-#Preview {
-    GradientBackground()
 }
