@@ -1,6 +1,7 @@
 import AppLocalization
 import BabyLoadingInfrastructure
 import BabyLoadingNavigation
+import DashboardFeature
 import Foundation
 import JourneyFeature
 import Observation
@@ -11,6 +12,7 @@ import SettingsFeature
 final class Coordinator {
     let router: AppRouter
     let viewModel: BabyProgressViewModel
+    let dashboardViewModel: DashboardViewModel
     let journeyViewModel: JourneyViewModel
 
     @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
@@ -34,6 +36,10 @@ final class Coordinator {
 
         self.dependencyContainer = dependencyContainer
         router = AppRouter()
+        dashboardViewModel = DashboardViewModel(
+            loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
+            loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent
+        )
         journeyViewModel = JourneyViewModel(
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             loadPregnancyTimelineUseCase: contentUseCases.loadTimeline
@@ -64,6 +70,7 @@ final class Coordinator {
         await viewModel.reloadProgress()
         await viewModel.reloadUltrasoundPhotos()
         await viewModel.reloadBellyTrackingState()
+        await dashboardViewModel.reload()
         await journeyViewModel.reload()
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
@@ -85,6 +92,7 @@ final class Coordinator {
             return
         }
 
+        await dashboardViewModel.reloadCurrentWeekContent(using: contentUseCases.loadWeekContent)
         await journeyViewModel.reloadTimeline(using: contentUseCases.loadTimeline)
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
         dependencyContainer.widgetReloader.reloadAllTimelines()
@@ -101,6 +109,7 @@ final class Coordinator {
             await viewModel.reloadProgress()
             await viewModel.reloadUltrasoundPhotos()
             await viewModel.reloadBellyTrackingState()
+            await dashboardViewModel.reload()
             await journeyViewModel.reload()
             await settingsViewModel.reload(preferredLanguages: preferredLanguages)
             dependencyContainer.widgetReloader.reloadAllTimelines()

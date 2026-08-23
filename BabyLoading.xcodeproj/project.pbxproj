@@ -11,6 +11,7 @@
 		1693B223BAAB5F47F2D97E33 /* BellyTracking in Frameworks */ = {isa = PBXBuildFile; productRef = F5A596B427480F6BCD42123D /* BellyTracking */; };
 		1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */; };
 		21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = DBA67C2A3FAF854E35322A36 /* PregnancyProgress */; };
+		23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D7FBB1F6003EC1406A6F3225 /* DashboardFeature */; };
 		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
 		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
 		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
@@ -153,6 +154,7 @@
 				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
 				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
 				AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */,
+				23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +261,7 @@
 				8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */,
 				4BB3FF04E2E98901D78846AB /* SettingsFeature */,
 				E261BB58408C4E903B6FE784 /* JourneyFeature */,
+				D7FBB1F6003EC1406A6F3225 /* DashboardFeature */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -994,6 +997,10 @@
 		B10000000000000000000013 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
+		};
+		D7FBB1F6003EC1406A6F3225 /* DashboardFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DashboardFeature;
 		};
 		DBA67C2A3FAF854E35322A36 /* PregnancyProgress */ = {
 			isa = XCSwiftPackageProductDependency;
