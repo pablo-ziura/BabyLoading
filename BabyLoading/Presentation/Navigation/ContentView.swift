@@ -1,5 +1,6 @@
 import BabyLoadingDesignTokens
 import BabyLoadingNavigation
+import SettingsFeature
 import SwiftUI
 
 struct MainTabView: View {

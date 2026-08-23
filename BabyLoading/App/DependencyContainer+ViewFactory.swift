@@ -5,5 +5,6 @@ extension Coordinator {
         MainTabView()
             .environment(router)
             .environment(viewModel)
+            .environment(settingsViewModel)
     }
 }

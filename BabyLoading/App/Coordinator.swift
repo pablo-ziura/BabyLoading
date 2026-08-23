@@ -3,12 +3,24 @@ import BabyLoadingInfrastructure
 import BabyLoadingNavigation
 import Foundation
 import Observation
+import SettingsFeature
 
 @MainActor
 @Observable
 final class Coordinator {
     let router: AppRouter
     let viewModel: BabyProgressViewModel
+
+    @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
+        loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
+        updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
+        resolveAppLanguageUseCase: dependencyContainer.resolveAppLanguageUseCase,
+        loadAppVersionUseCase: dependencyContainer.loadAppVersionUseCase,
+        initialLanguage: dependencyContainer.initialLanguage,
+        outputHandler: { [weak self] output in
+            await self?.handleSettingsOutput(output)
+        }
+    )
 
     private let dependencyContainer: DependencyContainer
 
@@ -46,11 +58,12 @@ final class Coordinator {
         await viewModel.reloadProgress()
         await viewModel.reloadUltrasoundPhotos()
         await viewModel.reloadBellyTrackingState()
+        await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
 
     func reloadContentForCurrentLanguage() async {
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
-            preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
+            preferredLanguages: preferredLanguages
         )
         guard language != viewModel.appLanguage else {
             return
@@ -65,6 +78,23 @@ final class Coordinator {
             return
         }
 
+        await settingsViewModel.reload(preferredLanguages: preferredLanguages)
         dependencyContainer.widgetReloader.reloadAllTimelines()
+    }
+
+    private var preferredLanguages: [String] {
+        Bundle.main.preferredLocalizations + Locale.preferredLanguages
+    }
+
+    private func handleSettingsOutput(_ output: SettingsViewModelOutput) async {
+        switch output {
+        case .lastPeriodDateUpdated:
+            await viewModel.reloadContent()
+            await viewModel.reloadProgress()
+            await viewModel.reloadUltrasoundPhotos()
+            await viewModel.reloadBellyTrackingState()
+            await settingsViewModel.reload(preferredLanguages: preferredLanguages)
+            dependencyContainer.widgetReloader.reloadAllTimelines()
+        }
     }
 }

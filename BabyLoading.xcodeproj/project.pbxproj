@@ -34,6 +34,7 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB3FF04E2E98901D78846AB /* SettingsFeature */; };
 		E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +150,7 @@
 				671671BC4713C50E04572C98 /* BellyTracking in Frameworks */,
 				E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */,
 				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
+				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +255,7 @@
 				6C98B10D9CBFEEDB83A47759 /* BellyTracking */,
 				9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */,
 				8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */,
+				4BB3FF04E2E98901D78846AB /* SettingsFeature */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -940,6 +943,10 @@
 		41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingInfrastructure;
+		};
+		4BB3FF04E2E98901D78846AB /* SettingsFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SettingsFeature;
 		};
 		50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */ = {
 			isa = XCSwiftPackageProductDependency;
