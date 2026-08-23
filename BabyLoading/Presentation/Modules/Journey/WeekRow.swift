@@ -1,3 +1,4 @@
+import BabyLoadingDesignTokens
 import Foundation
 import PregnancyContent
 import SwiftUI
@@ -26,7 +27,7 @@ struct WeekRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: BabyLoadingSpacing.medium) {
             timeline
 
             rowCard
@@ -41,7 +42,11 @@ struct WeekRow: View {
             )
 
             Circle()
-                .fill(isCurrent ? .pink : .white.opacity(0.5))
+                .fill(
+                    isCurrent
+                        ? BabyLoadingColors.selectionAccent
+                        : BabyLoadingColors.passiveTimelineMarker
+                )
                 .frame(width: isCurrent ? 14 : 8, height: isCurrent ? 14 : 8)
                 .overlay {
                     if isCurrent {
@@ -85,10 +90,24 @@ struct WeekRow: View {
         .padding(.horizontal, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(isCurrent ? .white : .white.opacity(0.88))
+            RoundedRectangle(
+                cornerRadius: BabyLoadingShape.timelineCardCornerRadius,
+                style: .continuous
+            )
+                .fill(
+                    isCurrent
+                        ? BabyLoadingColors.primaryCardSurface
+                        : BabyLoadingColors.secondaryCardSurface
+                )
         )
-        .shadow(color: isCurrent ? .pink.opacity(0.15) : .clear, radius: 8, y: 4)
+        .shadow(
+            color: isCurrent
+                ? BabyLoadingElevation.selectedTimelineCard.color
+                : .clear,
+            radius: BabyLoadingElevation.selectedTimelineCard.radius,
+            x: BabyLoadingElevation.selectedTimelineCard.horizontalOffset,
+            y: BabyLoadingElevation.selectedTimelineCard.verticalOffset
+        )
         .padding(.vertical, 6)
         .accessibilityElement(children: .combine)
         .accessibilityValue(isCurrent ? Text("journey.youAreHere") : Text(verbatim: ""))
@@ -110,7 +129,10 @@ struct WeekRow: View {
                     .accessibilityHidden(true)
 
                 Circle()
-                    .strokeBorder(.pink.opacity(0.2), lineWidth: 1.5)
+                    .strokeBorder(
+                        BabyLoadingColors.selectionAccent.opacity(0.2),
+                        lineWidth: 1.5
+                    )
                     .frame(width: 40, height: 40)
             }
             .accessibilityHidden(true)
@@ -155,12 +177,15 @@ struct WeekRow: View {
             .font(BabyLoadingTypography.text(.caption2, weight: .bold))
             .foregroundStyle(.white)
             .padding(.horizontal, 10)
-            .padding(.vertical, 4)
+            .padding(.vertical, BabyLoadingSpacing.extraSmall)
             .background(
                 Capsule()
                     .fill(
                         LinearGradient(
-                            colors: [.pink, .purple.opacity(0.8)],
+                            colors: [
+                                BabyLoadingColors.selectionAccent,
+                                BabyLoadingColors.selectionGradientEnd
+                            ],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -178,7 +203,7 @@ private struct TimelineDaySegment: View {
         GeometryReader { proxy in
             ZStack {
                 Rectangle()
-                    .fill(.white.opacity(0.3))
+                    .fill(BabyLoadingColors.timelineLine)
                     .frame(width: 2)
                     .frame(maxHeight: .infinity)
 
@@ -187,7 +212,11 @@ private struct TimelineDaySegment: View {
                     let yPosition = proxy.size.height * (CGFloat(index + 1) / 4)
 
                     Circle()
-                        .fill(isHighlighted ? .pink : .white.opacity(0.65))
+                        .fill(
+                            isHighlighted
+                                ? BabyLoadingColors.selectionAccent
+                                : BabyLoadingColors.emphasizedTimelineMarker
+                        )
                         .frame(width: isHighlighted ? 7 : 4, height: isHighlighted ? 7 : 4)
                         .overlay {
                             if isHighlighted {

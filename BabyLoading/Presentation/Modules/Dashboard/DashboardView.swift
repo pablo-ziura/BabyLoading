@@ -1,3 +1,4 @@
+import BabyLoadingDesignTokens
 import PregnancyContent
 import SwiftUI
 
@@ -64,7 +65,11 @@ struct DashboardView: View {
                         Circle()
                             .fill(.white)
                             .frame(width: 160, height: 160)
-                            .shadow(color: .pink.opacity(0.2), radius: 16, y: 8)
+                            .shadow(
+                                color: BabyLoadingColors.selectionAccent.opacity(0.2),
+                                radius: 16,
+                                y: 8
+                            )
                             .accessibilityHidden(true)
 
                         Image(content.babySize.imageName)
@@ -77,7 +82,10 @@ struct DashboardView: View {
                         Circle()
                             .strokeBorder(
                                 LinearGradient(
-                                    colors: [.white, .pink.opacity(0.3)],
+                                    colors: [
+                                        BabyLoadingColors.primaryCardSurface,
+                                        BabyLoadingColors.selectionAccent.opacity(0.3)
+                                    ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ),
@@ -215,7 +223,7 @@ struct DashboardView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(
                                 RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                    .fill(.pink.opacity(0.08))
+                                    .fill(BabyLoadingColors.selectionAccent.opacity(0.08))
                             )
                             .accessibilityElement(children: .combine)
                         }

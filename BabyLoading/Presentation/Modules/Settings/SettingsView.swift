@@ -1,4 +1,5 @@
 import AppLocalization
+import BabyLoadingDesignTokens
 import SwiftUI
 import UIKit
 
@@ -53,7 +54,7 @@ struct SettingsView: View {
                             }
                         }
                         .environment(\.locale, locale)
-                        .tint(.pink)
+                        .tint(BabyLoadingColors.selectionAccent)
 
                         if let fpp = viewModel.estimatedDueDate {
                             Divider().padding(.vertical, 8)
@@ -84,13 +85,20 @@ struct SettingsView: View {
                             .padding(.vertical, 16)
                             .background(
                                 LinearGradient(
-                                    colors: [.pink, .purple.opacity(0.8)],
+                                    colors: [
+                                        BabyLoadingColors.selectionAccent,
+                                        BabyLoadingColors.selectionGradientEnd
+                                    ],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
                             )
                             .clipShape(Capsule())
-                            .shadow(color: .pink.opacity(0.4), radius: 10, y: 5)
+                            .shadow(
+                                color: BabyLoadingColors.selectionAccent.opacity(0.4),
+                                radius: 10,
+                                y: 5
+                            )
                     }
                     .padding(.horizontal, 40)
                     .accessibilityHint(Text("accessibility.settings.setDateHint"))
@@ -99,9 +107,12 @@ struct SettingsView: View {
                         HStack(spacing: 12) {
                             Image(systemName: "globe")
                                 .font(.title3)
-                                .foregroundStyle(.pink)
+                                .foregroundStyle(BabyLoadingColors.selectionAccent)
                                 .frame(width: 44, height: 44)
-                                .background(Color.pink.opacity(0.12), in: Circle())
+                                .background(
+                                    BabyLoadingColors.selectionAccent.opacity(0.12),
+                                    in: Circle()
+                                )
                                 .accessibilityHidden(true)
 
                             Text("settings.language")

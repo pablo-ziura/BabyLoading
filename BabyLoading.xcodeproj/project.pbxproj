@@ -13,6 +13,7 @@
 		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
 		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
 		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
+		5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */; };
 		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
 		671671BC4713C50E04572C98 /* BellyTracking in Frameworks */ = {isa = PBXBuildFile; productRef = 6C98B10D9CBFEEDB83A47759 /* BellyTracking */; };
 		6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */; };
@@ -31,6 +32,7 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +99,6 @@
 		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Presentation/Common/BabyLoadingTypography.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -144,6 +145,7 @@
 				79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */,
 				6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */,
 				671671BC4713C50E04572C98 /* BellyTracking in Frameworks */,
+				E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +175,7 @@
 				9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */,
 				CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */,
 				AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */,
+				5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +247,7 @@
 				3A6650DFD0E492D0A0F71539 /* PregnancyContent */,
 				FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */,
 				6C98B10D9CBFEEDB83A47759 /* BellyTracking */,
+				9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -304,6 +308,7 @@
 				75223AE41654D5E7AFAE46E2 /* AppLocalization */,
 				0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */,
 				EC3A24870F8A9D5800CB83D5 /* PregnancyContent */,
+				69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */,
 			);
 			productName = BabyProgressWidgetExtension;
 			productReference = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */;
@@ -345,6 +350,7 @@
 				B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */,
 				0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */,
 				9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */,
+				82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -882,6 +888,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/BabyLoadingFeatures;
 		};
+		82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingDesignSystem;
+		};
 		9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/BabyLoadingCore;
@@ -925,6 +935,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingInfrastructure;
 		};
+		69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingDesignTokens;
+		};
 		6C98B10D9CBFEEDB83A47759 /* BellyTracking */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BellyTracking;
@@ -936,6 +950,10 @@
 		988DF16458041719A05EB808 /* AppLocalization */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppLocalization;
+		};
+		9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingDesignTokens;
 		};
 		AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,3 +1,4 @@
+import BabyLoadingDesignTokens
 import BabyLoadingNavigation
 import BellyTracking
 import PhotosUI
@@ -210,7 +211,10 @@ struct GalleryView: View {
                 .font(BabyLoadingTypography.text(.headline, weight: .semibold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(Color.pink.opacity(0.16), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .background(
+                    BabyLoadingColors.selectionAccent.opacity(0.16),
+                    in: RoundedRectangle(cornerRadius: 18, style: .continuous)
+                )
             }
             .buttonStyle(.plain)
 
@@ -256,7 +260,10 @@ struct GalleryView: View {
                         .font(BabyLoadingTypography.text(.caption))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
-                        .background(Color.pink.opacity(0.14), in: Capsule())
+                        .background(
+                            BabyLoadingColors.selectionAccent.opacity(0.14),
+                            in: Capsule()
+                        )
                 }
             }
 
@@ -268,7 +275,7 @@ struct GalleryView: View {
         VStack(spacing: 10) {
             Image(systemName: "figure.stand.line.dotted.figure.stand")
                 .font(.system(size: 34))
-                .foregroundStyle(.pink.opacity(0.7))
+                .foregroundStyle(BabyLoadingColors.selectionAccent.opacity(0.7))
                 .accessibilityHidden(true)
 
             Text("gallery.bellyTracking.emptyTitle")
@@ -405,13 +412,13 @@ struct GalleryView: View {
         switch status {
         case .upToDate:
             titleKey = "gallery.bellyTracking.onTrack"
-            backgroundColor = .green.opacity(0.18)
+            backgroundColor = BabyLoadingColors.positiveStatusSurface
         case .needsInitialCapture:
             titleKey = "gallery.bellyTracking.startNow"
-            backgroundColor = .orange.opacity(0.18)
+            backgroundColor = BabyLoadingColors.attentionStatusSurface
         case .pending:
             titleKey = "gallery.bellyTracking.dueNow"
-            backgroundColor = .orange.opacity(0.18)
+            backgroundColor = BabyLoadingColors.attentionStatusSurface
         }
 
         return Text(titleKey)

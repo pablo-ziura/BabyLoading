@@ -1,3 +1,4 @@
+import BabyLoadingDesignTokens
 import Foundation
 import SwiftUI
 
@@ -12,7 +13,10 @@ struct StatCard: View {
                 .font(.title2)
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.pink, .purple.opacity(0.8)],
+                        colors: [
+                            BabyLoadingColors.selectionAccent,
+                            BabyLoadingColors.selectionGradientEnd
+                        ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )

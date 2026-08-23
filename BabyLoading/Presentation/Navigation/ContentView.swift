@@ -1,3 +1,4 @@
+import BabyLoadingDesignTokens
 import BabyLoadingNavigation
 import SwiftUI
 
@@ -41,7 +42,7 @@ struct MainTabView: View {
             }
             .tag(AppTab.settings)
         }
-        .tint(.pink)
+        .tint(BabyLoadingColors.selectionAccent)
         .fullScreenCover(item: presentedFullScreenDestination) { destination in
             switch destination {
             case .bellyTrackingCamera:

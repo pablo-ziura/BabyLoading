@@ -1,4 +1,5 @@
 import AVFoundation
+import BabyLoadingDesignTokens
 import SwiftUI
 #if canImport(UIKit)
     import UIKit
@@ -186,7 +187,7 @@ struct BellyTrackingCameraView: View {
                         )
                     )
                     .labelsHidden()
-                    .tint(.pink)
+                    .tint(BabyLoadingColors.selectionAccent)
                 }
 
                 if viewModel.isShowingReference {
