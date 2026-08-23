@@ -70,13 +70,9 @@ class BabyProgressViewModel {
         widgetReloader.reloadAllTimelines()
     }
 
-    func refreshContentIfNeeded() async {
+    func reloadContentForCurrentLanguage() {
         let languageDidChange = reloadLanguageFromSystemIfNeeded()
-        let previousSnapshot = repository.currentContentSnapshot()
-        await repository.refreshContentIfNeeded()
-        reloadProgressState()
-
-        if languageDidChange || repository.currentContentSnapshot() != previousSnapshot {
+        if languageDidChange {
             widgetReloader.reloadAllTimelines()
         }
     }

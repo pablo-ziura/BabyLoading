@@ -62,10 +62,6 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         contentRepository.currentSnapshot()
     }
 
-    func refreshContentIfNeeded() async {
-        await contentRepository.refreshIfNeeded()
-    }
-
     func updateContentLanguage(_ language: AppLanguage) {
         guard let contentRepositoryFactory else {
             return
