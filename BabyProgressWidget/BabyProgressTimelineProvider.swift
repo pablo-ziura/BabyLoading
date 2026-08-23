@@ -3,6 +3,17 @@ import WidgetKit
 
 @MainActor
 struct BabyProgressTimelineProvider: TimelineProvider {
+    private let repository: BabyProgressRepositoryProtocol
+    private let language: AppLanguage
+
+    init(
+        repository: BabyProgressRepositoryProtocol,
+        language: AppLanguage
+    ) {
+        self.repository = repository
+        self.language = language
+    }
+
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(
             date: .now,
@@ -31,9 +42,6 @@ struct BabyProgressTimelineProvider: TimelineProvider {
     }
 
     private func makeEntry() -> SimpleEntry {
-        let context = DependencyContainer.makeWidgetContext()
-        let repository = context.repository
-        let language = context.language
         let lastPeriodDate = repository.getEventDate()
         let dueDate = lastPeriodDate.map(PregnancyCalculator.calculateDueDate)
         let week = repository.getPregnancyWeek() ?? 0

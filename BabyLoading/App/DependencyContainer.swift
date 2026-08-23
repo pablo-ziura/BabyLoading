@@ -36,11 +36,6 @@ class DependencyContainer {
             widgetReloader: widgetReloader
         )
     }
-
-    static func makeWidgetContext() -> (repository: BabyProgressRepositoryProtocol, language: AppLanguage) {
-        let container = DependencyContainer()
-        return (container.repository, container.languageRepository.resolvedLanguage())
-    }
 }
 
 // MARK: - Navigation Types

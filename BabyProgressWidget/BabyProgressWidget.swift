@@ -3,15 +3,24 @@ import WidgetKit
 
 struct BabyProgressWidget: Widget {
     let kind: String = "BabyProgressWidget"
+    private let dependencies = WidgetDependencyContainer()
 
     var body: some WidgetConfiguration {
-        let locale = AppLanguageRepository().resolvedLanguage().locale
+        let locale = dependencies.language.locale
 
-        return StaticConfiguration(kind: kind, provider: BabyProgressTimelineProvider()) { entry in
+        return StaticConfiguration(kind: kind, provider: dependencies.timelineProvider) { entry in
             BabyProgressWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName(String(localized: "widget.displayName", defaultValue: "Baby Progress", locale: locale))
-        .description(String(localized: "widget.description", defaultValue: "See which week of pregnancy you're in.", locale: locale))
+        .configurationDisplayName(
+            String(localized: "widget.displayName", defaultValue: "Baby Progress", locale: locale)
+        )
+        .description(
+            String(
+                localized: "widget.description",
+                defaultValue: "See which week of pregnancy you're in.",
+                locale: locale
+            )
+        )
         .supportedFamilies([.systemMedium])
     }
 }
