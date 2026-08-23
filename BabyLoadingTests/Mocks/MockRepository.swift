@@ -1,13 +1,7 @@
 @testable import BabyLoading
-import AppLocalization
 import Foundation
 
 class MockRepository: BabyProgressRepositoryProtocol {
-    var requestedWeek: Int?
-    var weekContentCalled = false
-    var getAllWeekContentCalled = false
-    var currentContentSnapshotCalled = false
-    var updateContentLanguageCalled = false
     var addUltrasoundPhotoCalled = false
     var fetchUltrasoundPhotosCalled = false
     var deleteUltrasoundPhotoCalled = false
@@ -18,37 +12,10 @@ class MockRepository: BabyProgressRepositoryProtocol {
     var fetchBellyTrackingSettingsCalled = false
     var saveBellyTrackingSettingsCalled = false
 
-    var currentWeekContent: WeekContent?
-    var allWeekContent: [WeekContent] = []
-    var contentSnapshot = PregnancyContentDocument.empty
-    var updateContentLanguageHandler: ((AppLanguage) -> Void)?
-    var selectedContentLanguage: AppLanguage?
     var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
-
-    func weekContent(for week: Int) -> WeekContent? {
-        weekContentCalled = true
-        requestedWeek = week
-        return currentWeekContent
-    }
-
-    func getAllWeekContent() -> [WeekContent] {
-        getAllWeekContentCalled = true
-        return allWeekContent
-    }
-
-    func currentContentSnapshot() -> PregnancyContentDocument {
-        currentContentSnapshotCalled = true
-        return contentSnapshot
-    }
-
-    func updateContentLanguage(_ language: AppLanguage) {
-        updateContentLanguageCalled = true
-        selectedContentLanguage = language
-        updateContentLanguageHandler?(language)
-    }
 
     func addUltrasoundPhoto(data: Data) {
         addUltrasoundPhotoCalled = true

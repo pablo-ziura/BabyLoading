@@ -5,58 +5,11 @@ import Testing
 struct BabyLoadingRepositoryTests {
     private var repository: BabyProgressRepository
     private var mockDataSource: MockDataSource
-    private var mockContentRepository: MockPregnancyContentRepository
 
     init() {
         let dataSource = MockDataSource()
-        let contentRepository = MockPregnancyContentRepository()
         mockDataSource = dataSource
-        mockContentRepository = contentRepository
-        repository = BabyProgressRepository(
-            dataSource: dataSource,
-            contentRepository: contentRepository
-        )
-    }
-
-    @Test func weekContent_WhenWeekExists_ReturnsWeekContent() {
-        let content = WeekContent(
-            week: 20,
-            babySize: .sweetPotato,
-            babySizeLabel: "un boniato",
-            milestoneTitle: "Semana 20",
-            keyEvents: ["Evento"],
-            physiologicalImpact: "Impacto"
-        )
-        mockContentRepository.snapshot = PregnancyContentDocument(
-            schemaVersion: 1,
-            locale: "es",
-            revision: 1,
-            weeks: [content]
-        )
-        let result = repository.weekContent(for: 20)
-
-        #expect(result == content)
-    }
-
-    @Test func getAllWeekContent_ReturnsAllContent() {
-        let content = WeekContent(
-            week: 22,
-            babySize: .banana,
-            babySizeLabel: "un plátano",
-            milestoneTitle: "Semana 22",
-            keyEvents: ["Evento"],
-            physiologicalImpact: nil
-        )
-        mockContentRepository.snapshot = PregnancyContentDocument(
-            schemaVersion: 1,
-            locale: "es",
-            revision: 1,
-            weeks: [content]
-        )
-
-        let result = repository.getAllWeekContent()
-
-        #expect(result == [content])
+        repository = BabyProgressRepository(dataSource: dataSource)
     }
 
     @Test func saveBellyTrackingPhoto_PersistsEntryAndImageData() {

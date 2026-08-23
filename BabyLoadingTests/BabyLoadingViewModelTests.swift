@@ -1,6 +1,7 @@
 @testable import BabyLoading
 import AppLocalization
 import Foundation
+import PregnancyContent
 import PregnancyProgress
 import Testing
 
@@ -8,16 +9,22 @@ import Testing
 struct BabyLoadingViewModelTests {
     private var viewModel: BabyProgressViewModel
     private var mockLoadProgressUseCase: MockLoadPregnancyProgressUseCase
+    private var mockLoadTimelineUseCase: MockLoadPregnancyTimelineUseCase
+    private var mockLoadWeekContentUseCase: MockLoadPregnancyWeekContentUseCase
     private var mockRepository: MockRepository
     private var mockReloader: MockWidgetReloader
     private var mockUpdateDateUseCase: MockUpdateLastPeriodDateUseCase
 
     init() async throws {
         let loadProgressUseCase = MockLoadPregnancyProgressUseCase()
+        let loadTimelineUseCase = MockLoadPregnancyTimelineUseCase()
+        let loadWeekContentUseCase = MockLoadPregnancyWeekContentUseCase()
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
         let updateDateUseCase = MockUpdateLastPeriodDateUseCase()
         mockLoadProgressUseCase = loadProgressUseCase
+        mockLoadTimelineUseCase = loadTimelineUseCase
+        mockLoadWeekContentUseCase = loadWeekContentUseCase
         mockRepository = repo
         mockReloader = reloader
         mockUpdateDateUseCase = updateDateUseCase
@@ -25,6 +32,8 @@ struct BabyLoadingViewModelTests {
             repository: repo,
             loadPregnancyProgressUseCase: loadProgressUseCase,
             updateLastPeriodDateUseCase: updateDateUseCase,
+            loadPregnancyWeekContentUseCase: loadWeekContentUseCase,
+            loadPregnancyTimelineUseCase: loadTimelineUseCase,
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: reloader
@@ -48,7 +57,7 @@ struct BabyLoadingViewModelTests {
             keyEvents: ["Evento"],
             physiologicalImpact: nil
         )
-        mockRepository.currentWeekContent = weekContent
+        mockLoadWeekContentUseCase.result = weekContent
 
         await viewModel.updateDate(newDate)
 
@@ -59,8 +68,8 @@ struct BabyLoadingViewModelTests {
         #expect(viewModel.estimatedDueDate == dueDate)
         #expect(viewModel.daysRemaining == 5)
         #expect(viewModel.pregnancyWeek == 20)
-        #expect(mockRepository.weekContentCalled)
-        #expect(mockRepository.requestedWeek == 20)
+        #expect(mockLoadWeekContentUseCase.executeCallCount == 1)
+        #expect(mockLoadWeekContentUseCase.requestedWeek == 20)
         #expect(viewModel.currentWeekContent?.babySizeLabel == "un plátano")
 
         #expect(mockReloader.reloadAllTimelinesCalled)
@@ -81,18 +90,21 @@ struct BabyLoadingViewModelTests {
             currentWeek: 20,
             daysUntilDueDate: 140
         )
-        mockRepository.updateContentLanguageHandler = { language in
-            guard language == .spanish else { return }
-            self.mockRepository.currentWeekContent = spanishContent
-            self.mockRepository.allWeekContent = [spanishContent]
-        }
+        let spanishWeekUseCase = MockLoadPregnancyWeekContentUseCase()
+        spanishWeekUseCase.result = spanishContent
+        let spanishTimelineUseCase = MockLoadPregnancyTimelineUseCase()
+        spanishTimelineUseCase.result = [spanishContent]
 
-        let didChangeLanguage = await viewModel.applyContentLanguage(.spanish)
+        let didChangeLanguage = await viewModel.applyContentLanguage(
+            .spanish,
+            loadPregnancyWeekContentUseCase: spanishWeekUseCase,
+            loadPregnancyTimelineUseCase: spanishTimelineUseCase
+        )
 
         #expect(didChangeLanguage)
         #expect(viewModel.appLanguage == .spanish)
-        #expect(mockRepository.updateContentLanguageCalled)
-        #expect(mockRepository.selectedContentLanguage == .spanish)
+        #expect(spanishTimelineUseCase.executeCallCount == 1)
+        #expect(spanishWeekUseCase.requestedWeek == 20)
         #expect(mockLoadProgressUseCase.executeCalled)
         #expect(viewModel.currentWeekContent == spanishContent)
         #expect(viewModel.allWeekContent == [spanishContent])
@@ -114,7 +126,7 @@ struct BabyLoadingViewModelTests {
             keyEvents: ["Growth"],
             physiologicalImpact: nil
         )
-        mockRepository.currentWeekContent = content
+        mockLoadWeekContentUseCase.result = content
         mockLoadProgressUseCase.result = PregnancyProgress(
             lastPeriodDate: lastPeriodDate,
             dueDate: dueDate,
@@ -145,7 +157,7 @@ struct BabyLoadingViewModelTests {
             keyEvents: ["Growth"],
             physiologicalImpact: nil
         )
-        mockRepository.currentWeekContent = content
+        mockLoadWeekContentUseCase.result = content
         mockLoadProgressUseCase.result = PregnancyProgress(
             lastPeriodDate: lastPeriodDate,
             dueDate: dueDate,
@@ -283,6 +295,8 @@ struct BabyLoadingViewModelTests {
             repository: repository,
             loadPregnancyProgressUseCase: MockLoadPregnancyProgressUseCase(),
             updateLastPeriodDateUseCase: MockUpdateLastPeriodDateUseCase(),
+            loadPregnancyWeekContentUseCase: MockLoadPregnancyWeekContentUseCase(),
+            loadPregnancyTimelineUseCase: MockLoadPregnancyTimelineUseCase(),
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: widgetReloader

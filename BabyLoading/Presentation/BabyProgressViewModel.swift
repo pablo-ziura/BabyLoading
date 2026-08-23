@@ -1,6 +1,7 @@
 import AppLocalization
 import Foundation
 import Observation
+import PregnancyContent
 import PregnancyProgress
 
 enum PregnancyProgressViewState: Equatable {
@@ -35,6 +36,8 @@ class BabyProgressViewModel {
     private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     private let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
     private let widgetReloader: WidgetReloaderProtocol
+    private var loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
+    private var loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
 
     var lastBellyTrackingEntry: BellyTrackingEntry? {
@@ -57,6 +60,8 @@ class BabyProgressViewModel {
         repository: BabyProgressRepositoryProtocol,
         loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
         updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol,
+        loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
+        loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol,
         initialLanguage: AppLanguage,
         appVersion: String,
         widgetReloader: WidgetReloaderProtocol
@@ -64,12 +69,14 @@ class BabyProgressViewModel {
         self.repository = repository
         self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
         self.updateLastPeriodDateUseCase = updateLastPeriodDateUseCase
+        self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
+        self.loadPregnancyTimelineUseCase = loadPregnancyTimelineUseCase
         self.widgetReloader = widgetReloader
         appLanguage = initialLanguage
         self.appVersion = appVersion
 
         lastPeriodDate = .now
-        allWeekContent = self.repository.getAllWeekContent()
+        allWeekContent = []
         ultrasoundPhotos = self.repository.fetchUltrasoundPhotos()
         bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
         estimatedDueDate = nil
@@ -83,10 +90,18 @@ class BabyProgressViewModel {
     func reloadProgress(asOf date: Date = .now) async {
         do {
             let progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
-            apply(progress)
+            await apply(progress)
             pregnancyProgressState = .loaded
         } catch {
             pregnancyProgressState = .failed(.loadFailed)
+        }
+    }
+
+    func reloadContent() async {
+        allWeekContent = await loadPregnancyTimelineUseCase.execute()
+
+        if let pregnancyWeek {
+            currentWeekContent = await loadPregnancyWeekContentUseCase.execute(week: pregnancyWeek)
         }
     }
 
@@ -102,14 +117,19 @@ class BabyProgressViewModel {
     }
 
     @discardableResult
-    func applyContentLanguage(_ language: AppLanguage) async -> Bool {
+    func applyContentLanguage(
+        _ language: AppLanguage,
+        loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
+        loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol
+    ) async -> Bool {
         guard language != appLanguage else {
             return false
         }
 
         appLanguage = language
-        repository.updateContentLanguage(language)
-        allWeekContent = repository.getAllWeekContent()
+        self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
+        self.loadPregnancyTimelineUseCase = loadPregnancyTimelineUseCase
+        await reloadContent()
         await reloadProgress()
         return true
     }
@@ -152,7 +172,7 @@ class BabyProgressViewModel {
         bellyTrackingImageDataByEntryID[entry.id]
     }
 
-    private func apply(_ progress: PregnancyProgress?) {
+    private func apply(_ progress: PregnancyProgress?) async {
         guard let progress else {
             estimatedDueDate = nil
             daysRemaining = nil
@@ -165,7 +185,7 @@ class BabyProgressViewModel {
         estimatedDueDate = progress.dueDate
         daysRemaining = progress.daysUntilDueDate
         pregnancyWeek = progress.currentWeek
-        currentWeekContent = repository.weekContent(for: progress.currentWeek)
+        currentWeekContent = await loadPregnancyWeekContentUseCase.execute(week: progress.currentWeek)
     }
 
     private func reloadBellyTrackingState() {

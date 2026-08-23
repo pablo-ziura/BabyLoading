@@ -1,6 +1,6 @@
 import Foundation
 
-enum BabySize: String, CaseIterable, Codable {
+public enum BabySize: String, CaseIterable, Codable, Equatable, Sendable {
     case lentil
     case blueberry
     case raspberry
@@ -38,7 +38,7 @@ enum BabySize: String, CaseIterable, Codable {
     case pumpkin
     case unknown
 
-    var imageName: String {
+    public var imageName: String {
         "img_\(rawValue.lowercased())"
     }
 }
