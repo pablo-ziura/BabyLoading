@@ -4,7 +4,6 @@ extension Coordinator {
     func makeMainTabView() -> some View {
         MainTabView()
             .environment(router)
-            .environment(viewModel)
             .environment(dashboardViewModel)
             .environment(journeyViewModel)
             .environment(galleryViewModel)
