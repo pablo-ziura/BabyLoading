@@ -4,6 +4,7 @@ import Foundation
 import PregnancyContent
 import PregnancyProgress
 import Testing
+import UltrasoundGallery
 
 @MainActor
 struct BabyLoadingViewModelTests {
@@ -11,6 +12,9 @@ struct BabyLoadingViewModelTests {
     private var mockLoadProgressUseCase: MockLoadPregnancyProgressUseCase
     private var mockLoadTimelineUseCase: MockLoadPregnancyTimelineUseCase
     private var mockLoadWeekContentUseCase: MockLoadPregnancyWeekContentUseCase
+    private var mockLoadUltrasoundPhotosUseCase: MockLoadUltrasoundPhotosUseCase
+    private var mockAddUltrasoundPhotoUseCase: MockAddUltrasoundPhotoUseCase
+    private var mockDeleteUltrasoundPhotoUseCase: MockDeleteUltrasoundPhotoUseCase
     private var mockRepository: MockRepository
     private var mockReloader: MockWidgetReloader
     private var mockUpdateDateUseCase: MockUpdateLastPeriodDateUseCase
@@ -19,12 +23,18 @@ struct BabyLoadingViewModelTests {
         let loadProgressUseCase = MockLoadPregnancyProgressUseCase()
         let loadTimelineUseCase = MockLoadPregnancyTimelineUseCase()
         let loadWeekContentUseCase = MockLoadPregnancyWeekContentUseCase()
+        let loadUltrasoundPhotosUseCase = MockLoadUltrasoundPhotosUseCase()
+        let addUltrasoundPhotoUseCase = MockAddUltrasoundPhotoUseCase()
+        let deleteUltrasoundPhotoUseCase = MockDeleteUltrasoundPhotoUseCase()
         let repo = MockRepository()
         let reloader = MockWidgetReloader()
         let updateDateUseCase = MockUpdateLastPeriodDateUseCase()
         mockLoadProgressUseCase = loadProgressUseCase
         mockLoadTimelineUseCase = loadTimelineUseCase
         mockLoadWeekContentUseCase = loadWeekContentUseCase
+        mockLoadUltrasoundPhotosUseCase = loadUltrasoundPhotosUseCase
+        mockAddUltrasoundPhotoUseCase = addUltrasoundPhotoUseCase
+        mockDeleteUltrasoundPhotoUseCase = deleteUltrasoundPhotoUseCase
         mockRepository = repo
         mockReloader = reloader
         mockUpdateDateUseCase = updateDateUseCase
@@ -34,6 +44,9 @@ struct BabyLoadingViewModelTests {
             updateLastPeriodDateUseCase: updateDateUseCase,
             loadPregnancyWeekContentUseCase: loadWeekContentUseCase,
             loadPregnancyTimelineUseCase: loadTimelineUseCase,
+            loadUltrasoundPhotosUseCase: loadUltrasoundPhotosUseCase,
+            addUltrasoundPhotoUseCase: addUltrasoundPhotoUseCase,
+            deleteUltrasoundPhotoUseCase: deleteUltrasoundPhotoUseCase,
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: reloader
@@ -220,17 +233,52 @@ struct BabyLoadingViewModelTests {
     @Test func ultrasoundPhotoOperations_UpdateOnlyUltrasoundState() async throws {
         let fakeData = Data([0x0F, 0x0E, 0x0D])
 
-        viewModel.addUltrasoundPhoto(fakeData)
+        await viewModel.addUltrasoundPhoto(fakeData)
 
         let photo = try #require(viewModel.ultrasoundPhotos.first)
-        #expect(mockRepository.addUltrasoundPhotoCalled)
+        #expect(mockAddUltrasoundPhotoUseCase.executeCallCount == 1)
+        #expect(mockAddUltrasoundPhotoUseCase.addedData == fakeData)
         #expect(photo.data == fakeData)
         #expect(viewModel.bellyTrackingEntries.isEmpty)
+        #expect(viewModel.ultrasoundGalleryState == .loaded)
 
-        viewModel.deleteUltrasoundPhoto(id: photo.id)
+        await viewModel.deleteUltrasoundPhoto(id: photo.id)
 
-        #expect(mockRepository.deleteUltrasoundPhotoCalled)
+        #expect(mockDeleteUltrasoundPhotoUseCase.executeCallCount == 1)
+        #expect(mockDeleteUltrasoundPhotoUseCase.deletedIdentifier == photo.id)
         #expect(viewModel.ultrasoundPhotos.isEmpty)
+        #expect(viewModel.ultrasoundGalleryState == .loaded)
+    }
+
+    @Test func reloadUltrasoundPhotos_WhenLoadingFails_PreservesLastValidState() async throws {
+        let photo = UltrasoundPhoto(id: "existing-photo.jpg", data: Data([0x01]))
+        mockLoadUltrasoundPhotosUseCase.result = [photo]
+        await viewModel.reloadUltrasoundPhotos()
+
+        mockLoadUltrasoundPhotosUseCase.error = MockUltrasoundGalleryError.operationFailed
+        await viewModel.reloadUltrasoundPhotos()
+
+        #expect(mockLoadUltrasoundPhotosUseCase.executeCallCount == 2)
+        #expect(viewModel.ultrasoundPhotos == [photo])
+        #expect(viewModel.ultrasoundGalleryState == .failed(.loadFailed))
+    }
+
+    @Test func ultrasoundMutationFailures_PreserveLastValidState() async throws {
+        let photo = UltrasoundPhoto(id: "existing-photo.jpg", data: Data([0x01]))
+        mockLoadUltrasoundPhotosUseCase.result = [photo]
+        await viewModel.reloadUltrasoundPhotos()
+
+        mockAddUltrasoundPhotoUseCase.error = MockUltrasoundGalleryError.operationFailed
+        await viewModel.addUltrasoundPhoto(Data([0x02]))
+
+        #expect(viewModel.ultrasoundPhotos == [photo])
+        #expect(viewModel.ultrasoundGalleryState == .failed(.addFailed))
+
+        mockDeleteUltrasoundPhotoUseCase.error = MockUltrasoundGalleryError.operationFailed
+        await viewModel.deleteUltrasoundPhoto(id: photo.id)
+
+        #expect(viewModel.ultrasoundPhotos == [photo])
+        #expect(viewModel.ultrasoundGalleryState == .failed(.deleteFailed))
     }
 
     @Test func updateBellyTrackingCadence_UpdatesStateAndStatus() async throws {
@@ -297,6 +345,9 @@ struct BabyLoadingViewModelTests {
             updateLastPeriodDateUseCase: MockUpdateLastPeriodDateUseCase(),
             loadPregnancyWeekContentUseCase: MockLoadPregnancyWeekContentUseCase(),
             loadPregnancyTimelineUseCase: MockLoadPregnancyTimelineUseCase(),
+            loadUltrasoundPhotosUseCase: MockLoadUltrasoundPhotosUseCase(),
+            addUltrasoundPhotoUseCase: MockAddUltrasoundPhotoUseCase(),
+            deleteUltrasoundPhotoUseCase: MockDeleteUltrasoundPhotoUseCase(),
             initialLanguage: .english,
             appVersion: "1.0",
             widgetReloader: widgetReloader

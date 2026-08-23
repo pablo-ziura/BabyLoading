@@ -18,8 +18,3 @@ struct BellyTrackingEntry: Codable, Equatable, Identifiable, Sendable {
         self.pregnancyWeekAtCapture = pregnancyWeekAtCapture
     }
 }
-
-struct UltrasoundPhoto: Identifiable, Equatable, Sendable {
-    let id: String
-    let data: Data
-}

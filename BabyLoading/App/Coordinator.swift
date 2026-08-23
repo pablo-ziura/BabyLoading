@@ -26,6 +26,9 @@ final class Coordinator {
             updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
             loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
             loadPregnancyTimelineUseCase: contentUseCases.loadTimeline,
+            loadUltrasoundPhotosUseCase: dependencyContainer.loadUltrasoundPhotosUseCase,
+            addUltrasoundPhotoUseCase: dependencyContainer.addUltrasoundPhotoUseCase,
+            deleteUltrasoundPhotoUseCase: dependencyContainer.deleteUltrasoundPhotoUseCase,
             initialLanguage: dependencyContainer.initialLanguage,
             appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
             widgetReloader: dependencyContainer.widgetReloader
@@ -35,6 +38,7 @@ final class Coordinator {
     func start() async {
         await viewModel.reloadContent()
         await viewModel.reloadProgress()
+        await viewModel.reloadUltrasoundPhotos()
     }
 
     func reloadContentForCurrentLanguage() async {

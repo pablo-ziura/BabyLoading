@@ -5,35 +5,6 @@ import Testing
 import UIKit
 
 struct MediaStorageContractTests {
-    @Test func ultrasoundGalleryUsesItsDedicatedDirectoryAndFileNameIdentity() throws {
-        let context = try makeContext()
-        defer { cleanup(context) }
-        let imageData = makeJPEGData(color: .systemBlue)
-
-        context.dataSource.addUltrasoundPhoto(data: imageData)
-
-        let galleryURL = context.containerURL.appendingPathComponent("gallery", isDirectory: true)
-        let galleryFiles = try FileManager.default.contentsOfDirectory(
-            at: galleryURL,
-            includingPropertiesForKeys: nil
-        )
-        let storedFileURL = try #require(galleryFiles.onlyElement)
-        let storedPhoto = try #require(context.dataSource.fetchUltrasoundPhotos().onlyElement)
-
-        #expect(storedFileURL.pathExtension == "jpg")
-        #expect(storedPhoto.id == storedFileURL.lastPathComponent)
-        #expect(storedPhoto.data == imageData)
-        #expect(
-            try FileManager.default.contentsOfDirectory(
-                at: context.containerURL,
-                includingPropertiesForKeys: nil
-            ).map(\.lastPathComponent) == ["gallery"]
-        )
-
-        let reloadedDataSource = makeDataSource(context)
-        #expect(reloadedDataSource.fetchUltrasoundPhotos().onlyElement?.id == storedPhoto.id)
-    }
-
     @Test func bellyTrackingPersistsManifestSchemaVersionOneInItsDedicatedDirectory() throws {
         let context = try makeContext()
         defer { cleanup(context) }
@@ -134,13 +105,6 @@ struct MediaStorageContractTests {
                 containerURL: containerURL
             ),
             containerURL: containerURL
-        )
-    }
-
-    private func makeDataSource(_ context: MediaStorageTestContext) -> BabyProgressDataSource {
-        BabyProgressDataSource(
-            fileManager: .default,
-            containerURL: context.containerURL
         )
     }
 

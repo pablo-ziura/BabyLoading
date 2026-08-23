@@ -3,6 +3,7 @@ import Foundation
 import Observation
 import PregnancyContent
 import PregnancyProgress
+import UltrasoundGallery
 
 enum PregnancyProgressViewState: Equatable {
     case idle
@@ -13,6 +14,18 @@ enum PregnancyProgressViewState: Equatable {
 enum PregnancyProgressViewError: Equatable {
     case loadFailed
     case updateFailed
+}
+
+enum UltrasoundGalleryViewState: Equatable {
+    case idle
+    case loaded
+    case failed(UltrasoundGalleryViewError)
+}
+
+enum UltrasoundGalleryViewError: Equatable {
+    case loadFailed
+    case addFailed
+    case deleteFailed
 }
 
 @Observable
@@ -29,6 +42,7 @@ class BabyProgressViewModel {
     var bellyTrackingSettings: BellyTrackingSettings
     var showingPhotoPicker = false
     private(set) var pregnancyProgressState: PregnancyProgressViewState = .idle
+    private(set) var ultrasoundGalleryState: UltrasoundGalleryViewState = .idle
     private(set) var appLanguage: AppLanguage
     let appVersion: String
 
@@ -38,6 +52,9 @@ class BabyProgressViewModel {
     private let widgetReloader: WidgetReloaderProtocol
     private var loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
     private var loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol
+    private let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
+    private let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
+    private let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
     private var bellyTrackingImageDataByEntryID: [UUID: Data] = [:]
 
     var lastBellyTrackingEntry: BellyTrackingEntry? {
@@ -62,6 +79,9 @@ class BabyProgressViewModel {
         updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol,
         loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
         loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol,
+        loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol,
+        addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol,
+        deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol,
         initialLanguage: AppLanguage,
         appVersion: String,
         widgetReloader: WidgetReloaderProtocol
@@ -71,13 +91,15 @@ class BabyProgressViewModel {
         self.updateLastPeriodDateUseCase = updateLastPeriodDateUseCase
         self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
         self.loadPregnancyTimelineUseCase = loadPregnancyTimelineUseCase
+        self.loadUltrasoundPhotosUseCase = loadUltrasoundPhotosUseCase
+        self.addUltrasoundPhotoUseCase = addUltrasoundPhotoUseCase
+        self.deleteUltrasoundPhotoUseCase = deleteUltrasoundPhotoUseCase
         self.widgetReloader = widgetReloader
         appLanguage = initialLanguage
         self.appVersion = appVersion
 
         lastPeriodDate = .now
         allWeekContent = []
-        ultrasoundPhotos = self.repository.fetchUltrasoundPhotos()
         bellyTrackingSettings = self.repository.fetchBellyTrackingSettings()
         estimatedDueDate = nil
         daysRemaining = nil
@@ -136,14 +158,33 @@ class BabyProgressViewModel {
 
     // MARK: - Ultrasound gallery
 
-    func addUltrasoundPhoto(_ data: Data) {
-        repository.addUltrasoundPhoto(data: data)
-        ultrasoundPhotos = repository.fetchUltrasoundPhotos()
+    func reloadUltrasoundPhotos() async {
+        do {
+            ultrasoundPhotos = try await loadUltrasoundPhotosUseCase.execute()
+            ultrasoundGalleryState = .loaded
+        } catch {
+            ultrasoundGalleryState = .failed(.loadFailed)
+        }
     }
 
-    func deleteUltrasoundPhoto(id: String) {
-        repository.deleteUltrasoundPhoto(id: id)
-        ultrasoundPhotos = repository.fetchUltrasoundPhotos()
+    func addUltrasoundPhoto(_ data: Data) async {
+        do {
+            let photo = try await addUltrasoundPhotoUseCase.execute(data: data)
+            ultrasoundPhotos.append(photo)
+            ultrasoundGalleryState = .loaded
+        } catch {
+            ultrasoundGalleryState = .failed(.addFailed)
+        }
+    }
+
+    func deleteUltrasoundPhoto(id: String) async {
+        do {
+            try await deleteUltrasoundPhotoUseCase.execute(id: id)
+            ultrasoundPhotos.removeAll { $0.id == id }
+            ultrasoundGalleryState = .loaded
+        } catch {
+            ultrasoundGalleryState = .failed(.deleteFailed)
+        }
     }
 
     func saveBellyTrackingPhoto(_ data: Data) -> Bool {

@@ -13,7 +13,9 @@
 		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
 		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
 		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
+		6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */; };
 		79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6650DFD0E492D0A0F71539 /* PregnancyContent */; };
+		7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FA0771AB192F2142B1892836 /* UltrasoundGallery */; };
 		8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */; };
 		9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 75223AE41654D5E7AFAE46E2 /* AppLocalization */; };
 		AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = EC3A24870F8A9D5800CB83D5 /* PregnancyContent */; };
@@ -83,18 +85,6 @@
 		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/DependencyContainer.swift,
-				App/WidgetReloader.swift,
-				Data/BabyProgressDataSource.swift,
-				Data/BabyProgressDataSourceProtocol.swift,
-				Data/BabyProgressRepository.swift,
-				Data/BabyProgressRepositoryProtocol.swift,
-				Data/BellyTrackingManifest.swift,
-				Data/Infrastructure/BellyTrackingImageProcessor.swift,
-				Domain/BellyTrackingEntry.swift,
-				Domain/BellyTrackingSettings.swift,
-				Presentation/BabyProgressViewModel.swift,
-				Presentation/Common/BabyLoadingTypography.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -114,7 +104,6 @@
 				Data/Infrastructure/BellyTrackingImageProcessor.swift,
 				Domain/BellyTrackingEntry.swift,
 				Domain/BellyTrackingSettings.swift,
-				Presentation/BabyProgressViewModel.swift,
 				Presentation/Common/BabyLoadingTypography.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
@@ -160,6 +149,7 @@
 				669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */,
 				D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */,
 				79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */,
+				6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +163,7 @@
 				44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */,
 				21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */,
 				B4D56EF4E77BEFE3DFF2FA65 /* PregnancyContent in Frameworks */,
+				7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +247,7 @@
 				21E54CBD2AE3C900CC207895 /* AppLocalization */,
 				1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */,
 				3A6650DFD0E492D0A0F71539 /* PregnancyContent */,
+				FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -286,6 +278,7 @@
 				988DF16458041719A05EB808 /* AppLocalization */,
 				DBA67C2A3FAF854E35322A36 /* PregnancyProgress */,
 				24EE013097D541655B975711 /* PregnancyContent */,
+				FA0771AB192F2142B1892836 /* UltrasoundGallery */,
 			);
 			productName = BabyLoadingTests;
 			productReference = DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */;
@@ -967,9 +960,17 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = PregnancyContent;
 		};
+		FA0771AB192F2142B1892836 /* UltrasoundGallery */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UltrasoundGallery;
+		};
 		FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = BabyLoadingNavigation;
+		};
+		FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UltrasoundGallery;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

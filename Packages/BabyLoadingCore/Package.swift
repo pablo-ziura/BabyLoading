@@ -12,7 +12,8 @@ let package = Package(
         .library(name: "BabyLoadingInfrastructure", targets: ["BabyLoadingInfrastructure"]),
         .library(name: "AppLocalization", targets: ["AppLocalization"]),
         .library(name: "PregnancyProgress", targets: ["PregnancyProgress"]),
-        .library(name: "PregnancyContent", targets: ["PregnancyContent"])
+        .library(name: "PregnancyContent", targets: ["PregnancyContent"]),
+        .library(name: "UltrasoundGallery", targets: ["UltrasoundGallery"])
     ],
     dependencies: [
         .package(path: "../AppPreferences")
@@ -25,6 +26,7 @@ let package = Package(
             dependencies: ["AppPreferences"]
         ),
         .target(name: "PregnancyContent"),
+        .target(name: "UltrasoundGallery"),
         .testTarget(
             name: "BabyLoadingInfrastructureTests",
             dependencies: ["BabyLoadingInfrastructure"]
@@ -40,6 +42,10 @@ let package = Package(
         .testTarget(
             name: "PregnancyContentTests",
             dependencies: ["PregnancyContent"]
+        ),
+        .testTarget(
+            name: "UltrasoundGalleryTests",
+            dependencies: ["UltrasoundGallery"]
         )
     ],
     swiftLanguageModes: [.v6]
