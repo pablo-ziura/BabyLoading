@@ -10,6 +10,7 @@ let package = Package(
     ],
     products: [
         .library(name: "BabyLoadingNavigation", targets: ["BabyLoadingNavigation"]),
+        .library(name: "DashboardFeature", targets: ["DashboardFeature"]),
         .library(name: "JourneyFeature", targets: ["JourneyFeature"]),
         .library(name: "SettingsFeature", targets: ["SettingsFeature"])
     ],
@@ -19,6 +20,15 @@ let package = Package(
     ],
     targets: [
         .target(name: "BabyLoadingNavigation"),
+        .target(
+            name: "DashboardFeature",
+            dependencies: [
+                .product(name: "PregnancyContent", package: "BabyLoadingCore"),
+                .product(name: "PregnancyProgress", package: "BabyLoadingCore"),
+                .product(name: "BabyLoadingDesignComponents", package: "BabyLoadingDesignSystem"),
+                .product(name: "BabyLoadingDesignTokens", package: "BabyLoadingDesignSystem")
+            ]
+        ),
         .target(
             name: "JourneyFeature",
             dependencies: [
@@ -41,6 +51,14 @@ let package = Package(
         .testTarget(
             name: "BabyLoadingNavigationTests",
             dependencies: ["BabyLoadingNavigation"]
+        ),
+        .testTarget(
+            name: "DashboardFeatureTests",
+            dependencies: [
+                "DashboardFeature",
+                .product(name: "PregnancyContent", package: "BabyLoadingCore"),
+                .product(name: "PregnancyProgress", package: "BabyLoadingCore")
+            ]
         ),
         .testTarget(
             name: "JourneyFeatureTests",

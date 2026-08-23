@@ -1,5 +1,6 @@
 import BabyLoadingDesignTokens
 import BabyLoadingNavigation
+import DashboardFeature
 import JourneyFeature
 import SettingsFeature
 import SwiftUI
