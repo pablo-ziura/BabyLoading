@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct JourneyView: View {
-    var viewModel: BabyProgressViewModel
+    @Environment(BabyProgressViewModel.self) private var viewModel
 
     private var currentDayOffset: Int {
         let calendar = Calendar.current
@@ -49,8 +49,10 @@ struct JourneyView: View {
 }
 
 #Preview {
+    let coordinator = Coordinator()
     ZStack {
         GradientBackground()
-        JourneyView(viewModel: Coordinator().viewModel)
+        JourneyView()
+            .environment(coordinator.viewModel)
     }
 }

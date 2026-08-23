@@ -2,13 +2,15 @@ import BabyLoadingNavigation
 import SwiftUI
 
 struct MainTabView: View {
-    @Bindable var router: AppRouter
-    let coordinator: Coordinator
+    @Environment(AppRouter.self) private var router
+    @Environment(BabyProgressViewModel.self) private var viewModel
 
     var body: some View {
+        @Bindable var router = router
+
         TabView(selection: $router.selectedTab) {
             NavigationStack {
-                coordinator.makeDashboardView()
+                DashboardView()
             }
             .tabItem {
                 tabLabel(for: .dashboard)
@@ -16,7 +18,7 @@ struct MainTabView: View {
             .tag(AppTab.dashboard)
 
             NavigationStack {
-                coordinator.makeJourneyView()
+                JourneyView()
             }
             .tabItem {
                 tabLabel(for: .journey)
@@ -24,7 +26,7 @@ struct MainTabView: View {
             .tag(AppTab.journey)
 
             NavigationStack {
-                coordinator.makeGalleryView()
+                GalleryView()
             }
             .tabItem {
                 tabLabel(for: .gallery)
@@ -32,7 +34,7 @@ struct MainTabView: View {
             .tag(AppTab.gallery)
 
             NavigationStack {
-                coordinator.makeSettingsView()
+                SettingsView()
             }
             .tabItem {
                 tabLabel(for: .settings)
@@ -40,17 +42,37 @@ struct MainTabView: View {
             .tag(AppTab.settings)
         }
         .tint(.pink)
+        .fullScreenCover(item: presentedFullScreenDestination) { destination in
+            switch destination {
+            case .bellyTrackingCamera:
+                BellyTrackingCameraView(
+                    referenceImageData: viewModel.lastBellyTrackingImageData,
+                    onPhotoCaptured: { capturedData in
+                        viewModel.saveBellyTrackingPhoto(capturedData)
+                    }
+                )
+            }
+        }
     }
 
     private func tabLabel(for tab: AppTab) -> some View {
         Label(LocalizedStringKey(tab.titleKey), systemImage: tab.systemImage)
     }
+
+    private var presentedFullScreenDestination: Binding<AppFullScreenDestination?> {
+        Binding(
+            get: { router.presentedFullScreenDestination },
+            set: { destination in
+                if let destination {
+                    router.present(destination)
+                } else {
+                    router.dismissFullScreenDestination()
+                }
+            }
+        )
+    }
 }
 
 #Preview {
-    let coordinator = Coordinator()
-    MainTabView(
-        router: coordinator.router,
-        coordinator: coordinator
-    )
+    Coordinator().makeMainTabView()
 }

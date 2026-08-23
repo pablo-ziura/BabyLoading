@@ -3,7 +3,7 @@ import SwiftUI
 struct DashboardView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
-    var viewModel: BabyProgressViewModel
+    @Environment(BabyProgressViewModel.self) private var viewModel
 
     var body: some View {
         ZStack {
@@ -271,8 +271,10 @@ struct DashboardView: View {
 }
 
 #Preview {
+    let coordinator = Coordinator()
     ZStack {
         GradientBackground()
-        DashboardView(viewModel: Coordinator().viewModel)
+        DashboardView()
+            .environment(coordinator.viewModel)
     }
 }
