@@ -60,8 +60,7 @@ final class PregnancyContentRepository: PregnancyContentRepositoryProtocol {
         let fetchDate = now()
 
         if let lastFetchAt = cacheStore.lastFetchAt,
-           fetchDate.timeIntervalSince(lastFetchAt) < refreshInterval
-        {
+           fetchDate.timeIntervalSince(lastFetchAt) < refreshInterval {
             return
         }
 

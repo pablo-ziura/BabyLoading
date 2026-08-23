@@ -329,6 +329,7 @@ private final class PreviewView: UIView {
     }
 
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+        // swiftlint:disable:next force_cast
         layer as! AVCaptureVideoPreviewLayer
     }
 

@@ -47,7 +47,7 @@ struct PhotoLibraryExporter: PhotoLibraryExporterProtocol {
             }
         }
     }
-    
+
     #if canImport(UIKit)
         @MainActor
         private func saveImageToPhotoLibrary(_ image: UIImage) async -> PhotoLibraryExportStatus {
