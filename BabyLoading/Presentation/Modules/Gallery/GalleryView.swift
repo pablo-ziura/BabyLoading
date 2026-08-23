@@ -611,6 +611,6 @@ struct GalleryView: View {
 #Preview {
     ZStack {
         GradientBackground()
-        GalleryView(viewModel: BabyProgressViewModel())
+        GalleryView(viewModel: DependencyContainer.shared.viewModel)
     }
 }

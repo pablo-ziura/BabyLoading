@@ -273,6 +273,6 @@ struct DashboardView: View {
 #Preview {
     ZStack {
         GradientBackground()
-        DashboardView(viewModel: BabyProgressViewModel())
+        DashboardView(viewModel: DependencyContainer.shared.viewModel)
     }
 }
