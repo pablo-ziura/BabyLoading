@@ -23,10 +23,12 @@ struct BabyLoadingTypographyTests {
         let registeredNunitoFaces = UIFont.familyNames
             .filter { $0.localizedCaseInsensitiveContains("nunito") }
             .flatMap(UIFont.fontNames(forFamilyName:))
+        let missingFaceNames = missingFaces.joined(separator: ", ")
+        let registeredFaceNames = registeredNunitoFaces.joined(separator: ", ")
 
         #expect(
             missingFaces.isEmpty,
-            "Nunito Sans faces were not registered: \(missingFaces.joined(separator: ", ")). Registered Nunito faces: \(registeredNunitoFaces.joined(separator: ", "))"
+            "Missing Nunito Sans faces: \(missingFaceNames). Registered: \(registeredFaceNames)"
         )
     }
 }
