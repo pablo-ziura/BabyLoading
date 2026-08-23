@@ -1,4 +1,5 @@
 import Foundation
+import PregnancyContent
 import WidgetKit
 
 struct SimpleEntry: TimelineEntry {

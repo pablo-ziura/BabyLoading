@@ -1,11 +1,6 @@
-import AppLocalization
 import Foundation
 
 protocol BabyProgressRepositoryProtocol {
-    func weekContent(for week: Int) -> WeekContent?
-    func getAllWeekContent() -> [WeekContent]
-    func currentContentSnapshot() -> PregnancyContentDocument
-    func updateContentLanguage(_ language: AppLanguage)
     // Ultrasound gallery
     func addUltrasoundPhoto(data: Data)
     func fetchUltrasoundPhotos() -> [UltrasoundPhoto]

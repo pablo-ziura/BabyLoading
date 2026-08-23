@@ -1,48 +1,10 @@
-import AppLocalization
 import Foundation
 
 class BabyProgressRepository: BabyProgressRepositoryProtocol {
     private let dataSource: BabyProgressDataSourceProtocol
-    private let contentRepositoryFactory: PregnancyContentRepositoryFactoryProtocol?
-    private var contentRepository: PregnancyContentRepositoryProtocol
 
-    init(
-        dataSource: BabyProgressDataSourceProtocol,
-        contentRepository: PregnancyContentRepositoryProtocol
-    ) {
+    init(dataSource: BabyProgressDataSourceProtocol) {
         self.dataSource = dataSource
-        self.contentRepository = contentRepository
-        contentRepositoryFactory = nil
-    }
-
-    init(
-        dataSource: BabyProgressDataSourceProtocol,
-        contentRepositoryFactory: PregnancyContentRepositoryFactoryProtocol,
-        initialLanguage: AppLanguage
-    ) {
-        self.dataSource = dataSource
-        self.contentRepositoryFactory = contentRepositoryFactory
-        contentRepository = contentRepositoryFactory.makeRepository(for: initialLanguage)
-    }
-
-    func weekContent(for week: Int) -> WeekContent? {
-        return contentRepository.weekContent(for: week)
-    }
-
-    func getAllWeekContent() -> [WeekContent] {
-        contentRepository.allWeekContent()
-    }
-
-    func currentContentSnapshot() -> PregnancyContentDocument {
-        contentRepository.currentSnapshot()
-    }
-
-    func updateContentLanguage(_ language: AppLanguage) {
-        guard let contentRepositoryFactory else {
-            return
-        }
-
-        contentRepository = contentRepositoryFactory.makeRepository(for: language)
     }
 
     // MARK: - Ultrasound gallery

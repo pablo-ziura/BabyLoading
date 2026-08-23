@@ -1,4 +1,5 @@
 import Foundation
+import PregnancyContent
 import SwiftUI
 
 struct WeekRow: View {

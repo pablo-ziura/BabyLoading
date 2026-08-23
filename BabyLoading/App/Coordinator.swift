@@ -14,6 +14,9 @@ final class Coordinator {
 
     init() {
         let dependencyContainer = DependencyContainer()
+        let contentUseCases = dependencyContainer.makePregnancyContentUseCases(
+            for: dependencyContainer.initialLanguage
+        )
 
         self.dependencyContainer = dependencyContainer
         router = AppRouter()
@@ -21,6 +24,8 @@ final class Coordinator {
             repository: dependencyContainer.repository,
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
+            loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
+            loadPregnancyTimelineUseCase: contentUseCases.loadTimeline,
             initialLanguage: dependencyContainer.initialLanguage,
             appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
             widgetReloader: dependencyContainer.widgetReloader
@@ -28,6 +33,7 @@ final class Coordinator {
     }
 
     func start() async {
+        await viewModel.reloadContent()
         await viewModel.reloadProgress()
     }
 
@@ -35,8 +41,16 @@ final class Coordinator {
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
             preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
         )
+        guard language != viewModel.appLanguage else {
+            return
+        }
 
-        guard await viewModel.applyContentLanguage(language) else {
+        let contentUseCases = dependencyContainer.makePregnancyContentUseCases(for: language)
+        guard await viewModel.applyContentLanguage(
+            language,
+            loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
+            loadPregnancyTimelineUseCase: contentUseCases.loadTimeline
+        ) else {
             return
         }
 

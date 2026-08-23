@@ -1,4 +1,5 @@
 import AppLocalization
+import PregnancyContent
 import SwiftUI
 import WidgetKit
 

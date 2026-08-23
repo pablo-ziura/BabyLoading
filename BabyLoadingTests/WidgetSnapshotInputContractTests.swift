@@ -1,5 +1,6 @@
 @testable import BabyLoading
 import Foundation
+import PregnancyContent
 import PregnancyProgress
 import Testing
 
@@ -20,8 +21,6 @@ struct WidgetSnapshotInputContractTests {
             repository: progressRepository,
             calendar: calendar
         )
-        let dataSource = MockDataSource()
-        let contentRepository = MockPregnancyContentRepository()
         let weekContent = WeekContent(
             week: 20,
             babySize: .sweetPotato,
@@ -30,22 +29,21 @@ struct WidgetSnapshotInputContractTests {
             keyEvents: ["Growth"],
             physiologicalImpact: "More energy"
         )
-        contentRepository.snapshot = PregnancyContentDocument(
-            schemaVersion: 1,
-            locale: "en",
-            revision: 1,
-            weeks: [weekContent]
+        let contentRepository = WidgetSnapshotContentRepository(
+            snapshot: PregnancyContentDocument(
+                schemaVersion: 1,
+                locale: "en",
+                revision: 1,
+                weeks: [weekContent]
+            )
         )
-        let contentAndMediaRepository = BabyProgressRepository(
-            dataSource: dataSource,
-            contentRepository: contentRepository
-        )
+        let loadWeekContentUseCase = LoadPregnancyWeekContentUseCase(repository: contentRepository)
 
         let progress = try #require(
             try await loadProgressUseCase.execute(asOf: snapshotDate)
         )
         let currentWeekContent = try #require(
-            contentAndMediaRepository.weekContent(for: progress.currentWeek)
+            await loadWeekContentUseCase.execute(week: progress.currentWeek)
         )
 
         #expect(progress.lastPeriodDate == lastPeriodDate)
@@ -53,6 +51,26 @@ struct WidgetSnapshotInputContractTests {
         #expect(progress.currentWeek == 20)
         #expect(currentWeekContent.babySize == .sweetPotato)
         #expect(currentWeekContent.babySizeLabel == "a sweet potato")
+    }
+}
+
+private actor WidgetSnapshotContentRepository: PregnancyContentRepositoryProtocol {
+    private let snapshot: PregnancyContentDocument
+
+    init(snapshot: PregnancyContentDocument) {
+        self.snapshot = snapshot
+    }
+
+    func currentSnapshot() -> PregnancyContentDocument {
+        snapshot
+    }
+
+    func weekContent(for week: Int) -> WeekContent? {
+        snapshot.weeks.first { $0.week == week }
+    }
+
+    func allWeekContent() -> [WeekContent] {
+        snapshot.weeks
     }
 }
 

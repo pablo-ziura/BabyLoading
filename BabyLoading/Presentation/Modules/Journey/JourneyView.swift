@@ -1,3 +1,4 @@
+import PregnancyContent
 import SwiftUI
 
 struct JourneyView: View {

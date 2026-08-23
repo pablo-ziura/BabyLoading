@@ -1,6 +1,7 @@
 import AppLocalization
 import Foundation
 import OSLog
+import PregnancyContent
 import PregnancyProgress
 import WidgetKit
 
@@ -11,17 +12,17 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         category: "PregnancyProgress"
     )
 
-    private let repository: BabyProgressRepositoryProtocol
     private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
+    private let loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
     private let language: AppLanguage
 
     init(
-        repository: BabyProgressRepositoryProtocol,
         loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
+        loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
         language: AppLanguage
     ) {
-        self.repository = repository
         self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
+        self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
         self.language = language
     }
 
@@ -70,7 +71,7 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         }
 
         let week = progress?.currentWeek ?? 0
-        let weekContent = repository.weekContent(for: week)
+        let weekContent = await loadPregnancyWeekContentUseCase.execute(week: week)
 
         return SimpleEntry(
             date: date,
