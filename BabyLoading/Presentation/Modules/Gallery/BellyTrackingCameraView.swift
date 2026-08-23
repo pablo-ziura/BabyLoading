@@ -1,4 +1,3 @@
-import AVFoundation
 import BabyLoadingDesignTokens
 import SwiftUI
 #if canImport(UIKit)
@@ -22,7 +21,12 @@ struct BellyTrackingCameraView: View {
     ) {
         self.referenceImageData = referenceImageData
         self.onPhotoCaptured = onPhotoCaptured
-        _viewModel = State(initialValue: BellyTrackingCameraViewModel(hasReferenceImage: referenceImageData != nil))
+        _viewModel = State(
+            initialValue: BellyTrackingCameraViewModel(
+                hasReferenceImage: referenceImageData != nil,
+                captureService: BellyTrackingCaptureService()
+            )
+        )
     }
 
     var body: some View {
@@ -60,7 +64,9 @@ struct BellyTrackingCameraView: View {
             await viewModel.prepareSession()
         }
         .onDisappear {
-            viewModel.stopSession()
+            Task {
+                await viewModel.stopSession()
+            }
         }
         .alert(
             String(
@@ -91,9 +97,8 @@ struct BellyTrackingCameraView: View {
             .size(in: proxy.size)
 
             ZStack {
-                CameraPreviewView(
-                    session: viewModel.session,
-                    cameraDevice: viewModel.cameraDevice,
+                BellyTrackingCameraPreview(
+                    source: viewModel.previewSource,
                     captureRotationAngle: $captureRotationAngle
                 )
                     .frame(width: guideSize.width, height: guideSize.height)
@@ -282,94 +287,6 @@ struct BellyTrackingCameraView: View {
         #endif
     }
 
-}
-
-private struct CameraPreviewView: UIViewRepresentable {
-    let session: AVCaptureSession
-    let cameraDevice: AVCaptureDevice?
-    @Binding var captureRotationAngle: CGFloat
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(captureRotationAngle: $captureRotationAngle)
-    }
-
-    func makeUIView(context: Context) -> PreviewView {
-        let view = PreviewView()
-        view.videoPreviewLayer.videoGravity = .resizeAspectFill
-        view.onCaptureRotationAngleChanged = { [weak coordinator = context.coordinator] rotationAngle in
-            DispatchQueue.main.async {
-                guard let coordinator else { return }
-
-                if coordinator.captureRotationAngle.wrappedValue != rotationAngle {
-                    coordinator.captureRotationAngle.wrappedValue = rotationAngle
-                }
-            }
-        }
-        view.configure(session: session, cameraDevice: cameraDevice)
-        return view
-    }
-
-    func updateUIView(_ uiView: PreviewView, context: Context) {
-        context.coordinator.captureRotationAngle = $captureRotationAngle
-        uiView.configure(session: session, cameraDevice: cameraDevice)
-    }
-
-    final class Coordinator {
-        var captureRotationAngle: Binding<CGFloat>
-
-        init(captureRotationAngle: Binding<CGFloat>) {
-            self.captureRotationAngle = captureRotationAngle
-        }
-    }
-}
-
-private final class PreviewView: UIView {
-    var onCaptureRotationAngleChanged: ((CGFloat) -> Void)?
-    private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
-
-    override class var layerClass: AnyClass {
-        AVCaptureVideoPreviewLayer.self
-    }
-
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer {
-        // swiftlint:disable:next force_cast
-        layer as! AVCaptureVideoPreviewLayer
-    }
-
-    func configure(
-        session: AVCaptureSession,
-        cameraDevice: AVCaptureDevice?
-    ) {
-        videoPreviewLayer.session = session
-
-        if rotationCoordinator == nil, let cameraDevice {
-            rotationCoordinator = AVCaptureDevice.RotationCoordinator(
-                device: cameraDevice,
-                previewLayer: videoPreviewLayer
-            )
-        }
-
-        updatePreviewGeometry()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updatePreviewGeometry()
-    }
-
-    private func updatePreviewGeometry() {
-        guard !bounds.isEmpty else { return }
-
-        let previewRotationAngle = rotationCoordinator?.videoRotationAngleForHorizonLevelPreview ?? 0
-        if let connection = videoPreviewLayer.connection,
-           connection.isVideoRotationAngleSupported(previewRotationAngle) {
-            connection.videoRotationAngle = previewRotationAngle
-        }
-
-        let captureRotationAngle = rotationCoordinator?.videoRotationAngleForHorizonLevelCapture ?? 0
-        onCaptureRotationAngleChanged?(captureRotationAngle)
-    }
 }
 
 private struct BellyTrackingGridOverlay: Shape {
