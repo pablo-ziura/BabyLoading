@@ -26,7 +26,6 @@ struct BabyLoadingRepositoryTests {
         #expect(savedEntry != nil)
         #expect(mockDataSource.storedBellyTrackingEntries.count == 1)
         #expect(mockDataSource.storedBellyTrackingImages[savedEntry?.imageFileName ?? ""] == data)
-        #expect(mockDataSource.storedUltrasoundPhotos.isEmpty)
     }
 
     @Test func deleteBellyTrackingEntry_RemovesSavedEntry() {
@@ -43,21 +42,5 @@ struct BabyLoadingRepositoryTests {
         #expect(mockDataSource.deleteBellyTrackingEntryCalled)
         #expect(mockDataSource.storedBellyTrackingEntries.isEmpty)
         #expect(mockDataSource.storedBellyTrackingImages[entry.imageFileName] == nil)
-    }
-
-    @Test func ultrasoundPhotoOperationsRemainSeparateFromBellyTracking() throws {
-        let data = Data([0x01, 0x02, 0x03])
-
-        repository.addUltrasoundPhoto(data: data)
-
-        #expect(mockDataSource.addUltrasoundPhotoCalled)
-        #expect(mockDataSource.storedBellyTrackingEntries.isEmpty)
-        let photo = try #require(repository.fetchUltrasoundPhotos().first)
-        #expect(photo.data == data)
-
-        repository.deleteUltrasoundPhoto(id: photo.id)
-
-        #expect(mockDataSource.deleteUltrasoundPhotoCalled)
-        #expect(repository.fetchUltrasoundPhotos().isEmpty)
     }
 }

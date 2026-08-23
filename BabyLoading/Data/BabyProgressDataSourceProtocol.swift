@@ -1,11 +1,6 @@
 import Foundation
 
 protocol BabyProgressDataSourceProtocol {
-    // Ultrasound gallery
-    func addUltrasoundPhoto(data: Data)
-    func fetchUltrasoundPhotos() -> [UltrasoundPhoto]
-    func deleteUltrasoundPhoto(id: String)
-
     // Belly tracking
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry]
     func fetchBellyTrackingImageData(for imageFileName: String) -> Data?

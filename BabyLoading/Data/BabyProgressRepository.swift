@@ -7,20 +7,6 @@ class BabyProgressRepository: BabyProgressRepositoryProtocol {
         self.dataSource = dataSource
     }
 
-    // MARK: - Ultrasound gallery
-
-    func addUltrasoundPhoto(data: Data) {
-        dataSource.addUltrasoundPhoto(data: data)
-    }
-
-    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
-        dataSource.fetchUltrasoundPhotos()
-    }
-
-    func deleteUltrasoundPhoto(id: String) {
-        dataSource.deleteUltrasoundPhoto(id: id)
-    }
-
     // MARK: - Belly tracking
 
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry] {

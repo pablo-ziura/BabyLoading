@@ -3,7 +3,6 @@ import Foundation
 class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private let fileManager: FileManager
     private let containerURL: URL
-    private let photosDirName = "gallery"
     private let bellyTrackingDirName = "belly-tracking"
     private let bellyTrackingManifestFileName = "manifest.json"
     private let jsonEncoder: JSONEncoder
@@ -26,12 +25,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
         jsonDecoder = decoder
     }
 
-    private var photosDirURL: URL? {
-        let dir = containerURL.appendingPathComponent(photosDirName)
-        ensureDirectoryExists(at: dir)
-        return dir
-    }
-
     private var bellyTrackingDirURL: URL? {
         let dir = containerURL.appendingPathComponent(bellyTrackingDirName)
         ensureDirectoryExists(at: dir)
@@ -45,46 +38,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
     private func ensureDirectoryExists(at url: URL) {
         guard !fileManager.fileExists(atPath: url.path) else { return }
         try? fileManager.createDirectory(at: url, withIntermediateDirectories: true)
-    }
-
-    // MARK: - Ultrasound gallery
-
-    func addUltrasoundPhoto(data: Data) {
-        _ = storeUltrasoundPhoto(data: data)
-    }
-
-    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
-        guard let dir = photosDirURL else { return [] }
-        do {
-            let files = try fileManager.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.creationDateKey])
-                .sorted { a, b in
-                    let dateA = (try? a.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
-                    let dateB = (try? b.resourceValues(forKeys: [.creationDateKey]))?.creationDate ?? .distantPast
-                    return dateA < dateB
-                }
-            return files.compactMap { url in
-                guard let data = try? Data(contentsOf: url) else { return nil }
-                return UltrasoundPhoto(id: url.lastPathComponent, data: data)
-            }
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to read ultrasound gallery: \(error)")
-            return []
-        }
-    }
-
-    func deleteUltrasoundPhoto(id: String) {
-        guard let dir = photosDirURL else { return }
-        guard id == URL(fileURLWithPath: id).lastPathComponent else { return }
-
-        let photoURL = dir.appendingPathComponent(id)
-        guard fileManager.fileExists(atPath: photoURL.path) else { return }
-
-        do {
-            try fileManager.removeItem(at: photoURL)
-            print("🗑️ [BabyProgressDataSource] Ultrasound photo deleted")
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to delete ultrasound photo: \(error)")
-        }
     }
 
     // MARK: - Belly tracking
@@ -224,26 +177,6 @@ class BabyProgressDataSource: BabyProgressDataSourceProtocol {
         } catch {
             print("⚠️ [BabyProgressDataSource] Failed to save belly tracking manifest: \(error)")
             return false
-        }
-    }
-
-    @discardableResult
-    private func storeUltrasoundPhoto(data: Data, fileExtension: String = "jpg") -> URL? {
-        guard let dir = photosDirURL else {
-            print("⚠️ [BabyProgressDataSource] No gallery directory")
-            return nil
-        }
-
-        let filename = "\(UUID().uuidString).\(fileExtension)"
-        let url = dir.appendingPathComponent(filename)
-
-        do {
-            try data.write(to: url, options: .atomic)
-            print("💾 [BabyProgressDataSource] Ultrasound photo saved (\(data.count) bytes)")
-            return url
-        } catch {
-            print("⚠️ [BabyProgressDataSource] Failed to save ultrasound photo: \(error)")
-            return nil
         }
     }
 }

@@ -2,34 +2,15 @@
 import Foundation
 
 class MockDataSource: BabyProgressDataSourceProtocol {
-    var storedUltrasoundPhotos: [UltrasoundPhoto] = []
     var storedBellyTrackingEntries: [BellyTrackingEntry] = []
     var storedBellyTrackingImages: [String: Data] = [:]
     var storedBellyTrackingSettings = BellyTrackingSettings.default
-    var addUltrasoundPhotoCalled = false
-    var fetchUltrasoundPhotosCalled = false
-    var deleteUltrasoundPhotoCalled = false
     var fetchBellyTrackingEntriesCalled = false
     var fetchBellyTrackingImageDataCalled = false
     var saveBellyTrackingPhotoCalled = false
     var deleteBellyTrackingEntryCalled = false
     var fetchBellyTrackingSettingsCalled = false
     var saveBellyTrackingSettingsCalled = false
-
-    func addUltrasoundPhoto(data: Data) {
-        addUltrasoundPhotoCalled = true
-        storedUltrasoundPhotos.append(UltrasoundPhoto(id: UUID().uuidString, data: data))
-    }
-
-    func fetchUltrasoundPhotos() -> [UltrasoundPhoto] {
-        fetchUltrasoundPhotosCalled = true
-        return storedUltrasoundPhotos
-    }
-
-    func deleteUltrasoundPhoto(id: String) {
-        deleteUltrasoundPhotoCalled = true
-        storedUltrasoundPhotos.removeAll { $0.id == id }
-    }
 
     func fetchBellyTrackingEntries() -> [BellyTrackingEntry] {
         fetchBellyTrackingEntriesCalled = true

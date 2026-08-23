@@ -29,27 +29,6 @@ struct BellyTrackingDataSourceTests {
         #expect(reloadedDataSource.fetchBellyTrackingEntries() == [entry])
         #expect(entry.imageFileName.hasSuffix(".jpg"))
         #expect(reloadedDataSource.fetchBellyTrackingImageData(for: entry.imageFileName) == imageData)
-        #expect(reloadedDataSource.fetchUltrasoundPhotos().isEmpty)
-    }
-
-    @Test func ultrasoundPhotosPersistAndDeleteByStableIdentifier() throws {
-        let context = try makeContext()
-        defer { cleanup(context) }
-
-        let firstImageData = makeImageData(color: .systemBlue)
-        let secondImageData = makeImageData(color: .systemGreen)
-        context.dataSource.addUltrasoundPhoto(data: firstImageData)
-        context.dataSource.addUltrasoundPhoto(data: secondImageData)
-
-        let photos = context.dataSource.fetchUltrasoundPhotos()
-        #expect(photos.map(\.data) == [firstImageData, secondImageData])
-
-        let firstPhoto = try #require(photos.first)
-        context.dataSource.deleteUltrasoundPhoto(id: firstPhoto.id)
-
-        let reloadedDataSource = makeDataSource(context: context)
-        #expect(reloadedDataSource.fetchUltrasoundPhotos().map(\.data) == [secondImageData])
-        #expect(reloadedDataSource.fetchBellyTrackingEntries().isEmpty)
     }
 
     @Test func bellyTrackingEntriesAreReturnedInChronologicalOrder() throws {

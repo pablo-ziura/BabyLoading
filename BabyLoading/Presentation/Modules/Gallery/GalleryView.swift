@@ -1,6 +1,7 @@
 import BabyLoadingNavigation
 import PhotosUI
 import SwiftUI
+import UltrasoundGallery
 #if canImport(UIKit)
     import UIKit
 #endif
@@ -305,8 +306,8 @@ struct GalleryView: View {
                                 .shadow(color: .black.opacity(0.12), radius: 8, y: 4)
 
                             Button {
-                                withAnimation(.spring(duration: 0.3)) {
-                                    viewModel.deleteUltrasoundPhoto(id: photo.id)
+                                Task {
+                                    await viewModel.deleteUltrasoundPhoto(id: photo.id)
                                 }
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
@@ -355,6 +356,7 @@ struct GalleryView: View {
                 }
                 .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
             }
+            .animation(.spring(duration: 0.3), value: viewModel.ultrasoundPhotos.map(\.id))
 
             if viewModel.ultrasoundPhotos.isEmpty {
                 VStack(spacing: 8) {
@@ -488,16 +490,10 @@ struct GalleryView: View {
         Task {
             for item in items {
                 if let data = try? await item.loadTransferable(type: Data.self) {
-                    await MainActor.run {
-                        withAnimation(.spring(duration: 0.4)) {
-                            viewModel.addUltrasoundPhoto(data)
-                        }
-                    }
+                    await viewModel.addUltrasoundPhoto(data)
                 }
             }
-            await MainActor.run {
-                selectedItems = []
-            }
+            selectedItems = []
         }
     }
 

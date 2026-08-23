@@ -4,6 +4,7 @@ import BabyLoadingInfrastructure
 import Foundation
 import PregnancyContent
 import PregnancyProgress
+import UltrasoundGallery
 
 @MainActor
 final class DependencyContainer {
@@ -14,6 +15,9 @@ final class DependencyContainer {
     let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
     let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
+    let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
+    let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
+    let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
     let initialLanguage: AppLanguage
 
     private let contentBundle: Bundle
@@ -40,6 +44,8 @@ final class DependencyContainer {
 
         let pregnancyProgressStore = PregnancyProgressStore(preferencesStore: preferencesStore)
         let pregnancyProgressRepository = PregnancyProgressRepository(store: pregnancyProgressStore)
+        let ultrasoundGalleryStore = UltrasoundGalleryStore(containerURL: containerURL)
+        let ultrasoundGalleryRepository = UltrasoundGalleryRepository(store: ultrasoundGalleryStore)
 
         dataSource = BabyProgressDataSource(fileManager: fileManager, containerURL: containerURL)
         repository = BabyProgressRepository(dataSource: dataSource)
@@ -54,6 +60,15 @@ final class DependencyContainer {
         )
         updateLastPeriodDateUseCase = UpdateLastPeriodDateUseCase(
             repository: pregnancyProgressRepository
+        )
+        loadUltrasoundPhotosUseCase = LoadUltrasoundPhotosUseCase(
+            repository: ultrasoundGalleryRepository
+        )
+        addUltrasoundPhotoUseCase = AddUltrasoundPhotoUseCase(
+            repository: ultrasoundGalleryRepository
+        )
+        deleteUltrasoundPhotoUseCase = DeleteUltrasoundPhotoUseCase(
+            repository: ultrasoundGalleryRepository
         )
         self.initialLanguage = initialLanguage
         contentBundle = .main
