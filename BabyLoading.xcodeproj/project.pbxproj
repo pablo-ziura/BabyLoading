@@ -359,7 +359,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */,
-				B10000000000000000000022 /* XCLocalSwiftPackageReference "Packages/AppNetwork" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -831,10 +830,6 @@
 		B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/AppPreferences;
-		};
-		B10000000000000000000022 /* XCLocalSwiftPackageReference "Packages/AppNetwork" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/AppNetwork;
 		};
 /* End XCLocalSwiftPackageReference section */
 
