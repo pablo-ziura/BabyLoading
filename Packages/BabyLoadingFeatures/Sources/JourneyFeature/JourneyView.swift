@@ -1,9 +1,51 @@
+import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
-import Foundation
 import PregnancyContent
 import SwiftUI
 
-struct WeekRow: View {
+public struct JourneyView: View {
+    @Environment(JourneyViewModel.self) private var viewModel
+
+    public init() {}
+
+    public var body: some View {
+        ZStack {
+            GradientBackground()
+
+            ScrollView {
+                VStack(spacing: 0) {
+                    Text("journey.title")
+                        .font(BabyLoadingTypography.text(.title2, weight: .bold))
+                        .foregroundStyle(.primary)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
+                        .padding(.top, BabyLoadingSpacing.large)
+                        .padding(.bottom, BabyLoadingSpacing.medium)
+
+                    LazyVStack(spacing: 0) {
+                        ForEach(viewModel.pregnancyTimeline) { content in
+                            let isCurrent = viewModel.progress?.currentWeek == content.week
+
+                            JourneyWeekRow(
+                                content: content,
+                                isCurrent: isCurrent,
+                                currentWeek: viewModel.progress?.currentWeek,
+                                currentDayOffset: viewModel.currentDayOffset()
+                            )
+                        }
+                    }
+                    .padding(.horizontal)
+
+                    Spacer(minLength: 100)
+                }
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+}
+
+private struct JourneyWeekRow: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
 
@@ -29,14 +71,13 @@ struct WeekRow: View {
     var body: some View {
         HStack(spacing: BabyLoadingSpacing.medium) {
             timeline
-
             rowCard
         }
     }
 
     private var timeline: some View {
         VStack(spacing: 0) {
-            TimelineDaySegment(
+            JourneyTimelineDaySegment(
                 dayCount: 3,
                 highlightedDayIndex: highlightedTopDay
             )
@@ -55,7 +96,7 @@ struct WeekRow: View {
                     }
                 }
 
-            TimelineDaySegment(
+            JourneyTimelineDaySegment(
                 dayCount: 4,
                 highlightedDayIndex: highlightedBottomDay
             )
@@ -69,7 +110,6 @@ struct WeekRow: View {
             if dynamicTypeSize.isAccessibilitySize {
                 VStack(alignment: .leading, spacing: 12) {
                     rowMainContent
-
                     if isCurrent {
                         currentWeekBadge
                     }
@@ -77,9 +117,7 @@ struct WeekRow: View {
             } else {
                 HStack(spacing: 12) {
                     rowMainContent
-
                     Spacer(minLength: 12)
-
                     if isCurrent {
                         currentWeekBadge
                     }
@@ -90,10 +128,7 @@ struct WeekRow: View {
         .padding(.horizontal, 14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(
-                cornerRadius: BabyLoadingShape.timelineCardCornerRadius,
-                style: .continuous
-            )
+            RoundedRectangle(cornerRadius: BabyLoadingShape.timelineCardCornerRadius, style: .continuous)
                 .fill(
                     isCurrent
                         ? BabyLoadingColors.primaryCardSurface
@@ -129,22 +164,13 @@ struct WeekRow: View {
                     .accessibilityHidden(true)
 
                 Circle()
-                    .strokeBorder(
-                        BabyLoadingColors.selectionAccent.opacity(0.2),
-                        lineWidth: 1.5
-                    )
+                    .strokeBorder(BabyLoadingColors.selectionAccent.opacity(0.2), lineWidth: 1.5)
                     .frame(width: 40, height: 40)
             }
             .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(
-                    String(
-                        format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
-                        locale: locale,
-                        content.week
-                    )
-                )
+                Text(weekLabel)
                     .font(
                         BabyLoadingTypography.text(
                             .headline,
@@ -155,19 +181,7 @@ struct WeekRow: View {
                 Text(content.babySizeLabel.capitalized(with: locale))
                     .font(BabyLoadingTypography.text(.caption))
                     .foregroundStyle(.secondary)
-                    .accessibilityLabel(
-                        Text(
-                            String(
-                                format: String(
-                                    localized: "dashboard.babySize",
-                                    defaultValue: "Your baby is now about the size of %@",
-                                    locale: locale
-                                ),
-                                locale: locale,
-                                content.babySizeLabel
-                            )
-                        )
-                    )
+                    .accessibilityLabel(Text(babySizeAccessibilityLabel))
             }
         }
     }
@@ -193,9 +207,29 @@ struct WeekRow: View {
             )
             .accessibilityHidden(true)
     }
+
+    private var weekLabel: String {
+        String(
+            format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
+            locale: locale,
+            content.week
+        )
+    }
+
+    private var babySizeAccessibilityLabel: String {
+        String(
+            format: String(
+                localized: "dashboard.babySize",
+                defaultValue: "Your baby is now about the size of %@",
+                locale: locale
+            ),
+            locale: locale,
+            content.babySizeLabel
+        )
+    }
 }
 
-private struct TimelineDaySegment: View {
+private struct JourneyTimelineDaySegment: View {
     let dayCount: Int
     let highlightedDayIndex: Int?
 

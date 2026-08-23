@@ -25,6 +25,7 @@
 		9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 75223AE41654D5E7AFAE46E2 /* AppLocalization */; };
 		AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = EC3A24870F8A9D5800CB83D5 /* PregnancyContent */; };
 		AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */; };
+		AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E261BB58408C4E903B6FE784 /* JourneyFeature */; };
 		B10000000000000000000001 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000011 /* AppPreferences */; };
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
@@ -151,6 +152,7 @@
 				E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */,
 				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
 				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
+				AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +258,7 @@
 				9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */,
 				8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */,
 				4BB3FF04E2E98901D78846AB /* SettingsFeature */,
+				E261BB58408C4E903B6FE784 /* JourneyFeature */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -995,6 +998,10 @@
 		DBA67C2A3FAF854E35322A36 /* PregnancyProgress */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PregnancyProgress;
+		};
+		E261BB58408C4E903B6FE784 /* JourneyFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = JourneyFeature;
 		};
 		EC3A24870F8A9D5800CB83D5 /* PregnancyContent */ = {
 			isa = XCSwiftPackageProductDependency;
