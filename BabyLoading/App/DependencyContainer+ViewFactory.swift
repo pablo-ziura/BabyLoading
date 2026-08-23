@@ -7,6 +7,7 @@ extension Coordinator {
             .environment(viewModel)
             .environment(dashboardViewModel)
             .environment(journeyViewModel)
+            .environment(galleryViewModel)
             .environment(settingsViewModel)
     }
 }

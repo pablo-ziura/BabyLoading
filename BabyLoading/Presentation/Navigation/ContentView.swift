@@ -7,7 +7,7 @@ import SwiftUI
 
 struct MainTabView: View {
     @Environment(AppRouter.self) private var router
-    @Environment(BabyProgressViewModel.self) private var viewModel
+    @Environment(GalleryViewModel.self) private var galleryViewModel
 
     var body: some View {
         @Bindable var router = router
@@ -50,9 +50,9 @@ struct MainTabView: View {
             switch destination {
             case .bellyTrackingCamera:
                 BellyTrackingCameraView(
-                    referenceImageData: viewModel.lastBellyTrackingImageData,
+                    referenceImageData: galleryViewModel.lastBellyTrackingImageData,
                     onPhotoCaptured: { capturedData in
-                        await viewModel.saveBellyTrackingPhoto(capturedData)
+                        await galleryViewModel.saveCapturedBellyTrackingPhoto(capturedData)
                     }
                 )
             }

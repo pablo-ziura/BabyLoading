@@ -14,6 +14,7 @@ final class Coordinator {
     let viewModel: BabyProgressViewModel
     let dashboardViewModel: DashboardViewModel
     let journeyViewModel: JourneyViewModel
+    let galleryViewModel: GalleryViewModel
 
     @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
         loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
@@ -44,6 +45,20 @@ final class Coordinator {
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             loadPregnancyTimelineUseCase: contentUseCases.loadTimeline
         )
+        galleryViewModel = GalleryViewModel(
+            loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
+            loadUltrasoundPhotosUseCase: dependencyContainer.loadUltrasoundPhotosUseCase,
+            addUltrasoundPhotoUseCase: dependencyContainer.addUltrasoundPhotoUseCase,
+            deleteUltrasoundPhotoUseCase: dependencyContainer.deleteUltrasoundPhotoUseCase,
+            loadBellyTrackingTimelineUseCase: dependencyContainer.loadBellyTrackingTimelineUseCase,
+            loadBellyTrackingImageUseCase: dependencyContainer.loadBellyTrackingImageUseCase,
+            captureBellyTrackingPhotoUseCase: dependencyContainer.captureBellyTrackingPhotoUseCase,
+            deleteBellyTrackingEntryUseCase: dependencyContainer.deleteBellyTrackingEntryUseCase,
+            loadBellyTrackingSettingsUseCase: dependencyContainer.loadBellyTrackingSettingsUseCase,
+            updateBellyTrackingSettingsUseCase: dependencyContainer.updateBellyTrackingSettingsUseCase,
+            resolveBellyTrackingStatusUseCase: dependencyContainer.resolveBellyTrackingStatusUseCase,
+            photoLibraryExporter: PhotoLibraryExporter()
+        )
         viewModel = BabyProgressViewModel(
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
@@ -68,10 +83,9 @@ final class Coordinator {
     func start() async {
         await viewModel.reloadContent()
         await viewModel.reloadProgress()
-        await viewModel.reloadUltrasoundPhotos()
-        await viewModel.reloadBellyTrackingState()
         await dashboardViewModel.reload()
         await journeyViewModel.reload()
+        await galleryViewModel.reload()
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
 
@@ -107,10 +121,9 @@ final class Coordinator {
         case .lastPeriodDateUpdated:
             await viewModel.reloadContent()
             await viewModel.reloadProgress()
-            await viewModel.reloadUltrasoundPhotos()
-            await viewModel.reloadBellyTrackingState()
             await dashboardViewModel.reload()
             await journeyViewModel.reload()
+            await galleryViewModel.reload()
             await settingsViewModel.reload(preferredLanguages: preferredLanguages)
             dependencyContainer.widgetReloader.reloadAllTimelines()
         }
