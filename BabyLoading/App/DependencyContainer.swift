@@ -1,6 +1,7 @@
 import AppLocalization
 import AppPreferences
 import BabyLoadingInfrastructure
+import BellyTracking
 import Foundation
 import PregnancyContent
 import PregnancyProgress
@@ -8,8 +9,6 @@ import UltrasoundGallery
 
 @MainActor
 final class DependencyContainer {
-    let dataSource: BabyProgressDataSourceProtocol
-    let repository: BabyProgressRepositoryProtocol
     let widgetReloader: WidgetReloaderProtocol
     let resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol
     let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
@@ -18,6 +17,13 @@ final class DependencyContainer {
     let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
     let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
     let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
+    let loadBellyTrackingTimelineUseCase: any LoadBellyTrackingTimelineUseCaseProtocol
+    let loadBellyTrackingImageUseCase: any LoadBellyTrackingImageUseCaseProtocol
+    let captureBellyTrackingPhotoUseCase: any CaptureBellyTrackingPhotoUseCaseProtocol
+    let deleteBellyTrackingEntryUseCase: any DeleteBellyTrackingEntryUseCaseProtocol
+    let loadBellyTrackingSettingsUseCase: any LoadBellyTrackingSettingsUseCaseProtocol
+    let updateBellyTrackingSettingsUseCase: any UpdateBellyTrackingSettingsUseCaseProtocol
+    let resolveBellyTrackingStatusUseCase: any ResolveBellyTrackingStatusUseCaseProtocol
     let initialLanguage: AppLanguage
 
     private let contentBundle: Bundle
@@ -46,9 +52,9 @@ final class DependencyContainer {
         let pregnancyProgressRepository = PregnancyProgressRepository(store: pregnancyProgressStore)
         let ultrasoundGalleryStore = UltrasoundGalleryStore(containerURL: containerURL)
         let ultrasoundGalleryRepository = UltrasoundGalleryRepository(store: ultrasoundGalleryStore)
+        let bellyTrackingStore = BellyTrackingStore(containerURL: containerURL)
+        let bellyTrackingRepository = BellyTrackingRepository(store: bellyTrackingStore)
 
-        dataSource = BabyProgressDataSource(fileManager: fileManager, containerURL: containerURL)
-        repository = BabyProgressRepository(dataSource: dataSource)
         widgetReloader = DefaultWidgetReloader()
         self.resolveAppLanguageUseCase = resolveAppLanguageUseCase
         loadAppVersionUseCase = LoadAppVersionUseCase(
@@ -69,6 +75,27 @@ final class DependencyContainer {
         )
         deleteUltrasoundPhotoUseCase = DeleteUltrasoundPhotoUseCase(
             repository: ultrasoundGalleryRepository
+        )
+        loadBellyTrackingTimelineUseCase = LoadBellyTrackingTimelineUseCase(
+            repository: bellyTrackingRepository
+        )
+        loadBellyTrackingImageUseCase = LoadBellyTrackingImageUseCase(
+            repository: bellyTrackingRepository
+        )
+        captureBellyTrackingPhotoUseCase = CaptureBellyTrackingPhotoUseCase(
+            repository: bellyTrackingRepository
+        )
+        deleteBellyTrackingEntryUseCase = DeleteBellyTrackingEntryUseCase(
+            repository: bellyTrackingRepository
+        )
+        loadBellyTrackingSettingsUseCase = LoadBellyTrackingSettingsUseCase(
+            repository: bellyTrackingRepository
+        )
+        updateBellyTrackingSettingsUseCase = UpdateBellyTrackingSettingsUseCase(
+            repository: bellyTrackingRepository
+        )
+        resolveBellyTrackingStatusUseCase = ResolveBellyTrackingStatusUseCase(
+            calendar: .current
         )
         self.initialLanguage = initialLanguage
         contentBundle = .main

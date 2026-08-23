@@ -21,7 +21,6 @@ final class Coordinator {
         self.dependencyContainer = dependencyContainer
         router = AppRouter()
         viewModel = BabyProgressViewModel(
-            repository: dependencyContainer.repository,
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
             loadPregnancyWeekContentUseCase: contentUseCases.loadWeekContent,
@@ -29,6 +28,13 @@ final class Coordinator {
             loadUltrasoundPhotosUseCase: dependencyContainer.loadUltrasoundPhotosUseCase,
             addUltrasoundPhotoUseCase: dependencyContainer.addUltrasoundPhotoUseCase,
             deleteUltrasoundPhotoUseCase: dependencyContainer.deleteUltrasoundPhotoUseCase,
+            loadBellyTrackingTimelineUseCase: dependencyContainer.loadBellyTrackingTimelineUseCase,
+            loadBellyTrackingImageUseCase: dependencyContainer.loadBellyTrackingImageUseCase,
+            captureBellyTrackingPhotoUseCase: dependencyContainer.captureBellyTrackingPhotoUseCase,
+            deleteBellyTrackingEntryUseCase: dependencyContainer.deleteBellyTrackingEntryUseCase,
+            loadBellyTrackingSettingsUseCase: dependencyContainer.loadBellyTrackingSettingsUseCase,
+            updateBellyTrackingSettingsUseCase: dependencyContainer.updateBellyTrackingSettingsUseCase,
+            resolveBellyTrackingStatusUseCase: dependencyContainer.resolveBellyTrackingStatusUseCase,
             initialLanguage: dependencyContainer.initialLanguage,
             appVersion: dependencyContainer.loadAppVersionUseCase.execute(),
             widgetReloader: dependencyContainer.widgetReloader
@@ -39,6 +45,7 @@ final class Coordinator {
         await viewModel.reloadContent()
         await viewModel.reloadProgress()
         await viewModel.reloadUltrasoundPhotos()
+        await viewModel.reloadBellyTrackingState()
     }
 
     func reloadContentForCurrentLanguage() async {
