@@ -9,28 +9,11 @@ import UltrasoundGallery
     import UIKit
 #endif
 
-private enum GalleryAlertState: Identifiable {
-    case deleteBellyTrackingEntry(BellyTrackingEntry)
-    case photoLibraryExportWarning(String)
-
-    var id: String {
-        switch self {
-        case let .deleteBellyTrackingEntry(entry):
-            return "delete-\(entry.id.uuidString)"
-        case let .photoLibraryExportWarning(message):
-            return "warning-\(message)"
-        }
-    }
-}
-
 struct GalleryView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.locale) private var locale
     @Environment(AppRouter.self) private var router
-    @Environment(BabyProgressViewModel.self) private var viewModel
-
-    @State private var selectedItems: [PhotosPickerItem] = []
-    @State private var activeAlert: GalleryAlertState?
+    @Environment(GalleryViewModel.self) private var viewModel
 
     private var photoColumns: [GridItem] {
         if dynamicTypeSize.isAccessibilitySize {
@@ -60,9 +43,9 @@ struct GalleryView: View {
                 .frame(maxWidth: .infinity)
             }
         }
-        .alert(item: $activeAlert) { alertState in
+        .alert(item: activeAlertBinding) { alertState in
             switch alertState {
-            case let .deleteBellyTrackingEntry(entry):
+            case let .confirmBellyTrackingDeletion(entry):
                 return Alert(
                     title: Text(
                         String(
@@ -95,7 +78,7 @@ struct GalleryView: View {
                         Text(String(localized: "common.cancel", defaultValue: "Cancel", locale: locale))
                     )
                 )
-            case let .photoLibraryExportWarning(message):
+            case .photoLibraryPermissionDenied:
                 return Alert(
                     title: Text(
                         String(
@@ -104,15 +87,50 @@ struct GalleryView: View {
                             locale: locale
                         )
                     ),
-                    message: Text(message),
+                    message: Text(
+                        String(
+                            localized: "gallery.photoLibraryExportDeniedMessage",
+                            defaultValue: """
+                            The photo was saved in the app, but not in your photo library \
+                            because Photos access is disabled.
+                            """,
+                            locale: locale
+                        )
+                    ),
+                    dismissButton: .default(
+                        Text(String(localized: "common.ok", defaultValue: "OK", locale: locale))
+                    )
+                )
+            case .photoLibraryExportFailed:
+                return Alert(
+                    title: Text(
+                        String(
+                            localized: "gallery.photoLibraryExportTitle",
+                            defaultValue: "Photo library sync",
+                            locale: locale
+                        )
+                    ),
+                    message: Text(
+                        String(
+                            localized: "gallery.photoLibraryExportFailedMessage",
+                            defaultValue: """
+                            The photo was saved in the app, but we couldn't export it \
+                            to your photo library.
+                            """,
+                            locale: locale
+                        )
+                    ),
                     dismissButton: .default(
                         Text(String(localized: "common.ok", defaultValue: "OK", locale: locale))
                     )
                 )
             }
         }
-        .onChange(of: selectedItems) { _, newItems in
-            handlePhotoSelection(newItems)
+        .onChange(of: viewModel.selectedPhotoPickerItems) { _, selectedItems in
+            guard !selectedItems.isEmpty else { return }
+            Task {
+                await viewModel.importSelectedPhotos()
+            }
         }
     }
 
@@ -292,7 +310,9 @@ struct GalleryView: View {
     }
 
     private var ultrasoundGallerySection: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        let isImportingPhotos = viewModel.isImportingPhotos
+
+        return VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 6) {
                 Text("gallery.title")
                     .font(BabyLoadingTypography.text(.title3, weight: .bold))
@@ -350,19 +370,24 @@ struct GalleryView: View {
                 }
 
                 PhotosPicker(
-                    selection: $selectedItems,
+                    selection: photoPickerSelectionBinding,
                     maxSelectionCount: 10,
                     matching: .images
                 ) {
                     VStack(spacing: 10) {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 32))
-                            .foregroundStyle(.primary.opacity(0.75))
-                            .accessibilityHidden(true)
+                        if isImportingPhotos {
+                            ProgressView()
+                                .accessibilityLabel(Text("gallery.addPhoto"))
+                        } else {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 32))
+                                .foregroundStyle(.primary.opacity(0.75))
+                                .accessibilityHidden(true)
 
-                        Text("gallery.addPhoto")
-                            .font(BabyLoadingTypography.text(.caption, weight: .medium))
-                            .foregroundStyle(.primary.opacity(0.75))
+                            Text("gallery.addPhoto")
+                                .font(BabyLoadingTypography.text(.caption, weight: .medium))
+                                .foregroundStyle(.primary.opacity(0.75))
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 180)
@@ -373,6 +398,7 @@ struct GalleryView: View {
                             .strokeBorder(.white.opacity(0.3), style: StrokeStyle(lineWidth: 2, dash: [8, 6]))
                     )
                 }
+                .disabled(isImportingPhotos)
                 .accessibilityHint(Text("accessibility.gallery.addPhotoHint"))
             }
             .animation(.spring(duration: 0.3), value: viewModel.ultrasoundPhotos.map(\.id))
@@ -463,7 +489,7 @@ struct GalleryView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
 
                 Button {
-                    activeAlert = .deleteBellyTrackingEntry(entry)
+                    viewModel.requestBellyTrackingDeletion(entry)
                 } label: {
                     Image(systemName: "trash.circle.fill")
                         .font(.title3)
@@ -472,6 +498,7 @@ struct GalleryView: View {
                         .padding(8)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(Text("gallery.bellyTracking.deleteEntryConfirm"))
             }
 
             Text(entry.capturedAt.formatted(.dateTime.year().month(.abbreviated).day().locale(locale)))
@@ -504,16 +531,22 @@ struct GalleryView: View {
         }
     }
 
-    private func handlePhotoSelection(_ items: [PhotosPickerItem]) {
-        guard !items.isEmpty else { return }
-        Task {
-            for item in items {
-                if let data = try? await item.loadTransferable(type: Data.self) {
-                    await viewModel.addUltrasoundPhoto(data)
+    private var photoPickerSelectionBinding: Binding<[PhotosPickerItem]> {
+        Binding(
+            get: { viewModel.selectedPhotoPickerItems },
+            set: { viewModel.selectedPhotoPickerItems = $0 }
+        )
+    }
+
+    private var activeAlertBinding: Binding<GalleryAlertState?> {
+        Binding(
+            get: { viewModel.activeAlert },
+            set: { alertState in
+                if alertState == nil {
+                    viewModel.clearActiveAlert()
                 }
             }
-            selectedItems = []
-        }
+        )
     }
 
     private func intervalLabel(_ interval: Int) -> String {
@@ -569,40 +602,6 @@ struct GalleryView: View {
             total
         )
     }
-
-    @MainActor
-    private func handleCapturedBellyTrackingPhoto(_ data: Data) async -> Bool {
-        let didSaveInApp = await viewModel.saveBellyTrackingPhoto(data)
-        guard didSaveInApp else { return false }
-
-        let exportData = viewModel.lastBellyTrackingImageData ?? data
-        Task {
-            await exportCapturedBellyTrackingPhotoToPhotoLibrary(exportData)
-        }
-        return true
-    }
-
-    @MainActor
-    private func exportCapturedBellyTrackingPhotoToPhotoLibrary(_ data: Data) async {
-        switch await PhotoLibraryExporter().saveImageData(data) {
-        case .saved:
-            break
-        case .permissionDenied:
-            activeAlert = .photoLibraryExportWarning(
-                String(
-                    localized: "gallery.photoLibraryExportDeniedMessage",
-                    defaultValue: "The photo was saved in the app, but not in your photo library because Photos access is disabled."
-                )
-            )
-        case .failed:
-            activeAlert = .photoLibraryExportWarning(
-                String(
-                    localized: "gallery.photoLibraryExportFailedMessage",
-                    defaultValue: "The photo was saved in the app, but we couldn't export it to your photo library."
-                )
-            )
-        }
-    }
 }
 
 #Preview {
@@ -611,6 +610,6 @@ struct GalleryView: View {
         GradientBackground()
         GalleryView()
             .environment(coordinator.router)
-            .environment(coordinator.viewModel)
+            .environment(coordinator.galleryViewModel)
     }
 }
