@@ -1,3 +1,4 @@
+import BabyLoadingNavigation
 import Foundation
 import SwiftUI
 
@@ -13,7 +14,7 @@ class DependencyContainer {
 
     // MARK: - Coordinator
 
-    @MainActor let coordinator = AppCoordinator()
+    @MainActor let router = AppRouter()
 
     // MARK: - ViewModel
 
@@ -35,40 +36,5 @@ class DependencyContainer {
             appVersionProvider: appVersionProvider,
             widgetReloader: widgetReloader
         )
-    }
-}
-
-// MARK: - Navigation Types
-
-enum AppRoute: Hashable {
-    case detail(id: String)
-    case settings
-    // Add more routes as needed
-}
-
-enum TabItem: String, CaseIterable, Identifiable {
-    case dashboard
-    case journey
-    case gallery
-    case settings
-
-    var id: String { rawValue }
-
-    var titleKey: LocalizedStringKey {
-        switch self {
-        case .dashboard: "tabs.dashboard"
-        case .journey: "tabs.journey"
-        case .gallery: "tabs.gallery"
-        case .settings: "tabs.settings"
-        }
-    }
-
-    var icon: String {
-        switch self {
-        case .dashboard: return "heart.fill"
-        case .journey: return "map.fill"
-        case .gallery: return "photo.on.rectangle.fill"
-        case .settings: return "gearshape.fill"
-        }
     }
 }

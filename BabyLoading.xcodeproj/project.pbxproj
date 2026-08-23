@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */; };
+		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
 		B10000000000000000000001 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000011 /* AppPreferences */; };
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
@@ -100,7 +102,6 @@
 				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Common/BabyLoadingTypography.swift,
-				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -112,7 +113,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				App/AppVersionProvider.swift,
-				App/DependencyContainer.swift,
 				App/WidgetReloader.swift,
 				Data/BabyProgressDataSource.swift,
 				Data/BabyProgressDataSourceProtocol.swift,
@@ -142,7 +142,6 @@
 				Domain/PregnancyCalculator.swift,
 				Presentation/BabyProgressViewModel.swift,
 				Presentation/Common/BabyLoadingTypography.swift,
-				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -182,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000001 /* AppPreferences in Frameworks */,
+				3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000002 /* AppPreferences in Frameworks */,
+				1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +265,7 @@
 			name = BabyLoading;
 			packageProductDependencies = (
 				B10000000000000000000011 /* AppPreferences */,
+				FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -289,6 +291,7 @@
 			name = BabyLoadingTests;
 			packageProductDependencies = (
 				B10000000000000000000012 /* AppPreferences */,
+				03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */,
 			);
 			productName = BabyLoadingTests;
 			productReference = DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */;
@@ -352,6 +355,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */,
+				0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -887,6 +891,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingFeatures;
+		};
 		B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/AppPreferences;
@@ -894,6 +902,10 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingNavigation;
+		};
 		B10000000000000000000011 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
@@ -905,6 +917,10 @@
 		B10000000000000000000013 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
+		};
+		FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingNavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

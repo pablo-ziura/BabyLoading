@@ -1,71 +1,55 @@
+import BabyLoadingNavigation
 import SwiftUI
 
 struct MainTabView: View {
-    @Bindable var coordinator: AppCoordinator
+    @Bindable var router: AppRouter
     let container: DependencyContainer
-    @Environment(\.locale) private var locale
 
     var body: some View {
-        TabView(selection: $coordinator.selectedTab) {
-            // MARK: - Dashboard Tab
-
-            NavigationStack(path: $coordinator.dashboardPath) {
+        TabView(selection: $router.selectedTab) {
+            NavigationStack {
                 container.makeDashboardView()
-                    .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route, locale: locale)
-                    }
             }
             .tabItem {
-                Label(TabItem.dashboard.titleKey, systemImage: TabItem.dashboard.icon)
+                tabLabel(for: .dashboard)
             }
-            .tag(TabItem.dashboard)
+            .tag(AppTab.dashboard)
 
-            // MARK: - Journey Tab
-
-            NavigationStack(path: $coordinator.journeyPath) {
+            NavigationStack {
                 container.makeJourneyView()
-                    .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route, locale: locale)
-                    }
             }
             .tabItem {
-                Label(TabItem.journey.titleKey, systemImage: TabItem.journey.icon)
+                tabLabel(for: .journey)
             }
-            .tag(TabItem.journey)
+            .tag(AppTab.journey)
 
-            // MARK: - Gallery Tab
-
-            NavigationStack(path: $coordinator.galleryPath) {
+            NavigationStack {
                 container.makeGalleryView()
-                    .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route, locale: locale)
-                    }
             }
             .tabItem {
-                Label(TabItem.gallery.titleKey, systemImage: TabItem.gallery.icon)
+                tabLabel(for: .gallery)
             }
-            .tag(TabItem.gallery)
+            .tag(AppTab.gallery)
 
-            // MARK: - Settings Tab
-
-            NavigationStack(path: $coordinator.settingsPath) {
+            NavigationStack {
                 container.makeSettingsView()
-                    .navigationDestination(for: AppRoute.self) { route in
-                        container.view(for: route, locale: locale)
-                    }
             }
             .tabItem {
-                Label(TabItem.settings.titleKey, systemImage: TabItem.settings.icon)
+                tabLabel(for: .settings)
             }
-            .tag(TabItem.settings)
+            .tag(AppTab.settings)
         }
         .tint(.pink)
+    }
+
+    private func tabLabel(for tab: AppTab) -> some View {
+        Label(LocalizedStringKey(tab.titleKey), systemImage: tab.systemImage)
     }
 }
 
 #Preview {
     MainTabView(
-        coordinator: DependencyContainer.shared.coordinator,
+        router: DependencyContainer.shared.router,
         container: DependencyContainer.shared
     )
 }
