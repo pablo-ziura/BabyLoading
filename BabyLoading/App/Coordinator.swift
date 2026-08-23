@@ -2,6 +2,7 @@ import AppLocalization
 import BabyLoadingInfrastructure
 import BabyLoadingNavigation
 import Foundation
+import JourneyFeature
 import Observation
 import SettingsFeature
 
@@ -10,6 +11,7 @@ import SettingsFeature
 final class Coordinator {
     let router: AppRouter
     let viewModel: BabyProgressViewModel
+    let journeyViewModel: JourneyViewModel
 
     @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
         loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
@@ -32,6 +34,10 @@ final class Coordinator {
 
         self.dependencyContainer = dependencyContainer
         router = AppRouter()
+        journeyViewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
+            loadPregnancyTimelineUseCase: contentUseCases.loadTimeline
+        )
         viewModel = BabyProgressViewModel(
             loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
             updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
@@ -58,6 +64,7 @@ final class Coordinator {
         await viewModel.reloadProgress()
         await viewModel.reloadUltrasoundPhotos()
         await viewModel.reloadBellyTrackingState()
+        await journeyViewModel.reload()
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
 
@@ -78,6 +85,7 @@ final class Coordinator {
             return
         }
 
+        await journeyViewModel.reloadTimeline(using: contentUseCases.loadTimeline)
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
         dependencyContainer.widgetReloader.reloadAllTimelines()
     }
@@ -93,6 +101,7 @@ final class Coordinator {
             await viewModel.reloadProgress()
             await viewModel.reloadUltrasoundPhotos()
             await viewModel.reloadBellyTrackingState()
+            await journeyViewModel.reload()
             await settingsViewModel.reload(preferredLanguages: preferredLanguages)
             dependencyContainer.widgetReloader.reloadAllTimelines()
         }
