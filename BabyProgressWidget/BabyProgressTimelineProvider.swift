@@ -1,8 +1,7 @@
 import AppLocalization
+import BabyProgressWidgetSupport
 import Foundation
 import OSLog
-import PregnancyContent
-import PregnancyProgress
 import WidgetKit
 
 @MainActor
@@ -12,42 +11,47 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         category: "PregnancyProgress"
     )
 
-    private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
-    private let loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
+    private let loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol
     private let language: AppLanguage
 
     init(
-        loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
-        loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol,
+        loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol,
         language: AppLanguage
     ) {
-        self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
-        self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
+        self.loadSnapshotUseCase = loadSnapshotUseCase
         self.language = language
     }
 
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(
-            date: .now,
-            eventDate: .now,
-            week: 40,
-            babySize: .pumpkin,
-            babySizeLabel: String(
-                localized: "widget.placeholderPumpkinSize",
-                defaultValue: "a pumpkin",
-                locale: AppLanguage.english.locale
-            ),
-            languageCode: AppLanguage.english.rawValue
+    func placeholder(in context: Context) -> BabyProgressWidgetEntry {
+        BabyProgressWidgetEntry(
+            snapshot: BabyProgressWidgetSnapshot(
+                date: .now,
+                dueDate: .now,
+                currentWeek: 40,
+                babySizeImageName: "img_pumpkin",
+                babySizeLabel: String(
+                    localized: "widget.placeholderPumpkinSize",
+                    defaultValue: "a pumpkin",
+                    locale: AppLanguage.english.locale
+                ),
+                localeIdentifier: AppLanguage.english.rawValue
+            )
         )
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
+    func getSnapshot(
+        in context: Context,
+        completion: @escaping (BabyProgressWidgetEntry) -> Void
+    ) {
         Task {
             completion(await makeEntry())
         }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
+    func getTimeline(
+        in context: Context,
+        completion: @escaping (Timeline<BabyProgressWidgetEntry>) -> Void
+    ) {
         Task {
             let entry = await makeEntry()
             let nextUpdate = Date.now.addingTimeInterval(60 * 60)
@@ -57,33 +61,28 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         }
     }
 
-    private func makeEntry() async -> SimpleEntry {
+    private func makeEntry() async -> BabyProgressWidgetEntry {
         let date = Date.now
-        let progress: PregnancyProgress?
 
         do {
-            progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
+            return BabyProgressWidgetEntry(
+                snapshot: try await loadSnapshotUseCase.execute(asOf: date)
+            )
         } catch {
             Self.logger.error(
-                "Failed to load pregnancy progress: \(String(describing: error), privacy: .public)"
+                "Failed to load widget snapshot: \(String(describing: error), privacy: .public)"
             )
-            progress = nil
         }
 
-        let week = progress?.currentWeek ?? 0
-        let weekContent = await loadPregnancyWeekContentUseCase.execute(week: week)
-
-        return SimpleEntry(
-            date: date,
-            eventDate: progress?.dueDate,
-            week: week,
-            babySize: weekContent?.babySize ?? .unknown,
-            babySizeLabel: weekContent?.babySizeLabel ?? String(
-                localized: "widget.unknownSize",
-                defaultValue: "a mystery",
-                locale: language.locale
-            ),
-            languageCode: language.rawValue
+        return BabyProgressWidgetEntry(
+            snapshot: BabyProgressWidgetSnapshot(
+                date: date,
+                dueDate: nil,
+                currentWeek: 0,
+                babySizeImageName: "img_unknown",
+                babySizeLabel: nil,
+                localeIdentifier: language.rawValue
+            )
         )
     }
 }
