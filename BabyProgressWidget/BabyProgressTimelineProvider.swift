@@ -1,55 +1,88 @@
+import AppLocalization
+import BabyProgressWidgetSupport
 import Foundation
+import OSLog
 import WidgetKit
 
 @MainActor
 struct BabyProgressTimelineProvider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(
-            date: .now,
-            eventDate: .now,
-            week: 40,
-            babySize: .pumpkin,
-            babySizeLabel: String(
-                localized: "widget.placeholderPumpkinSize",
-                defaultValue: "a pumpkin",
-                locale: AppLanguage.english.locale
-            ),
-            languageCode: AppLanguage.english.rawValue
+    private static let logger = Logger(
+        subsystem: "com.pablo.BabyLoading.widget",
+        category: "PregnancyProgress"
+    )
+
+    private let loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol
+    private let language: AppLanguage
+
+    init(
+        loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol,
+        language: AppLanguage
+    ) {
+        self.loadSnapshotUseCase = loadSnapshotUseCase
+        self.language = language
+    }
+
+    func placeholder(in context: Context) -> BabyProgressWidgetEntry {
+        BabyProgressWidgetEntry(
+            snapshot: BabyProgressWidgetSnapshot(
+                date: .now,
+                dueDate: .now,
+                currentWeek: 40,
+                babySizeImageName: "img_pumpkin",
+                babySizeLabel: String(
+                    localized: "widget.placeholderPumpkinSize",
+                    defaultValue: "a pumpkin",
+                    locale: AppLanguage.english.locale
+                ),
+                localeIdentifier: AppLanguage.english.rawValue
+            )
         )
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        completion(makeEntry())
+    func getSnapshot(
+        in context: Context,
+        completion: @escaping (BabyProgressWidgetEntry) -> Void
+    ) {
+        Task {
+            completion(await makeEntry())
+        }
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        let entry = makeEntry()
+    func getTimeline(
+        in context: Context,
+        completion: @escaping (Timeline<BabyProgressWidgetEntry>) -> Void
+    ) {
+        Task {
+            let entry = await makeEntry()
+            let nextUpdate = Date.now.addingTimeInterval(60 * 60)
+            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
 
-        let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: .now)!
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        completion(timeline)
+            completion(timeline)
+        }
     }
 
-    private func makeEntry() -> SimpleEntry {
-        let context = DependencyContainer.makeWidgetContext()
-        let repository = context.repository
-        let language = context.language
-        let lastPeriodDate = repository.getEventDate()
-        let dueDate = lastPeriodDate.map(PregnancyCalculator.calculateDueDate)
-        let week = repository.getPregnancyWeek() ?? 0
-        let weekContent = repository.getCurrentWeekContent()
+    private func makeEntry() async -> BabyProgressWidgetEntry {
+        let date = Date.now
 
-        return SimpleEntry(
-            date: .now,
-            eventDate: dueDate,
-            week: week,
-            babySize: weekContent?.babySize ?? .unknown,
-            babySizeLabel: weekContent?.babySizeLabel ?? String(
-                localized: "widget.unknownSize",
-                defaultValue: "a mystery",
-                locale: language.locale
-            ),
-            languageCode: language.rawValue
+        do {
+            return BabyProgressWidgetEntry(
+                snapshot: try await loadSnapshotUseCase.execute(asOf: date)
+            )
+        } catch {
+            Self.logger.error(
+                "Failed to load widget snapshot: \(String(describing: error), privacy: .public)"
+            )
+        }
+
+        return BabyProgressWidgetEntry(
+            snapshot: BabyProgressWidgetSnapshot(
+                date: date,
+                dueDate: nil,
+                currentWeek: 0,
+                babySizeImageName: "img_unknown",
+                babySizeLabel: nil,
+                localeIdentifier: language.rawValue
+            )
         )
     }
 }

@@ -7,12 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */; };
+		1693B223BAAB5F47F2D97E33 /* BellyTracking in Frameworks */ = {isa = PBXBuildFile; productRef = F5A596B427480F6BCD42123D /* BellyTracking */; };
+		1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */; };
+		21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = DBA67C2A3FAF854E35322A36 /* PregnancyProgress */; };
+		23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D7FBB1F6003EC1406A6F3225 /* DashboardFeature */; };
+		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
+		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
+		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
+		5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */; };
+		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
+		671671BC4713C50E04572C98 /* BellyTracking in Frameworks */ = {isa = PBXBuildFile; productRef = 6C98B10D9CBFEEDB83A47759 /* BellyTracking */; };
+		6AD517C7748775E31025BB12 /* BabyProgressWidgetSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */; };
+		6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */; };
+		79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6650DFD0E492D0A0F71539 /* PregnancyContent */; };
+		7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FA0771AB192F2142B1892836 /* UltrasoundGallery */; };
+		8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */; };
+		9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 75223AE41654D5E7AFAE46E2 /* AppLocalization */; };
+		AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = EC3A24870F8A9D5800CB83D5 /* PregnancyContent */; };
+		AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */; };
+		AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */ = {isa = PBXBuildFile; productRef = E261BB58408C4E903B6FE784 /* JourneyFeature */; };
 		B10000000000000000000001 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000011 /* AppPreferences */; };
 		B10000000000000000000002 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000012 /* AppPreferences */; };
 		B10000000000000000000003 /* AppPreferences in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000013 /* AppPreferences */; };
+		B4D56EF4E77BEFE3DFF2FA65 /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 24EE013097D541655B975711 /* PregnancyContent */; };
+		B8BCEF207F6D06B1FB678A79 /* GalleryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0ED665E93B103A38A077AA58 /* GalleryFeature */; };
+		CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */; };
+		D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */ = {isa = PBXBuildFile; productRef = 1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */; };
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB3FF04E2E98901D78846AB /* SettingsFeature */; };
+		E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,43 +95,6 @@
 		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/AppVersionProvider.swift,
-				App/DependencyContainer.swift,
-				App/WidgetReloader.swift,
-				Data/BabyProgressDataSource.swift,
-				Data/BabyProgressDataSourceProtocol.swift,
-				Data/BabyProgressRepository.swift,
-				Data/BabyProgressRepositoryProtocol.swift,
-				Data/BellyTrackingManifest.swift,
-				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
-				Data/Content/Localization/PregnancyContentLocalization.swift,
-				Data/Content/Models/PregnancyContentDocument.swift,
-				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
-				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
-				Data/Content/Models/PregnancyContentValidationError.swift,
-				Data/Content/Models/WeekContent.swift,
-				Data/Content/Repositories/PregnancyContentRepository.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryFactory.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryFactoryProtocol.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
-				Data/Content/Sources/BundleContentSource.swift,
-				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
-				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
-				Data/Content/Sources/RemoteContentSource.swift,
-				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
-				Data/Content/Stores/SharedContentCacheStore.swift,
-				Data/Infrastructure/BellyTrackingImageProcessor.swift,
-				Data/Infrastructure/SharedAppGroup.swift,
-				Data/Preferences/AppLanguageRepository.swift,
-				Data/Preferences/AppLanguageRepositoryProtocol.swift,
-				Domain/AppLanguage.swift,
-				Domain/BabySize.swift,
-				Domain/BellyTrackingEntry.swift,
-				Domain/BellyTrackingSettings.swift,
-				Domain/PregnancyCalculator.swift,
-				Presentation/BabyProgressViewModel.swift,
-				Presentation/Common/BabyLoadingTypography.swift,
-				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -116,43 +105,6 @@
 		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				App/AppVersionProvider.swift,
-				App/DependencyContainer.swift,
-				App/WidgetReloader.swift,
-				Data/BabyProgressDataSource.swift,
-				Data/BabyProgressDataSourceProtocol.swift,
-				Data/BabyProgressRepository.swift,
-				Data/BabyProgressRepositoryProtocol.swift,
-				Data/BellyTrackingManifest.swift,
-				"Data/Content/Extensions/Bundle+PregnancyContentRemoteURL.swift",
-				Data/Content/Localization/PregnancyContentLocalization.swift,
-				Data/Content/Models/PregnancyContentDocument.swift,
-				Data/Content/Models/PregnancyContentRemoteFetchResult.swift,
-				Data/Content/Models/PregnancyContentRemoteSourceError.swift,
-				Data/Content/Models/PregnancyContentValidationError.swift,
-				Data/Content/Models/WeekContent.swift,
-				Data/Content/Repositories/PregnancyContentRepository.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryFactory.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryFactoryProtocol.swift,
-				Data/Content/Repositories/PregnancyContentRepositoryProtocol.swift,
-				Data/Content/Sources/BundleContentSource.swift,
-				Data/Content/Sources/PregnancyContentBundleSourceProtocol.swift,
-				Data/Content/Sources/PregnancyContentRemoteSourceProtocol.swift,
-				Data/Content/Sources/RemoteContentSource.swift,
-				Data/Content/Stores/PregnancyContentCacheStoreProtocol.swift,
-				Data/Content/Stores/SharedContentCacheStore.swift,
-				Data/Infrastructure/BellyTrackingImageProcessor.swift,
-				Data/Infrastructure/SharedAppGroup.swift,
-				Data/Preferences/AppLanguageRepository.swift,
-				Data/Preferences/AppLanguageRepositoryProtocol.swift,
-				Domain/AppLanguage.swift,
-				Domain/BabySize.swift,
-				Domain/BellyTrackingEntry.swift,
-				Domain/BellyTrackingSettings.swift,
-				Domain/PregnancyCalculator.swift,
-				Presentation/BabyProgressViewModel.swift,
-				Presentation/Common/BabyLoadingTypography.swift,
-				Presentation/Navigation/AppCoordinator.swift,
 				Resources/Assets.xcassets,
 				Resources/Localizable.xcstrings,
 				"Resources/pregnancy-content.en.json",
@@ -192,6 +144,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000001 /* AppPreferences in Frameworks */,
+				3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */,
+				4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */,
+				669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */,
+				D2FD264B9B042D58068BBFC1 /* PregnancyProgress in Frameworks */,
+				79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */,
+				6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */,
+				671671BC4713C50E04572C98 /* BellyTracking in Frameworks */,
+				E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */,
+				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
+				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
+				AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */,
+				23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */,
+				B8BCEF207F6D06B1FB678A79 /* GalleryFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +165,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000002 /* AppPreferences in Frameworks */,
+				1DC5988A8D803D3D07D07D64 /* BabyLoadingNavigation in Frameworks */,
+				AC5A0F8A92BFF84A88F542E6 /* BabyLoadingInfrastructure in Frameworks */,
+				44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */,
+				21041DC7DEBFB041CE9A6875 /* PregnancyProgress in Frameworks */,
+				B4D56EF4E77BEFE3DFF2FA65 /* PregnancyContent in Frameworks */,
+				7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */,
+				1693B223BAAB5F47F2D97E33 /* BellyTracking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +182,12 @@
 				B10000000000000000000003 /* AppPreferences in Frameworks */,
 				DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */,
 				DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */,
+				8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */,
+				9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */,
+				CB6D42E9FDB379C81BAB9172 /* PregnancyProgress in Frameworks */,
+				AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */,
+				5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */,
+				6AD517C7748775E31025BB12 /* BabyProgressWidgetSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +235,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91732F41F1EA003EC367 /* Build configuration list for PBXNativeTarget "BabyLoading" */;
 			buildPhases = (
+				F4A7C130B8F304F8A15508DE /* SwiftLint */,
 				DA1C914E2F41F1E9003EC367 /* Sources */,
 				DA1C914F2F41F1E9003EC367 /* Frameworks */,
 				DA1C91502F41F1E9003EC367 /* Resources */,
@@ -273,6 +252,19 @@
 			name = BabyLoading;
 			packageProductDependencies = (
 				B10000000000000000000011 /* AppPreferences */,
+				FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */,
+				AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */,
+				21E54CBD2AE3C900CC207895 /* AppLocalization */,
+				1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */,
+				3A6650DFD0E492D0A0F71539 /* PregnancyContent */,
+				FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */,
+				6C98B10D9CBFEEDB83A47759 /* BellyTracking */,
+				9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */,
+				8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */,
+				4BB3FF04E2E98901D78846AB /* SettingsFeature */,
+				E261BB58408C4E903B6FE784 /* JourneyFeature */,
+				D7FBB1F6003EC1406A6F3225 /* DashboardFeature */,
+				0ED665E93B103A38A077AA58 /* GalleryFeature */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -282,6 +274,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91762F41F1EA003EC367 /* Build configuration list for PBXNativeTarget "BabyLoadingTests" */;
 			buildPhases = (
+				E33E081B7075E9259C10BD9B /* SwiftLint */,
 				DA1C915B2F41F1EA003EC367 /* Sources */,
 				DA1C915C2F41F1EA003EC367 /* Frameworks */,
 				DA1C915D2F41F1EA003EC367 /* Resources */,
@@ -297,6 +290,13 @@
 			name = BabyLoadingTests;
 			packageProductDependencies = (
 				B10000000000000000000012 /* AppPreferences */,
+				03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */,
+				41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */,
+				988DF16458041719A05EB808 /* AppLocalization */,
+				DBA67C2A3FAF854E35322A36 /* PregnancyProgress */,
+				24EE013097D541655B975711 /* PregnancyContent */,
+				FA0771AB192F2142B1892836 /* UltrasoundGallery */,
+				F5A596B427480F6BCD42123D /* BellyTracking */,
 			);
 			productName = BabyLoadingTests;
 			productReference = DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */;
@@ -306,6 +306,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA1C91972F41F267003EC367 /* Build configuration list for PBXNativeTarget "BabyProgressWidgetExtension" */;
 			buildPhases = (
+				2A3E5016CBA794F3C373AB2D /* SwiftLint */,
 				DA1C917F2F41F266003EC367 /* Sources */,
 				DA1C91802F41F266003EC367 /* Frameworks */,
 				DA1C91812F41F266003EC367 /* Resources */,
@@ -320,6 +321,12 @@
 			name = BabyProgressWidgetExtension;
 			packageProductDependencies = (
 				B10000000000000000000013 /* AppPreferences */,
+				3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */,
+				75223AE41654D5E7AFAE46E2 /* AppLocalization */,
+				0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */,
+				EC3A24870F8A9D5800CB83D5 /* PregnancyContent */,
+				69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */,
+				50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */,
 			);
 			productName = BabyProgressWidgetExtension;
 			productReference = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */;
@@ -359,7 +366,9 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */,
-				B10000000000000000000022 /* XCLocalSwiftPackageReference "Packages/AppNetwork" */,
+				0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */,
+				9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */,
+				82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -396,6 +405,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2A3E5016CBA794F3C373AB2D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+		E33E081B7075E9259C10BD9B /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+		F4A7C130B8F304F8A15508DE /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA1C914E2F41F1E9003EC367 /* Sources */ = {
@@ -572,6 +632,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
@@ -579,7 +640,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
-				INFOPLIST_KEY_PregnancyContentURL = "";
 				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -591,24 +651,24 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.babyloading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -625,6 +685,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
@@ -632,7 +693,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Baby Loading uses the camera to capture guided belly tracking photos.";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Baby Loading saves guided belly tracking photos to your photo library.";
-				INFOPLIST_KEY_PregnancyContentURL = "";
 				INFOPLIST_KEY_UIAppFonts = "NunitoSans-Variable.ttf NunitoSans-Italic-Variable.ttf";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -644,24 +704,24 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.babyloading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -673,22 +733,24 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.BabyLoadingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyLoading.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BabyLoading";
-				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Debug;
 		};
@@ -700,22 +762,24 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.BabyLoadingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BabyLoading.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BabyLoading";
-				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
 		};
@@ -728,11 +792,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BabyProgressWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BabyProgressWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -744,6 +809,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -761,11 +830,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BabyProgressWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BabyProgressWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,6 +847,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
@@ -828,17 +902,97 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingFeatures;
+		};
+		82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingDesignSystem;
+		};
+		9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/BabyLoadingCore;
+		};
 		B10000000000000000000021 /* XCLocalSwiftPackageReference "Packages/AppPreferences" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/AppPreferences;
 		};
-		B10000000000000000000022 /* XCLocalSwiftPackageReference "Packages/AppNetwork" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/AppNetwork;
-		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingNavigation;
+		};
+		0A7F55AA1A7AC7EB2C442829 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
+		};
+		0ED665E93B103A38A077AA58 /* GalleryFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GalleryFeature;
+		};
+		1C061DA025E2CDCF9EEB3BF0 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
+		};
+		21E54CBD2AE3C900CC207895 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		24EE013097D541655B975711 /* PregnancyContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyContent;
+		};
+		3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
+		};
+		3A6650DFD0E492D0A0F71539 /* PregnancyContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyContent;
+		};
+		41702B70B1E95CFF1B8E37CA /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
+		};
+		4BB3FF04E2E98901D78846AB /* SettingsFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SettingsFeature;
+		};
+		50801AD513F5944C3102ED88 /* BabyProgressWidgetSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyProgressWidgetSupport;
+		};
+		69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingDesignTokens;
+		};
+		6C98B10D9CBFEEDB83A47759 /* BellyTracking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BellyTracking;
+		};
+		75223AE41654D5E7AFAE46E2 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		8A2FEA01833348B8B2CBE515 /* BabyLoadingDesignComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingDesignComponents;
+		};
+		988DF16458041719A05EB808 /* AppLocalization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppLocalization;
+		};
+		9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingDesignTokens;
+		};
+		AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingInfrastructure;
+		};
 		B10000000000000000000011 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
@@ -850,6 +1004,38 @@
 		B10000000000000000000013 /* AppPreferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppPreferences;
+		};
+		D7FBB1F6003EC1406A6F3225 /* DashboardFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DashboardFeature;
+		};
+		DBA67C2A3FAF854E35322A36 /* PregnancyProgress */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyProgress;
+		};
+		E261BB58408C4E903B6FE784 /* JourneyFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = JourneyFeature;
+		};
+		EC3A24870F8A9D5800CB83D5 /* PregnancyContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PregnancyContent;
+		};
+		F5A596B427480F6BCD42123D /* BellyTracking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BellyTracking;
+		};
+		FA0771AB192F2142B1892836 /* UltrasoundGallery */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UltrasoundGallery;
+		};
+		FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BabyLoadingNavigation;
+		};
+		FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UltrasoundGallery;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
