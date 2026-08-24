@@ -1,16 +1,5 @@
 import Foundation
 
-public enum UltrasoundGalleryStoreError: Error, Equatable, Sendable {
-    case invalidGalleryDirectory
-    case invalidPhotoIdentifier(String)
-}
-
-public protocol UltrasoundGalleryStoreProtocol: Sendable {
-    func loadPhotos() async throws -> [UltrasoundPhoto]
-    func addPhoto(data: Data) async throws -> UltrasoundPhoto
-    func deletePhoto(id: String) async throws
-}
-
 public actor UltrasoundGalleryStore: UltrasoundGalleryStoreProtocol {
     public static let directoryName = "gallery"
 
@@ -106,4 +95,9 @@ public actor UltrasoundGalleryStore: UltrasoundGalleryStoreProtocol {
             && !identifier.contains("\\")
             && identifier == URL(fileURLWithPath: identifier).lastPathComponent
     }
+}
+
+public enum UltrasoundGalleryStoreError: Error, Equatable, Sendable {
+    case invalidGalleryDirectory
+    case invalidPhotoIdentifier(String)
 }

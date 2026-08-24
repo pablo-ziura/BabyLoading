@@ -5,7 +5,6 @@ import DashboardFeature
 import Foundation
 import GalleryFeature
 import JourneyFeature
-import Observation
 import SettingsFeature
 
 @MainActor
@@ -70,7 +69,7 @@ final class Coordinator {
         await settingsViewModel.reload(preferredLanguages: preferredLanguages)
     }
 
-    func reloadLocalizedFeaturesIfNeeded() async {
+    func applicationDidBecomeActive() async {
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
             preferredLanguages: preferredLanguages
         )

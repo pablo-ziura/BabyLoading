@@ -1,11 +1,6 @@
 import AppPreferences
 import Foundation
 
-public protocol PregnancyProgressStoreProtocol: Sendable {
-    func loadLastPeriodDate() async throws -> Date?
-    func updateLastPeriodDate(_ date: Date?) async throws
-}
-
 public actor PregnancyProgressStore: PregnancyProgressStoreProtocol {
     static let lastPeriodDateKey = PreferenceKey<Date>("lastPeriodDate")
 

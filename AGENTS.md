@@ -194,7 +194,7 @@ xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'plat
 
 ## Reglas de extensión
 
-- No introducir singletons, service locators ni estado global.
+- Evitar introducir singletons, service locators ni estado global.
 - No mover lógica de negocio o acceso a plataforma a las Views.
 - Cuando una feature nueva necesite lógica o datos de negocio, debe exponer operaciones enfocadas
   desde Core, recibirlas en su ViewModel y ser compuesta por `Coordinator` sin depender de otra
