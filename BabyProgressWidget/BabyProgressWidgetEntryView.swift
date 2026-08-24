@@ -1,19 +1,33 @@
+import BabyLoadingDesignTokens
+import BabyProgressWidgetSupport
 import Foundation
 import SwiftUI
 import WidgetKit
 
 struct BabyProgressWidgetEntryView: View {
     @Environment(\.widgetFamily) var family
-    var entry: BabyProgressTimelineProvider.Entry
+    let entry: BabyProgressWidgetEntry
+
+    private var snapshot: BabyProgressWidgetSnapshot {
+        entry.snapshot
+    }
 
     private var locale: Locale {
-        Locale(identifier: entry.languageCode)
+        Locale(identifier: snapshot.localeIdentifier)
+    }
+
+    private var babySizeLabel: String {
+        snapshot.babySizeLabel ?? String(
+            localized: "widget.unknownSize",
+            defaultValue: "a mystery",
+            locale: locale
+        )
     }
 
     var body: some View {
         Group {
-            if let eventDate = entry.eventDate {
-                configuredView(eventDate: eventDate)
+            if let dueDate = snapshot.dueDate {
+                configuredView(dueDate: dueDate)
                     .unredacted()
             } else {
                 emptyStateView
@@ -24,9 +38,9 @@ struct BabyProgressWidgetEntryView: View {
     }
 
     @ViewBuilder
-    private func configuredView(eventDate: Date) -> some View {
-        let days = daysUntil(eventDate)
-        let progress = min(Double(entry.week) / 40.0, 1.0)
+    private func configuredView(dueDate: Date) -> some View {
+        let days = daysUntil(dueDate)
+        let progress = min(Double(snapshot.currentWeek) / 40.0, 1.0)
 
         HStack(spacing: 0) {
             fruitProgressRing(progress: progress)
@@ -36,7 +50,7 @@ struct BabyProgressWidgetEntryView: View {
                     String(
                         format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
                         locale: locale,
-                        entry.week
+                        snapshot.currentWeek
                     )
                 )
                     .font(BabyLoadingTypography.widget(size: 15, weight: .extraBold))
@@ -50,7 +64,7 @@ struct BabyProgressWidgetEntryView: View {
                             locale: locale
                         ),
                         locale: locale,
-                        entry.babySizeLabel
+                        babySizeLabel
                     )
                 )
                     .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
@@ -111,7 +125,7 @@ struct BabyProgressWidgetEntryView: View {
                 .rotationEffect(.degrees(-90))
                 .frame(width: ringSize, height: ringSize)
 
-            Image(entry.babySize.imageName)
+            Image(snapshot.babySizeImageName)
                 .resizable()
                 .scaledToFill()
                 .frame(width: imageSize, height: imageSize)
@@ -139,18 +153,18 @@ struct BabyProgressWidgetEntryView: View {
         LinearGradient(
             colors: [
                 Color(red: 0.93, green: 0.55, blue: 0.67),
-                Color(red: 0.70, green: 0.55, blue: 0.82),
+                Color(red: 0.70, green: 0.55, blue: 0.82)
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
     }
 
-    func daysUntil(_ date: Date) -> Int {
+    func daysUntil(_ dueDate: Date) -> Int {
         let calendar = Calendar.current
-        let startOfToday = calendar.startOfDay(for: .now)
-        let startOfEventDate = calendar.startOfDay(for: date)
-        let components = calendar.dateComponents([.day], from: startOfToday, to: startOfEventDate)
+        let snapshotDate = calendar.startOfDay(for: snapshot.date)
+        let dueDateStart = calendar.startOfDay(for: dueDate)
+        let components = calendar.dateComponents([.day], from: snapshotDate, to: dueDateStart)
         return max(0, components.day ?? 0)
     }
 }
