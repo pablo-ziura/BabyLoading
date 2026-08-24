@@ -29,15 +29,3 @@ public enum AppLanguage: String, CaseIterable, Identifiable, Sendable {
         return preferredLanguage.flatMap(AppLanguage.init(rawValue:)) ?? .english
     }
 }
-
-public protocol ResolveAppLanguageUseCaseProtocol: Sendable {
-    func execute(preferredLanguages: [String]) -> AppLanguage
-}
-
-public struct ResolveAppLanguageUseCase: ResolveAppLanguageUseCaseProtocol, Sendable {
-    public init() {}
-
-    public func execute(preferredLanguages: [String]) -> AppLanguage {
-        AppLanguage.resolve(preferredLanguages: preferredLanguages)
-    }
-}
