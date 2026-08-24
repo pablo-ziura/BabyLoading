@@ -1,24 +1,15 @@
 import SwiftUI
 
 @main
+@MainActor
 struct BabyLoadingApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @State private var coordinator = Coordinator()
 
     var body: some Scene {
-        let viewModel = DependencyContainer.shared.viewModel
-
-        WindowGroup {
-            DependencyContainer.shared.makeMainTabView()
-                .preferredColorScheme(.light)
-                .task {
-                    await viewModel.refreshContentIfNeeded()
-                }
-                .onChange(of: scenePhase) { _, newPhase in
-                    guard newPhase == .active else { return }
-                    Task {
-                        await DependencyContainer.shared.viewModel.refreshContentIfNeeded()
-                    }
-                }
-        }
+        BabyLoadingScene(
+            coordinator: coordinator,
+            scenePhase: scenePhase
+        )
     }
 }

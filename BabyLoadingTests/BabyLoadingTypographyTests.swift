@@ -14,7 +14,7 @@ struct BabyLoadingTypographyTests {
             "NunitoSans-12ptExtraLightItalic_Medium-Italic",
             "NunitoSans-12ptExtraLightItalic_SemiBold-Italic",
             "NunitoSans-12ptExtraLightItalic_Bold-Italic",
-            "NunitoSans-12ptExtraLightItalic_ExtraBold-Italic",
+            "NunitoSans-12ptExtraLightItalic_ExtraBold-Italic"
         ]
 
         let missingFaces = requiredPostScriptNames.filter { name in
@@ -23,10 +23,12 @@ struct BabyLoadingTypographyTests {
         let registeredNunitoFaces = UIFont.familyNames
             .filter { $0.localizedCaseInsensitiveContains("nunito") }
             .flatMap(UIFont.fontNames(forFamilyName:))
+        let missingFaceNames = missingFaces.joined(separator: ", ")
+        let registeredFaceNames = registeredNunitoFaces.joined(separator: ", ")
 
         #expect(
             missingFaces.isEmpty,
-            "Nunito Sans faces were not registered: \(missingFaces.joined(separator: ", ")). Registered Nunito faces: \(registeredNunitoFaces.joined(separator: ", "))"
+            "Missing Nunito Sans faces: \(missingFaceNames). Registered: \(registeredFaceNames)"
         )
     }
 }

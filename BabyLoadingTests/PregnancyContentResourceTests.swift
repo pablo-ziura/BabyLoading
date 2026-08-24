@@ -1,4 +1,5 @@
 @testable import BabyLoading
+import PregnancyContent
 import XCTest
 
 final class PregnancyContentResourceTests: XCTestCase {

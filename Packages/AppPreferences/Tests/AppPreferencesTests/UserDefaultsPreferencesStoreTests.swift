@@ -7,56 +7,57 @@ struct UserDefaultsPreferencesStoreTests {
         let value: String
     }
 
-    @Test func writeAndReadRoundTrip() throws {
+    @Test func writeAndReadRoundTrip() async throws {
         let context = try makeContext()
         defer { cleanup(context) }
         let key = PreferenceKey<String>("selectedLanguage")
 
-        try context.store.write("es", for: key)
+        try await context.store.write("es", for: key)
 
-        #expect(try context.store.read(key) == "es")
+        #expect(try await context.store.read(key) == "es")
     }
 
-    @Test func removeDeletesStoredValue() throws {
+    @Test func removeDeletesStoredValue() async throws {
         let context = try makeContext()
         defer { cleanup(context) }
         let key = PreferenceKey<String>("selectedLanguage")
-        try context.store.write("en", for: key)
+        try await context.store.write("en", for: key)
 
-        context.store.remove(key)
+        await context.store.remove(key)
 
-        #expect(try context.store.read(key) == nil)
+        #expect(try await context.store.read(key) == nil)
     }
 
-    @Test func readThrowsForInvalidEncodedData() throws {
+    @Test func readThrowsForInvalidEncodedData() async throws {
         let context = try makeContext()
         defer { cleanup(context) }
         let key = PreferenceKey<PreferenceValue>("invalid")
         context.userDefaults.set(Data("not-json".utf8), forKey: key.name)
 
-        #expect(throws: PreferencesError.self) {
-            try context.store.read(key)
+        await #expect(throws: PreferencesError.self) {
+            try await context.store.read(key)
         }
     }
 
-    @Test func readSupportsLegacyNativeDate() throws {
+    @Test func readSupportsLegacyNativeDate() async throws {
         let context = try makeContext()
         defer { cleanup(context) }
         let key = PreferenceKey<Date>("lastPeriodDate")
         let expectedDate = Date(timeIntervalSince1970: 1_234_567)
         context.userDefaults.set(expectedDate, forKey: key.name)
 
-        #expect(try context.store.read(key) == expectedDate)
+        #expect(try await context.store.read(key) == expectedDate)
     }
 
     private func makeContext() throws -> TestContext {
         let suiteName = "AppPreferencesTests.\(UUID().uuidString)"
         let userDefaults = try #require(UserDefaults(suiteName: suiteName))
+        let storeUserDefaults = try #require(UserDefaults(suiteName: suiteName))
         userDefaults.removePersistentDomain(forName: suiteName)
         return TestContext(
             suiteName: suiteName,
             userDefaults: userDefaults,
-            store: UserDefaultsPreferencesStore(userDefaults: userDefaults)
+            store: UserDefaultsPreferencesStore(userDefaults: storeUserDefaults)
         )
     }
 

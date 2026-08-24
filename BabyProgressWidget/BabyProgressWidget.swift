@@ -1,17 +1,28 @@
+import AppLocalization
+import BabyProgressWidgetSupport
 import SwiftUI
 import WidgetKit
 
 struct BabyProgressWidget: Widget {
     let kind: String = "BabyProgressWidget"
+    private let dependencies = WidgetDependencyContainer()
 
     var body: some WidgetConfiguration {
-        let locale = AppLanguageRepository().resolvedLanguage().locale
+        let locale = dependencies.language.locale
 
-        return StaticConfiguration(kind: kind, provider: BabyProgressTimelineProvider()) { entry in
+        return StaticConfiguration(kind: kind, provider: dependencies.timelineProvider) { entry in
             BabyProgressWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName(String(localized: "widget.displayName", defaultValue: "Baby Progress", locale: locale))
-        .description(String(localized: "widget.description", defaultValue: "See which week of pregnancy you're in.", locale: locale))
+        .configurationDisplayName(
+            String(localized: "widget.displayName", defaultValue: "Baby Progress", locale: locale)
+        )
+        .description(
+            String(
+                localized: "widget.description",
+                defaultValue: "See which week of pregnancy you're in.",
+                locale: locale
+            )
+        )
         .supportedFamilies([.systemMedium])
     }
 }
@@ -19,20 +30,24 @@ struct BabyProgressWidget: Widget {
 #Preview(as: .systemMedium) {
     BabyProgressWidget()
 } timeline: {
-    SimpleEntry(
-        date: .now,
-        eventDate: .now.addingTimeInterval(86400 * 5),
-        week: 20,
-        babySize: .banana,
-        babySizeLabel: "a banana",
-        languageCode: AppLanguage.english.rawValue
+    BabyProgressWidgetEntry(
+        snapshot: BabyProgressWidgetSnapshot(
+            date: .now,
+            dueDate: .now.addingTimeInterval(86400 * 5),
+            currentWeek: 20,
+            babySizeImageName: "img_banana",
+            babySizeLabel: "a banana",
+            localeIdentifier: AppLanguage.english.rawValue
+        )
     )
-    SimpleEntry(
-        date: .now,
-        eventDate: nil,
-        week: 0,
-        babySize: .unknown,
-        babySizeLabel: String(localized: "widget.unknownSize", defaultValue: "a mystery"),
-        languageCode: AppLanguage.english.rawValue
+    BabyProgressWidgetEntry(
+        snapshot: BabyProgressWidgetSnapshot(
+            date: .now,
+            dueDate: nil,
+            currentWeek: 0,
+            babySizeImageName: "img_unknown",
+            babySizeLabel: nil,
+            localeIdentifier: AppLanguage.english.rawValue
+        )
     )
 }

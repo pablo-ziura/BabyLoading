@@ -1,171 +1,207 @@
 # AGENTS.md
 
 Documento vivo para cualquier agente que trabaje en `BabyLoading`.
-Leer este archivo antes de proponer cambios o tocar codigo.
+Leerlo completo antes de proponer cambios o tocar código.
 
-Antes de crear o modificar cualquier pantalla, componente reutilizable o widget que incluya texto, leer `DESIGN.md` y aplicar sus reglas de tipografía y accesibilidad.
-`DESIGN.md` es el contrato visual compartido entre iOS y Android: al cambiar una decisión visual, actualizar su documento equivalente de Android en la misma tarea y mapear cada token semántico en ambas plataformas.
+Antes de crear o modificar una pantalla, un componente reutilizable o un widget que incluya texto,
+leer `DESIGN.md` y aplicar sus reglas de tipografía y accesibilidad. `DESIGN.md` es el contrato visual
+compartido entre iOS y Android: si cambia una decisión visual, actualizar también su equivalente de
+Android y mapear los tokens semánticos en ambas plataformas.
+
+Toda modificación de `BabyLoading.xcodeproj`, `project.pbxproj`, build settings, target membership,
+build phases, referencias de paquetes o assets se realiza con XcodeProjectCLI (`xcp`). No editar
+`project.pbxproj` manualmente.
 
 ## Resumen del proyecto
 
-- App iOS nativa en SwiftUI con target principal `BabyLoading`, target de widget `BabyProgressWidget` y target de tests `BabyLoadingTests`.
-- Stack actual: Swift 6.0, Observation (`@Observable`), SwiftUI NavigationStack, WidgetKit, App Group compartido y los paquetes locales `Packages/AppNetwork` y `Packages/AppPreferences`.
-- Deployment target actual: iOS 26.5.
-- Simulador de referencia para builds y tests locales: `iPhone 17 Pro Max` con `iOS 26.5`.
-- El proyecto esta en una fase activa de evolucion alrededor de contenido de embarazo remoto/cacheado. No asumas que todo lo nuevo esta estabilizado todavia.
+- App nativa SwiftUI con targets `BabyLoading`, `BabyLoadingTests` y
+  `BabyProgressWidgetExtension`.
+- Swift 6, Observation (`@Observable`), WidgetKit, Swift Package Manager y App Group compartido.
+- Deployment target iOS 26.5, únicamente para iPhone y iPad.
+- Simulador de referencia: `iPhone 17 Pro Max`, iOS 26.5.
+- El esquema visual se mantiene forzado a `.preferredColorScheme(.light)`.
+- Los recursos de app, strings localizados, fuentes y JSON permanecen en `BabyLoading/Resources`.
 
-## Estructura real del codebase
+## Composition root y flujo de estado
 
-- `BabyLoading/App`
-  Punto de entrada, DI manual, coordinacion de tabs y fabricas de vistas.
-- `BabyLoading/Domain`
-  Logica de negocio pura y tipos de dominio como `PregnancyCalculator` y `BabySize`.
-- `BabyLoading/Data`
-  Persistencia local, acceso a App Group, repositorios y modelo del documento JSON de contenido semanal.
-- `BabyLoading/Presentation`
-  ViewModel principal, vistas SwiftUI, componentes compartidos y navegacion.
-- `BabyProgressWidget`
-  Timeline provider, entry y vista del widget. Reusa `DependencyContainer.shared`.
-- `BabyLoadingTests`
-  Mezcla de `Testing` y `XCTest`.
-- `Packages/AppNetwork`
-  Paquete Swift local con `NetworkClient` actor y tests propios. Existe en el workspace, pero hoy no se ve usado desde los targets principales.
-- `Packages/AppPreferences`
-  Paquete Swift local y agnóstico de negocio para persistencia tipada sobre `UserDefaults`, inyectado desde la app con la suite apropiada.
+```text
+BabyLoadingApp
+└── @State Coordinator
+    ├── DependencyContainer
+    ├── AppRouter
+    ├── DashboardViewModel
+    ├── JourneyViewModel
+    ├── GalleryViewModel
+    └── SettingsViewModel
+```
 
-## Arquitectura y flujo de datos
+- `BabyLoadingApp` posee `@State private var coordinator = Coordinator()`.
+- `Coordinator` es el único coordinator de la app. Es `@MainActor`, `@Observable` y construye
+  internamente un `DependencyContainer` no singleton.
+- `Coordinator` es el propietario exclusivo de `AppRouter` y de los cuatro ViewModels.
+- `AppRouter` modela únicamente la tab seleccionada y la presentación full-screen de la cámara de
+  seguimiento. No introducir rutas o stacks que no correspondan a un flujo activo.
+- Router y ViewModels se entregan mediante SwiftUI `Environment` desde las factories del
+  `Coordinator`.
+- Las Views nunca reciben stores, repositories ni use cases. Tampoco construyen dependencias.
+- No aplicar type erasure a las factories: conservar tipos opacos con `some View`.
+- `SettingsViewModelOutput.lastPeriodDateUpdated` hace que `Coordinator` recargue las cuatro
+  features y solicite una recarga del widget.
+- Si cambia el locale efectivo, `Coordinator` recrea los use cases de contenido, actualiza las
+  cuatro features y recarga el widget.
 
-- La app sigue una separacion simple por capas: `Presentation -> Repository -> Data/Domain`.
-- La composicion se hace en `DependencyContainer.shared`.
-- El estado principal de UI vive en `BabyProgressViewModel`, marcado como `@Observable` y `@MainActor`.
-- No introducir `ObservableObject` ni `@Published` salvo que haya una razon fuerte y consistente con codigo existente.
-- La navegacion por tabs vive en `AppCoordinator` con un `NavigationPath` por tab.
-- Las vistas se crean desde `DependencyContainer+ViewFactory.swift`. Si una nueva pantalla necesita dependencias, enchufarla ahi antes de crear accesos directos desde la vista.
+## Paquetes y módulos
 
-## Persistencia y datos compartidos
+| Package | Productos |
+|---|---|
+| `AppPreferences` | `AppPreferences` |
+| `BabyLoadingCore` | `BabyLoadingInfrastructure`, `AppLocalization`, `PregnancyProgress`, `PregnancyContent`, `UltrasoundGallery`, `BellyTracking`, `BabyProgressWidgetSupport` |
+| `BabyLoadingDesignSystem` | `BabyLoadingDesignTokens`, `BabyLoadingDesignComponents` |
+| `BabyLoadingFeatures` | `BabyLoadingNavigation`, `DashboardFeature`, `JourneyFeature`, `GalleryFeature`, `SettingsFeature` |
 
-- El App Group actual es `group.com.pablo.BabyLoading`.
-- `BabyProgressDataSource` guarda `lastPeriodDate` mediante `AppPreferences`; el paquete no conoce el App Group ni claves de negocio.
-- El idioma lo determina la preferencia por app de iOS; app y widget lo resuelven desde sus bundles y no guardan una selección propia.
-- `BabyProgressDataSource` guarda tambien:
-  foto legacy unica en archivo `user_photo.jpg`.
-- `BabyProgressDataSource` guarda tambien:
-  galeria multi-foto en el directorio `gallery/` del contenedor compartido.
-- La galeria de ecografias expone `UltrasoundPhoto` con identidad estable basada en el nombre de archivo;
-  sus operaciones de guardar, leer y borrar son exclusivas de `gallery/`.
-- Las capturas de seguimiento se conservan en su formato nativo (HEIC cuando la camara lo soporta),
-  materializan primero la orientacion EXIF y despues aplican el mismo recorte central 9:16 del visor;
-  las capturas JPEG historicas siguen siendo compatibles.
-- Una captura guiada se guarda solo en `belly-tracking/` y su manifest; no se duplica en `gallery/`.
-- El estado de seguimiento compara dias de calendario con la cadencia elegida: sin captura o despues
-  de superar la cadencia queda pendiente; el dia exacto de la cadencia sigue al dia.
-- El visor y `AVCapturePhotoOutput` comparten los angulos de `AVCaptureDevice.RotationCoordinator`
-  para mantener la misma orientacion, escala y relacion de aspecto durante la captura.
-- El widget depende de este almacenamiento compartido. Cualquier cambio de keys, nombres de archivo o ubicacion debe considerarse un cambio cross-target.
+Reglas del grafo:
 
-## Contenido semanal del embarazo
+- Ninguna feature depende de otra feature.
+- `GalleryFeature` es el único módulo que importa PhotosUI, Photos o AVFoundation. También posee la
+  UI, el ViewModel y el servicio de cámara.
+- Los productos de `BabyLoadingCore` no importan SwiftUI, WidgetKit, Photos ni AVFoundation.
+- `BabyLoadingDesignComponents` depende de `BabyLoadingDesignTokens`.
+- El widget solo compila Swift bajo `BabyProgressWidget/` y consume productos modulares.
+- Cada source productivo pertenece a un único target.
+- No crear pares de targets `Interface`/`Implementation`.
+- Los protocolos terminan en `Protocol`. Usar sufijos `Model` o `DTO` solo cuando describan un rol
+  técnico real.
+- Mantener un use case por operación. No reintroducir repositorios transversales que mezclen
+  dominios o capacidades no relacionadas.
+- Ningún initializer productivo acepta dependencias opcionales, fallbacks globales o una
+  implementación concreta por defecto.
 
-- Las fuentes base son `BabyLoading/Resources/pregnancy-content.en.json`
-  y `BabyLoading/Resources/pregnancy-content.es.json`.
-- Los tipos de contenido viven en `BabyLoading/Data/Content/` separados por responsabilidad:
-  modelos, sources, stores, repositorios y extensiones.
-- La resolución de locale del contenido vive en `BabyLoading/Data/Content/Localization/`
-  y hace fallback a `en` cuando el idioma del dispositivo no está soportado.
-- Los protocolos de contenido se mantienen junto a la implementación concreta de su capa,
-  no en una carpeta global de `Protocols`.
-- `PregnancyContentDocument` valida:
-  `schemaVersion`, `locale`, `revision`, cobertura completa de semanas 6...40 y ausencia de `keyEvents` vacios.
-- `PregnancyContentRepository` resuelve el snapshot inicial con esta prioridad:
-  cache del App Group -> bundle -> `.empty`.
-- La actualizacion remota es opcional y depende de `INFOPLIST_KEY_PregnancyContentURL`
-  o de `INFOPLIST_KEY_PregnancyContentURLTemplate` con placeholder `{locale}`.
-- Si `PregnancyContentURL` esta vacia, la sincronizacion remota queda desactivada.
-- La cache compartida guarda JSON, `ETag`, `lastFetchAt` y `revision`.
-- La cache compartida se separa por locale para no mezclar snapshots de idiomas distintos.
-- No bypasses las validaciones del documento para "hacer que funcione". Si cambia el schema, hay que actualizar validacion, tests y recurso base.
+## Responsabilidad de los módulos
+
+- `BabyLoadingInfrastructure`: acceso al App Group y versión de la app.
+- `AppLocalization`: resolución del idioma efectivo de la app.
+- `PregnancyProgress`: cálculo, persistencia y operaciones sobre `lastPeriodDate`.
+- `PregnancyContent`: validación, localización, fuentes bundle/cache y consultas por semana o
+  timeline.
+- `UltrasoundGallery`: identidad y persistencia de fotos de ecografía.
+- `BellyTracking`: timeline, manifest, procesamiento de imágenes, settings y reglas de cadencia.
+- `BabyProgressWidgetSupport`: snapshot inmutable y operación para cargarlo.
+- `BabyLoadingDesignTokens`: tipografía, colores, espaciado, formas y elevación semánticos.
+- `BabyLoadingDesignComponents`: componentes SwiftUI compartidos como `GradientBackground` y
+  `SoftCard`.
+- Cada feature posee su ViewModel, sus vistas, su estado de presentación y sus tests.
+- El target host se limita al ciclo de vida, composition root, routing y shell de tabs.
+
+## Persistencia compartida
+
+- App Group: `group.com.pablo.BabyLoading`.
+- Key compatible de preferencias: `lastPeriodDate`, gestionada con `AppPreferences`.
+- `AppPreferences` no conoce el App Group ni keys de producto; la suite se inyecta desde
+  `SharedAppGroup`.
+- Ecografías: directorio `gallery/`, con identidad estable basada en el nombre de archivo.
+- Seguimiento: `belly-tracking/manifest.json`, schema v1.
+- Una captura guiada se guarda solo en `belly-tracking/`; no se duplica en `gallery/`.
+- Las capturas nuevas preservan HEIC cuando la cámara lo permite. JPEG/JPG históricos siguen siendo
+  compatibles.
+- Antes del recorte central 9:16 se materializa la orientación EXIF.
+- No existe API productiva para la antigua foto única; no añadir migración o purga runtime sin una
+  decisión explícita.
+- Cualquier cambio de keys, paths, schemas o formatos es cross-target y exige revisar app, widget y
+  tests de contrato en el mismo cambio.
+
+## Contenido semanal
+
+- Fuentes base: `BabyLoading/Resources/pregnancy-content.en.json` y
+  `BabyLoading/Resources/pregnancy-content.es.json`.
+- Prioridad de lectura: bundle host válido -> cache histórica válida de solo lectura -> documento
+  vacío del locale solicitado.
+- La cache histórica usa `pregnancy-content.<locale>.json` en el App Group. No se escribe ni se
+  elimina.
+- No existe sincronización remota, refresh, ETag ni configuración de endpoints.
+- `PregnancyContentDocument` decodifica y conserva `revision`; valida schema, locale, semanas únicas
+  con cobertura completa `6...40` y `keyEvents` no vacíos.
+- Los locales no soportados hacen fallback a inglés (`en`).
+- No relajar validaciones para aceptar documentos incorrectos. Un cambio de schema requiere cambiar
+  modelos, validación, recursos y tests juntos.
 
 ## Concurrencia
 
-- El proyecto ya usa Swift 6 y aislamiento explicito con `@MainActor`.
-- `BabyProgressViewModel`, `DependencyContainer` y `BabyProgressTimelineProvider` estan atados al main actor.
-- Si tocas aislamiento, `Sendable` o APIs async de Apple, valida antes con la documentacion oficial usando MCP `cupertino`.
-- Evita lanzar `Task` sin necesidad desde vistas si la responsabilidad puede vivir en ViewModel o repositorio.
+- App, `Coordinator`, `DependencyContainer`, router, ViewModels, modelo observable de cámara y
+  timeline provider viven en `MainActor`.
+- Stores y repositories con estado mutable son actors.
+- El servicio de captura es un actor que serializa la sesión de AVFoundation.
+- Use cases inmutables son structs `Sendable`.
+- Los errores de persistencia se propagan con `throws`; los ViewModels los traducen a estados de UI
+  tipados y conservan el último contenido válido cuando aplica.
+- No recurrir a anotaciones de concurrencia inseguras ni silenciar fallos de persistencia.
+- Evitar `Task` en Views cuando la responsabilidad corresponde a un ViewModel o al `Coordinator`.
+- Si una decisión depende de concurrencia, deprecaciones o comportamiento actual de APIs Apple,
+  validarla primero con la documentación oficial mediante MCP `cupertino`.
 
-## UI y navegacion
+## UI, navegación y accesibilidad
 
-- El shell de navegacion actual es `MainTabView`.
-- Tabs actuales:
-  dashboard, journey, gallery, settings.
-- Mantener la seleccion y los stacks por tab en `AppCoordinator`.
-- Reutilizar los componentes comunes de `Presentation/Common` antes de crear nuevos wrappers visuales.
-- La app esta forzada a `.preferredColorScheme(.light)`. No introducir dark mode parcial sin una decision explicita del proyecto.
-- Los textos visibles de app y widget viven en `Localizable.xcstrings` (`en` y `es` por ahora).
+- Tabs canónicas: dashboard, journey, gallery y settings.
+- Cada tab mantiene su `NavigationStack`; no hay coordinadores por tab.
+- La cámara se presenta desde `AppRouter` como destino full-screen.
+- El visor y `AVCapturePhotoOutput` usan `AVCaptureDevice.RotationCoordinator` para alinear preview,
+  captura, escala y orientación.
+- Reutilizar primero tokens y componentes de `BabyLoadingDesignSystem`.
+- Los textos visibles de app y widget viven en `Localizable.xcstrings`, actualmente en inglés y
+  español.
+- Conservar Dynamic Type, VoiceOver, contraste, targets táctiles y comportamiento con tecnologías
+  asistivas. Cualquier decisión visual compartida exige actualizar `DESIGN.md` y Android.
 
 ## Widget
 
-- El widget lee el mismo repositorio que la app a traves de `DependencyContainer.shared`.
-- `WidgetReloader` se dispara cuando cambia la fecha o cuando el contenido remoto cambia de snapshot.
-- Si modificas el contrato de datos que consume el widget, revisar siempre:
-  `BabyProgressTimelineProvider`,
-  `SimpleEntry`,
+- `WidgetDependencyContainer` es un composition root independiente.
+- Compone el grafo mínimo de infraestructura compartida, preferencias, localización, progreso,
+  contenido y carga del snapshot; nunca crea navegación ni estado de presentación de la app.
+- El entry es `BabyProgressWidgetEntry` y contiene un `BabyProgressWidgetSnapshot` inmutable.
+- Los cambios de fecha o locale solicitan recarga mediante `WidgetReloader`.
+- El timeline programa además una actualización cada hora.
+- Si cambia el snapshot o cualquier contrato persistido, revisar juntos
+  `WidgetDependencyContainer`, `BabyProgressTimelineProvider`, `BabyProgressWidgetEntry` y
   `BabyProgressWidgetEntryView`.
 
-## Networking
+## Testing y calidad
 
-- Hay un paquete local `AppNetwork` con `NetworkClientProtocol` y `NetworkClient` actor.
-- El fetch remoto de contenido semanal hoy usa `URLSession` directamente desde `RemoteContentSource`.
-- Si el proyecto migra mas llamadas HTTP, preferir una decision consistente:
-  o seguir con `URLSession` simple para este caso,
-  o converger hacia `AppNetwork` en vez de crear una tercera abstraccion.
+- La cobertura unitaria vive junto al package propietario y usa Swift Testing.
+- El target host conserva integración de composition root, recursos, frameworks y contratos
+  compartidos: `CoordinatorIntegrationTests`, `SharedPersistenceContractTests`,
+  `PregnancyContentResourceTests`, `BabySizeResourceTests` y `BabyLoadingTypographyTests`.
+- Antes de tocar reglas de negocio, parsing, persistencia, cámara o widget, actualizar primero los
+  tests de caracterización correspondientes.
+- SwiftLint 0.65.1 está versionado en `Scripts/swiftlint/`; no sustituirlo por una instalación global.
+- Una cámara física requiere validación manual de permisos, start/stop, cancelación, captura, HEIC,
+  rotación de preview/captura y referencia superpuesta.
 
-## Preferencias
+Comandos de verificación:
 
-- `Packages/AppPreferences` expone `PreferencesStoreProtocol`, `PreferenceKey` y `UserDefaultsPreferencesStore` para lectura, escritura y borrado tipados.
-- Inyecta el `UserDefaults` de la suite correspondiente desde `SharedAppGroup`; no accedas a `UserDefaults` directamente para nuevas preferencias de producto.
-- El cache de contenido sigue usando su acceso actual a `UserDefaults` hasta que se migre en una tarea dedicada.
+```bash
+./Scripts/swiftlint/swiftlint-0.65.1 lint --config .swiftlint.yml --strict --force-exclude --no-cache
 
-## Testing
+swift test --package-path Packages/AppPreferences
+swift test --package-path Packages/BabyLoadingCore
+swift test --package-path Packages/BabyLoadingDesignSystem
+swift test --package-path Packages/BabyLoadingFeatures
 
-- Hay tests tanto con `import Testing` como con `XCTest`.
-- Antes de tocar reglas de negocio, repositorios, parsing JSON o widget data, anadir o actualizar tests.
-- Zonas con cobertura relevante:
-  `PregnancyCalculatorTests`,
-  `BabyLoadingRepositoryTests`,
-  `BabyLoadingViewModelTests`,
-  `PregnancyContentDocumentTests`,
-  `PregnancyContentRepositoryTests`,
-  `PregnancyContentResourceTests`,
-  `BabySizeResourceTests`.
-- El paquete `AppNetwork` tiene tests aislados en `Packages/AppNetwork/Tests/AppNetworkTests`.
-- El paquete `AppPreferences` tiene tests aislados en `Packages/AppPreferences/Tests/AppPreferencesTests`.
+xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Release -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5),OS=26.5' build
+```
 
-## Reglas de extension para agentes
+## Reglas de extensión
 
-- Antes de cambiar arquitectura, primero seguir el flujo actual y extenderlo con minima friccion.
-- No crear singletons nuevos. La composicion central actual ya vive en `DependencyContainer.shared`.
-- No mover logica de negocio a las vistas.
-- No duplicar acceso a App Group fuera de `SharedAppGroup` o `BabyProgressDataSource` salvo que haya una necesidad clara de nueva abstraccion.
-- No introducir dependencias externas sin una razon fuerte. El proyecto actual vive casi entero sobre frameworks nativos y un paquete local.
-- Si agregas una nueva feature:
-  definir dominio si aplica,
-  exponerla via repositorio,
-  inyectarla desde `DependencyContainer`,
-  probarla en app y widget si toca datos compartidos.
-- Si una decision depende de comportamiento actual de APIs Apple, deprecaciones o restricciones de WidgetKit/SwiftUI, validar con MCP `cupertino` antes de responder o implementar.
-
-## Comandos utiles
-
-- Abrir proyecto:
-  `open /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj`
-- Build app en el simulador de referencia:
-  `xcodebuild -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build`
-- Ejecutar tests principales:
-  `xcodebuild test -project /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'`
-- Ejecutar tests del paquete local:
-  `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppNetwork`
-  y `swift test --package-path /Users/pablo.ruiz.local/Documents/XCode/BabyLoading/Packages/AppPreferences`
-
-## Notas de mantenimiento
-
-- Este archivo debe actualizarse cuando cambie la arquitectura, el App Group, el origen del contenido remoto, los targets o las reglas de test.
-- Si encuentras una discrepancia entre este documento y el codigo, prioriza el codigo y corrige este archivo en la misma tarea si tiene sentido.
+- Evitar introducir singletons, service locators ni estado global.
+- No mover lógica de negocio o acceso a plataforma a las Views.
+- Cuando una feature nueva necesite lógica o datos de negocio, debe exponer operaciones enfocadas
+  desde Core, recibirlas en su ViewModel y ser compuesta por `Coordinator` sin depender de otra
+  feature.
+- Si una feature toca datos compartidos, probar app y widget en conjunto.
+- No introducir dependencias externas sin una razón explícita y revisada.
+- Mantener código, nombres, comentarios y mensajes de commit en inglés. Usar comentarios mínimos y
+  solo cuando explican una decisión que el código no expresa.
+- Mantener este documento sincronizado con cualquier cambio de arquitectura, targets, paquetes,
+  persistencia, widget, concurrencia o estrategia de tests.

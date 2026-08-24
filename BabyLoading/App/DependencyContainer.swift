@@ -1,79 +1,129 @@
+import AppLocalization
+import AppPreferences
+import BabyLoadingInfrastructure
+import BellyTracking
 import Foundation
-import SwiftUI
+import PregnancyContent
+import PregnancyProgress
+import UltrasoundGallery
 
 @MainActor
-class DependencyContainer {
-    static let shared = DependencyContainer()
-
-    let dataSource: BabyProgressDataSourceProtocol
-    let languageRepository: AppLanguageRepositoryProtocol
-    let repository: BabyProgressRepositoryProtocol
+final class DependencyContainer {
     let widgetReloader: WidgetReloaderProtocol
-    let appVersionProvider: AppVersionProviding
+    let resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol
+    let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
+    let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
+    let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
+    let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
+    let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
+    let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
+    let loadBellyTrackingTimelineUseCase: any LoadBellyTrackingTimelineUseCaseProtocol
+    let loadBellyTrackingImageUseCase: any LoadBellyTrackingImageUseCaseProtocol
+    let captureBellyTrackingPhotoUseCase: any CaptureBellyTrackingPhotoUseCaseProtocol
+    let deleteBellyTrackingEntryUseCase: any DeleteBellyTrackingEntryUseCaseProtocol
+    let loadBellyTrackingSettingsUseCase: any LoadBellyTrackingSettingsUseCaseProtocol
+    let updateBellyTrackingSettingsUseCase: any UpdateBellyTrackingSettingsUseCaseProtocol
+    let resolveBellyTrackingStatusUseCase: any ResolveBellyTrackingStatusUseCaseProtocol
+    let initialLanguage: AppLanguage
 
-    // MARK: - Coordinator
+    private let contentBundle: Bundle
+    private let sharedContainerURL: URL
 
-    @MainActor let coordinator = AppCoordinator()
+    init() {
+        let fileManager = FileManager.default
+        let preferencesStore: UserDefaultsPreferencesStore
+        let containerURL: URL
 
-    // MARK: - ViewModel
+        do {
+            preferencesStore = UserDefaultsPreferencesStore(
+                userDefaults: try SharedAppGroup.userDefaults()
+            )
+            containerURL = try SharedAppGroup.containerURL(fileManager: fileManager)
+        } catch {
+            preconditionFailure("BabyLoading App Group is unavailable: \(error)")
+        }
 
-    @MainActor let viewModel: BabyProgressViewModel
-
-    private init() {
-        dataSource = BabyProgressDataSource()
-        languageRepository = AppLanguageRepository()
-        repository = BabyProgressRepository(
-            dataSource: dataSource,
-            contentRepositoryFactory: PregnancyContentRepositoryFactory(),
-            initialLanguage: languageRepository.resolvedLanguage()
+        let resolveAppLanguageUseCase = ResolveAppLanguageUseCase()
+        let initialLanguage = resolveAppLanguageUseCase.execute(
+            preferredLanguages: Bundle.main.preferredLocalizations + Locale.preferredLanguages
         )
+
+        let pregnancyProgressStore = PregnancyProgressStore(preferencesStore: preferencesStore)
+        let pregnancyProgressRepository = PregnancyProgressRepository(store: pregnancyProgressStore)
+        let ultrasoundGalleryStore = UltrasoundGalleryStore(containerURL: containerURL)
+        let ultrasoundGalleryRepository = UltrasoundGalleryRepository(store: ultrasoundGalleryStore)
+        let bellyTrackingStore = BellyTrackingStore(containerURL: containerURL)
+        let bellyTrackingRepository = BellyTrackingRepository(store: bellyTrackingStore)
+
         widgetReloader = DefaultWidgetReloader()
-        appVersionProvider = BundleAppVersionProvider()
-        viewModel = BabyProgressViewModel(
-            repository: repository,
-            languageRepository: languageRepository,
-            appVersionProvider: appVersionProvider,
-            widgetReloader: widgetReloader
+        self.resolveAppLanguageUseCase = resolveAppLanguageUseCase
+        loadAppVersionUseCase = LoadAppVersionUseCase(
+            provider: BundleAppVersionProvider(bundle: .main)
         )
+        loadPregnancyProgressUseCase = LoadPregnancyProgressUseCase(
+            repository: pregnancyProgressRepository,
+            calendar: .current
+        )
+        updateLastPeriodDateUseCase = UpdateLastPeriodDateUseCase(
+            repository: pregnancyProgressRepository
+        )
+        loadUltrasoundPhotosUseCase = LoadUltrasoundPhotosUseCase(
+            repository: ultrasoundGalleryRepository
+        )
+        addUltrasoundPhotoUseCase = AddUltrasoundPhotoUseCase(
+            repository: ultrasoundGalleryRepository
+        )
+        deleteUltrasoundPhotoUseCase = DeleteUltrasoundPhotoUseCase(
+            repository: ultrasoundGalleryRepository
+        )
+        loadBellyTrackingTimelineUseCase = LoadBellyTrackingTimelineUseCase(
+            repository: bellyTrackingRepository
+        )
+        loadBellyTrackingImageUseCase = LoadBellyTrackingImageUseCase(
+            repository: bellyTrackingRepository
+        )
+        captureBellyTrackingPhotoUseCase = CaptureBellyTrackingPhotoUseCase(
+            repository: bellyTrackingRepository
+        )
+        deleteBellyTrackingEntryUseCase = DeleteBellyTrackingEntryUseCase(
+            repository: bellyTrackingRepository
+        )
+        loadBellyTrackingSettingsUseCase = LoadBellyTrackingSettingsUseCase(
+            repository: bellyTrackingRepository
+        )
+        updateBellyTrackingSettingsUseCase = UpdateBellyTrackingSettingsUseCase(
+            repository: bellyTrackingRepository
+        )
+        resolveBellyTrackingStatusUseCase = ResolveBellyTrackingStatusUseCase(
+            calendar: .current
+        )
+        self.initialLanguage = initialLanguage
+        contentBundle = .main
+        sharedContainerURL = containerURL
     }
 
-    static func makeWidgetContext() -> (repository: BabyProgressRepositoryProtocol, language: AppLanguage) {
-        let container = DependencyContainer()
-        return (container.repository, container.languageRepository.resolvedLanguage())
-    }
-}
+    func makePregnancyContentUseCases(
+        for language: AppLanguage
+    ) -> (
+        loadWeekContent: any LoadPregnancyWeekContentUseCaseProtocol,
+        loadTimeline: any LoadPregnancyTimelineUseCaseProtocol
+    ) {
+        let localization = PregnancyContentLocalization(localeCode: language.rawValue)
+        let repository = PregnancyContentRepository(
+            expectedLocale: localization.localeCode,
+            bundleSource: BundlePregnancyContentSource(
+                bundle: contentBundle,
+                localization: localization
+            ),
+            legacyCacheSource: LegacyPregnancyContentCacheStore(
+                localization: localization,
+                containerURL: sharedContainerURL
+            )
+        )
 
-// MARK: - Navigation Types
-
-enum AppRoute: Hashable {
-    case detail(id: String)
-    case settings
-    // Add more routes as needed
-}
-
-enum TabItem: String, CaseIterable, Identifiable {
-    case dashboard
-    case journey
-    case gallery
-    case settings
-
-    var id: String { rawValue }
-
-    var titleKey: LocalizedStringKey {
-        switch self {
-        case .dashboard: "tabs.dashboard"
-        case .journey: "tabs.journey"
-        case .gallery: "tabs.gallery"
-        case .settings: "tabs.settings"
-        }
-    }
-
-    var icon: String {
-        switch self {
-        case .dashboard: return "heart.fill"
-        case .journey: return "map.fill"
-        case .gallery: return "photo.on.rectangle.fill"
-        case .settings: return "gearshape.fill"
-        }
+        return (
+            loadWeekContent: LoadPregnancyWeekContentUseCase(repository: repository),
+            loadTimeline: LoadPregnancyTimelineUseCase(repository: repository)
+        )
     }
 }

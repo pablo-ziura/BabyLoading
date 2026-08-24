@@ -2,268 +2,297 @@
 
 ## Español
 
-`BabyLoading` es una app iOS en SwiftUI para seguir el progreso del embarazo a partir de la fecha de la última menstruación. Calcula la semana actual y la fecha estimada de parto con la regla de Naegele, muestra hitos semanales localizados, mantiene una galería de fotos y expone el progreso en un widget compartido.
+`BabyLoading` es una app iOS en SwiftUI para seguir el embarazo desde la fecha de la última
+menstruación. Calcula la semana actual y la fecha estimada de parto, presenta contenido semanal
+localizado, conserva galerías de ecografías y seguimiento fotográfico, y comparte el progreso con
+un widget.
 
-### Qué incluye
+### Features
 
-- `Dashboard`: semana actual, fecha estimada de parto, días restantes y resumen del desarrollo.
-- `Journey`: timeline semanal con contenido para las semanas `6...40`.
-- `Gallery`: galería multifoto persistida en el App Group compartido.
-- `Settings`: configuración de la fecha base desde `DatePicker`.
-- `BabyProgressWidget`: widget que reutiliza el mismo repositorio y almacenamiento compartido.
+- `Dashboard`: semana, fecha estimada de parto, días restantes y resumen del desarrollo.
+- `Journey`: cronología localizada de las semanas `6...40`.
+- `Gallery`: ecografías, exportación a Fotos y seguimiento guiado con cámara.
+- `Settings`: configuración de la fecha base e información de versión.
+- `BabyProgressWidget`: snapshot del progreso sobre el mismo App Group que la app.
 
-### Stack técnico
+### Requisitos y stack
 
-- Swift 6.0
-- SwiftUI + Observation con `@Observable`
-- `NavigationStack` con un `NavigationPath` por tab
-- `WidgetKit`
-- App Group compartido `group.com.pablo.BabyLoading`
-- Contenido localizado en `en` y `es`
-- Módulo local de networking en `Packages/AppNetwork/`; los targets principales siguen usando `URLSession` desde `RemoteContentSource`
+- Xcode con soporte para el SDK de iOS 26.5.
+- iOS 26.5 para iPhone y iPad.
+- Simulador de referencia: `iPhone 17 Pro Max`, iOS 26.5.
+- Swift 6, SwiftUI, Observation, WidgetKit y Swift Package Manager.
+- App Group `group.com.pablo.BabyLoading`.
+- Inglés y español mediante `Localizable.xcstrings` y contenido JSON validado.
+- La app mantiene `.preferredColorScheme(.light)`.
 
 ### Arquitectura
 
-- Flujo principal: `Presentation -> Repository -> Data/Domain`
-- Composición central en `DependencyContainer.shared`
-- Estado principal de UI en `BabyProgressViewModel`, marcado como `@MainActor` y `@Observable`
-- Navegación por tabs en `AppCoordinator`
-- Fábricas de vistas en `BabyLoading/App/DependencyContainer+ViewFactory.swift`
-- La app refresca el contenido remoto al arrancar y al volver a primer plano
-- El widget reutiliza `DependencyContainer.shared` para leer el mismo repositorio que la app
+La app usa un único coordinator como composition root de presentación:
 
-### Contenido semanal
+```text
+BabyLoadingApp
+└── @State Coordinator
+    ├── DependencyContainer
+    ├── AppRouter
+    ├── DashboardViewModel
+    ├── JourneyViewModel
+    ├── GalleryViewModel
+    └── SettingsViewModel
+```
 
-- Recursos base en `BabyLoading/Resources/pregnancy-content.en.json` y `BabyLoading/Resources/pregnancy-content.es.json`
-- Resolución de locale en `BabyLoading/Data/Content/Localization/` con fallback a `en`
-- Snapshot inicial con prioridad `cache App Group -> bundle -> .empty`
-- Caché compartida por locale con JSON, `ETag`, `lastFetchAt` y `revision`
-- Sincronización remota opcional vía `PregnancyContentURL` o `PregnancyContentURLTemplate`
-- La plantilla `PregnancyContentURLTemplate` admite el placeholder `{locale}`
-- En el estado actual del proyecto, `INFOPLIST_KEY_PregnancyContentURL` está vacía y la sincronización remota queda desactivada por defecto
-- `PregnancyContentRepository` intenta refrescar cada 12 horas cuando existe URL remota
-- `PregnancyContentDocument` valida `schemaVersion`, `locale`, `revision`, semanas duplicadas, cobertura completa `6...40` y `keyEvents` no vacíos
+`Coordinator` crea internamente un `DependencyContainer` no singleton y posee exclusivamente el
+router y los cuatro ViewModels. Las factories los inyectan mediante SwiftUI `Environment`.
+`AppRouter` solo modela la tab seleccionada y la cámara full-screen. Las Views no conocen stores,
+repositories ni use cases.
 
-### Datos compartidos y widget
+Cuando cambia `lastPeriodDate`, `Coordinator` recarga las cuatro features y el widget. Cuando cambia
+el locale efectivo, recrea las operaciones de contenido, refresca toda la presentación y solicita
+un nuevo timeline del widget.
 
-- `lastPeriodDate` se guarda en `UserDefaults(suiteName:)`
-- La foto legacy única se guarda como `user_photo.jpg`
-- La galería multifoto se guarda en el directorio `gallery/` del contenedor compartido
-- Cambios de fecha o cambios de snapshot remoto disparan `WidgetReloader`
-- Cualquier cambio en keys, nombres de archivo o ubicaciones debe revisarse en app y widget a la vez
+### Módulos
 
-### Estructura del repo
+| Package | Productos |
+|---|---|
+| `AppPreferences` | `AppPreferences` |
+| `BabyLoadingCore` | `BabyLoadingInfrastructure`, `AppLocalization`, `PregnancyProgress`, `PregnancyContent`, `UltrasoundGallery`, `BellyTracking`, `BabyProgressWidgetSupport` |
+| `BabyLoadingDesignSystem` | `BabyLoadingDesignTokens`, `BabyLoadingDesignComponents` |
+| `BabyLoadingFeatures` | `BabyLoadingNavigation`, `DashboardFeature`, `JourneyFeature`, `GalleryFeature`, `SettingsFeature` |
+
+Las features no dependen entre sí. Core no importa SwiftUI, WidgetKit, Photos ni AVFoundation.
+`GalleryFeature` concentra PhotosUI, Photos, AVFoundation y la cámara. Los componentes de diseño
+dependen de los tokens semánticos. El target host conserva únicamente lifecycle, routing,
+composición y el shell de tabs.
+
+### Datos y contenido
+
+- `lastPeriodDate` se persiste con `AppPreferences` en el App Group.
+- Las ecografías viven en `gallery/` y mantienen identidad estable por nombre de archivo.
+- El seguimiento vive en `belly-tracking/manifest.json` con schema v1.
+- Las capturas nuevas conservan HEIC cuando está disponible; JPEG/JPG históricos siguen siendo
+  compatibles.
+- El contenido base está en `BabyLoading/Resources/pregnancy-content.en.json` y
+  `pregnancy-content.es.json`.
+- La prioridad es: bundle host válido -> cache histórica válida de solo lectura -> documento vacío.
+- No hay sincronización remota, networking de producto ni API legacy de foto única.
+
+### Widget y concurrencia
+
+`WidgetDependencyContainer` compone un grafo independiente y carga un
+`BabyProgressWidgetSnapshot` inmutable. No crea navegación ni presentación de la app. Los cambios de
+fecha o locale solicitan recarga y el timeline actualiza también cada hora.
+
+App, coordinator, router, ViewModels, timeline provider y modelo observable de cámara están aislados
+en `MainActor`. Los stores, repositories con estado y el servicio de captura son actors. Los use
+cases inmutables son `Sendable` y los errores de I/O se convierten en estados de UI tipados.
+
+### Estructura del repositorio
 
 ```text
 BabyLoading/
   App/
-  Data/
-  Domain/
-  Presentation/
+  Presentation/Navigation/
   Resources/
 BabyProgressWidget/
 BabyLoadingTests/
-Packages/AppNetwork/
+Packages/
+  AppPreferences/
+  BabyLoadingCore/
+  BabyLoadingDesignSystem/
+  BabyLoadingFeatures/
+Scripts/swiftlint/
 AGENTS.md
+DESIGN.md
 ```
 
-### Requisitos
+### Verificación local
 
-- Xcode con soporte para iOS 
-- Simulador de referencia: `iPhone 17 Pro Max` con `iOS `
-- La app fuerza `.preferredColorScheme(.light)`
-
-### Arranque local
-
-1. Abre el proyecto:
+Abre el proyecto:
 
 ```bash
 open BabyLoading.xcodeproj
 ```
 
-2. Compila la app:
+Ejecuta SwiftLint y todos los tests de packages:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+./Scripts/swiftlint/swiftlint-0.65.1 lint --config .swiftlint.yml --strict --force-exclude --no-cache
+
+swift test --package-path Packages/AppPreferences
+swift test --package-path Packages/BabyLoadingCore
+swift test --package-path Packages/BabyLoadingDesignSystem
+swift test --package-path Packages/BabyLoadingFeatures
 ```
 
-3. Ejecuta los tests principales:
+Ejecuta el test plan del host:
 
 ```bash
 xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
 ```
 
-4. Si necesitas compilar el widget por separado:
+Compila app, widget e iPad:
 
 ```bash
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Release -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5),OS=26.5' build
 ```
 
-### Configuración del contenido remoto
+La cámara debe verificarse además en un iPhone físico: permisos, start/stop, cancelación, captura,
+HEIC, rotación de preview/captura y referencia superpuesta.
 
-Puedes habilitar la sincronización remota definiendo una de estas keys en el `Info.plist`:
+### Desarrollo
 
-```text
-PregnancyContentURL = https://example.com/pregnancy-content.es.json
-```
-
-o bien:
-
-```text
-PregnancyContentURLTemplate = https://example.com/pregnancy-content.{locale}.json
-```
-
-Notas:
-
-- Si ambas keys están vacías, la app usa el bundle y la caché compartida
-- El documento remoto debe respetar el schema validado por `PregnancyContentDocument`
-- La `revision` remota debe ser mayor que la almacenada en caché para sustituir el snapshot actual
-- Si el servidor devuelve `ETag`, la app enviará `If-None-Match` en refrescos posteriores
-
-### Testing
-
-- Hay tests con `XCTest` y `Testing`
-- Cobertura relevante en `PregnancyCalculatorTests`, `BabyLoadingRepositoryTests`, `BabyLoadingViewModelTests`, `PregnancyContentDocumentTests`, `PregnancyContentRepositoryTests`, `PregnancyContentResourceTests` y `BabySizeResourceTests`
-- `Packages/AppNetwork/` también contiene tests aislados bajo `Packages/AppNetwork/Tests/AppNetworkTests/`
-
-### Notas de desarrollo
-
-- `AGENTS.md` es la guía viva de arquitectura, dependencias y reglas de extensión del proyecto
-- No mover lógica de negocio a las vistas
-- No introducir nuevos singletons; la composición actual vive en `DependencyContainer.shared`
-- Si una feature toca datos compartidos, revisar siempre app y widget en conjunto
-- Si una decisión depende de APIs Apple, concurrencia Swift 6 o restricciones de WidgetKit, validar primero con documentación oficial
+- `AGENTS.md` es la guía viva de arquitectura, dependencias y reglas de extensión.
+- `DESIGN.md` es el contrato visual compartido con Android.
+- La cobertura unitaria vive junto al package propietario; el target host conserva únicamente tests
+  de composition root, recursos, frameworks y contratos compartidos.
+- Los cambios del proyecto Xcode, membership, build settings, packages o assets se realizan con
+  XcodeProjectCLI (`xcp`).
 
 ## English
 
-`BabyLoading` is a SwiftUI iOS app for tracking pregnancy progress starting from the last menstrual period date. It calculates the current week and estimated due date using Naegele's rule, shows localized weekly milestones, keeps a photo gallery, and exposes progress through a shared widget.
+`BabyLoading` is a SwiftUI iOS app for tracking pregnancy from the last menstrual period date. It
+calculates the current week and estimated due date, presents localized weekly content, keeps
+ultrasound and guided photo timelines, and shares progress with a widget.
 
-### What it includes
+### Features
 
 - `Dashboard`: current week, estimated due date, remaining days, and development summary.
-- `Journey`: weekly timeline with content for weeks `6...40`.
-- `Gallery`: multi-photo gallery persisted in the shared App Group container.
-- `Settings`: base date configuration through `DatePicker`.
-- `BabyProgressWidget`: widget that reuses the same repository and shared storage.
+- `Journey`: localized timeline for weeks `6...40`.
+- `Gallery`: ultrasound photos, Photos export, and guided camera tracking.
+- `Settings`: base-date configuration and app version information.
+- `BabyProgressWidget`: a progress snapshot backed by the same App Group as the app.
 
-### Tech stack
+### Requirements and stack
 
-- Swift 6.0
-- SwiftUI + Observation with `@Observable`
-- `NavigationStack` with one `NavigationPath` per tab
-- `WidgetKit`
-- Shared App Group `group.com.pablo.BabyLoading`
-- Localized content in `en` and `es`
-- Local networking module under `Packages/AppNetwork/`; the main targets still use `URLSession` from `RemoteContentSource`
+- Xcode with the iOS 26.5 SDK.
+- iOS 26.5 on iPhone and iPad.
+- Reference simulator: `iPhone 17 Pro Max`, iOS 26.5.
+- Swift 6, SwiftUI, Observation, WidgetKit, and Swift Package Manager.
+- App Group `group.com.pablo.BabyLoading`.
+- English and Spanish through `Localizable.xcstrings` and validated JSON content.
+- The app keeps `.preferredColorScheme(.light)`.
 
 ### Architecture
 
-- Main flow: `Presentation -> Repository -> Data/Domain`
-- Central composition in `DependencyContainer.shared`
-- Main UI state in `BabyProgressViewModel`, marked as `@MainActor` and `@Observable`
-- Tab navigation managed by `AppCoordinator`
-- View factories live in `BabyLoading/App/DependencyContainer+ViewFactory.swift`
-- The app refreshes remote content on launch and when returning to the foreground
-- The widget reuses `DependencyContainer.shared` to read the same repository as the app
+The app uses one coordinator as its presentation composition root:
 
-### Weekly content
+```text
+BabyLoadingApp
+└── @State Coordinator
+    ├── DependencyContainer
+    ├── AppRouter
+    ├── DashboardViewModel
+    ├── JourneyViewModel
+    ├── GalleryViewModel
+    └── SettingsViewModel
+```
 
-- Base resources live in `BabyLoading/Resources/pregnancy-content.en.json` and `BabyLoading/Resources/pregnancy-content.es.json`
-- Locale resolution lives in `BabyLoading/Data/Content/Localization/` with fallback to `en`
-- Initial snapshot priority is `App Group cache -> bundle -> .empty`
-- Shared cache is split by locale and stores JSON, `ETag`, `lastFetchAt`, and `revision`
-- Remote sync is optional through `PregnancyContentURL` or `PregnancyContentURLTemplate`
-- `PregnancyContentURLTemplate` supports the `{locale}` placeholder
-- In the current project state, `INFOPLIST_KEY_PregnancyContentURL` is empty, so remote sync is disabled by default
-- `PregnancyContentRepository` tries to refresh every 12 hours when a remote URL exists
-- `PregnancyContentDocument` validates `schemaVersion`, `locale`, `revision`, duplicate weeks, full `6...40` coverage, and non-empty `keyEvents`
+`Coordinator` creates a non-singleton `DependencyContainer` internally and exclusively owns the
+router and four ViewModels. Its factories inject them through SwiftUI `Environment`. `AppRouter`
+models only selected-tab state and full-screen camera presentation. Views never receive stores,
+repositories, or use cases.
 
-### Shared data and widget
+Changing `lastPeriodDate` makes `Coordinator` reload all four features and the widget. When the
+effective locale changes, it recreates content operations, refreshes presentation state, and asks
+the widget for a new timeline.
 
-- `lastPeriodDate` is stored in `UserDefaults(suiteName:)`
-- The legacy single photo is stored as `user_photo.jpg`
-- The multi-photo gallery is stored in the shared container `gallery/` directory
-- Date changes or remote snapshot changes trigger `WidgetReloader`
-- Any change to keys, file names, or locations should be reviewed in app and widget together
+### Modules
+
+| Package | Products |
+|---|---|
+| `AppPreferences` | `AppPreferences` |
+| `BabyLoadingCore` | `BabyLoadingInfrastructure`, `AppLocalization`, `PregnancyProgress`, `PregnancyContent`, `UltrasoundGallery`, `BellyTracking`, `BabyProgressWidgetSupport` |
+| `BabyLoadingDesignSystem` | `BabyLoadingDesignTokens`, `BabyLoadingDesignComponents` |
+| `BabyLoadingFeatures` | `BabyLoadingNavigation`, `DashboardFeature`, `JourneyFeature`, `GalleryFeature`, `SettingsFeature` |
+
+Features do not depend on one another. Core does not import SwiftUI, WidgetKit, Photos, or
+AVFoundation. `GalleryFeature` owns PhotosUI, Photos, AVFoundation, and camera code. Shared design
+components depend on semantic tokens. The host target contains only lifecycle, routing,
+composition, and the tab shell.
+
+### Data and content
+
+- `lastPeriodDate` is persisted through `AppPreferences` in the App Group.
+- Ultrasound photos live in `gallery/` with stable file-name identity.
+- Tracking data lives in `belly-tracking/manifest.json` using schema v1.
+- New captures preserve HEIC when available; historical JPEG/JPG files remain compatible.
+- Base content lives in `BabyLoading/Resources/pregnancy-content.en.json` and
+  `pregnancy-content.es.json`.
+- Loading priority is: valid host bundle -> valid read-only historical cache -> empty document.
+- There is no remote synchronization, product networking, or legacy single-photo API.
+
+### Widget and concurrency
+
+`WidgetDependencyContainer` builds an independent graph around an immutable
+`BabyProgressWidgetSnapshot`. It never creates app navigation or presentation state. Date and locale
+changes request a reload, and the timeline also refreshes hourly.
+
+The app, coordinator, router, ViewModels, timeline provider, and observable camera model are isolated
+to `MainActor`. Stateful stores, repositories, and the capture service are actors. Immutable use
+cases are `Sendable`, and I/O failures map to typed UI states.
 
 ### Repository structure
 
 ```text
 BabyLoading/
   App/
-  Data/
-  Domain/
-  Presentation/
+  Presentation/Navigation/
   Resources/
 BabyProgressWidget/
 BabyLoadingTests/
-Packages/AppNetwork/
+Packages/
+  AppPreferences/
+  BabyLoadingCore/
+  BabyLoadingDesignSystem/
+  BabyLoadingFeatures/
+Scripts/swiftlint/
 AGENTS.md
+DESIGN.md
 ```
 
-### Requirements
+### Local verification
 
-- Xcode with iOS 26.5 support
-- Reference simulator: `iPhone 17 Pro Max` running `iOS 26.5`
-- The app forces `.preferredColorScheme(.light)`
-
-### Local setup
-
-1. Open the project:
+Open the project:
 
 ```bash
 open BabyLoading.xcodeproj
 ```
 
-2. Build the app:
+Run SwiftLint and every package test suite:
 
 ```bash
-xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+./Scripts/swiftlint/swiftlint-0.65.1 lint --config .swiftlint.yml --strict --force-exclude --no-cache
+
+swift test --package-path Packages/AppPreferences
+swift test --package-path Packages/BabyLoadingCore
+swift test --package-path Packages/BabyLoadingDesignSystem
+swift test --package-path Packages/BabyLoadingFeatures
 ```
 
-3. Run the main tests:
+Run the hosted test plan:
 
 ```bash
 xcodebuild test -project BabyLoading.xcodeproj -scheme BabyLoadingTests -testPlan BabyLoadingTests -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5'
 ```
 
-4. If you need to build the widget separately:
+Build the app, widget, and iPad destination:
 
 ```bash
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Release -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5),OS=26.5' build
 ```
 
-### Remote content configuration
+The camera also requires physical-iPhone verification for permissions, start/stop, cancellation,
+capture, HEIC, preview/capture rotation, and the alignment reference overlay.
 
-You can enable remote sync by defining one of these keys in `Info.plist`:
+### Development
 
-```text
-PregnancyContentURL = https://example.com/pregnancy-content.es.json
-```
-
-or:
-
-```text
-PregnancyContentURLTemplate = https://example.com/pregnancy-content.{locale}.json
-```
-
-Notes:
-
-- If both keys are empty, the app uses the bundle and the shared cache
-- The remote document must respect the schema validated by `PregnancyContentDocument`
-- The remote `revision` must be greater than the cached revision to replace the current snapshot
-- If the server returns an `ETag`, the app sends `If-None-Match` on later refreshes
-
-### Testing
-
-- The project contains both `XCTest` and `Testing` tests
-- Relevant coverage includes `PregnancyCalculatorTests`, `BabyLoadingRepositoryTests`, `BabyLoadingViewModelTests`, `PregnancyContentDocumentTests`, `PregnancyContentRepositoryTests`, `PregnancyContentResourceTests`, and `BabySizeResourceTests`
-- `Packages/AppNetwork/` also contains isolated tests under `Packages/AppNetwork/Tests/AppNetworkTests/`
-
-### Development notes
-
-- `AGENTS.md` is the living guide for architecture, dependencies, and extension rules in this project
-- Do not move business logic into views
-- Do not introduce new singletons; central composition already lives in `DependencyContainer.shared`
-- If a feature touches shared data, always review app and widget together
-- If a decision depends on Apple APIs, Swift 6 concurrency, or WidgetKit constraints, validate it first with official documentation
+- `AGENTS.md` is the living architecture, dependency, and extension guide.
+- `DESIGN.md` is the visual contract shared with Android.
+- Unit tests live with their owning package; the host target keeps only composition-root, resource,
+  framework, and shared-contract integration tests.
+- Xcode project, membership, build-setting, package, and asset changes use XcodeProjectCLI (`xcp`).

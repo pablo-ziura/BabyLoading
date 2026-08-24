@@ -1,0 +1,103 @@
+# Run from the repository root:
+# ./Scripts/swiftlint/swiftlint-0.65.1 --fix --config .swiftlint.yml
+
+included:
+  - BabyLoading
+  - BabyProgressWidget
+  - BabyLoadingTests
+  - Packages
+
+excluded:
+  - Packages/**/.build
+  - Packages/**/.swiftpm
+
+disabled_rules:
+  - large_tuple
+  - inclusive_language
+  - xctfail_message
+
+analyzer_rules:
+  - unused_import
+
+opt_in_rules:
+  - array_init:
+      severity: error
+  - closure_end_indentation:
+      severity: error
+  - closure_spacing:
+      severity: error
+  - collection_alignment:
+      severity: error
+  - first_where
+  - force_unwrapping:
+      excluded: ".*Test\\.swift"
+  - literal_expression_end_indentation:
+      severity: error
+  - multiline_function_chains
+  - multiline_parameters
+  - operator_usage_whitespace:
+      severity: error
+  - sorted_imports
+  - yoda_condition
+
+identifier_name:
+  min_length: 1
+  max_length: 50
+
+type_name:
+  max_length: 50
+
+vertical_whitespace:
+  severity: error
+
+force_try:
+  severity: warning
+
+function_parameter_count:
+  warning: 8
+  error: 15
+
+cyclomatic_complexity:
+  warning: 15
+  error: 20
+
+function_body_length:
+  warning: 150
+  error: 200
+
+type_body_length:
+  warning: 600
+  error: 1000
+
+trailing_whitespace:
+  severity: error
+
+nesting:
+  type_level:
+    warning: 3
+    error: 5
+
+vertical_parameter_alignment:
+  severity: error
+
+comma:
+  severity: error
+
+trailing_newline:
+  severity: error
+
+opening_brace:
+  severity: error
+
+colon:
+  severity: error
+
+trailing_comma:
+  severity: error
+
+mark:
+  severity: error
+
+line_length:
+  warning: 120
+  error: 200
