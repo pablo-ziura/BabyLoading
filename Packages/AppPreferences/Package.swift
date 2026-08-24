@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AppPreferences",
     platforms: [
-        .iOS(.v26),
+        .iOS("26.5"),
         .macOS(.v12)
     ],
     products: [

@@ -28,8 +28,6 @@
 	<string>Baby Loading saves guided belly tracking photos to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Baby Loading saves guided belly tracking photos to your photo library.</string>
-	<key>PregnancyContentURL</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>NunitoSans-Variable.ttf</string>
