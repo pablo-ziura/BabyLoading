@@ -156,7 +156,7 @@ Graph rules:
   content, and snapshot loading; it never creates app navigation or presentation state.
 - The entry is \`BabyProgressWidgetEntry\` and contains an immutable \`BabyProgressWidgetSnapshot\`.
 - Date or locale changes request a reload through \`WidgetReloader\`.
-- The timeline also schedules an update every hour.
+- The timeline precomputes the current snapshot and snapshots for the next seven local midnights.
 - If the snapshot or any persisted contract changes, review \`WidgetDependencyContainer\`,
   \`BabyProgressTimelineProvider\`, \`BabyProgressWidgetEntry\`, and
   \`BabyProgressWidgetEntryView\` together.
