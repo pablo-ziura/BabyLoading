@@ -47,14 +47,20 @@ final class WidgetDependencyContainer {
             )
         )
 
+        let loadSnapshotUseCase = LoadBabyProgressWidgetSnapshotUseCase(
+            loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
+            loadPregnancyWeekContentUseCase: LoadPregnancyWeekContentUseCase(
+                repository: contentRepository
+            ),
+            language: language
+        )
+
         self.language = language
         timelineProvider = BabyProgressTimelineProvider(
-            loadSnapshotUseCase: LoadBabyProgressWidgetSnapshotUseCase(
-                loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
-                loadPregnancyWeekContentUseCase: LoadPregnancyWeekContentUseCase(
-                    repository: contentRepository
-                ),
-                language: language
+            loadSnapshotUseCase: loadSnapshotUseCase,
+            loadTimelineUseCase: LoadBabyProgressWidgetTimelineUseCase(
+                loadSnapshotUseCase: loadSnapshotUseCase,
+                calendar: .current
             ),
             language: language
         )

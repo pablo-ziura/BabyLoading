@@ -12,13 +12,16 @@ struct BabyProgressTimelineProvider: TimelineProvider {
     )
 
     private let loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol
+    private let loadTimelineUseCase: any LoadBabyProgressWidgetTimelineUseCaseProtocol
     private let language: AppLanguage
 
     init(
         loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol,
+        loadTimelineUseCase: any LoadBabyProgressWidgetTimelineUseCaseProtocol,
         language: AppLanguage
     ) {
         self.loadSnapshotUseCase = loadSnapshotUseCase
+        self.loadTimelineUseCase = loadTimelineUseCase
         self.language = language
     }
 
@@ -53,11 +56,26 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         completion: @escaping (Timeline<BabyProgressWidgetEntry>) -> Void
     ) {
         Task {
-            let entry = await makeEntry()
-            let nextUpdate = Date.now.addingTimeInterval(60 * 60)
-            let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+            let date = Date.now
 
-            completion(timeline)
+            do {
+                let snapshots = try await loadTimelineUseCase.execute(asOf: date)
+                let entries = snapshots.map(BabyProgressWidgetEntry.init(snapshot:))
+                let policy: TimelineReloadPolicy = entries.count > 1 ? .atEnd : .never
+
+                completion(Timeline(entries: entries, policy: policy))
+            } catch {
+                Self.logger.error(
+                    "Failed to load widget timeline: \(String(describing: error), privacy: .public)"
+                )
+                let retryDate = date.addingTimeInterval(60 * 60)
+                let timeline = Timeline(
+                    entries: [makeFallbackEntry(date: date)],
+                    policy: .after(retryDate)
+                )
+
+                completion(timeline)
+            }
         }
     }
 
@@ -74,6 +92,10 @@ struct BabyProgressTimelineProvider: TimelineProvider {
             )
         }
 
+        return makeFallbackEntry(date: date)
+    }
+
+    private func makeFallbackEntry(date: Date) -> BabyProgressWidgetEntry {
         return BabyProgressWidgetEntry(
             snapshot: BabyProgressWidgetSnapshot(
                 date: date,
