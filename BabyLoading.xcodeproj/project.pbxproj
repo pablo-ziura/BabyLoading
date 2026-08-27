@@ -79,20 +79,21 @@
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
+		DA30E63A30405E4F00BCC159 /* BabyLoading-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BabyLoading-Info.plist"; sourceTree = "<group>"; };
 		DAD90FF33033143600B66667 /* DESIGN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DESIGN.md; sourceTree = "<group>"; };
 		DAD90FF43033143600B66667 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
@@ -102,7 +103,7 @@
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
-		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
@@ -112,14 +113,14 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
 			);
 			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
 		};
-		DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
@@ -129,13 +130,30 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyLoading; sourceTree = "<group>"; };
+		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
+				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyLoading;
+			sourceTree = "<group>";
+		};
 		DA1C91622F41F1EA003EC367 /* BabyLoadingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BabyLoadingTests;
 			sourceTree = "<group>";
 		};
-		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyProgressWidget; sourceTree = "<group>"; };
+		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
+				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
+				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyProgressWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +221,7 @@
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
 				DA1C91892F41F266003EC367 /* BabyProgressWidget */,
 				DA1C91622F41F1EA003EC367 /* BabyLoadingTests */,
+				DA30E63B30405E4F00BCC159 /* Configuration */,
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
 				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
@@ -226,6 +245,14 @@
 				DA1C91872F41F266003EC367 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA30E63B30405E4F00BCC159 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				DA30E63A30405E4F00BCC159 /* BabyLoading-Info.plist */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

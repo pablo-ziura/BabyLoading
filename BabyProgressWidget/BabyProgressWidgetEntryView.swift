@@ -70,22 +70,30 @@ struct BabyProgressWidgetEntryView: View {
                     .font(BabyLoadingTypography.widget(size: 15, weight: .extraBold))
                     .foregroundStyle(.white)
 
-                Text(
-                    String(
-                        format: String(
-                            localized: "widget.babySize",
-                            defaultValue: "The baby 🤰🏽 is now about the size of %@",
-                            locale: locale
-                        ),
-                        locale: locale,
-                        resolvedBabySizeLabel
+                HStack(alignment: .top, spacing: 4) {
+                    Image("illustration_expecting_parent")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 16, height: 28)
+                        .accessibilityHidden(true)
+
+                    Text(
+                        String(
+                            format: String(
+                                localized: "widget.babySize",
+                                defaultValue: "The baby is now about the size of %@",
+                                locale: locale
+                            ),
+                            locale: locale,
+                            resolvedBabySizeLabel
+                        )
                     )
-                )
-                    .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.85))
-                    .lineLimit(3)
-                    .multilineTextAlignment(.leading)
-                    .minimumScaleFactor(0.6)
+                        .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.85))
+                        .lineLimit(3)
+                        .multilineTextAlignment(.leading)
+                        .minimumScaleFactor(0.6)
+                }
 
                 Spacer(minLength: 4)
 
