@@ -31,8 +31,12 @@ public final class DashboardViewModel {
         do {
             let loadedProgress = try await loadPregnancyProgressUseCase.execute(asOf: date)
             let loadedWeekContent: WeekContent?
-            if let currentWeek = loadedProgress?.currentWeek {
-                loadedWeekContent = await loadPregnancyWeekContentUseCase.execute(week: currentWeek)
+            if case let .active(activeProgress) = loadedProgress,
+               activeProgress.phase == .ongoing,
+               (6 ... 40).contains(activeProgress.gestationalAge.weeks) {
+                loadedWeekContent = await loadPregnancyWeekContentUseCase.execute(
+                    week: activeProgress.gestationalAge.weeks
+                )
             } else {
                 loadedWeekContent = nil
             }
@@ -50,11 +54,15 @@ public final class DashboardViewModel {
     ) async {
         self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
 
-        guard let currentWeek = progress?.currentWeek else {
+        guard case let .active(activeProgress) = progress,
+              activeProgress.phase == .ongoing,
+              (6 ... 40).contains(activeProgress.gestationalAge.weeks) else {
             currentWeekContent = nil
             return
         }
 
-        currentWeekContent = await loadPregnancyWeekContentUseCase.execute(week: currentWeek)
+        currentWeekContent = await loadPregnancyWeekContentUseCase.execute(
+            week: activeProgress.gestationalAge.weeks
+        )
     }
 }

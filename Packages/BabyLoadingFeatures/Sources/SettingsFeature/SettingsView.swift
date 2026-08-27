@@ -51,6 +51,15 @@ public struct SettingsView: View {
                 .accessibilityHeading(.h2)
                 .padding(.bottom, BabyLoadingSpacing.small)
 
+            if viewModel.hasStoredFutureLastPeriodDate || viewModel.saveState == .invalidFutureLastPeriodDate {
+                Text("settings.invalidFutureLastPeriodDate")
+                    .font(BabyLoadingTypography.text(.subheadline))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, BabyLoadingSpacing.small)
+                    .accessibilityElement(children: .combine)
+            }
+
             Group {
                 if isLandscape {
                     DatePicker(
