@@ -51,11 +51,12 @@ public final class JourneyViewModel {
     }
 
     public func currentDayOffset(asOf date: Date = .now, calendar: Calendar = .current) -> Int {
-        guard let lastPeriodDate = progress?.lastPeriodDate else {
+        guard case let .active(activeProgress) = progress,
+              activeProgress.phase == .ongoing else {
             return 0
         }
 
-        let startDate = calendar.startOfDay(for: lastPeriodDate)
+        let startDate = calendar.startOfDay(for: activeProgress.lastPeriodDate)
         let currentDate = calendar.startOfDay(for: date)
         let elapsedDays = calendar.dateComponents([.day], from: startDate, to: currentDate).day ?? 0
         return max(0, elapsedDays) % 7

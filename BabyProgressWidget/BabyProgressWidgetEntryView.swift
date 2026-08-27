@@ -1,6 +1,7 @@
 import BabyLoadingDesignTokens
 import BabyProgressWidgetSupport
 import Foundation
+import PregnancyProgress
 import SwiftUI
 import WidgetKit
 
@@ -16,41 +17,54 @@ struct BabyProgressWidgetEntryView: View {
         Locale(identifier: snapshot.localeIdentifier)
     }
 
-    private var babySizeLabel: String {
-        snapshot.babySizeLabel ?? String(
-            localized: "widget.unknownSize",
-            defaultValue: "a mystery",
-            locale: locale
-        )
-    }
-
     var body: some View {
         Group {
-            if let dueDate = snapshot.dueDate {
-                configuredView(dueDate: dueDate)
-                    .unredacted()
-            } else {
+            switch snapshot.state {
+            case .unconfigured:
                 emptyStateView
-                    .unredacted()
+            case .invalidFutureLastPeriodDate:
+                invalidDateView
+            case let .ongoing(progress, babySizeImageName, babySizeLabel):
+                ongoingView(
+                    progress: progress,
+                    babySizeImageName: babySizeImageName,
+                    babySizeLabel: babySizeLabel
+                )
+            case let .lateTerm(progress):
+                phaseView(progress: progress, phase: .lateTerm)
+            case let .postTerm(progress):
+                phaseView(progress: progress, phase: .postTerm)
             }
         }
+        .unredacted()
         .environment(\.locale, locale)
     }
 
     @ViewBuilder
-    private func configuredView(dueDate: Date) -> some View {
-        let days = daysUntil(dueDate)
-        let progress = min(Double(snapshot.currentWeek) / 40.0, 1.0)
+    private func ongoingView(
+        progress: BabyProgressWidgetDetails,
+        babySizeImageName: String,
+        babySizeLabel: String?
+    ) -> some View {
+        let completion = min(
+            (Double(progress.gestationalAge.weeks) + Double(progress.gestationalAge.days) / 7) / 40,
+            1
+        )
+        let resolvedBabySizeLabel = babySizeLabel ?? String(
+            localized: "widget.unknownSize",
+            defaultValue: "a mystery",
+            locale: locale
+        )
 
         HStack(spacing: 0) {
-            fruitProgressRing(progress: progress)
+            fruitProgressRing(progress: completion, babySizeImageName: babySizeImageName)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(
                     String(
                         format: String(localized: "common.week", defaultValue: "Week %d", locale: locale),
                         locale: locale,
-                        snapshot.currentWeek
+                        progress.gestationalAge.weeks
                     )
                 )
                     .font(BabyLoadingTypography.widget(size: 15, weight: .extraBold))
@@ -64,7 +78,7 @@ struct BabyProgressWidgetEntryView: View {
                             locale: locale
                         ),
                         locale: locale,
-                        babySizeLabel
+                        resolvedBabySizeLabel
                     )
                 )
                     .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
@@ -75,13 +89,11 @@ struct BabyProgressWidgetEntryView: View {
 
                 Spacer(minLength: 4)
 
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text("\(days)")
-                        .font(BabyLoadingTypography.widget(size: 28, weight: .extraBold))
-                    Text("widget.days")
-                        .font(BabyLoadingTypography.widget(size: 12, weight: .semibold))
-                }
-                .foregroundStyle(.white)
+                Text(dueDateRelationText(progress.dueDateRelation))
+                    .font(BabyLoadingTypography.widget(size: 14, weight: .extraBold))
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
 
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
@@ -90,7 +102,7 @@ struct BabyProgressWidgetEntryView: View {
                             .frame(height: 4)
                         Capsule()
                             .fill(.white)
-                            .frame(width: geo.size.width * progress, height: 4)
+                            .frame(width: geo.size.width * completion, height: 4)
                     }
                 }
                 .frame(height: 4)
@@ -102,7 +114,58 @@ struct BabyProgressWidgetEntryView: View {
         }
     }
 
-    private func fruitProgressRing(progress: Double) -> some View {
+    private func phaseView(
+        progress: BabyProgressWidgetDetails,
+        phase: PregnancyPhase
+    ) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: "calendar.badge.exclamationmark")
+                .font(.system(size: 32))
+                .foregroundStyle(.white.opacity(0.85))
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(LocalizedStringKey(phase == .lateTerm ? "widget.lateTerm" : "widget.postTerm"))
+                    .font(BabyLoadingTypography.widget(size: 14, weight: .extraBold))
+                    .foregroundStyle(.white)
+
+                Text(gestationalAgeText(progress.gestationalAge))
+                    .font(BabyLoadingTypography.widget(size: 18, weight: .extraBold))
+                    .foregroundStyle(.white)
+
+                Text(dueDateRelationText(progress.dueDateRelation))
+                    .font(BabyLoadingTypography.widget(size: 11, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.7)
+
+                Text("widget.reviewDate")
+                    .font(BabyLoadingTypography.widget(size: 10, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.75))
+                    .lineLimit(2)
+            }
+        }
+        .containerBackground(for: .widget) {
+            widgetGradient
+        }
+    }
+
+    private var invalidDateView: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "calendar.badge.exclamationmark")
+                .font(.system(size: 36))
+                .foregroundStyle(.white.opacity(0.8))
+
+            Text("widget.invalidDate")
+                .font(BabyLoadingTypography.widget(size: 13, weight: .medium))
+                .multilineTextAlignment(.leading)
+                .foregroundStyle(.white.opacity(0.7))
+        }
+        .containerBackground(for: .widget) {
+            widgetGradient
+        }
+    }
+
+    private func fruitProgressRing(progress: Double, babySizeImageName: String) -> some View {
         let ringSize: CGFloat = family == .systemMedium ? 100 : 74
         let lineWidth: CGFloat = 5
         let imageSize: CGFloat = ringSize - lineWidth * 2
@@ -125,7 +188,7 @@ struct BabyProgressWidgetEntryView: View {
                 .rotationEffect(.degrees(-90))
                 .frame(width: ringSize, height: ringSize)
 
-            Image(snapshot.babySizeImageName)
+            Image(babySizeImageName)
                 .resizable()
                 .scaledToFill()
                 .frame(width: imageSize, height: imageSize)
@@ -160,11 +223,43 @@ struct BabyProgressWidgetEntryView: View {
         )
     }
 
-    func daysUntil(_ dueDate: Date) -> Int {
-        let calendar = Calendar.current
-        let snapshotDate = calendar.startOfDay(for: snapshot.date)
-        let dueDateStart = calendar.startOfDay(for: dueDate)
-        let components = calendar.dateComponents([.day], from: snapshotDate, to: dueDateStart)
-        return max(0, components.day ?? 0)
+    private func gestationalAgeText(_ gestationalAge: GestationalAge) -> String {
+        String(
+            format: String(
+                localized: "widget.gestationalAge",
+                defaultValue: "Week %d+%d",
+                locale: locale
+            ),
+            locale: locale,
+            gestationalAge.weeks,
+            gestationalAge.days
+        )
+    }
+
+    private func dueDateRelationText(_ relation: DueDateRelation) -> String {
+        switch relation {
+        case let .upcoming(days):
+            String(
+                format: String(
+                    localized: "widget.daysUntilDueDate",
+                    defaultValue: "%d days until estimated due date",
+                    locale: locale
+                ),
+                locale: locale,
+                days
+            )
+        case .today:
+            String(localized: "widget.dueDateToday", defaultValue: "Estimated due date today", locale: locale)
+        case let .elapsed(days):
+            String(
+                format: String(
+                    localized: "widget.daysSinceDueDate",
+                    defaultValue: "%d days since estimated due date",
+                    locale: locale
+                ),
+                locale: locale,
+                days
+            )
+        }
     }
 }

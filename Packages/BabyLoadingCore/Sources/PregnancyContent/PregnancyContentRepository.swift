@@ -22,12 +22,11 @@ public actor PregnancyContentRepository: PregnancyContentRepositoryProtocol {
     }
 
     public func weekContent(for week: Int) async -> WeekContent? {
-        guard week >= PregnancyContentDocument.coveredWeeks.first ?? 6 else {
+        guard PregnancyContentDocument.coveredWeeks.contains(week) else {
             return nil
         }
 
-        let clampedWeek = min(week, PregnancyContentDocument.coveredWeeks.last ?? 40)
-        return await resolveSnapshot().weeks.first { $0.week == clampedWeek }
+        return await resolveSnapshot().weeks.first { $0.week == week }
     }
 
     public func allWeekContent() async -> [WeekContent] {

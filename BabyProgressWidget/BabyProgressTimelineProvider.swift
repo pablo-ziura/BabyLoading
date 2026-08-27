@@ -2,6 +2,7 @@ import AppLocalization
 import BabyProgressWidgetSupport
 import Foundation
 import OSLog
+import PregnancyProgress
 import WidgetKit
 
 @MainActor
@@ -29,13 +30,17 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         BabyProgressWidgetEntry(
             snapshot: BabyProgressWidgetSnapshot(
                 date: .now,
-                dueDate: .now,
-                currentWeek: 40,
-                babySizeImageName: "img_pumpkin",
-                babySizeLabel: String(
-                    localized: "widget.placeholderPumpkinSize",
-                    defaultValue: "a pumpkin",
-                    locale: AppLanguage.english.locale
+                state: .ongoing(
+                    progress: BabyProgressWidgetDetails(
+                        gestationalAge: GestationalAge(weeks: 40, days: 0),
+                        dueDateRelation: .today
+                    ),
+                    babySizeImageName: "img_pumpkin",
+                    babySizeLabel: String(
+                        localized: "widget.placeholderPumpkinSize",
+                        defaultValue: "a pumpkin",
+                        locale: AppLanguage.english.locale
+                    )
                 ),
                 localeIdentifier: AppLanguage.english.rawValue
             )
@@ -99,10 +104,7 @@ struct BabyProgressTimelineProvider: TimelineProvider {
         return BabyProgressWidgetEntry(
             snapshot: BabyProgressWidgetSnapshot(
                 date: date,
-                dueDate: nil,
-                currentWeek: 0,
-                babySizeImageName: "img_unknown",
-                babySizeLabel: nil,
+                state: .unconfigured,
                 localeIdentifier: language.rawValue
             )
         )

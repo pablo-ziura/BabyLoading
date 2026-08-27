@@ -9,12 +9,7 @@ struct DashboardViewModelTests {
     @Test
     func reloadMapsProgressToCurrentWeekContent() async {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
-        let progress = PregnancyProgress(
-            lastPeriodDate: date,
-            dueDate: date.addingTimeInterval(280 * 86_400),
-            currentWeek: 18,
-            daysUntilDueDate: 154
-        )
+        let progress = makeProgress(week: 18, lastPeriodDate: date)
         let weekContent = makeWeekContent(week: 18)
         let viewModel = DashboardViewModel(
             loadPregnancyProgressUseCase: DashboardProgressUseCaseStub(progress: progress),
@@ -31,12 +26,7 @@ struct DashboardViewModelTests {
     @Test
     func reloadKeepsLastValidContentWhenProgressFails() async {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
-        let progress = PregnancyProgress(
-            lastPeriodDate: date,
-            dueDate: date,
-            currentWeek: 12,
-            daysUntilDueDate: 200
-        )
+        let progress = makeProgress(week: 12, lastPeriodDate: date)
         let weekContent = makeWeekContent(week: 12)
         let progressUseCase = DashboardMutableProgressUseCase(progress: progress)
         let viewModel = DashboardViewModel(
@@ -71,12 +61,7 @@ struct DashboardViewModelTests {
 
     @Test
     func reloadCurrentWeekContentReplacesLocalizationWithoutReloadingProgress() async {
-        let progress = PregnancyProgress(
-            lastPeriodDate: .now,
-            dueDate: .now,
-            currentWeek: 18,
-            daysUntilDueDate: 154
-        )
+        let progress = makeProgress(week: 18, lastPeriodDate: .now)
         let progressUseCase = DashboardProgressUseCaseRecorder(progress: progress)
         let englishContent = makeWeekContent(week: 18, babySizeLabel: "avocado")
         let spanishContent = makeWeekContent(week: 18, babySizeLabel: "aguacate")
@@ -92,6 +77,37 @@ struct DashboardViewModelTests {
 
         #expect(viewModel.currentWeekContent == spanishContent)
         #expect(await progressUseCase.executionCount == 1)
+    }
+
+    @Test
+    func reloadDoesNotLoadWeeklyContentForLateTermProgress() async {
+        let progress = PregnancyProgress.active(ActivePregnancyProgress(
+            lastPeriodDate: .now,
+            dueDate: .now,
+            gestationalAge: GestationalAge(weeks: 41, days: 0),
+            phase: .lateTerm,
+            dueDateRelation: .elapsed(days: 7)
+        ))
+        let contentUseCase = DashboardWeekContentUseCaseRecorder()
+        let viewModel = DashboardViewModel(
+            loadPregnancyProgressUseCase: DashboardProgressUseCaseStub(progress: progress),
+            loadPregnancyWeekContentUseCase: contentUseCase
+        )
+
+        await viewModel.reload()
+
+        #expect(viewModel.currentWeekContent == nil)
+        #expect(await contentUseCase.executionCount == 0)
+    }
+
+    private func makeProgress(week: Int, lastPeriodDate: Date) -> PregnancyProgress {
+        .active(ActivePregnancyProgress(
+            lastPeriodDate: lastPeriodDate,
+            dueDate: lastPeriodDate.addingTimeInterval(280 * 86_400),
+            gestationalAge: GestationalAge(weeks: week, days: 0),
+            phase: .ongoing,
+            dueDateRelation: .upcoming(days: 154)
+        ))
     }
 
     private func makeWeekContent(
@@ -156,6 +172,15 @@ private struct DashboardWeekContentUseCaseStub: LoadPregnancyWeekContentUseCaseP
 
     func execute(week: Int) async -> WeekContent? {
         content?.week == week ? content : nil
+    }
+}
+
+private actor DashboardWeekContentUseCaseRecorder: LoadPregnancyWeekContentUseCaseProtocol {
+    private(set) var executionCount = 0
+
+    func execute(week: Int) -> WeekContent? {
+        executionCount += 1
+        return nil
     }
 }
 
