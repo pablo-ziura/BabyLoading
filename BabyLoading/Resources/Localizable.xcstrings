@@ -414,13 +414,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🎀  Estimated due date"
+            "value" : "Estimated due date"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🎀  Fecha probable de parto"
+            "value" : "Fecha probable de parto"
           }
         }
       }
@@ -516,13 +516,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your week-by-week adventure 🌸"
+            "value" : "Your week-by-week adventure"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu aventura semana a semana 🌸"
+            "value" : "Tu aventura semana a semana"
           }
         }
       }
@@ -890,13 +890,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your ultrasounds will appear here 📸"
+            "value" : "Your ultrasounds will appear here"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aquí aparecerán tus ecografías 📸"
+            "value" : "Aquí aparecerán tus ecografías"
           }
         }
       }
@@ -1349,13 +1349,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "When was your last period? 🌸"
+            "value" : "When was your last period?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Cuándo fue tu última menstruación? 🌸"
+            "value" : "¿Cuándo fue tu última menstruación?"
           }
         }
       }
@@ -1366,13 +1366,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set date ✨"
+            "value" : "Set date"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fijar fecha ✨"
+            "value" : "Fijar fecha"
           }
         }
       }
@@ -1484,13 +1484,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The baby 🤰🏽 is now about the size of %@"
+            "value" : "The baby is now about the size of %@"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El bebé 🤰🏽 ahora tiene el tamaño de %@"
+            "value" : "El bebé ahora tiene el tamaño de %@"
           }
         }
       }
