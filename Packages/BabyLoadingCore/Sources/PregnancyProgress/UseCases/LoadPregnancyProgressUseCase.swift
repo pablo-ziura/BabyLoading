@@ -17,22 +17,34 @@ public struct LoadPregnancyProgressUseCase: LoadPregnancyProgressUseCaseProtocol
             return nil
         }
 
-        return PregnancyProgress(
+        guard !PregnancyCalculator.isFuture(
+            lastPeriod: lastPeriodDate,
+            asOf: date,
+            calendar: calendar
+        ) else {
+            return .invalidFutureLastPeriodDate(lastPeriodDate: lastPeriodDate)
+        }
+
+        let dueDate = PregnancyCalculator.calculateDueDate(
+            lastPeriod: lastPeriodDate,
+            calendar: calendar
+        )
+        let gestationalAge = PregnancyCalculator.gestationalAge(
+            lastPeriod: lastPeriodDate,
+            asOf: date,
+            calendar: calendar
+        )
+
+        return .active(ActivePregnancyProgress(
             lastPeriodDate: lastPeriodDate,
-            dueDate: PregnancyCalculator.calculateDueDate(
-                lastPeriod: lastPeriodDate,
-                calendar: calendar
-            ),
-            currentWeek: PregnancyCalculator.currentWeek(
-                lastPeriod: lastPeriodDate,
-                currentDate: date,
-                calendar: calendar
-            ),
-            daysUntilDueDate: PregnancyCalculator.daysUntilDueDate(
-                lastPeriod: lastPeriodDate,
+            dueDate: dueDate,
+            gestationalAge: gestationalAge,
+            phase: PregnancyCalculator.phase(for: gestationalAge),
+            dueDateRelation: PregnancyCalculator.dueDateRelation(
+                dueDate: dueDate,
                 asOf: date,
                 calendar: calendar
             )
-        )
+        ))
     }
 }

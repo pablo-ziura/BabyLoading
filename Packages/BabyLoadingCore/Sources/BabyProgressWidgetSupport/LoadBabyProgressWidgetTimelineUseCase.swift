@@ -18,7 +18,7 @@ public struct LoadBabyProgressWidgetTimelineUseCase:
 
     public func execute(asOf date: Date) async throws -> [BabyProgressWidgetSnapshot] {
         let currentSnapshot = try await loadSnapshotUseCase.execute(asOf: date)
-        guard currentSnapshot.dueDate != nil else {
+        guard currentSnapshot.requiresDailyTimelineRefresh else {
             return [currentSnapshot]
         }
 

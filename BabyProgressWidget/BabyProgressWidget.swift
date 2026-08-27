@@ -1,5 +1,6 @@
 import AppLocalization
 import BabyProgressWidgetSupport
+import PregnancyProgress
 import SwiftUI
 import WidgetKit
 
@@ -33,20 +34,21 @@ struct BabyProgressWidget: Widget {
     BabyProgressWidgetEntry(
         snapshot: BabyProgressWidgetSnapshot(
             date: .now,
-            dueDate: .now.addingTimeInterval(86400 * 5),
-            currentWeek: 20,
-            babySizeImageName: "img_banana",
-            babySizeLabel: "a banana",
+            state: .ongoing(
+                progress: BabyProgressWidgetDetails(
+                    gestationalAge: GestationalAge(weeks: 20, days: 0),
+                    dueDateRelation: .upcoming(days: 5)
+                ),
+                babySizeImageName: "img_banana",
+                babySizeLabel: "a banana"
+            ),
             localeIdentifier: AppLanguage.english.rawValue
         )
     )
     BabyProgressWidgetEntry(
         snapshot: BabyProgressWidgetSnapshot(
             date: .now,
-            dueDate: nil,
-            currentWeek: 0,
-            babySizeImageName: "img_unknown",
-            babySizeLabel: nil,
+            state: .unconfigured,
             localeIdentifier: AppLanguage.english.rawValue
         )
     )

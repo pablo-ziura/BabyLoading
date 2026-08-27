@@ -130,7 +130,12 @@ public final class GalleryViewModel {
         var failures: [GalleryLoadFailure] = []
 
         do {
-            currentPregnancyWeek = try await loadPregnancyProgressUseCase.execute(asOf: date)?.currentWeek
+            let progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
+            if case let .active(activeProgress) = progress {
+                currentPregnancyWeek = activeProgress.gestationalAge.weeks
+            } else {
+                currentPregnancyWeek = nil
+            }
         } catch {
             currentPregnancyWeek = nil
             failures.append(.pregnancyProgress)

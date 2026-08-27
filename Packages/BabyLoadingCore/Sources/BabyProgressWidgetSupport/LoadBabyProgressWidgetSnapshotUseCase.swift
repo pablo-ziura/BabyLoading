@@ -22,19 +22,39 @@ public struct LoadBabyProgressWidgetSnapshotUseCase:
 
     public func execute(asOf date: Date) async throws -> BabyProgressWidgetSnapshot {
         let progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
-        let weekContent: WeekContent?
-        if let progress {
-            weekContent = await loadPregnancyWeekContentUseCase.execute(week: progress.currentWeek)
-        } else {
-            weekContent = nil
+        let state: BabyProgressWidgetState
+
+        switch progress {
+        case nil:
+            state = .unconfigured
+        case .invalidFutureLastPeriodDate:
+            state = .invalidFutureLastPeriodDate
+        case let .active(activeProgress):
+            let details = BabyProgressWidgetDetails(
+                gestationalAge: activeProgress.gestationalAge,
+                dueDateRelation: activeProgress.dueDateRelation
+            )
+
+            switch activeProgress.phase {
+            case .ongoing:
+                let weekContent = await loadPregnancyWeekContentUseCase.execute(
+                    week: activeProgress.gestationalAge.weeks
+                )
+                state = .ongoing(
+                    progress: details,
+                    babySizeImageName: (weekContent?.babySize ?? .unknown).imageName,
+                    babySizeLabel: weekContent?.babySizeLabel
+                )
+            case .lateTerm:
+                state = .lateTerm(progress: details)
+            case .postTerm:
+                state = .postTerm(progress: details)
+            }
         }
 
         return BabyProgressWidgetSnapshot(
             date: date,
-            dueDate: progress?.dueDate,
-            currentWeek: progress?.currentWeek ?? 0,
-            babySizeImageName: (weekContent?.babySize ?? .unknown).imageName,
-            babySizeLabel: weekContent?.babySizeLabel,
+            state: state,
             localeIdentifier: language.rawValue
         )
     }
