@@ -1,6 +1,7 @@
 import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
 import PregnancyContent
+import PregnancyProgress
 import SwiftUI
 
 public struct DashboardView: View {
@@ -18,6 +19,7 @@ public struct DashboardView: View {
                 VStack(spacing: BabyLoadingSpacing.large) {
                     header
                     heroSection
+                    phaseNotice
 
                     Text("✨")
                         .font(.title2)
@@ -115,7 +117,7 @@ public struct DashboardView: View {
             )
             .padding(.horizontal, 20)
             .accessibilityElement(children: .combine)
-        } else if viewModel.progress?.currentWeek == nil {
+        } else if viewModel.progress == nil {
             VStack(spacing: 12) {
                 Image(systemName: "sparkles")
                     .font(.system(size: 50))
@@ -135,27 +137,52 @@ public struct DashboardView: View {
             )
             .padding(.horizontal, 20)
             .accessibilityElement(children: .combine)
+        } else if isStoredDateInFuture {
+            VStack(spacing: BabyLoadingSpacing.small) {
+                Image(systemName: "calendar.badge.exclamationmark")
+                    .font(.system(size: 42))
+                    .foregroundStyle(.primary.opacity(0.55))
+                    .accessibilityHidden(true)
+
+                Text("pregnancy.status.invalidDate.title")
+                    .font(BabyLoadingTypography.text(.headline, weight: .bold))
+                    .foregroundStyle(.primary)
+
+                Text("pregnancy.status.invalidDate.message")
+                    .font(BabyLoadingTypography.text(.body))
+                    .foregroundStyle(.primary.opacity(0.75))
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.vertical, BabyLoadingSpacing.large)
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 28, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            )
+            .padding(.horizontal, 20)
+            .accessibilityElement(children: .combine)
         }
     }
 
     private var statsSection: some View {
         VStack(spacing: 12) {
-            if let progress = viewModel.progress {
+            if let activeProgress {
                 Group {
                     if dynamicTypeSize.isAccessibilitySize {
                         VStack(spacing: 12) {
-                            statCards(week: progress.currentWeek, daysRemaining: progress.daysUntilDueDate)
+                            statCards(progress: activeProgress)
                         }
                     } else {
                         HStack(spacing: BabyLoadingSpacing.medium) {
-                            statCards(week: progress.currentWeek, daysRemaining: progress.daysUntilDueDate)
+                            statCards(progress: activeProgress)
                         }
                     }
                 }
                 .padding(.horizontal)
             }
 
-            if let dueDate = viewModel.progress?.dueDate {
+            if let dueDate = activeProgress?.dueDate {
                 VStack(spacing: 6) {
                     Text("dashboard.dueDate")
                         .font(BabyLoadingTypography.text(.caption))
@@ -256,24 +283,68 @@ public struct DashboardView: View {
     }
 
     @ViewBuilder
-    private func statCards(week: Int, daysRemaining: Int) -> some View {
+    private func statCards(progress: ActivePregnancyProgress) -> some View {
         DashboardStatCard(
             title: String(localized: "dashboard.stats.week", defaultValue: "Week", locale: locale),
-            value: "\(week)",
+            value: "\(progress.gestationalAge.weeks)",
             systemImage: "calendar.circle.fill"
         )
 
-        DashboardStatCard(
-            title: String(
-                localized: "dashboard.stats.daysRemaining",
-                defaultValue: "Days remaining",
-                locale: locale
-            ),
-            value: "\(daysRemaining)",
-            systemImage: "clock.fill"
-        )
+        switch progress.dueDateRelation {
+        case let .upcoming(days):
+            DashboardStatCard(
+                title: String(
+                    localized: "dashboard.stats.daysUntilDueDate",
+                    defaultValue: "Days until estimated due date",
+                    locale: locale
+                ),
+                value: "\(days)",
+                systemImage: "clock.fill"
+            )
+        case .today:
+            DashboardStatCard(
+                title: String(
+                    localized: "dashboard.stats.dueDate",
+                    defaultValue: "Estimated due date",
+                    locale: locale
+                ),
+                value: String(localized: "pregnancy.status.dueDateToday", defaultValue: "Today", locale: locale),
+                systemImage: "calendar.badge.clock"
+            )
+        case let .elapsed(days):
+            DashboardStatCard(
+                title: String(
+                    localized: "dashboard.stats.daysSinceDueDate",
+                    defaultValue: "Days since estimated due date",
+                    locale: locale
+                ),
+                value: "\(days)",
+                systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90"
+            )
+        }
     }
 
+    @ViewBuilder
+    private var phaseNotice: some View {
+        if let activeProgress, activeProgress.phase != .ongoing {
+            PregnancyProgressStatusCard(progress: activeProgress)
+            .padding(.horizontal)
+        }
+    }
+
+    private var activeProgress: ActivePregnancyProgress? {
+        guard case let .some(.active(progress)) = viewModel.progress else {
+            return nil
+        }
+        return progress
+    }
+
+    private var isStoredDateInFuture: Bool {
+        guard case .some(.invalidFutureLastPeriodDate) = viewModel.progress else {
+            return false
+        }
+        return true
+    }
     private func babySizeDescription(_ babySizeLabel: String) -> String {
         String(
             format: String(
@@ -284,42 +355,5 @@ public struct DashboardView: View {
             locale: locale,
             babySizeLabel
         )
-    }
-}
-
-private struct DashboardStatCard: View {
-    let title: String
-    let value: String
-    let systemImage: String
-
-    var body: some View {
-        VStack(spacing: BabyLoadingSpacing.small) {
-            Image(systemName: systemImage)
-                .font(.title2)
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [
-                            BabyLoadingColors.selectionAccent,
-                            BabyLoadingColors.selectionGradientEnd
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .accessibilityHidden(true)
-
-            Text(value)
-                .font(BabyLoadingTypography.text(.title, weight: .bold))
-                .foregroundStyle(.primary)
-
-            Text(title)
-                .font(BabyLoadingTypography.text(.caption))
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .softCard()
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(title))
-        .accessibilityValue(Text(value))
     }
 }

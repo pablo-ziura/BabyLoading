@@ -28,12 +28,14 @@ struct SettingsViewModelTests {
     @Test
     func reloadResolvesLanguageAndProgress() async {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
-        let progress = PregnancyProgress(
+        let activeProgress = ActivePregnancyProgress(
             lastPeriodDate: date,
             dueDate: date.addingTimeInterval(280 * 86_400),
-            currentWeek: 10,
-            daysUntilDueDate: 210
+            gestationalAge: GestationalAge(weeks: 10, days: 0),
+            phase: .ongoing,
+            dueDateRelation: .upcoming(days: 210)
         )
+        let progress = PregnancyProgress.active(activeProgress)
         let viewModel = SettingsViewModel(
             loadPregnancyProgressUseCase: SettingsProgressUseCaseStub(progress: progress),
             updateLastPeriodDateUseCase: SettingsUpdateDateUseCaseRecorder(),
@@ -46,7 +48,7 @@ struct SettingsViewModelTests {
         await viewModel.reload(asOf: date, preferredLanguages: ["es-ES"])
 
         #expect(viewModel.lastPeriodDate == date)
-        #expect(viewModel.dueDate == progress.dueDate)
+        #expect(viewModel.dueDate == activeProgress.dueDate)
         #expect(viewModel.appLanguage == .spanish)
         #expect(viewModel.appVersion == "1.2.3")
         #expect(viewModel.loadingState == .loaded)
@@ -64,6 +66,26 @@ struct SettingsViewModelTests {
 
         #expect(viewModel.saveState == .failed)
         #expect(outputRecorder.outputs.isEmpty)
+    }
+
+    @Test
+    func reloadFlagsHistoricalFutureDateForCorrection() async {
+        let storedFutureDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let viewModel = SettingsViewModel(
+            loadPregnancyProgressUseCase: SettingsProgressUseCaseStub(
+                progress: .invalidFutureLastPeriodDate(lastPeriodDate: storedFutureDate)
+            ),
+            updateLastPeriodDateUseCase: SettingsUpdateDateUseCaseRecorder(),
+            resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
+            loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.2.3"),
+            initialLanguage: .english,
+            outputHandler: { _ in }
+        )
+
+        await viewModel.reload(asOf: .now, preferredLanguages: ["en-US"])
+
+        #expect(viewModel.hasStoredFutureLastPeriodDate)
+        #expect(viewModel.dueDate == nil)
     }
 
     private func makeViewModel(
@@ -101,13 +123,13 @@ private struct SettingsProgressUseCaseStub: LoadPregnancyProgressUseCaseProtocol
 private actor SettingsUpdateDateUseCaseRecorder: UpdateLastPeriodDateUseCaseProtocol {
     private(set) var lastDate: Date?
 
-    func execute(_ date: Date?) {
+    func execute(_ date: Date?, asOf: Date) {
         lastDate = date
     }
 }
 
 private struct SettingsFailingUpdateDateUseCase: UpdateLastPeriodDateUseCaseProtocol {
-    func execute(_ date: Date?) async throws {
+    func execute(_ date: Date?, asOf: Date) async throws {
         throw SettingsUpdateDateError.persistenceFailed
     }
 }

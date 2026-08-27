@@ -223,7 +223,7 @@ struct PregnancyContentTests {
         #expect(loadedDocument == expectedDocument)
     }
 
-    @Test func weekUseCaseClampsPostTermWeeksAndRejectsPreContentWeeks() async {
+    @Test func weekUseCaseRejectsWeeksOutsideTheContentCoverage() async {
         let document = makeDocument(locale: "en", revision: 1)
         let repository = PregnancyContentRepository(
             expectedLocale: "en",
@@ -236,7 +236,7 @@ struct PregnancyContentTests {
         let postTermContent = await useCase.execute(week: 44)
 
         #expect(earlyContent == nil)
-        #expect(postTermContent?.week == 40)
+        #expect(postTermContent == nil)
     }
 }
 
