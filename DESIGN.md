@@ -157,6 +157,8 @@ relationship.
 | Current day marker | 7 pink circle with 1 white border; non-current markers are 4. |
 | Baby-size image | 40 circular container; 34 circular crop; 1.5 pink border at 20%. |
 | “You are here” badge | Capsule with selection gradient; white Bold caption2 text; 10 horizontal and 4 vertical padding. |
+| Dashboard metric cards | Cards in the same metric row align icon, figure, and label into matching vertical bands. The label reserves 48 points before the shared `SoftCard` inset and may grow with text scaling. |
+| Late-term and postterm notice | Reuse the secondary `SoftCard` surface with a Bold title, Regular explanatory text, and the relation to the estimated due date. It is informational, not interactive, and must not reuse fetal-size imagery or a progress ring. |
 
 ## Components, states, and accessibility
 
@@ -173,6 +175,10 @@ relationship.
   semantics, never color alone.
 - Interactive targets respect each platform's recommended minimum. Headers are marked as such and
   follow a consistent hierarchy.
+- When the pregnancy is late term (41+0 to 41+6) or postterm (42+0 and beyond), show the same
+  informational state on iOS and Android: phase label and the relation to the estimated due date.
+  The widget also uses the estimated due date terminology in its compact layout and directs the
+  user to review the date in the app.
 
 ## Governance and cross-platform synchronization
 

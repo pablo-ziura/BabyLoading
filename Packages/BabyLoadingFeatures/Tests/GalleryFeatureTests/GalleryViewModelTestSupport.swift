@@ -118,12 +118,13 @@ enum GalleryViewModelTestError: Error {
 }
 
 func makeGalleryProgress(week: Int, asOf date: Date) -> PregnancyProgress {
-    PregnancyProgress(
+    .active(ActivePregnancyProgress(
         lastPeriodDate: date,
         dueDate: date.addingTimeInterval(120 * 86_400),
-        currentWeek: week,
-        daysUntilDueDate: 120
-    )
+        gestationalAge: GestationalAge(weeks: week, days: 0),
+        phase: week >= 42 ? .postTerm : (week == 41 ? .lateTerm : .ongoing),
+        dueDateRelation: .upcoming(days: 120)
+    ))
 }
 
 func makeGalleryCalendar() -> Calendar {
