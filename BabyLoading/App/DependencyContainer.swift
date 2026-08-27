@@ -65,7 +65,8 @@ final class DependencyContainer {
             calendar: .current
         )
         updateLastPeriodDateUseCase = UpdateLastPeriodDateUseCase(
-            repository: pregnancyProgressRepository
+            repository: pregnancyProgressRepository,
+            calendar: .current
         )
         loadUltrasoundPhotosUseCase = LoadUltrasoundPhotosUseCase(
             repository: ultrasoundGalleryRepository

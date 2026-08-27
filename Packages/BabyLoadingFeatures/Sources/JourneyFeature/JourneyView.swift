@@ -1,10 +1,12 @@
 import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
 import PregnancyContent
+import PregnancyProgress
 import SwiftUI
 
 public struct JourneyView: View {
     @Environment(JourneyViewModel.self) private var viewModel
+    @Environment(\.locale) private var locale
 
     public init() {}
 
@@ -14,7 +16,7 @@ public struct JourneyView: View {
 
             ScrollView {
                 VStack(spacing: 0) {
-                    Text("journey.title")
+                        Text("journey.title")
                         .font(BabyLoadingTypography.text(.title2, weight: .bold))
                         .foregroundStyle(.primary)
                         .accessibilityAddTraits(.isHeader)
@@ -24,12 +26,12 @@ public struct JourneyView: View {
 
                     LazyVStack(spacing: 0) {
                         ForEach(viewModel.pregnancyTimeline) { content in
-                            let isCurrent = viewModel.progress?.currentWeek == content.week
+                            let isCurrent = currentTimelineWeek == content.week
 
                             JourneyWeekRow(
                                 content: content,
                                 isCurrent: isCurrent,
-                                currentWeek: viewModel.progress?.currentWeek,
+                                currentWeek: currentTimelineWeek,
                                 currentDayOffset: viewModel.currentDayOffset()
                             )
                         }
@@ -42,6 +44,27 @@ public struct JourneyView: View {
                 .frame(maxWidth: .infinity)
             }
         }
+    }
+
+    private var activeProgress: ActivePregnancyProgress? {
+        guard case let .some(.active(progress)) = viewModel.progress else {
+            return nil
+        }
+        return progress
+    }
+
+    private var currentTimelineWeek: Int? {
+        guard let activeProgress, activeProgress.phase == .ongoing else {
+            return nil
+        }
+        return activeProgress.gestationalAge.weeks
+    }
+
+    private var isStoredDateInFuture: Bool {
+        guard case .some(.invalidFutureLastPeriodDate) = viewModel.progress else {
+            return false
+        }
+        return true
     }
 }
 

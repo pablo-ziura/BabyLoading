@@ -9,12 +9,7 @@ struct JourneyViewModelTests {
     @Test
     func reloadProvidesTimelineAndCurrentProgress() async {
         let date = Date(timeIntervalSince1970: 1_700_000_000)
-        let progress = PregnancyProgress(
-            lastPeriodDate: date,
-            dueDate: date,
-            currentWeek: 8,
-            daysUntilDueDate: 224
-        )
+        let progress = makeProgress(week: 8, lastPeriodDate: date)
         let timeline = [makeWeekContent(week: 7), makeWeekContent(week: 8)]
         let viewModel = JourneyViewModel(
             loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(progress: progress),
@@ -37,12 +32,13 @@ struct JourneyViewModelTests {
         let currentDate = try #require(
             calendar.date(from: DateComponents(year: 2026, month: 1, day: 10))
         )
-        let progress = PregnancyProgress(
+        let progress = PregnancyProgress.active(ActivePregnancyProgress(
             lastPeriodDate: lastPeriodDate,
             dueDate: lastPeriodDate,
-            currentWeek: 1,
-            daysUntilDueDate: 271
-        )
+            gestationalAge: GestationalAge(weeks: 1, days: 2),
+            phase: .ongoing,
+            dueDateRelation: .upcoming(days: 271)
+        ))
         let viewModel = JourneyViewModel(
             loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(progress: progress),
             loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(timeline: [])
@@ -55,12 +51,7 @@ struct JourneyViewModelTests {
 
     @Test
     func reloadFailurePreservesLastValidProgress() async {
-        let progress = PregnancyProgress(
-            lastPeriodDate: .now,
-            dueDate: .now,
-            currentWeek: 8,
-            daysUntilDueDate: 224
-        )
+        let progress = makeProgress(week: 8, lastPeriodDate: .now)
         let progressUseCase = JourneyProgressUseCaseSequenceStub(
             results: [.success(progress), .failure(.loadFailed)]
         )
@@ -76,6 +67,25 @@ struct JourneyViewModelTests {
         #expect(viewModel.progress == progress)
         #expect(viewModel.pregnancyTimeline == timeline)
         #expect(viewModel.loadingState == .failed)
+    }
+
+    @Test
+    func currentDayOffsetIsDisabledForLateTermProgress() async {
+        let progress = PregnancyProgress.active(ActivePregnancyProgress(
+            lastPeriodDate: .now,
+            dueDate: .now,
+            gestationalAge: GestationalAge(weeks: 41, days: 3),
+            phase: .lateTerm,
+            dueDateRelation: .elapsed(days: 10)
+        ))
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(progress: progress),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(timeline: [])
+        )
+
+        await viewModel.reload()
+
+        #expect(viewModel.currentDayOffset() == 0)
     }
 
     @Test
@@ -104,6 +114,16 @@ struct JourneyViewModelTests {
             keyEvents: ["Event"],
             physiologicalImpact: nil
         )
+    }
+
+    private func makeProgress(week: Int, lastPeriodDate: Date) -> PregnancyProgress {
+        .active(ActivePregnancyProgress(
+            lastPeriodDate: lastPeriodDate,
+            dueDate: lastPeriodDate.addingTimeInterval(280 * 86_400),
+            gestationalAge: GestationalAge(weeks: week, days: 0),
+            phase: .ongoing,
+            dueDateRelation: .upcoming(days: 224)
+        ))
     }
 }
 

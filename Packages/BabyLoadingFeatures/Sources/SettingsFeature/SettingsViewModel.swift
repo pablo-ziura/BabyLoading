@@ -14,6 +14,7 @@ public enum SettingsSaveState: Equatable, Sendable {
     case idle
     case saving
     case saved
+    case invalidFutureLastPeriodDate
     case failed
 }
 
@@ -32,6 +33,7 @@ public final class SettingsViewModel {
     public private(set) var appVersion: String
     public private(set) var loadingState: SettingsLoadingState = .idle
     public private(set) var saveState: SettingsSaveState = .idle
+    public private(set) var hasStoredFutureLastPeriodDate = false
 
     @ObservationIgnored private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     @ObservationIgnored private let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
@@ -65,11 +67,18 @@ public final class SettingsViewModel {
 
         do {
             let progress = try await loadPregnancyProgressUseCase.execute(asOf: date)
-            if let progress {
-                lastPeriodDate = progress.lastPeriodDate
-                dueDate = progress.dueDate
-            } else {
+            switch progress {
+            case nil:
                 dueDate = nil
+                hasStoredFutureLastPeriodDate = false
+            case let .active(activeProgress):
+                lastPeriodDate = activeProgress.lastPeriodDate
+                dueDate = activeProgress.dueDate
+                hasStoredFutureLastPeriodDate = false
+            case .invalidFutureLastPeriodDate:
+                lastPeriodDate = date
+                dueDate = nil
+                hasStoredFutureLastPeriodDate = true
             }
             appLanguage = resolvedLanguage
             appVersion = loadAppVersionUseCase.execute()
@@ -84,9 +93,12 @@ public final class SettingsViewModel {
         saveState = .saving
 
         do {
-            try await updateLastPeriodDateUseCase.execute(lastPeriodDate)
+            try await updateLastPeriodDateUseCase.execute(lastPeriodDate, asOf: .now)
             await outputHandler(.lastPeriodDateUpdated(lastPeriodDate))
             saveState = .saved
+            hasStoredFutureLastPeriodDate = false
+        } catch PregnancyProgressValidationError.futureLastPeriodDate {
+            saveState = .invalidFutureLastPeriodDate
         } catch {
             saveState = .failed
         }
