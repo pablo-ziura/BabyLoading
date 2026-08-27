@@ -21,10 +21,8 @@ public struct DashboardView: View {
                     heroSection
                     phaseNotice
 
-                    Text("✨")
-                        .font(.title2)
+                    decorativeImage("illustration_sparkles", size: 34)
                         .opacity(0.5)
-                        .accessibilityHidden(true)
 
                     statsSection
                     developmentSection
@@ -44,9 +42,13 @@ public struct DashboardView: View {
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(.h1)
 
-            Text("dashboard.subtitle")
-                .font(BabyLoadingTypography.text(.subheadline))
-                .foregroundStyle(.primary.opacity(0.75))
+            HStack(spacing: BabyLoadingSpacing.extraSmall) {
+                Text("dashboard.subtitle")
+                    .font(BabyLoadingTypography.text(.subheadline))
+                    .foregroundStyle(.primary.opacity(0.75))
+
+                decorativeImage("illustration_blossom", size: 22)
+            }
         }
         .padding(.top, BabyLoadingSpacing.large)
     }
@@ -184,10 +186,14 @@ public struct DashboardView: View {
 
             if let dueDate = activeProgress?.dueDate {
                 VStack(spacing: 6) {
-                    Text("dashboard.dueDate")
-                        .font(BabyLoadingTypography.text(.caption))
-                        .foregroundStyle(.secondary)
-                        .accessibilityLabel(Text("settings.dueDate"))
+                    HStack(spacing: BabyLoadingSpacing.extraSmall) {
+                        decorativeImage("illustration_ribbon", size: 20)
+
+                        Text("dashboard.dueDate")
+                            .font(BabyLoadingTypography.text(.caption))
+                            .foregroundStyle(.secondary)
+                    }
+                    .accessibilityLabel(Text("settings.dueDate"))
 
                     Text(dueDate.formatted(.dateTime.year().month(.wide).day().locale(locale)))
                         .font(BabyLoadingTypography.text(.title3, weight: .semibold))
@@ -215,9 +221,7 @@ public struct DashboardView: View {
         if let content = viewModel.currentWeekContent {
             VStack(alignment: .leading, spacing: BabyLoadingSpacing.medium) {
                 HStack(spacing: BabyLoadingSpacing.small) {
-                    Text("🐣")
-                        .font(.title2)
-                        .accessibilityHidden(true)
+                    decorativeImage("illustration_hatching_chick", size: 30)
 
                     Text(content.milestoneTitle)
                         .font(BabyLoadingTypography.text(.headline, weight: .bold))
@@ -229,9 +233,7 @@ public struct DashboardView: View {
                 VStack(alignment: .leading, spacing: BabyLoadingSpacing.small) {
                     ForEach(Array(content.keyEvents.enumerated()), id: \.offset) { _, event in
                         HStack(alignment: .top, spacing: BabyLoadingSpacing.small) {
-                            Text("✨")
-                                .font(.caption)
-                                .accessibilityHidden(true)
+                            decorativeImage("illustration_sparkles", size: 18)
 
                             Text(event)
                                 .font(BabyLoadingTypography.text(.subheadline))
@@ -250,9 +252,7 @@ public struct DashboardView: View {
 
                 if let impact = content.physiologicalImpact {
                     HStack(alignment: .top, spacing: BabyLoadingSpacing.small) {
-                        Text("💕")
-                            .font(.subheadline)
-                            .accessibilityHidden(true)
+                        decorativeImage("illustration_heart_pair", size: 22)
 
                         Text(impact)
                             .font(BabyLoadingTypography.text(.footnote))
@@ -345,6 +345,15 @@ public struct DashboardView: View {
         }
         return true
     }
+
+    private func decorativeImage(_ name: String, size: CGFloat) -> some View {
+        Image(name)
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .accessibilityHidden(true)
+    }
+
     private func babySizeDescription(_ babySizeLabel: String) -> String {
         String(
             format: String(
