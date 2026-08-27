@@ -129,9 +129,10 @@ extension GalleryView {
 
     private var emptyUltrasoundGallery: some View {
         VStack(spacing: 8) {
-            Image(systemName: "photo.on.rectangle.angled")
-                .font(.system(size: 40))
-                .foregroundStyle(.primary.opacity(0.45))
+            Image("illustration_ultrasound_camera")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 64, height: 64)
                 .accessibilityHidden(true)
 
             Text("gallery.emptyTitle")

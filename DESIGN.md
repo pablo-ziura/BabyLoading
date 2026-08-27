@@ -169,6 +169,8 @@ relationship.
   \`selected\`; on iOS, the \`.isSelected\` trait and the localized value.
 - Decorative images are hidden from accessibility. Informative images require a localized
   description.
+- Do not use emoji as decorative text. Use original, untinted raster illustrations with transparent
+  backgrounds; keep them pastel, softly rounded, and secondary to the adjacent localized text.
 - Respect Dynamic Type on iOS and system text scaling on Android; do not lock font sizes on app
   screens.
 - Keep text and surface contrast readable. The pink selection is accompanied by a label or

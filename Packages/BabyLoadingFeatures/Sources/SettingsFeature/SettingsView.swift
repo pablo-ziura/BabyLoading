@@ -44,12 +44,17 @@ public struct SettingsView: View {
 
     private var dateCard: some View {
         VStack(spacing: 0) {
-            Text("settings.lastPeriodPrompt")
-                .font(BabyLoadingTypography.text(.headline))
-                .foregroundStyle(.secondary)
-                .accessibilityAddTraits(.isHeader)
-                .accessibilityHeading(.h2)
-                .padding(.bottom, BabyLoadingSpacing.small)
+            HStack(spacing: BabyLoadingSpacing.extraSmall) {
+                Text("settings.lastPeriodPrompt")
+                    .font(BabyLoadingTypography.text(.headline))
+                    .foregroundStyle(.secondary)
+
+                decorativeImage("illustration_blossom", size: 24)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isHeader)
+            .accessibilityHeading(.h2)
+            .padding(.bottom, BabyLoadingSpacing.small)
 
             if viewModel.hasStoredFutureLastPeriodDate || viewModel.saveState == .invalidFutureLastPeriodDate {
                 Text("settings.invalidFutureLastPeriodDate")
@@ -115,8 +120,12 @@ public struct SettingsView: View {
                         .tint(.white)
                         .accessibilityLabel(Text("settings.setDate"))
                 } else {
-                    Text("settings.setDate")
-                        .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                    HStack(spacing: BabyLoadingSpacing.small) {
+                        decorativeImage("illustration_sparkles", size: 22)
+
+                        Text("settings.setDate")
+                            .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                    }
                 }
             }
             .foregroundStyle(.white)
@@ -240,5 +249,13 @@ public struct SettingsView: View {
             }
             openURL(settingsURL)
         #endif
+    }
+
+    private func decorativeImage(_ name: String, size: CGFloat) -> some View {
+        Image(name)
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .accessibilityHidden(true)
     }
 }
