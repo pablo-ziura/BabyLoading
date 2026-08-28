@@ -25,6 +25,13 @@ un widget.
 - Inglés y español mediante `Localizable.xcstrings` y contenido JSON validado.
 - La app mantiene `.preferredColorScheme(.light)`.
 
+### Variante de laboratorio
+
+El scheme compartido `BabyLoading Lab` instala una segunda app, `Baby Loading Lab`, para pruebas
+manuales sin alterar datos reales. Usa el bundle identifier
+`com.pablo.ruiz.babyloading.lab`, el App Group aislado `group.com.pablo.BabyLoading.lab` y el icono
+violeta `AppIconLab`. No debe utilizarse para distribución ni para datos de producción.
+
 ### Arquitectura
 
 La app usa un único coordinator como composition root de presentación:
@@ -133,6 +140,7 @@ Compila app, widget e iPad:
 
 ```bash
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme 'BabyLoading Lab' -configuration Lab -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Release -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5),OS=26.5' build
@@ -173,6 +181,13 @@ ultrasound and guided photo timelines, and shares progress with a widget.
 - App Group `group.com.pablo.BabyLoading`.
 - English and Spanish through `Localizable.xcstrings` and validated JSON content.
 - The app keeps `.preferredColorScheme(.light)`.
+
+### Lab variant
+
+The shared `BabyLoading Lab` scheme installs a second app, `Baby Loading Lab`, for manual testing
+without altering real data. It uses the `com.pablo.ruiz.babyloading.lab` bundle identifier, the
+isolated `group.com.pablo.BabyLoading.lab` App Group, and the violet `AppIconLab` icon. It must not
+be used for distribution or production data.
 
 ### Architecture
 
@@ -281,6 +296,7 @@ Build the app, widget, and iPad destination:
 
 ```bash
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
+xcodebuild -project BabyLoading.xcodeproj -scheme 'BabyLoading Lab' -configuration Lab -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -configuration Release -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyProgressWidgetExtension -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,OS=26.5' build
 xcodebuild -project BabyLoading.xcodeproj -scheme BabyLoading -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M5),OS=26.5' build
