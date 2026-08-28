@@ -4,7 +4,7 @@ import Testing
 
 struct SharedPersistenceContractTests {
     @Test func appGroupIdentifierRemainsCompatibleAcrossTargets() {
-        #expect(SharedAppGroup.identifier == "group.com.pablo.BabyLoading")
+        #expect(SharedAppGroup.productionIdentifier == "group.com.pablo.BabyLoading")
     }
 
 }

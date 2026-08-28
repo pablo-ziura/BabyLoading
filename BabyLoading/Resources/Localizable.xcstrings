@@ -652,13 +652,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ready now"
+            "value" : "Photo overdue"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lista ahora"
+            "value" : "Foto atrasada"
           }
         }
       }
