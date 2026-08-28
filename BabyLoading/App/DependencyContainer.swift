@@ -31,14 +31,16 @@ final class DependencyContainer {
 
     init() {
         let fileManager = FileManager.default
+        let sharedAppGroup: SharedAppGroup
         let preferencesStore: UserDefaultsPreferencesStore
         let containerURL: URL
 
         do {
+            sharedAppGroup = try SharedAppGroup(bundle: .main)
             preferencesStore = UserDefaultsPreferencesStore(
-                userDefaults: try SharedAppGroup.userDefaults()
+                userDefaults: try sharedAppGroup.userDefaults()
             )
-            containerURL = try SharedAppGroup.containerURL(fileManager: fileManager)
+            containerURL = try sharedAppGroup.containerURL(fileManager: fileManager)
         } catch {
             preconditionFailure("BabyLoading App Group is unavailable: \(error)")
         }

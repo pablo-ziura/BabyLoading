@@ -4,7 +4,13 @@ import Testing
 
 struct BabyLoadingInfrastructureTests {
     @Test func sharedAppGroupIdentifierRemainsCompatible() {
-        #expect(SharedAppGroup.identifier == "group.com.pablo.BabyLoading")
+        #expect(SharedAppGroup.productionIdentifier == "group.com.pablo.BabyLoading")
+
+        let sharedAppGroup = try? SharedAppGroup(
+            identifier: SharedAppGroup.productionIdentifier
+        )
+
+        #expect(sharedAppGroup?.identifier == SharedAppGroup.productionIdentifier)
     }
 
     @Test func appVersionUseCaseReturnsProviderValue() {
