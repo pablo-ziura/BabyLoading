@@ -1,14 +1,37 @@
 import Foundation
 
 public enum SharedAppGroupError: Error, Equatable, Sendable {
+    case missingConfigurationValue(key: String)
+    case invalidIdentifier(String)
     case unavailableUserDefaults(identifier: String)
     case unavailableContainer(identifier: String)
 }
 
-public enum SharedAppGroup {
-    public static let identifier = "group.com.pablo.BabyLoading"
+public struct SharedAppGroup: Sendable {
+    public static let productionIdentifier = "group.com.pablo.BabyLoading"
+    public static let infoPlistKey = "BabyLoadingAppGroupIdentifier"
 
-    public static func userDefaults() throws -> UserDefaults {
+    public let identifier: String
+
+    public init(identifier: String) throws {
+        guard !identifier.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw SharedAppGroupError.invalidIdentifier(identifier)
+        }
+
+        self.identifier = identifier
+    }
+
+    public init(bundle: Bundle) throws {
+        guard let identifier = bundle.object(
+            forInfoDictionaryKey: Self.infoPlistKey
+        ) as? String else {
+            throw SharedAppGroupError.missingConfigurationValue(key: Self.infoPlistKey)
+        }
+
+        try self.init(identifier: identifier)
+    }
+
+    public func userDefaults() throws -> UserDefaults {
         guard let userDefaults = UserDefaults(suiteName: identifier) else {
             throw SharedAppGroupError.unavailableUserDefaults(identifier: identifier)
         }
@@ -16,7 +39,7 @@ public enum SharedAppGroup {
         return userDefaults
     }
 
-    public static func containerURL(fileManager: FileManager) throws -> URL {
+    public func containerURL(fileManager: FileManager) throws -> URL {
         guard let containerURL = fileManager.containerURL(
             forSecurityApplicationGroupIdentifier: identifier
         ) else {
