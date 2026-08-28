@@ -78,11 +78,9 @@
 		DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabyProgressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91852F41F266003EC367 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		DA1C91872F41F266003EC367 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BabyProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
 		DA30E63A30405E4F00BCC159 /* BabyLoading-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BabyLoading-Info.plist"; sourceTree = "<group>"; };
 		DAD90FF33033143600B66667 /* DESIGN.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DESIGN.md; sourceTree = "<group>"; };
 		DAD90FF43033143600B66667 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		DAF0A0012F60000100A0B001 /* AGENTS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AGENTS.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -215,7 +213,6 @@
 		DA1C91492F41F1E9003EC367 = {
 			isa = PBXGroup;
 			children = (
-				DAF0A0012F60000100A0B001 /* AGENTS.md */,
 				DAD90FF33033143600B66667 /* DESIGN.md */,
 				DAD90FF43033143600B66667 /* README.md */,
 				DA1C91542F41F1E9003EC367 /* BabyLoading */,
@@ -224,7 +221,6 @@
 				DA30E63B30405E4F00BCC159 /* Configuration */,
 				DA1C91842F41F266003EC367 /* Frameworks */,
 				DA1C91532F41F1E9003EC367 /* Products */,
-				DA1C919B2F41F3DB003EC367 /* BabyProgressWidgetExtension.entitlements */,
 			);
 			sourceTree = "<group>";
 		};
