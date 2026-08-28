@@ -216,7 +216,7 @@ extension GalleryView {
         case .pending:
             String(
                 localized: "gallery.bellyTracking.dueNow",
-                defaultValue: "Ready now",
+                defaultValue: "Tracking photo overdue",
                 locale: locale
             )
         }
