@@ -5,19 +5,23 @@ public struct LoadBabyProgressWidgetTimelineUseCase:
     Sendable {
     private static let futureDayCount = 7
 
-    private let loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol
+    private let loadContextUseCase: any LoadBabyProgressWidgetContextUseCaseProtocol
+    private let snapshotFactory: any BabyProgressWidgetSnapshotFactoryProtocol
     private let calendar: Calendar
 
     public init(
-        loadSnapshotUseCase: any LoadBabyProgressWidgetSnapshotUseCaseProtocol,
+        loadContextUseCase: any LoadBabyProgressWidgetContextUseCaseProtocol,
+        snapshotFactory: any BabyProgressWidgetSnapshotFactoryProtocol,
         calendar: Calendar
     ) {
-        self.loadSnapshotUseCase = loadSnapshotUseCase
+        self.loadContextUseCase = loadContextUseCase
+        self.snapshotFactory = snapshotFactory
         self.calendar = calendar
     }
 
     public func execute(asOf date: Date) async throws -> [BabyProgressWidgetSnapshot] {
-        let currentSnapshot = try await loadSnapshotUseCase.execute(asOf: date)
+        let context = try await loadContextUseCase.execute()
+        let currentSnapshot = snapshotFactory.makeSnapshot(from: context, asOf: date)
         guard currentSnapshot.requiresDailyTimelineRefresh else {
             return [currentSnapshot]
         }
@@ -34,7 +38,7 @@ public struct LoadBabyProgressWidgetTimelineUseCase:
                 throw WidgetTimelineSchedulingError.cannotCalculateScheduledDate
             }
 
-            snapshots.append(try await loadSnapshotUseCase.execute(asOf: scheduledDate))
+            snapshots.append(snapshotFactory.makeSnapshot(from: context, asOf: scheduledDate))
         }
 
         return snapshots
