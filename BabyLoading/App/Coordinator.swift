@@ -10,6 +10,12 @@ import SettingsFeature
 @MainActor
 @Observable
 final class Coordinator {
+    private enum LifecycleState {
+        case notStarted
+        case starting
+        case started
+    }
+
     let router: AppRouter
     let dashboardViewModel: DashboardViewModel
     let journeyViewModel: JourneyViewModel
@@ -18,6 +24,7 @@ final class Coordinator {
     @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
         loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
         updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
+        calculateDueDateUseCase: dependencyContainer.calculateDueDateUseCase,
         resolveAppLanguageUseCase: dependencyContainer.resolveAppLanguageUseCase,
         loadAppVersionUseCase: dependencyContainer.loadAppVersionUseCase,
         initialLanguage: dependencyContainer.initialLanguage,
@@ -28,6 +35,7 @@ final class Coordinator {
 
     private let dependencyContainer: DependencyContainer
     @ObservationIgnored private var appliedLanguage: AppLanguage
+    @ObservationIgnored private var lifecycleState = LifecycleState.notStarted
 
     init() {
         let dependencyContainer = DependencyContainer()
@@ -62,28 +70,38 @@ final class Coordinator {
         )
     }
 
-    func start() async {
-        await dashboardViewModel.reload()
-        await journeyViewModel.reload()
-        await galleryViewModel.reload()
-        await settingsViewModel.reload(preferredLanguages: preferredLanguages)
+    func start(asOf date: Date = .now) async {
+        guard lifecycleState == .notStarted else { return }
+
+        lifecycleState = .starting
+        await reloadEveryFeature(asOf: date)
+        lifecycleState = .started
     }
 
-    func applicationDidBecomeActive() async {
+    func applicationDidBecomeActive(asOf date: Date = .now) async {
+        guard lifecycleState == .started else { return }
+
         let language = dependencyContainer.resolveAppLanguageUseCase.execute(
             preferredLanguages: preferredLanguages
         )
-        guard language != appliedLanguage else {
-            return
+        let languageChanged = language != appliedLanguage
+
+        if languageChanged {
+            appliedLanguage = language
+            let contentUseCases = dependencyContainer.makePregnancyContentUseCases(for: language)
+            await dashboardViewModel.reload(asOf: date, using: contentUseCases.loadWeekContent)
+            await journeyViewModel.reload(asOf: date, using: contentUseCases.loadTimeline)
+        } else {
+            await dashboardViewModel.reload(asOf: date)
+            await journeyViewModel.reload(asOf: date)
         }
 
-        appliedLanguage = language
-        let contentUseCases = dependencyContainer.makePregnancyContentUseCases(for: language)
-        await dashboardViewModel.reloadCurrentWeekContent(using: contentUseCases.loadWeekContent)
-        await journeyViewModel.reloadTimeline(using: contentUseCases.loadTimeline)
-        await galleryViewModel.reload()
-        await settingsViewModel.reload(preferredLanguages: preferredLanguages)
-        dependencyContainer.widgetReloader.reloadAllTimelines()
+        await galleryViewModel.reload(asOf: date)
+        await settingsViewModel.reload(asOf: date, preferredLanguages: preferredLanguages)
+
+        if languageChanged {
+            dependencyContainer.widgetReloader.reloadAllTimelines()
+        }
     }
 
     private var preferredLanguages: [String] {
@@ -93,11 +111,15 @@ final class Coordinator {
     private func handleSettingsOutput(_ output: SettingsViewModelOutput) async {
         switch output {
         case .lastPeriodDateUpdated:
-            await dashboardViewModel.reload()
-            await journeyViewModel.reload()
-            await galleryViewModel.reload()
-            await settingsViewModel.reload(preferredLanguages: preferredLanguages)
+            await reloadEveryFeature(asOf: .now)
             dependencyContainer.widgetReloader.reloadAllTimelines()
         }
+    }
+
+    private func reloadEveryFeature(asOf date: Date) async {
+        await dashboardViewModel.reload(asOf: date)
+        await journeyViewModel.reload(asOf: date)
+        await galleryViewModel.reload(asOf: date)
+        await settingsViewModel.reload(asOf: date, preferredLanguages: preferredLanguages)
     }
 }

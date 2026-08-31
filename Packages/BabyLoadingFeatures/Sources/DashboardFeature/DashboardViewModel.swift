@@ -49,6 +49,14 @@ public final class DashboardViewModel {
         }
     }
 
+    public func reload(
+        asOf date: Date,
+        using loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
+    ) async {
+        self.loadPregnancyWeekContentUseCase = loadPregnancyWeekContentUseCase
+        await reload(asOf: date)
+    }
+
     public func reloadCurrentWeekContent(
         using loadPregnancyWeekContentUseCase: any LoadPregnancyWeekContentUseCaseProtocol
     ) async {

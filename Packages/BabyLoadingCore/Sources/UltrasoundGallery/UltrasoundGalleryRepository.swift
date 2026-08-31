@@ -11,8 +11,8 @@ public actor UltrasoundGalleryRepository: UltrasoundGalleryRepositoryProtocol {
         try await store.loadPhotos()
     }
 
-    public func addPhoto(data: Data) async throws -> UltrasoundPhoto {
-        try await store.addPhoto(data: data)
+    public func addPhoto(image: ValidatedUltrasoundImage) async throws -> UltrasoundPhoto {
+        try await store.addPhoto(image: image)
     }
 
     public func deletePhoto(id: String) async throws {
