@@ -19,7 +19,7 @@ protocol BellyTrackingCaptureServiceProtocol: Actor {
     func isCameraAvailable() -> Bool
     func authorizationStatus() -> AVAuthorizationStatus
     func requestAccess() async -> Bool
-    func prepareSession() throws
+    func prepareSession() async throws
     func startRunning()
     func stopRunning()
     func capturePhoto(rotationAngle: CGFloat) async throws -> Data
@@ -89,7 +89,7 @@ actor BellyTrackingCaptureService: BellyTrackingCaptureServiceProtocol {
         await AVCaptureDevice.requestAccess(for: .video)
     }
 
-    func prepareSession() throws {
+    func prepareSession() async throws {
         guard !isConfigured else { return }
         guard let cameraDevice = defaultCameraDevice else {
             throw BellyTrackingCaptureServiceError.noCameraDevice

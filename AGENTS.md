@@ -141,6 +141,9 @@ Graph rules:
   timeline provider live on `MainActor`.
 - Stores and repositories with mutable state are actors.
 - The capture service is an actor that serializes the AVFoundation session.
+- `BellyTrackingCameraViewModel` owns camera preparation and capture tasks. Closing invalidates
+  pending work, stops the session idempotently, and ignores late results; saving is the capture
+  commit point and temporarily disables dismissal until the single persistence attempt completes.
 - Immutable use cases are `Sendable` structs.
 - Persistence errors propagate with `throws`; ViewModels translate them into typed UI states and
   retain the last valid content when applicable.
