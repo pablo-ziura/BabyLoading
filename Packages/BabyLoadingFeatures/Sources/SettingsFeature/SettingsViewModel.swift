@@ -27,7 +27,7 @@ public typealias SettingsViewModelOutputHandler = @MainActor @Sendable (Settings
 @MainActor
 @Observable
 public final class SettingsViewModel {
-    public var lastPeriodDate: Date
+    public private(set) var lastPeriodDate: Date
     public private(set) var dueDate: Date?
     public private(set) var appLanguage: AppLanguage
     public private(set) var appVersion: String
@@ -37,6 +37,7 @@ public final class SettingsViewModel {
 
     @ObservationIgnored private let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     @ObservationIgnored private let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
+    @ObservationIgnored private let calculateDueDateUseCase: any CalculateDueDateUseCaseProtocol
     @ObservationIgnored private let resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol
     @ObservationIgnored private let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
     @ObservationIgnored private let outputHandler: SettingsViewModelOutputHandler
@@ -44,6 +45,7 @@ public final class SettingsViewModel {
     public init(
         loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol,
         updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol,
+        calculateDueDateUseCase: any CalculateDueDateUseCaseProtocol,
         resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol,
         loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol,
         initialLanguage: AppLanguage,
@@ -51,6 +53,7 @@ public final class SettingsViewModel {
     ) {
         self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
         self.updateLastPeriodDateUseCase = updateLastPeriodDateUseCase
+        self.calculateDueDateUseCase = calculateDueDateUseCase
         self.resolveAppLanguageUseCase = resolveAppLanguageUseCase
         self.loadAppVersionUseCase = loadAppVersionUseCase
         self.outputHandler = outputHandler
@@ -91,16 +94,26 @@ public final class SettingsViewModel {
 
     public func updateLastPeriodDate() async {
         saveState = .saving
+        let selectedDate = lastPeriodDate
 
         do {
-            try await updateLastPeriodDateUseCase.execute(lastPeriodDate, asOf: .now)
-            await outputHandler(.lastPeriodDateUpdated(lastPeriodDate))
+            try await updateLastPeriodDateUseCase.execute(selectedDate, asOf: .now)
+            await outputHandler(.lastPeriodDateUpdated(selectedDate))
             saveState = .saved
             hasStoredFutureLastPeriodDate = false
         } catch PregnancyProgressValidationError.futureLastPeriodDate {
             saveState = .invalidFutureLastPeriodDate
         } catch {
             saveState = .failed
+        }
+    }
+
+    public func selectLastPeriodDate(_ date: Date) {
+        lastPeriodDate = date
+        dueDate = calculateDueDateUseCase.execute(lastPeriodDate: date)
+        hasStoredFutureLastPeriodDate = false
+        if saveState != .saving {
+            saveState = .idle
         }
     }
 
