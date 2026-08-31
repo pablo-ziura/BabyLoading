@@ -57,14 +57,13 @@ public struct BellyTrackingCameraView: View {
                 )
             }
         }
-        .task {
-            await viewModel.prepareSession()
+        .onAppear {
+            viewModel.activate()
         }
         .onDisappear {
-            Task {
-                await viewModel.stopSession()
-            }
+            viewModel.close()
         }
+        .interactiveDismissDisabled(viewModel.isDismissalDisabled)
         .alert(
             String(
                 localized: "camera.bellyTracking.errorTitle",
@@ -135,7 +134,7 @@ public struct BellyTrackingCameraView: View {
     private var headerBar: some View {
         HStack {
             Button {
-                dismiss()
+                closeCamera()
             } label: {
                 Image(systemName: "xmark")
                     .font(.headline)
@@ -212,15 +211,13 @@ public struct BellyTrackingCameraView: View {
             }
 
             Button {
-                Task {
-                    let didSave = await viewModel.capturePhoto(
-                        captureRotationAngle: captureRotationAngle,
-                        save: onPhotoCaptured
-                    )
-                    if didSave {
+                viewModel.capturePhoto(
+                    captureRotationAngle: captureRotationAngle,
+                    save: onPhotoCaptured,
+                    onSaved: {
                         dismiss()
                     }
-                }
+                )
             } label: {
                 HStack {
                     Spacer()
@@ -268,7 +265,7 @@ public struct BellyTrackingCameraView: View {
                 .foregroundStyle(.white.opacity(0.8))
 
             Button(String(localized: "camera.bellyTracking.close", defaultValue: "Close", locale: locale)) {
-                dismiss()
+                closeCamera()
             }
             .font(BabyLoadingTypography.text(.headline, weight: .semibold))
             .padding(.horizontal, 20)
@@ -292,6 +289,12 @@ public struct BellyTrackingCameraView: View {
 
     private var referenceImage: UIImage? {
         referenceImageData.flatMap(UIImage.init(data:))
+    }
+
+    private func closeCamera() {
+        viewModel.close {
+            dismiss()
+        }
     }
 }
 
