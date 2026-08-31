@@ -14,6 +14,7 @@ final class DependencyContainer {
     let loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol
     let loadPregnancyProgressUseCase: any LoadPregnancyProgressUseCaseProtocol
     let updateLastPeriodDateUseCase: any UpdateLastPeriodDateUseCaseProtocol
+    let calculateDueDateUseCase: any CalculateDueDateUseCaseProtocol
     let loadUltrasoundPhotosUseCase: any LoadUltrasoundPhotosUseCaseProtocol
     let addUltrasoundPhotoUseCase: any AddUltrasoundPhotoUseCaseProtocol
     let deleteUltrasoundPhotoUseCase: any DeleteUltrasoundPhotoUseCaseProtocol
@@ -70,6 +71,7 @@ final class DependencyContainer {
             repository: pregnancyProgressRepository,
             calendar: .current
         )
+        calculateDueDateUseCase = CalculateDueDateUseCase(calendar: .current)
         loadUltrasoundPhotosUseCase = LoadUltrasoundPhotosUseCase(
             repository: ultrasoundGalleryRepository
         )

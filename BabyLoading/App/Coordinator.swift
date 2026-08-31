@@ -18,6 +18,7 @@ final class Coordinator {
     @ObservationIgnored private(set) lazy var settingsViewModel = SettingsViewModel(
         loadPregnancyProgressUseCase: dependencyContainer.loadPregnancyProgressUseCase,
         updateLastPeriodDateUseCase: dependencyContainer.updateLastPeriodDateUseCase,
+        calculateDueDateUseCase: dependencyContainer.calculateDueDateUseCase,
         resolveAppLanguageUseCase: dependencyContainer.resolveAppLanguageUseCase,
         loadAppVersionUseCase: dependencyContainer.loadAppVersionUseCase,
         initialLanguage: dependencyContainer.initialLanguage,
