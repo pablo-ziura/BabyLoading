@@ -43,6 +43,14 @@ public final class JourneyViewModel {
         }
     }
 
+    public func reload(
+        asOf date: Date,
+        using loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol
+    ) async {
+        self.loadPregnancyTimelineUseCase = loadPregnancyTimelineUseCase
+        await reload(asOf: date)
+    }
+
     public func reloadTimeline(
         using loadPregnancyTimelineUseCase: any LoadPregnancyTimelineUseCaseProtocol
     ) async {

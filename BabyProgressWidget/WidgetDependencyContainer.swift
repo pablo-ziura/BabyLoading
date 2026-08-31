@@ -32,10 +32,7 @@ final class WidgetDependencyContainer {
         )
         let progressStore = PregnancyProgressStore(preferencesStore: preferencesStore)
         let progressRepository = PregnancyProgressRepository(store: progressStore)
-        let loadPregnancyProgressUseCase = LoadPregnancyProgressUseCase(
-            repository: progressRepository,
-            calendar: .current
-        )
+        let loadLastPeriodDateUseCase = LoadLastPeriodDateUseCase(repository: progressRepository)
         let contentLocalization = PregnancyContentLocalization(localeCode: language.rawValue)
         let contentRepository = PregnancyContentRepository(
             expectedLocale: contentLocalization.localeCode,
@@ -49,19 +46,25 @@ final class WidgetDependencyContainer {
             )
         )
 
-        let loadSnapshotUseCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: loadPregnancyProgressUseCase,
-            loadPregnancyWeekContentUseCase: LoadPregnancyWeekContentUseCase(
+        let loadContextUseCase = LoadBabyProgressWidgetContextUseCase(
+            loadLastPeriodDateUseCase: loadLastPeriodDateUseCase,
+            loadPregnancyTimelineUseCase: LoadPregnancyTimelineUseCase(
                 repository: contentRepository
             ),
             language: language
+        )
+        let snapshotFactory = BabyProgressWidgetSnapshotFactory(calendar: .current)
+        let loadSnapshotUseCase = LoadBabyProgressWidgetSnapshotUseCase(
+            loadContextUseCase: loadContextUseCase,
+            snapshotFactory: snapshotFactory
         )
 
         self.language = language
         timelineProvider = BabyProgressTimelineProvider(
             loadSnapshotUseCase: loadSnapshotUseCase,
             loadTimelineUseCase: LoadBabyProgressWidgetTimelineUseCase(
-                loadSnapshotUseCase: loadSnapshotUseCase,
+                loadContextUseCase: loadContextUseCase,
+                snapshotFactory: snapshotFactory,
                 calendar: .current
             ),
             language: language

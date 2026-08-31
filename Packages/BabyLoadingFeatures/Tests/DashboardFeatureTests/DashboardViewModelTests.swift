@@ -80,6 +80,26 @@ struct DashboardViewModelTests {
     }
 
     @Test
+    func reloadWithLocalizedContentAppliesItBeforeReloadingProgress() async {
+        let progress = makeProgress(week: 18, lastPeriodDate: .now)
+        let progressUseCase = DashboardProgressUseCaseRecorder(progress: progress)
+        let englishContent = makeWeekContent(week: 18, babySizeLabel: "avocado")
+        let spanishContent = makeWeekContent(week: 18, babySizeLabel: "aguacate")
+        let viewModel = DashboardViewModel(
+            loadPregnancyProgressUseCase: progressUseCase,
+            loadPregnancyWeekContentUseCase: DashboardWeekContentUseCaseStub(content: englishContent)
+        )
+
+        await viewModel.reload(
+            asOf: .now,
+            using: DashboardWeekContentUseCaseStub(content: spanishContent)
+        )
+
+        #expect(viewModel.currentWeekContent == spanishContent)
+        #expect(await progressUseCase.executionCount == 1)
+    }
+
+    @Test
     func reloadDoesNotLoadWeeklyContentForLateTermProgress() async {
         let progress = PregnancyProgress.active(ActivePregnancyProgress(
             lastPeriodDate: .now,

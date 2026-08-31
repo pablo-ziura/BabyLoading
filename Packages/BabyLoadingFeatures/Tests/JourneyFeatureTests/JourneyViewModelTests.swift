@@ -105,6 +105,24 @@ struct JourneyViewModelTests {
         #expect(viewModel.pregnancyTimeline == spanishTimeline)
     }
 
+    @Test
+    func reloadWithLocalizedTimelineAppliesItBeforeReloadingProgress() async {
+        let progress = makeProgress(week: 8, lastPeriodDate: .now)
+        let spanishTimeline = [makeWeekContent(week: 8)]
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(progress: progress),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(timeline: [])
+        )
+
+        await viewModel.reload(
+            asOf: .now,
+            using: JourneyTimelineUseCaseStub(timeline: spanishTimeline)
+        )
+
+        #expect(viewModel.progress == progress)
+        #expect(viewModel.pregnancyTimeline == spanishTimeline)
+    }
+
     private func makeWeekContent(week: Int) -> WeekContent {
         WeekContent(
             week: week,
