@@ -109,7 +109,9 @@ Graph rules:
 - Backward-compatible preference key: `lastPeriodDate`, managed through `AppPreferences`.
 - `AppPreferences` does not know the App Group or product keys; the suite is injected by
   `SharedAppGroup`.
-- Ultrasounds: `gallery/` directory, with stable identity based on the file name.
+- Ultrasounds: `gallery/` directory, with stable identity based on the file name. New imports are
+  metadata-validated JPEG, HEIC, or PNG files and preserve their detected extension; historical
+  files remain readable without migration.
 - Tracking: `belly-tracking/manifest.json`, schema v1.
 - A guided capture is stored only in `belly-tracking/`; it is not duplicated in `gallery/`.
 - New captures preserve HEIC when the camera permits it. Historical JPEG/JPG files remain

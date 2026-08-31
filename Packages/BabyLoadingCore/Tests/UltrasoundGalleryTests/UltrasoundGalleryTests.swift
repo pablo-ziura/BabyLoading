@@ -9,10 +9,13 @@ struct UltrasoundGalleryTests {
         let repository = UltrasoundGalleryRepository(
             store: UltrasoundGalleryStore(containerURL: context.containerURL)
         )
-        let addPhoto = AddUltrasoundPhotoUseCase(repository: repository)
+        let addPhoto = AddUltrasoundPhotoUseCase(
+            validator: UltrasoundImageValidator(policy: .standard),
+            repository: repository
+        )
         let loadPhotos = LoadUltrasoundPhotosUseCase(repository: repository)
         let deletePhoto = DeleteUltrasoundPhotoUseCase(repository: repository)
-        let photoData = Data([0x01, 0x02, 0x03])
+        let photoData = try makeUltrasoundImageData(format: .jpeg)
 
         let photo = try await addPhoto.execute(data: photoData)
         let storedFileURL = context.containerURL
@@ -67,13 +70,17 @@ struct UltrasoundGalleryTests {
         let repository = UltrasoundGalleryRepository(
             store: UltrasoundGalleryStore(containerURL: context.containerURL)
         )
-        let addPhoto = AddUltrasoundPhotoUseCase(repository: repository)
+        let addPhoto = AddUltrasoundPhotoUseCase(
+            validator: UltrasoundImageValidator(policy: .standard),
+            repository: repository
+        )
         let loadPhotos = LoadUltrasoundPhotosUseCase(repository: repository)
+        let photoData = try makeUltrasoundImageData(format: .png)
 
         let addedPhotos = try await withThrowingTaskGroup(of: UltrasoundPhoto.self) { group in
-            for byte in UInt8(0)..<UInt8(16) {
+            for _ in 0 ..< 16 {
                 group.addTask {
-                    try await addPhoto.execute(data: Data([byte]))
+                    try await addPhoto.execute(data: photoData)
                 }
             }
 
@@ -148,7 +155,14 @@ struct UltrasoundGalleryTests {
         }
 
         do {
-            _ = try await store.addPhoto(data: Data([0x01]))
+            _ = try await store.addPhoto(
+                image: ValidatedUltrasoundImage(
+                    data: Data([0x01]),
+                    format: .jpeg,
+                    pixelWidth: 1,
+                    pixelHeight: 1
+                )
+            )
             Issue.record("A symbolic gallery directory must not be writable")
         } catch let error as UltrasoundGalleryStoreError {
             #expect(error == .invalidGalleryDirectory)
@@ -175,7 +189,10 @@ struct UltrasoundGalleryTests {
             store: UltrasoundGalleryStore(containerURL: context.containerURL)
         )
         let loadPhotos = LoadUltrasoundPhotosUseCase(repository: repository)
-        let addPhoto = AddUltrasoundPhotoUseCase(repository: repository)
+        let addPhoto = AddUltrasoundPhotoUseCase(
+            validator: UltrasoundImageValidator(policy: .standard),
+            repository: repository
+        )
         let deletePhoto = DeleteUltrasoundPhotoUseCase(repository: repository)
 
         do {
@@ -186,7 +203,7 @@ struct UltrasoundGalleryTests {
         }
 
         do {
-            _ = try await addPhoto.execute(data: Data([0x02]))
+            _ = try await addPhoto.execute(data: makeUltrasoundImageData(format: .jpeg))
             Issue.record("File-system failures must propagate to the caller")
         } catch {
             #expect(error as? UltrasoundGalleryStoreError == .invalidGalleryDirectory)
