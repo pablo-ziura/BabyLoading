@@ -76,6 +76,7 @@ final class DependencyContainer {
             repository: ultrasoundGalleryRepository
         )
         addUltrasoundPhotoUseCase = AddUltrasoundPhotoUseCase(
+            validator: UltrasoundImageValidator(policy: .standard),
             repository: ultrasoundGalleryRepository
         )
         deleteUltrasoundPhotoUseCase = DeleteUltrasoundPhotoUseCase(
