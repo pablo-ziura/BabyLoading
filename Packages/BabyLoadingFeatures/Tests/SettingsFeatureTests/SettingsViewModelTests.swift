@@ -16,7 +16,7 @@ struct SettingsViewModelTests {
             updateUseCase: updateUseCase,
             outputHandler: { outputRecorder.record($0) }
         )
-        viewModel.lastPeriodDate = updatedDate
+        viewModel.selectLastPeriodDate(updatedDate)
 
         await viewModel.updateLastPeriodDate()
 
@@ -39,6 +39,7 @@ struct SettingsViewModelTests {
         let viewModel = SettingsViewModel(
             loadPregnancyProgressUseCase: SettingsProgressUseCaseStub(progress: progress),
             updateLastPeriodDateUseCase: SettingsUpdateDateUseCaseRecorder(),
+            calculateDueDateUseCase: SettingsDueDateUseCaseStub(),
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.2.3"),
             initialLanguage: .english,
@@ -76,6 +77,7 @@ struct SettingsViewModelTests {
                 progress: .invalidFutureLastPeriodDate(lastPeriodDate: storedFutureDate)
             ),
             updateLastPeriodDateUseCase: SettingsUpdateDateUseCaseRecorder(),
+            calculateDueDateUseCase: SettingsDueDateUseCaseStub(),
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.2.3"),
             initialLanguage: .english,
@@ -88,18 +90,48 @@ struct SettingsViewModelTests {
         #expect(viewModel.dueDate == nil)
     }
 
+    @Test
+    func selectingDateUpdatesDueDateWithoutPersistingOrEmittingOutput() async {
+        let selectedDate = Date(timeIntervalSince1970: 1_700_000_000)
+        let expectedDueDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let updateUseCase = SettingsUpdateDateUseCaseRecorder()
+        let outputRecorder = SettingsOutputRecorder()
+        let viewModel = makeViewModel(
+            updateUseCase: updateUseCase,
+            calculateDueDateUseCase: SettingsDueDateUseCaseStub(dueDate: expectedDueDate),
+            outputHandler: { outputRecorder.record($0) }
+        )
+
+        viewModel.selectLastPeriodDate(selectedDate)
+
+        #expect(viewModel.lastPeriodDate == selectedDate)
+        #expect(viewModel.dueDate == expectedDueDate)
+        #expect(await updateUseCase.lastDate == nil)
+        #expect(outputRecorder.outputs.isEmpty)
+    }
+
     private func makeViewModel(
         updateUseCase: any UpdateLastPeriodDateUseCaseProtocol,
+        calculateDueDateUseCase: any CalculateDueDateUseCaseProtocol = SettingsDueDateUseCaseStub(),
         outputHandler: @escaping SettingsViewModelOutputHandler
     ) -> SettingsViewModel {
         SettingsViewModel(
             loadPregnancyProgressUseCase: SettingsProgressUseCaseStub(progress: nil),
             updateLastPeriodDateUseCase: updateUseCase,
+            calculateDueDateUseCase: calculateDueDateUseCase,
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.0"),
             initialLanguage: .english,
             outputHandler: outputHandler
         )
+    }
+}
+
+private struct SettingsDueDateUseCaseStub: CalculateDueDateUseCaseProtocol {
+    var dueDate = Date(timeIntervalSince1970: 2_000_000_000)
+
+    func execute(lastPeriodDate: Date) -> Date {
+        dueDate
     }
 }
 

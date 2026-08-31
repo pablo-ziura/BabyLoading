@@ -69,6 +69,20 @@ struct PregnancyProgressTests {
         ) == expectedDueDate)
     }
 
+    @Test func dueDateUseCasePreservesCalendarDaysAcrossDaylightSavingTime() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: "Europe/Madrid"))
+        let lastPeriodDate = try date(year: 2026, month: 3, day: 28, calendar: calendar)
+        let expectedDueDate = try #require(calendar.date(
+            byAdding: .day,
+            value: PregnancyCalculator.standardPregnancyDurationInDays,
+            to: lastPeriodDate
+        ))
+        let useCase = CalculateDueDateUseCase(calendar: calendar)
+
+        #expect(useCase.execute(lastPeriodDate: lastPeriodDate) == expectedDueDate)
+    }
+
     @Test(arguments: [
         (279, GestationalAge(weeks: 39, days: 6), PregnancyPhase.ongoing),
         (280, GestationalAge(weeks: 40, days: 0), PregnancyPhase.ongoing),

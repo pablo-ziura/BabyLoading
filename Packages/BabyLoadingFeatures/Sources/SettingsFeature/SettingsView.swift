@@ -230,7 +230,7 @@ public struct SettingsView: View {
     private var lastPeriodDateBinding: Binding<Date> {
         Binding(
             get: { viewModel.lastPeriodDate },
-            set: { viewModel.lastPeriodDate = $0 }
+            set: { viewModel.selectLastPeriodDate($0) }
         )
     }
 

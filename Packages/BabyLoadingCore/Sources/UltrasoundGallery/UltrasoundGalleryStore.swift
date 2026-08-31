@@ -44,11 +44,11 @@ public actor UltrasoundGalleryStore: UltrasoundGalleryStoreProtocol {
         }
     }
 
-    public func addPhoto(data: Data) throws -> UltrasoundPhoto {
-        let identifier = "\(UUID().uuidString).jpg"
+    public func addPhoto(image: ValidatedUltrasoundImage) throws -> UltrasoundPhoto {
+        let identifier = "\(UUID().uuidString).\(image.format.fileExtension)"
         let fileURL = try galleryDirectoryURL().appendingPathComponent(identifier)
-        try data.write(to: fileURL, options: .atomic)
-        return UltrasoundPhoto(id: identifier, data: data)
+        try image.data.write(to: fileURL, options: .atomic)
+        return UltrasoundPhoto(id: identifier, data: image.data)
     }
 
     public func deletePhoto(id: String) throws {
