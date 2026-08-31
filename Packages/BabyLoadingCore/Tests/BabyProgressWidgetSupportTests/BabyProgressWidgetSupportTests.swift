@@ -6,20 +6,50 @@ import PregnancyProgress
 import Testing
 
 struct BabyProgressWidgetSupportTests {
-    @Test func ongoingSnapshotCombinesProgressAndWeeklyContent() async throws {
-        let now = Date(timeIntervalSince1970: 2_000_000)
-        let activeProgress = makeActiveProgress(weeks: 20, days: 0, phase: .ongoing)
-        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: PregnancyProgressUseCaseStub(progress: .active(activeProgress)),
-            loadPregnancyWeekContentUseCase: PregnancyWeekContentUseCaseStub(
-                content: makeWeekContent(week: 20)
-            ),
+    @Test func timelineLoadsPersistenceAndContentExactlyOnce() async throws {
+        let calendar = try madridCalendar()
+        let now = try date(year: 2026, month: 1, day: 7, hour: 23, minute: 45, calendar: calendar)
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -140, to: now))
+        let repository = PregnancyProgressRepositoryRecorder(lastPeriodDate: lastPeriodDate)
+        let contentUseCase = PregnancyTimelineContentUseCaseRecorder(
+            content: [makeWeekContent(week: 20)]
+        )
+        let contextUseCase = LoadBabyProgressWidgetContextUseCase(
+            loadLastPeriodDateUseCase: LoadLastPeriodDateUseCase(repository: repository),
+            loadPregnancyTimelineUseCase: contentUseCase,
             language: .english
+        )
+        let useCase = LoadBabyProgressWidgetTimelineUseCase(
+            loadContextUseCase: contextUseCase,
+            snapshotFactory: BabyProgressWidgetSnapshotFactory(calendar: calendar),
+            calendar: calendar
+        )
+
+        let snapshots = try await useCase.execute(asOf: now)
+
+        #expect(snapshots.count == 8)
+        #expect(await repository.loadCallCount == 1)
+        #expect(await contentUseCase.executionCount == 1)
+    }
+
+    @Test func snapshotLoadsOneContextAndCombinesWeeklyContent() async throws {
+        let now = Date(timeIntervalSince1970: 2_000_000)
+        let calendar = Calendar(identifier: .gregorian)
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -140, to: now))
+        let contextUseCase = WidgetContextUseCaseRecorder(
+            context: BabyProgressWidgetContext(
+                lastPeriodDate: lastPeriodDate,
+                weeklyContent: [makeWeekContent(week: 20)],
+                language: .english
+            )
+        )
+        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
+            loadContextUseCase: contextUseCase,
+            snapshotFactory: BabyProgressWidgetSnapshotFactory(calendar: calendar)
         )
 
         let snapshot = try await useCase.execute(asOf: now)
 
-        #expect(snapshot.date == now)
         #expect(snapshot.state == .ongoing(
             progress: BabyProgressWidgetDetails(
                 gestationalAge: GestationalAge(weeks: 20, days: 0),
@@ -29,77 +59,53 @@ struct BabyProgressWidgetSupportTests {
             babySizeLabel: "a sweet potato"
         ))
         #expect(snapshot.localeIdentifier == "en")
+        #expect(await contextUseCase.executionCount == 1)
     }
 
-    @Test func missingPregnancyDateProducesUnconfiguredSnapshot() async throws {
-        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: PregnancyProgressUseCaseStub(progress: nil),
-            loadPregnancyWeekContentUseCase: PregnancyWeekContentUseCaseStub(content: nil),
+    @Test func unconfiguredContextProducesOneNonRefreshingSnapshot() async throws {
+        let calendar = try madridCalendar()
+        let now = try date(year: 2026, month: 1, day: 7, calendar: calendar)
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: nil,
+            weeklyContent: [],
             language: .spanish
         )
+        let snapshots = try await makeTimelineUseCase(context: context, calendar: calendar)
+            .execute(asOf: now)
 
-        let snapshot = try await useCase.execute(asOf: .now)
-
-        #expect(snapshot.state == .unconfigured)
-        #expect(snapshot.requiresDailyTimelineRefresh == false)
-        #expect(snapshot.localeIdentifier == "es")
+        #expect(snapshots.count == 1)
+        #expect(snapshots[0].state == .unconfigured)
+        #expect(snapshots[0].localeIdentifier == "es")
     }
 
-    @Test func futureLastPeriodDateProducesInvalidSnapshot() async throws {
-        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: PregnancyProgressUseCaseStub(
-                progress: .invalidFutureLastPeriodDate(lastPeriodDate: .now)
-            ),
-            loadPregnancyWeekContentUseCase: PregnancyWeekContentUseCaseStub(content: nil),
+    @Test func futureLastPeriodDateProducesOneInvalidSnapshot() async throws {
+        let calendar = try madridCalendar()
+        let now = try date(year: 2026, month: 1, day: 7, calendar: calendar)
+        let futureDate = try #require(calendar.date(byAdding: .day, value: 1, to: now))
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: futureDate,
+            weeklyContent: [],
             language: .english
         )
+        let snapshots = try await makeTimelineUseCase(context: context, calendar: calendar)
+            .execute(asOf: now)
 
-        let snapshot = try await useCase.execute(asOf: .now)
-
-        #expect(snapshot.state == .invalidFutureLastPeriodDate)
-        #expect(snapshot.requiresDailyTimelineRefresh == false)
+        #expect(snapshots.count == 1)
+        #expect(snapshots[0].state == .invalidFutureLastPeriodDate)
     }
 
-    @Test func lateAndPostTermSnapshotsDoNotRequestWeeklyContent() async throws {
-        let contentUseCase = PregnancyWeekContentUseCaseRecorder()
-        let lateTermUseCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: PregnancyProgressUseCaseStub(
-                progress: .active(makeActiveProgress(weeks: 41, days: 0, phase: .lateTerm))
-            ),
-            loadPregnancyWeekContentUseCase: contentUseCase,
-            language: .english
-        )
-        let postTermUseCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: PregnancyProgressUseCaseStub(
-                progress: .active(makeActiveProgress(weeks: 42, days: 0, phase: .postTerm))
-            ),
-            loadPregnancyWeekContentUseCase: contentUseCase,
-            language: .english
-        )
-
-        let lateTermSnapshot = try await lateTermUseCase.execute(asOf: .now)
-        let postTermSnapshot = try await postTermUseCase.execute(asOf: .now)
-
-        #expect(lateTermSnapshot.state == .lateTerm(progress: BabyProgressWidgetDetails(
-            gestationalAge: GestationalAge(weeks: 41, days: 0),
-            dueDateRelation: .elapsed(days: 7)
-        )))
-        #expect(postTermSnapshot.state == .postTerm(progress: BabyProgressWidgetDetails(
-            gestationalAge: GestationalAge(weeks: 42, days: 0),
-            dueDateRelation: .elapsed(days: 14)
-        )))
-        #expect(await contentUseCase.executionCount == 0)
-    }
-
-    @Test func timelinePrecomputesActiveCurrentSnapshotAndSevenFutureMidnights() async throws {
+    @Test func timelinePrecomputesCurrentSnapshotAndSevenFutureMidnights() async throws {
         let calendar = try madridCalendar()
         let now = try date(year: 2026, month: 1, day: 7, hour: 23, minute: 45, calendar: calendar)
-        let useCase = LoadBabyProgressWidgetTimelineUseCase(
-            loadSnapshotUseCase: ConfiguredWidgetSnapshotUseCaseStub(),
-            calendar: calendar
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -140, to: now))
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: lastPeriodDate,
+            weeklyContent: [makeWeekContent(week: 20), makeWeekContent(week: 21)],
+            language: .english
         )
 
-        let snapshots = try await useCase.execute(asOf: now)
+        let snapshots = try await makeTimelineUseCase(context: context, calendar: calendar)
+            .execute(asOf: now)
 
         #expect(snapshots.count == 8)
         #expect(snapshots[0].date == now)
@@ -113,46 +119,81 @@ struct BabyProgressWidgetSupportTests {
         }
     }
 
-    @Test func timelineContainsOnlyCurrentSnapshotForNonRefreshingStates() async throws {
-        let calendar = try madridCalendar()
-        let now = try date(year: 2026, month: 1, day: 7, hour: 23, minute: 45, calendar: calendar)
-        let useCase = LoadBabyProgressWidgetTimelineUseCase(
-            loadSnapshotUseCase: InvalidWidgetSnapshotUseCaseStub(),
-            calendar: calendar
-        )
-
-        let snapshots = try await useCase.execute(asOf: now)
-
-        #expect(snapshots.count == 1)
-        #expect(snapshots[0].state == .invalidFutureLastPeriodDate)
-    }
-
     @Test func timelinePreservesLocalMidnightsAcrossDaylightSavingTime() async throws {
         let calendar = try madridCalendar()
         let now = try date(year: 2026, month: 3, day: 28, hour: 23, minute: 45, calendar: calendar)
-        let useCase = LoadBabyProgressWidgetTimelineUseCase(
-            loadSnapshotUseCase: ConfiguredWidgetSnapshotUseCaseStub(),
-            calendar: calendar
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -140, to: now))
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: lastPeriodDate,
+            weeklyContent: [makeWeekContent(week: 20), makeWeekContent(week: 21)],
+            language: .english
         )
 
-        let snapshots = try await useCase.execute(asOf: now)
+        let snapshots = try await makeTimelineUseCase(context: context, calendar: calendar)
+            .execute(asOf: now)
         let expectedDays = [29, 30, 31, 1, 2, 3, 4]
         let expectedMonths = [3, 3, 3, 4, 4, 4, 4]
 
         for (index, snapshot) in snapshots.dropFirst().enumerated() {
             let components = calendar.dateComponents([.month, .day, .hour], from: snapshot.date)
-
             #expect(components.month == expectedMonths[index])
             #expect(components.day == expectedDays[index])
             #expect(components.hour == 0)
         }
     }
 
-    @Test func progressLoadingFailureIsPropagated() async {
-        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
-            loadPregnancyProgressUseCase: FailingPregnancyProgressUseCaseStub(),
-            loadPregnancyWeekContentUseCase: PregnancyWeekContentUseCaseStub(content: nil),
+    @Test func timelineProjectsLocalizedContentAcrossAWeekBoundary() async throws {
+        let calendar = try madridCalendar()
+        let now = try date(year: 2026, month: 1, day: 7, hour: 23, minute: 45, calendar: calendar)
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -48, to: now))
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: lastPeriodDate,
+            weeklyContent: [makeWeekContent(week: 6), makeWeekContent(week: 7)],
             language: .english
+        )
+
+        let snapshots = try await makeTimelineUseCase(context: context, calendar: calendar)
+            .execute(asOf: now)
+
+        #expect(snapshots[0].ongoingBabySizeLabel == "week 6")
+        #expect(snapshots[1].ongoingBabySizeLabel == "week 7")
+    }
+
+    @Test(arguments: [
+        (287, BabyProgressWidgetState.lateTerm(progress: BabyProgressWidgetDetails(
+            gestationalAge: GestationalAge(weeks: 41, days: 0),
+            dueDateRelation: .elapsed(days: 7)
+        ))),
+        (294, BabyProgressWidgetState.postTerm(progress: BabyProgressWidgetDetails(
+            gestationalAge: GestationalAge(weeks: 42, days: 0),
+            dueDateRelation: .elapsed(days: 14)
+        )))
+    ])
+    func factoryProjectsLateAndPostTermStates(
+        elapsedDays: Int,
+        expectedState: BabyProgressWidgetState
+    ) throws {
+        let calendar = try madridCalendar()
+        let now = try date(year: 2026, month: 1, day: 7, calendar: calendar)
+        let lastPeriodDate = try #require(calendar.date(byAdding: .day, value: -elapsedDays, to: now))
+        let context = BabyProgressWidgetContext(
+            lastPeriodDate: lastPeriodDate,
+            weeklyContent: [],
+            language: .english
+        )
+
+        let snapshot = BabyProgressWidgetSnapshotFactory(calendar: calendar).makeSnapshot(
+            from: context,
+            asOf: now
+        )
+
+        #expect(snapshot.state == expectedState)
+    }
+
+    @Test func contextLoadingFailureIsPropagated() async {
+        let useCase = LoadBabyProgressWidgetSnapshotUseCase(
+            loadContextUseCase: FailingWidgetContextUseCaseStub(),
+            snapshotFactory: BabyProgressWidgetSnapshotFactory(calendar: .current)
         )
 
         await #expect(throws: WidgetSnapshotTestError.loadFailed) {
@@ -160,18 +201,14 @@ struct BabyProgressWidgetSupportTests {
         }
     }
 
-    private func makeActiveProgress(
-        weeks: Int,
-        days: Int,
-        phase: PregnancyPhase
-    ) -> ActivePregnancyProgress {
-        let elapsedDays = phase == .ongoing ? 140 : (phase == .lateTerm ? 7 : 14)
-        return ActivePregnancyProgress(
-            lastPeriodDate: Date(timeIntervalSince1970: 1_000_000),
-            dueDate: Date(timeIntervalSince1970: 3_000_000),
-            gestationalAge: GestationalAge(weeks: weeks, days: days),
-            phase: phase,
-            dueDateRelation: phase == .ongoing ? .upcoming(days: elapsedDays) : .elapsed(days: elapsedDays)
+    private func makeTimelineUseCase(
+        context: BabyProgressWidgetContext,
+        calendar: Calendar
+    ) -> LoadBabyProgressWidgetTimelineUseCase {
+        LoadBabyProgressWidgetTimelineUseCase(
+            loadContextUseCase: WidgetContextUseCaseStub(context: context),
+            snapshotFactory: BabyProgressWidgetSnapshotFactory(calendar: calendar),
+            calendar: calendar
         )
     }
 
@@ -179,7 +216,7 @@ struct BabyProgressWidgetSupportTests {
         WeekContent(
             week: week,
             babySize: .sweetPotato,
-            babySizeLabel: "a sweet potato",
+            babySizeLabel: week == 20 ? "a sweet potato" : "week \(week)",
             milestoneTitle: "Week \(week)",
             keyEvents: ["Event"],
             physiologicalImpact: nil
@@ -211,64 +248,9 @@ struct BabyProgressWidgetSupportTests {
     }
 }
 
-private struct PregnancyProgressUseCaseStub: LoadPregnancyProgressUseCaseProtocol {
-    let progress: PregnancyProgress?
-
-    func execute(asOf date: Date) async throws -> PregnancyProgress? {
-        progress
+private extension BabyProgressWidgetSnapshot {
+    var ongoingBabySizeLabel: String? {
+        guard case let .ongoing(_, _, label) = state else { return nil }
+        return label
     }
-}
-
-private struct PregnancyWeekContentUseCaseStub: LoadPregnancyWeekContentUseCaseProtocol {
-    let content: WeekContent?
-
-    func execute(week: Int) async -> WeekContent? {
-        content?.week == week ? content : nil
-    }
-}
-
-private actor PregnancyWeekContentUseCaseRecorder: LoadPregnancyWeekContentUseCaseProtocol {
-    private(set) var executionCount = 0
-
-    func execute(week: Int) -> WeekContent? {
-        executionCount += 1
-        return nil
-    }
-}
-
-private struct FailingPregnancyProgressUseCaseStub: LoadPregnancyProgressUseCaseProtocol {
-    func execute(asOf date: Date) async throws -> PregnancyProgress? {
-        throw WidgetSnapshotTestError.loadFailed
-    }
-}
-
-private struct ConfiguredWidgetSnapshotUseCaseStub: LoadBabyProgressWidgetSnapshotUseCaseProtocol {
-    func execute(asOf date: Date) async throws -> BabyProgressWidgetSnapshot {
-        BabyProgressWidgetSnapshot(
-            date: date,
-            state: .ongoing(
-                progress: BabyProgressWidgetDetails(
-                    gestationalAge: GestationalAge(weeks: 32, days: 0),
-                    dueDateRelation: .upcoming(days: 56)
-                ),
-                babySizeImageName: "img_coconut",
-                babySizeLabel: "a coconut"
-            ),
-            localeIdentifier: "en"
-        )
-    }
-}
-
-private struct InvalidWidgetSnapshotUseCaseStub: LoadBabyProgressWidgetSnapshotUseCaseProtocol {
-    func execute(asOf date: Date) async throws -> BabyProgressWidgetSnapshot {
-        BabyProgressWidgetSnapshot(
-            date: date,
-            state: .invalidFutureLastPeriodDate,
-            localeIdentifier: "en"
-        )
-    }
-}
-
-private enum WidgetSnapshotTestError: Error {
-    case loadFailed
 }

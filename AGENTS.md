@@ -173,7 +173,10 @@ Graph rules:
   content, and snapshot loading; it never creates app navigation or presentation state.
 - The entry is `BabyProgressWidgetEntry` and contains an immutable `BabyProgressWidgetSnapshot`.
 - Date or locale changes request a reload through `WidgetReloader`.
-- The timeline precomputes the current snapshot and snapshots for the next seven local midnights.
+- Snapshot and timeline requests each load one immutable `BabyProgressWidgetContext`: the persisted
+  last-period date, the localized weekly content, and the effective language.
+- The timeline projects the current snapshot and snapshots for the next seven local midnights from
+  that single context without repeating persistence or content reads.
 - If the snapshot or any persisted contract changes, review `WidgetDependencyContainer`,
   `BabyProgressTimelineProvider`, `BabyProgressWidgetEntry`, and
   `BabyProgressWidgetEntryView` together.
