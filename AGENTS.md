@@ -51,6 +51,9 @@ BabyLoadingApp
   and request a widget reload.
 - If the effective locale changes, `Coordinator` recreates the content use cases, updates the four
   features, and reloads the widget.
+- `Coordinator` ignores activation callbacks until its initial load completes. Every later
+  activation reloads the four date-dependent features from one captured date; unchanged locales
+  reuse the existing content use cases and do not trigger a widget reload.
 
 ## Packages and modules
 
