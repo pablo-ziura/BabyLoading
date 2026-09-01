@@ -1,5 +1,5 @@
 import Foundation
-import JourneyFeature
+@testable import JourneyFeature
 import PregnancyContent
 import PregnancyProgress
 import Testing
@@ -86,6 +86,93 @@ struct JourneyViewModelTests {
         await viewModel.reload()
 
         #expect(viewModel.currentDayOffset() == 0)
+    }
+
+    @Test
+    func currentDayTimelineWeekUsesTheCurrentWeekForTheFirstFourDays() async throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let lastPeriodDate = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 1, day: 1))
+        )
+        let currentDate = try #require(
+            calendar.date(byAdding: .day, value: 3, to: lastPeriodDate)
+        )
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(
+                progress: makeProgress(week: 12, lastPeriodDate: lastPeriodDate)
+            ),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(
+                timeline: [makeWeekContent(week: 12), makeWeekContent(week: 13)]
+            )
+        )
+
+        await viewModel.reload(asOf: currentDate)
+
+        #expect(viewModel.currentDayTimelineWeek(asOf: currentDate, calendar: calendar) == 12)
+    }
+
+    @Test
+    func currentDayTimelineWeekUsesTheFollowingWeekForTheLastThreeDays() async throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let lastPeriodDate = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 1, day: 1))
+        )
+        let currentDate = try #require(
+            calendar.date(byAdding: .day, value: 4, to: lastPeriodDate)
+        )
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(
+                progress: makeProgress(week: 12, lastPeriodDate: lastPeriodDate)
+            ),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(
+                timeline: [makeWeekContent(week: 12), makeWeekContent(week: 13)]
+            )
+        )
+
+        await viewModel.reload(asOf: currentDate)
+
+        #expect(viewModel.currentDayTimelineWeek(asOf: currentDate, calendar: calendar) == 13)
+    }
+
+    @Test
+    func currentDayTimelineWeekFallsBackToTheCurrentWeekWhenTheFollowingWeekIsUnavailable() async throws {
+        let calendar = Calendar(identifier: .gregorian)
+        let lastPeriodDate = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 1, day: 1))
+        )
+        let currentDate = try #require(
+            calendar.date(byAdding: .day, value: 6, to: lastPeriodDate)
+        )
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(
+                progress: makeProgress(week: 40, lastPeriodDate: lastPeriodDate)
+            ),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(timeline: [makeWeekContent(week: 40)])
+        )
+
+        await viewModel.reload(asOf: currentDate)
+
+        #expect(viewModel.currentDayTimelineWeek(asOf: currentDate, calendar: calendar) == 40)
+    }
+
+    @Test
+    func currentDayTimelineWeekIsUnavailableForLateTermProgress() async {
+        let viewModel = JourneyViewModel(
+            loadPregnancyProgressUseCase: JourneyProgressUseCaseStub(
+                progress: .active(ActivePregnancyProgress(
+                    lastPeriodDate: .now,
+                    dueDate: .now,
+                    gestationalAge: GestationalAge(weeks: 41, days: 0),
+                    phase: .lateTerm,
+                    dueDateRelation: .elapsed(days: 7)
+                ))
+            ),
+            loadPregnancyTimelineUseCase: JourneyTimelineUseCaseStub(timeline: [makeWeekContent(week: 40)])
+        )
+
+        await viewModel.reload()
+
+        #expect(viewModel.currentDayTimelineWeek() == nil)
     }
 
     @Test

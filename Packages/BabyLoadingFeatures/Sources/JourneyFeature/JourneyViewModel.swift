@@ -69,4 +69,20 @@ public final class JourneyViewModel {
         let elapsedDays = calendar.dateComponents([.day], from: startDate, to: currentDate).day ?? 0
         return max(0, elapsedDays) % 7
     }
+
+    func currentDayTimelineWeek(asOf date: Date = .now, calendar: Calendar = .current) -> Int? {
+        guard case let .active(activeProgress) = progress,
+              activeProgress.phase == .ongoing else {
+            return nil
+        }
+
+        let currentWeek = activeProgress.gestationalAge.weeks
+        let dayTimelineWeek = currentWeek + (currentDayOffset(asOf: date, calendar: calendar) >= 4 ? 1 : 0)
+
+        if pregnancyTimeline.contains(where: { $0.week == dayTimelineWeek }) {
+            return dayTimelineWeek
+        }
+
+        return pregnancyTimeline.contains(where: { $0.week == currentWeek }) ? currentWeek : nil
+    }
 }
