@@ -1,21 +1,31 @@
 import BabyLoadingDesignComponents
 import BabyLoadingDesignTokens
+import Foundation
 import PregnancyContent
 import PregnancyProgress
 import SwiftUI
 
 public struct JourneyView: View {
     @Environment(JourneyViewModel.self) private var viewModel
+    @Environment(\.accessibilityReduceMotion) private var accessibilityReduceMotion
     @Environment(\.locale) private var locale
+    @State private var hasAppeared = false
+    @State private var isCurrentDayScrollPending = false
+    @State private var currentDayScrollRequest: UUID?
 
-    public init() {}
+    private let isSelected: Bool
+
+    public init(isSelected: Bool) {
+        self.isSelected = isSelected
+    }
 
     public var body: some View {
         ZStack {
             GradientBackground()
 
-            ScrollView {
-                VStack(spacing: 0) {
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 0) {
                         Text("journey.title")
                         .font(BabyLoadingTypography.text(.title2, weight: .bold))
                         .foregroundStyle(.primary)
@@ -34,14 +44,51 @@ public struct JourneyView: View {
                                 currentWeek: currentTimelineWeek,
                                 currentDayOffset: viewModel.currentDayOffset()
                             )
+                            .id(content.week)
                         }
                     }
                     .padding(.horizontal)
 
                     Spacer(minLength: 100)
                 }
+                }
                 .frame(maxWidth: 600)
                 .frame(maxWidth: .infinity)
+                .onAppear {
+                    guard !hasAppeared else { return }
+                    hasAppeared = true
+                    requestCurrentDayScroll()
+                }
+                .onChange(of: isSelected) { _, isSelected in
+                    if isSelected {
+                        requestCurrentDayScroll()
+                    } else {
+                        isCurrentDayScrollPending = false
+                        currentDayScrollRequest = nil
+                    }
+                }
+                .onChange(of: currentDayTimelineWeek) {
+                    schedulePendingCurrentDayScroll()
+                }
+                .task(id: currentDayScrollRequest) { @MainActor in
+                    guard let currentDayScrollRequest else { return }
+
+                    await Task.yield()
+
+                    guard !Task.isCancelled,
+                          currentDayScrollRequest == self.currentDayScrollRequest,
+                          let currentDayTimelineWeek else {
+                        return
+                    }
+
+                    if accessibilityReduceMotion {
+                        proxy.scrollTo(currentDayTimelineWeek, anchor: .center)
+                    } else {
+                        withAnimation(.easeInOut(duration: 0.6)) {
+                            proxy.scrollTo(currentDayTimelineWeek, anchor: .center)
+                        }
+                    }
+                }
             }
         }
     }
@@ -60,11 +107,25 @@ public struct JourneyView: View {
         return activeProgress.gestationalAge.weeks
     }
 
-    private var isStoredDateInFuture: Bool {
-        guard case .some(.invalidFutureLastPeriodDate) = viewModel.progress else {
-            return false
+    private var currentDayTimelineWeek: Int? {
+        viewModel.currentDayTimelineWeek()
+    }
+
+    private func requestCurrentDayScroll() {
+        guard isSelected else { return }
+
+        isCurrentDayScrollPending = true
+        schedulePendingCurrentDayScroll()
+    }
+
+    private func schedulePendingCurrentDayScroll() {
+        guard isCurrentDayScrollPending,
+              currentDayTimelineWeek != nil else {
+            return
         }
-        return true
+
+        isCurrentDayScrollPending = false
+        currentDayScrollRequest = UUID()
     }
 }
 
