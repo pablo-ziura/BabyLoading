@@ -23,7 +23,7 @@ struct MainTabView: View {
             .tag(AppTab.dashboard)
 
             NavigationStack {
-                JourneyView()
+                JourneyView(isSelected: router.selectedTab == .journey)
             }
             .tabItem {
                 tabLabel(for: .journey)
