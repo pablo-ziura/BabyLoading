@@ -21,6 +21,10 @@ xcuserdata/
 .build/
 .swiftpm/
 Package.resolved
+!BabyLoading.xcodeproj/project.xcworkspace/
+!BabyLoading.xcodeproj/project.xcworkspace/xcshareddata/
+!BabyLoading.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+!BabyLoading.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
 # CocoaPods (if you ever use it)
 #
