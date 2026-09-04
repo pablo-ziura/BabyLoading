@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+
+blocked_paths="$({
+    git diff --cached --name-only --diff-filter=ACMR |
+        awk '
+            $0 ~ /(^|\/)AGENTS\.md$/ ||
+            $0 ~ /(^|\/)GoogleService-Info.*\.plist$/ {
+                print
+            }
+        '
+})"
+
+if [ -n "$blocked_paths" ]; then
+    echo "Refusing to commit local-only files:" >&2
+    printf '%s\n' "$blocked_paths" >&2
+    exit 1
+fi
