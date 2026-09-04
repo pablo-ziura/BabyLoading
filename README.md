@@ -32,6 +32,27 @@ manuales sin alterar datos reales. Usa el bundle identifier
 `com.pablo.ruiz.babyloading.lab`, el App Group aislado `group.com.pablo.BabyLoading.lab` y el icono
 violeta `AppIconLab`. No debe utilizarse para distribución ni para datos de producción.
 
+### Firebase Crashlytics y configuración local
+
+`BabyLoading` informa fallos mediante Firebase Crashlytics. Solo el target principal enlaza
+`FirebaseCore` y `FirebaseCrashlytics`; el widget y Firebase Analytics no forman parte de esta
+integración. La fase final `Firebase Crashlytics` sube los dSYM de Debug, Release y Lab.
+
+Los plist de Firebase son configuración local y no se versionan. Antes de compilar, descárgalos
+desde Firebase Console y guárdalos en `Configuration/Firebase/` con estos nombres:
+
+- `GoogleService-Info.plist` para Debug y Release.
+- `GoogleService-Info-Lab.plist` para Lab.
+
+Tras rotar una clave de Firebase o Google Cloud, vuelve a descargar ambos plist antes de compilar.
+Instala la protección local contra commits accidentales una vez por clon:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+`AGENTS.md` también es local, está ignorado y nunca debe añadirse al índice.
+
 ### Arquitectura
 
 La app usa un único coordinator como composition root de presentación:
@@ -107,7 +128,7 @@ Packages/
   BabyLoadingDesignSystem/
   BabyLoadingFeatures/
 Scripts/swiftlint/
-AGENTS.md
+AGENTS.md (local, ignored)
 DESIGN.md
 ```
 
@@ -151,7 +172,7 @@ HEIC, rotación de preview/captura y referencia superpuesta.
 
 ### Desarrollo
 
-- `AGENTS.md` es la guía viva de arquitectura, dependencias y reglas de extensión.
+- `AGENTS.md` es una guía local de arquitectura, dependencias y reglas de extensión; no se versiona.
 - `DESIGN.md` es el contrato visual compartido con Android.
 - La cobertura unitaria vive junto al package propietario; el target host conserva únicamente tests
   de composition root, recursos, frameworks y contratos compartidos.
@@ -188,6 +209,27 @@ The shared `BabyLoading Lab` scheme installs a second app, `Baby Loading Lab`, f
 without altering real data. It uses the `com.pablo.ruiz.babyloading.lab` bundle identifier, the
 isolated `group.com.pablo.BabyLoading.lab` App Group, and the violet `AppIconLab` icon. It must not
 be used for distribution or production data.
+
+### Firebase Crashlytics and local configuration
+
+`BabyLoading` reports crashes through Firebase Crashlytics. Only the host target links
+`FirebaseCore` and `FirebaseCrashlytics`; the widget and Firebase Analytics are not part of this
+integration. The final `Firebase Crashlytics` build phase uploads dSYMs for Debug, Release, and Lab.
+
+Firebase plist files are local configuration and are not versioned. Before building, download them
+from Firebase Console and save them in `Configuration/Firebase/` with these names:
+
+- `GoogleService-Info.plist` for Debug and Release.
+- `GoogleService-Info-Lab.plist` for Lab.
+
+After rotating a Firebase or Google Cloud key, download both plist files again before building.
+Install the local protection against accidental commits once per clone:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+`AGENTS.md` is also local, ignored, and must never be added to the index.
 
 ### Architecture
 
@@ -263,7 +305,7 @@ Packages/
   BabyLoadingDesignSystem/
   BabyLoadingFeatures/
 Scripts/swiftlint/
-AGENTS.md
+AGENTS.md (local, ignored)
 DESIGN.md
 ```
 
@@ -307,7 +349,7 @@ capture, HEIC, preview/capture rotation, and the alignment reference overlay.
 
 ### Development
 
-- `AGENTS.md` is the living architecture, dependency, and extension guide.
+- `AGENTS.md` is a local architecture, dependency, and extension guide; it is not versioned.
 - `DESIGN.md` is the visual contract shared with Android.
 - Unit tests live with their owning package; the host target keeps only composition-root, resource,
   framework, and shared-contract integration tests.

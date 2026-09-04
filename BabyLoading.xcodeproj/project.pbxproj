@@ -14,6 +14,7 @@
 		23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */ = {isa = PBXBuildFile; productRef = D7FBB1F6003EC1406A6F3225 /* DashboardFeature */; };
 		3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = FA11AD34E7E04063331B1844 /* BabyLoadingNavigation */; };
 		44284A8804E46A6B21F77EC8 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 988DF16458041719A05EB808 /* AppLocalization */; };
+		4AD9D34A9785B200AD59F653 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BF6816F0CBBFD52A2E639ED /* GoogleService-Info.plist */; };
 		4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = AAC7EA6646C3DA29E0FAB437 /* BabyLoadingInfrastructure */; };
 		5EC8D1C0A658441B31D9EE67 /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 69C2B0DB5837CD5BFDBBA547 /* BabyLoadingDesignTokens */; };
 		669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 21E54CBD2AE3C900CC207895 /* AppLocalization */; };
@@ -22,6 +23,7 @@
 		6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FD8556AF922B2E6AA15BADB1 /* UltrasoundGallery */; };
 		79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6650DFD0E492D0A0F71539 /* PregnancyContent */; };
 		7DA3B2D7413E22044351CD28 /* UltrasoundGallery in Frameworks */ = {isa = PBXBuildFile; productRef = FA0771AB192F2142B1892836 /* UltrasoundGallery */; };
+		7FAF294ABC2218D0EACC0191 /* GoogleService-Info-Lab.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CE219AA92F07D42948CB115 /* GoogleService-Info-Lab.plist */; };
 		8D3C0C4288731CBDA304DAE0 /* BabyLoadingInfrastructure in Frameworks */ = {isa = PBXBuildFile; productRef = 3180E5AFA519A3788224B37E /* BabyLoadingInfrastructure */; };
 		9741300B6CCEE2281A581627 /* AppLocalization in Frameworks */ = {isa = PBXBuildFile; productRef = 75223AE41654D5E7AFAE46E2 /* AppLocalization */; };
 		AA7935C2E8F66D31A8D3317B /* PregnancyContent in Frameworks */ = {isa = PBXBuildFile; productRef = EC3A24870F8A9D5800CB83D5 /* PregnancyContent */; };
@@ -37,6 +39,8 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DA9FA3C03049C04A00479734 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = DA9FA3BF3049C04A00479734 /* FirebaseCore */; };
+		DA9FA3C23049C04A00479734 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA9FA3C13049C04A00479734 /* FirebaseCrashlytics */; };
 		E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB3FF04E2E98901D78846AB /* SettingsFeature */; };
 		E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4980813C0C7700B233DD8C /* BabyLoadingDesignTokens */; };
 /* End PBXBuildFile section */
@@ -73,6 +77,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1CE219AA92F07D42948CB115 /* GoogleService-Info-Lab.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; path = "GoogleService-Info-Lab.plist"; sourceTree = "<group>"; };
+		6BF6816F0CBBFD52A2E639ED /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DA1C91522F41F1E9003EC367 /* BabyLoading.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyLoading.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C915F2F41F1EA003EC367 /* BabyLoadingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabyLoadingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BabyProgressWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,14 +90,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
@@ -101,7 +107,7 @@
 			);
 			target = DA1C915E2F41F1EA003EC367 /* BabyLoadingTests */;
 		};
-		DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Assets.xcassets,
@@ -111,14 +117,14 @@
 			);
 			target = DA1C91822F41F266003EC367 /* BabyProgressWidgetExtension */;
 		};
-		DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
 			);
 			target = DA1C91512F41F1E9003EC367 /* BabyLoading */;
 		};
-		DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				WidgetAssets.xcassets,
@@ -128,13 +134,30 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1A472F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1A482F436939005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyLoading; sourceTree = "<group>"; };
+		DA1C91542F41F1E9003EC367 /* BabyLoading */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1A472F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyLoadingTests" target */,
+				DABF1A482F436939005C4E18 /* Exceptions for "BabyLoading" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyLoading;
+			sourceTree = "<group>";
+		};
 		DA1C91622F41F1EA003EC367 /* BabyLoadingTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BabyLoadingTests;
 			sourceTree = "<group>";
 		};
-		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DABF1B712F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DABF1B722F4374C3005C4E18 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DA1C91962F41F267003EC367 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); path = BabyProgressWidget; sourceTree = "<group>"; };
+		DA1C91892F41F266003EC367 /* BabyProgressWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DABF1B712F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoading" target */,
+				DABF1B722F4374C3005C4E18 /* Exceptions for "BabyProgressWidget" folder in "BabyLoadingTests" target */,
+				DA1C91962F41F267003EC367 /* Exceptions for "BabyProgressWidget" folder in "BabyProgressWidgetExtension" target */,
+			);
+			path = BabyProgressWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +166,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000001 /* AppPreferences in Frameworks */,
+				DA9FA3C03049C04A00479734 /* FirebaseCore in Frameworks */,
 				3F44C2A341165EC64D5FFB08 /* BabyLoadingNavigation in Frameworks */,
 				4BF6B388BFD8160311303AEA /* BabyLoadingInfrastructure in Frameworks */,
 				669F12B0C7FBBB6870B63472 /* AppLocalization in Frameworks */,
@@ -154,6 +178,7 @@
 				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
 				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
 				AECA98536225C7F7433576F8 /* JourneyFeature in Frameworks */,
+				DA9FA3C23049C04A00479734 /* FirebaseCrashlytics in Frameworks */,
 				23163EE9C54EAB70F017E3F6 /* DashboardFeature in Frameworks */,
 				B8BCEF207F6D06B1FB678A79 /* GalleryFeature in Frameworks */,
 			);
@@ -230,8 +255,18 @@
 			isa = PBXGroup;
 			children = (
 				DA30E63A30405E4F00BCC159 /* BabyLoading-Info.plist */,
+				E926B3B586B93E4CA6234CEB /* Firebase */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		E926B3B586B93E4CA6234CEB /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				6BF6816F0CBBFD52A2E639ED /* GoogleService-Info.plist */,
+				1CE219AA92F07D42948CB115 /* GoogleService-Info-Lab.plist */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +281,7 @@
 				DA1C914F2F41F1E9003EC367 /* Frameworks */,
 				DA1C91502F41F1E9003EC367 /* Resources */,
 				DA1C919A2F41F267003EC367 /* Embed Foundation Extensions */,
+				DA9FA3C33049C06600479734 /* Firebase Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -271,6 +307,8 @@
 				E261BB58408C4E903B6FE784 /* JourneyFeature */,
 				D7FBB1F6003EC1406A6F3225 /* DashboardFeature */,
 				0ED665E93B103A38A077AA58 /* GalleryFeature */,
+				DA9FA3BF3049C04A00479734 /* FirebaseCore */,
+				DA9FA3C13049C04A00479734 /* FirebaseCrashlytics */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -375,6 +413,7 @@
 				0398AEE2C6EF287CD3144BEE /* XCLocalSwiftPackageReference "Packages/BabyLoadingFeatures" */,
 				9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */,
 				82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */,
+				DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -393,6 +432,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AD9D34A9785B200AD59F653 /* GoogleService-Info.plist in Resources */,
+				7FAF294ABC2218D0EACC0191 /* GoogleService-Info-Lab.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +470,30 @@
 			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
 			showEnvVarsInLog = 0;
 		};
+		DA9FA3C33049C06600479734 /* Firebase Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(FIREBASE_GOOGLE_SERVICE_INFO_PATH)",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = "Firebase Crashlytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\" \\\n  -gsp \"${FIREBASE_GOOGLE_SERVICE_INFO_PATH}\"\n";
+		};
 		E33E081B7075E9259C10BD9B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -458,7 +523,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache";
+			shellScript = "\"${SRCROOT}/Scripts/swiftlint/swiftlint-0.65.1\" lint --config \"${SRCROOT}/.swiftlint.yml\" --force-exclude --no-cache\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -636,12 +701,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FIREBASE_CONFIGURATION_RESOURCE_NAME = "GoogleService-Info";
+				FIREBASE_GOOGLE_SERVICE_INFO_PATH = "$(SRCROOT)/Configuration/Firebase/GoogleService-Info.plist";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
@@ -663,6 +731,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.babyloading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -691,12 +763,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FIREBASE_CONFIGURATION_RESOURCE_NAME = "GoogleService-Info";
+				FIREBASE_GOOGLE_SERVICE_INFO_PATH = "$(SRCROOT)/Configuration/Firebase/GoogleService-Info.plist";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
@@ -718,6 +793,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.babyloading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -949,12 +1028,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9UT6S74KT6;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
+				FIREBASE_CONFIGURATION_RESOURCE_NAME = "GoogleService-Info-Lab";
+				FIREBASE_GOOGLE_SERVICE_INFO_PATH = "$(SRCROOT)/Configuration/Firebase/GoogleService-Info-Lab.plist";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Configuration/BabyLoading-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Baby Loading";
@@ -976,6 +1058,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pablo.ruiz.babyloading.lab;
 				PRODUCT_MODULE_NAME = BabyLoading;
 				PRODUCT_NAME = BabyLoading;
@@ -1127,6 +1213,17 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.18.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		03AF95E96395AC0884AE4BDB /* BabyLoadingNavigation */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1215,6 +1312,16 @@
 		D7FBB1F6003EC1406A6F3225 /* DashboardFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DashboardFeature;
+		};
+		DA9FA3BF3049C04A00479734 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		DA9FA3C13049C04A00479734 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		DBA67C2A3FAF854E35322A36 /* PregnancyProgress */ = {
 			isa = XCSwiftPackageProductDependency;
