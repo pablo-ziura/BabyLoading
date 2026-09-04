@@ -26,6 +26,10 @@ Package.resolved
 !BabyLoading.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 !BabyLoading.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
 
+# Local-only project instructions and Firebase configuration
+AGENTS.md
+Configuration/Firebase/GoogleService-Info*.plist
+
 # CocoaPods (if you ever use it)
 #
 Pods/
