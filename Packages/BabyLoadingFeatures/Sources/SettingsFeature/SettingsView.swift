@@ -208,6 +208,26 @@ public struct SettingsView: View {
 
     private var applicationInformation: some View {
         VStack(spacing: BabyLoadingSpacing.small) {
+            applicationDetails
+
+            if let privacyPolicyURL = URL(string: "https://sites.google.com/view/babyloading-privacy-policy/home") {
+                Link(destination: privacyPolicyURL) {
+                    Text("settings.privacyPolicy")
+                        .font(BabyLoadingTypography.text(.headline, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, BabyLoadingSpacing.medium)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.top, BabyLoadingSpacing.small)
+    }
+
+    private var applicationDetails: some View {
+        VStack(spacing: BabyLoadingSpacing.small) {
             Image(systemName: "info.circle")
                 .font(.title3)
                 .foregroundStyle(.primary.opacity(0.6))
@@ -223,7 +243,6 @@ public struct SettingsView: View {
                 .font(BabyLoadingTypography.text(.caption))
                 .foregroundStyle(.secondary)
         }
-        .padding(.top, BabyLoadingSpacing.small)
         .accessibilityElement(children: .combine)
     }
 

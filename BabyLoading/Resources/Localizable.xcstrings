@@ -1360,6 +1360,23 @@
         }
       }
     },
+    "settings.privacyPolicy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Política de privacidad"
+          }
+        }
+      }
+    },
     "settings.setDate" : {
       "extractionState" : "manual",
       "localizations" : {
