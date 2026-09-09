@@ -1,5 +1,7 @@
 # BabyLoading
 
+![BabyLoading hero illustration](BabyLoading/Resources/babyloading-hero.png)
+
 ## Español
 
 `BabyLoading` es una app iOS en SwiftUI para seguir el embarazo desde la fecha de la última
