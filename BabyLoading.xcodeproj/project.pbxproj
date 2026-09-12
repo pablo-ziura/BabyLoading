@@ -39,6 +39,8 @@
 		DA1C91862F41F266003EC367 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91852F41F266003EC367 /* WidgetKit.framework */; };
 		DA1C91882F41F266003EC367 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA1C91872F41F266003EC367 /* SwiftUI.framework */; };
 		DA1C91952F41F267003EC367 /* BabyProgressWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DA1C91832F41F266003EC367 /* BabyProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DA91E99A3055B25100091665 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DA91E9993055B25100091665 /* GoogleSignIn */; };
+		DA91E99C3055B25100091665 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DA91E99B3055B25100091665 /* GoogleSignInSwift */; };
 		DA9FA3C03049C04A00479734 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = DA9FA3BF3049C04A00479734 /* FirebaseCore */; };
 		DA9FA3C23049C04A00479734 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = DA9FA3C13049C04A00479734 /* FirebaseCrashlytics */; };
 		E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 4BB3FF04E2E98901D78846AB /* SettingsFeature */; };
@@ -174,6 +176,8 @@
 				79DA3248ED1B57A8CEC3767B /* PregnancyContent in Frameworks */,
 				6FB0DCA05500E7B3C36AD807 /* UltrasoundGallery in Frameworks */,
 				671671BC4713C50E04572C98 /* BellyTracking in Frameworks */,
+				DA91E99C3055B25100091665 /* GoogleSignInSwift in Frameworks */,
+				DA91E99A3055B25100091665 /* GoogleSignIn in Frameworks */,
 				E83141B28C7DDE5AD25CA55E /* BabyLoadingDesignTokens in Frameworks */,
 				07C468E428E234440D07D832 /* BabyLoadingDesignComponents in Frameworks */,
 				E58CD02A79E402D95C3E48D0 /* SettingsFeature in Frameworks */,
@@ -309,6 +313,8 @@
 				0ED665E93B103A38A077AA58 /* GalleryFeature */,
 				DA9FA3BF3049C04A00479734 /* FirebaseCore */,
 				DA9FA3C13049C04A00479734 /* FirebaseCrashlytics */,
+				DA91E9993055B25100091665 /* GoogleSignIn */,
+				DA91E99B3055B25100091665 /* GoogleSignInSwift */,
 			);
 			productName = BabyLoading;
 			productReference = DA1C91522F41F1E9003EC367 /* BabyLoading.app */;
@@ -414,6 +420,7 @@
 				9D895B462754C9EB5D7D1E9B /* XCLocalSwiftPackageReference "Packages/BabyLoadingCore" */,
 				82E752312994B921C05CD833 /* XCLocalSwiftPackageReference "Packages/BabyLoadingDesignSystem" */,
 				DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				DA91E9983055B25100091665 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DA1C91532F41F1E9003EC367 /* Products */;
@@ -1214,6 +1221,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		DA91E9983055B25100091665 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		DA9FA3BE3049C04A00479734 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1312,6 +1327,16 @@
 		D7FBB1F6003EC1406A6F3225 /* DashboardFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DashboardFeature;
+		};
+		DA91E9993055B25100091665 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA91E9983055B25100091665 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		DA91E99B3055B25100091665 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA91E9983055B25100091665 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		DA9FA3BF3049C04A00479734 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
