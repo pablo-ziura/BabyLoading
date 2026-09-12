@@ -35,6 +35,7 @@ public actor BackupLocalStore {
             records: Array(profile.records.values), mutations: profile.mutations,
             settings: RemotePregnancySettings(lastPeriodDay: profile.lastPeriodDay, cadenceDays: profile.cadenceDays),
             hasGuestData: guest.records.values.contains { !$0.remote.isDeleted } || guest.lastPeriodDay != nil,
+            confirmedAccountDeletion: database.confirmedAccountDeletion,
             pendingAccountDeletion: database.pendingAccountDeletion
         )
     }
@@ -102,23 +103,34 @@ public actor BackupLocalStore {
     public func beginAccountDeletion(userID: String) throws {
         var database = try loadForUser(userID)
         database.pendingAccountDeletion = userID
+        database.confirmedAccountDeletion = nil
         try save(database)
     }
 
     public func cancelAccountDeletion() throws {
         var database = try load()
         database.pendingAccountDeletion = nil
+        database.confirmedAccountDeletion = nil
+        try save(database)
+    }
+
+    public func confirmAccountDeletion(userID: String) throws {
+        var database = try load()
+        guard database.pendingAccountDeletion == userID else { throw BackupFailure.sessionChanged }
+        database.confirmedAccountDeletion = userID
         try save(database)
     }
 
     public func finishAccountDeletion(userID: String) throws {
         var database = try load()
         guard database.pendingAccountDeletion == userID else { throw BackupFailure.sessionChanged }
+        guard database.confirmedAccountDeletion == userID else { throw BackupFailure.sessionChanged }
         let paths = database.profiles[userID]?.records.values.compactMap(\.localImagePath) ?? []
         database.profiles[userID] = nil
         database.filesToRemove.append(contentsOf: paths)
         database.activeProfileID = "guest"
         database.pendingAccountDeletion = nil
+        database.confirmedAccountDeletion = nil
         try save(database)
         try removeObsoleteFiles()
     }
@@ -176,7 +188,7 @@ public actor BackupLocalStore {
         record.localImagePath = nil
         profile.records[id] = record
         profile.mutations.removeAll { $0.payload.logID == id }
-        profile.mutations.append(BackupMutation(payload: .delete(logID: id)))
+        profile.mutations.append(BackupMutation(payload: .create(record.remote)))
         database.profiles[database.activeProfileID] = profile
         try save(database)
         try removeObsoleteFiles()

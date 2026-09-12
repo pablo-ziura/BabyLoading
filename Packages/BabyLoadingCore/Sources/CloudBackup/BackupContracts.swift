@@ -127,6 +127,7 @@ public struct BackupLocalSnapshot: Sendable {
     public let mutations: [BackupMutation]
     public let settings: RemotePregnancySettings
     public let hasGuestData: Bool
+    public let confirmedAccountDeletion: String?
     public let pendingAccountDeletion: String?
 }
 
@@ -137,6 +138,7 @@ public enum BackupRemoteEvent: Sendable {
 
 public protocol BackupRemoteStoreProtocol: Sendable {
     func apply(_ mutation: BackupMutation, userID: String) async throws
+    func fetch(userID: String) async throws -> [BackupRemoteEvent]
     func observe(userID: String) async throws -> AsyncThrowingStream<BackupRemoteEvent, Error>
     func reset() async throws
 }

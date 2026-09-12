@@ -57,8 +57,10 @@ extension BackupLocalStore {
         var database = try loadForUser(userID)
         guard var profile = database.profiles[userID] else { throw BackupFailure.sessionChanged }
         for remote in logs {
-            guard remote.schemaVersion == 1, Self.isSafeIdentifier(remote.id),
-                  Self.isSafeIdentifier(remote.sourceID) else { throw BackupFailure.invalidData }
+            guard remote.schemaVersion == 1, !remote.sourceID.isEmpty, remote.sourceID.count <= 1024,
+                  remote.id == Self.photoID(origin: remote.origin, sourceID: remote.sourceID) else {
+                throw BackupFailure.invalidData
+            }
             if remote.origin == .bellyTracking, UUID(uuidString: remote.sourceID) == nil {
                 throw BackupFailure.invalidData
             }

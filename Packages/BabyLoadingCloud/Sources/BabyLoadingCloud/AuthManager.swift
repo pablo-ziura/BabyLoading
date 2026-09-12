@@ -154,8 +154,11 @@ public final class AuthManager: BackupAuthenticationProtocol {
     private func complete(_ start: (@escaping @Sendable (Error?) -> Void) -> Void) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             start { error in
-                if let error { continuation.resume(throwing: FirebaseFailureMapper.map(error)) }
-                else { continuation.resume() }
+                if let error {
+                    continuation.resume(throwing: FirebaseFailureMapper.map(error))
+                } else {
+                    continuation.resume()
+                }
             }
         }
     }

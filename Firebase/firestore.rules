@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owns(uid) {
+      return request.auth != null && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+    function optionalString(data, key, limit) {
+      return !(key in data) || data[key] == null || (data[key] is string && data[key].size() <= limit);
+    }
+    function validLog(data, logId) {
+      return data.keys().hasOnly(['schemaVersion', 'id', 'origin', 'sourceID', 'capturedAt',
+          'weekNumber', 'notes', 'remoteImageUrl', 'isDeleted', 'updatedAt'])
+        && data.keys().hasAll(['schemaVersion', 'id', 'origin', 'sourceID', 'isDeleted', 'updatedAt'])
+        && data.schemaVersion == 1 && data.id == logId && logId.matches('[a-f0-9]{64}')
+        && data.origin in ['ultrasound', 'bellyTracking']
+        && data.sourceID is string && data.sourceID.size() > 0 && data.sourceID.size() <= 1024
+        && data.isDeleted is bool && data.updatedAt == request.time
+        && (!('capturedAt' in data) || data.capturedAt == null || data.capturedAt is timestamp)
+        && (!('weekNumber' in data) || data.weekNumber == null
+          || (data.weekNumber is int && data.weekNumber >= 0 && data.weekNumber <= 50))
+        && optionalString(data, 'notes', 20000) && optionalString(data, 'remoteImageUrl', 4096);
+    }
+    match /users/{uid}/pregnancyLogs/{logId} {
+      allow read: if owns(uid);
+      allow create: if owns(uid) && validLog(request.resource.data, logId);
+      allow update: if owns(uid) && validLog(request.resource.data, logId)
+        && !resource.data.isDeleted
+        && !request.resource.data.diff(resource.data).affectedKeys()
+          .hasAny(['id', 'origin', 'sourceID', 'capturedAt']);
+      allow delete: if false;
+    }
+    match /users/{uid}/settings/pregnancy {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid)
+        && request.resource.data.keys().hasOnly(['schemaVersion', 'lastPeriodDay', 'cadenceDays', 'updatedAt'])
+        && request.resource.data.schemaVersion == 1 && request.resource.data.updatedAt == request.time
+        && (!('lastPeriodDay' in request.resource.data) || request.resource.data.lastPeriodDay == null
+          || (request.resource.data.lastPeriodDay is string
+            && request.resource.data.lastPeriodDay.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')))
+        && (!('cadenceDays' in request.resource.data) || request.resource.data.cadenceDays == null
+          || request.resource.data.cadenceDays in [7, 14, 28]);
+      allow delete: if false;
+    }
+    match /users/{uid}/mutations/{operationId} {
+      allow read: if owns(uid);
+      allow create: if owns(uid)
+        && request.resource.data.keys().hasOnly(['schemaVersion', 'documentPath', 'appliedAt'])
+        && request.resource.data.schemaVersion == 1 && request.resource.data.appliedAt == request.time
+        && request.resource.data.documentPath is string
+        && request.resource.data.documentPath.matches('(pregnancyLogs/[a-f0-9]{64}|settings/pregnancy)');
+      allow update, delete: if false;
+    }
+  }
+}

@@ -14,7 +14,7 @@ struct BackupDatabase: Codable {
     var guestID = UUID().uuidString
     var legacyMigrationComplete = false
     var profiles: [String: BackupProfile] = ["guest": BackupProfile()]
+    var confirmedAccountDeletion: String?
     var pendingAccountDeletion: String?
     var filesToRemove: [String] = []
-    var legacyFilesToRemove: [String] = []
 }

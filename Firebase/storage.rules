@@ -1,0 +1,21 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function owns(uid) {
+      return request.auth != null && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider != 'anonymous';
+    }
+    function liveLog(uid, fileName) {
+      let logId = fileName.replace('.jpg', '');
+      return fileName.matches('[a-f0-9]{64}\\.jpg')
+        && firestore.get(/databases/(default)/documents/users/$(uid)/pregnancyLogs/$(logId)).data.isDeleted == false;
+    }
+    match /users/{uid}/photos/{fileName} {
+      allow read: if owns(uid) && liveLog(uid, fileName);
+      allow create, update: if owns(uid) && liveLog(uid, fileName)
+        && request.resource.size > 0 && request.resource.size <= 25 * 1024 * 1024
+        && request.resource.contentType == 'image/jpeg';
+      allow delete: if owns(uid);
+    }
+  }
+}
