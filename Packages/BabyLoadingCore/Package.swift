@@ -34,7 +34,10 @@ let package = Package(
         .target(name: "PregnancyContent"),
         .target(name: "UltrasoundGallery"),
         .target(name: "BellyTracking"),
-        .target(name: "CloudBackup"),
+        .target(
+            name: "CloudBackup",
+            dependencies: ["AppPreferences", "PregnancyProgress", "UltrasoundGallery", "BellyTracking"]
+        ),
         .target(
             name: "BabyProgressWidgetSupport",
             dependencies: [

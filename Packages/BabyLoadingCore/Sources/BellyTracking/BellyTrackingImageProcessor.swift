@@ -38,7 +38,7 @@ public enum BellyTrackingImageProcessor {
         return aspectAdjustedData(from: data, outputFormat: .jpeg)
     }
 
-    static func prepareForStorage(_ data: Data) throws -> (data: Data, fileExtension: String) {
+    public static func prepareForStorage(_ data: Data) throws -> (data: Data, fileExtension: String) {
         guard let fileExtension = fileExtension(for: data) else {
             throw BellyTrackingStoreError.unsupportedImageFormat
         }
