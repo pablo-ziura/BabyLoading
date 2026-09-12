@@ -15,6 +15,7 @@ let package = Package(
         .library(name: "PregnancyContent", targets: ["PregnancyContent"]),
         .library(name: "UltrasoundGallery", targets: ["UltrasoundGallery"]),
         .library(name: "BellyTracking", targets: ["BellyTracking"]),
+        .library(name: "CloudBackup", targets: ["CloudBackup"]),
         .library(
             name: "BabyProgressWidgetSupport",
             targets: ["BabyProgressWidgetSupport"]
@@ -33,6 +34,7 @@ let package = Package(
         .target(name: "PregnancyContent"),
         .target(name: "UltrasoundGallery"),
         .target(name: "BellyTracking"),
+        .target(name: "CloudBackup"),
         .target(
             name: "BabyProgressWidgetSupport",
             dependencies: [
@@ -64,6 +66,10 @@ let package = Package(
         .testTarget(
             name: "BellyTrackingTests",
             dependencies: ["BellyTracking"]
+        ),
+        .testTarget(
+            name: "CloudBackupTests",
+            dependencies: ["CloudBackup"]
         ),
         .testTarget(
             name: "BabyProgressWidgetSupportTests",
