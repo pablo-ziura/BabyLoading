@@ -1,6 +1,7 @@
 import Foundation
 
 struct BackupProfile: Codable {
+    var pendingImageDeletions: Set<String>?
     var records: [String: BackupRecord] = [:]
     var mutations: [BackupMutation] = []
     var lastPeriodDay: String?

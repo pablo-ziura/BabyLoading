@@ -33,6 +33,7 @@ public actor BackupLocalStore {
         return BackupLocalSnapshot(
             profileID: database.activeProfileID,
             records: Array(profile.records.values), mutations: profile.mutations,
+            pendingImageDeletions: Array(profile.pendingImageDeletions ?? []),
             settings: RemotePregnancySettings(lastPeriodDay: profile.lastPeriodDay, cadenceDays: profile.cadenceDays),
             hasGuestData: guest.records.values.contains { !$0.remote.isDeleted } || guest.lastPeriodDay != nil,
             confirmedAccountDeletion: database.confirmedAccountDeletion,
@@ -182,6 +183,7 @@ public actor BackupLocalStore {
         let id = Self.photoID(origin: origin, sourceID: sourceID)
         guard var profile = database.profiles[database.activeProfileID], var record = profile.records[id],
               !record.remote.isDeleted else { return }
+        profile.pendingImageDeletions = (profile.pendingImageDeletions ?? []).union([id])
         record.remote.isDeleted = true
         record.syncStatus = .pending
         if let path = record.localImagePath { database.filesToRemove.append(path) }

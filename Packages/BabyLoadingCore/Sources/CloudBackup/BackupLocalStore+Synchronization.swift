@@ -42,6 +42,18 @@ extension BackupLocalStore {
         try save(database)
     }
 
+    public func acknowledgeImageDeletion(logID: String, userID: String) throws {
+        var database = try loadForUser(userID)
+        database.profiles[userID]?.pendingImageDeletions?.remove(logID)
+        try save(database)
+    }
+
+    public func markPending(logID: String, userID: String) throws {
+        var database = try loadForUser(userID)
+        database.profiles[userID]?.records[logID]?.syncStatus = .pending
+        try save(database)
+    }
+
     public func retryFailures() throws {
         var database = try load()
         for id in database.profiles[database.activeProfileID]?.records.keys.map({ $0 }) ?? [] {
@@ -66,6 +78,9 @@ extension BackupLocalStore {
             }
             let local = profile.records[remote.id]
             if remote.isDeleted {
+                if local?.remote.isDeleted != true {
+                    profile.pendingImageDeletions = (profile.pendingImageDeletions ?? []).union([remote.id])
+                }
                 if let path = local?.localImagePath { database.filesToRemove.append(path) }
                 profile.records[remote.id] = BackupRecord(
                     remote: remote, localImagePath: nil, syncStatus: .synced, failure: nil

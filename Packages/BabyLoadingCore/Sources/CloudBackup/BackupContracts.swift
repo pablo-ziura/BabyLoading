@@ -125,6 +125,7 @@ public struct BackupLocalSnapshot: Sendable {
     public let profileID: String
     public let records: [BackupRecord]
     public let mutations: [BackupMutation]
+    public let pendingImageDeletions: [String]
     public let settings: RemotePregnancySettings
     public let hasGuestData: Bool
     public let confirmedAccountDeletion: String?
@@ -168,4 +169,8 @@ public protocol BackupAuthenticationProtocol: AnyObject, Sendable {
     func reauthenticate(password: String) async throws
     func signOut() throws
     func deleteAccount() async throws
+}
+
+public protocol BackupConnectivityProtocol: Sendable {
+    func changes() -> AsyncStream<Bool>
 }
