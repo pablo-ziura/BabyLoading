@@ -1,5 +1,6 @@
 @testable import GalleryFeature
 import BellyTracking
+import CloudBackup
 import Foundation
 import PregnancyProgress
 import Testing
@@ -7,6 +8,25 @@ import UltrasoundGallery
 
 @MainActor
 struct GalleryViewModelTests {
+    @Test(arguments: [false, true])
+    func accountChangeDiscardsLateImportResults(shouldFail: Bool) async {
+        let context = GalleryViewModelTestContext()
+        context.addUltrasoundPhotoUseCase.beforeReturning = {
+            var state = BackupState()
+            state.profileID = "another-account"
+            context.viewModel.applyBackupState(state)
+        }
+        if shouldFail {
+            context.addUltrasoundPhotoUseCase.error = GalleryViewModelTestError.requestedFailure
+        }
+
+        await context.viewModel.addUltrasoundPhoto(Data([0x01]))
+
+        #expect(context.viewModel.ultrasoundPhotos.isEmpty)
+        #expect(context.viewModel.operationState == .idle)
+        context.addUltrasoundPhotoUseCase.beforeReturning = nil
+    }
+
     @Test func reloadFailuresPreserveEachLastValidSectionIndependently() async {
         let context = GalleryViewModelTestContext()
         let date = Date(timeIntervalSince1970: 1_700_000_000)

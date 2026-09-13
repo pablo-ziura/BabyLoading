@@ -1,5 +1,6 @@
 import AppLocalization
 import BabyLoadingInfrastructure
+import CloudBackup
 import Foundation
 import Observation
 import PregnancyProgress
@@ -27,6 +28,12 @@ public typealias SettingsViewModelOutputHandler = @MainActor @Sendable (Settings
 @MainActor
 @Observable
 public final class SettingsViewModel {
+    public internal(set) var backupState = BackupState()
+    public internal(set) var backupFailure: BackupFailure?
+    public internal(set) var backupMessageKey: String?
+    public internal(set) var isPerformingBackupAction = false
+    @ObservationIgnored let backupUseCases: BackupAccountUseCases
+    @ObservationIgnored var backupTask: Task<Void, Never>?
     public private(set) var lastPeriodDate: Date
     public private(set) var dueDate: Date?
     public private(set) var appLanguage: AppLanguage
@@ -49,6 +56,7 @@ public final class SettingsViewModel {
         resolveAppLanguageUseCase: any ResolveAppLanguageUseCaseProtocol,
         loadAppVersionUseCase: any LoadAppVersionUseCaseProtocol,
         initialLanguage: AppLanguage,
+        backupUseCases: BackupAccountUseCases,
         outputHandler: @escaping SettingsViewModelOutputHandler
     ) {
         self.loadPregnancyProgressUseCase = loadPregnancyProgressUseCase
@@ -57,10 +65,13 @@ public final class SettingsViewModel {
         self.resolveAppLanguageUseCase = resolveAppLanguageUseCase
         self.loadAppVersionUseCase = loadAppVersionUseCase
         self.outputHandler = outputHandler
+        self.backupUseCases = backupUseCases
         lastPeriodDate = .now
         appLanguage = initialLanguage
         appVersion = loadAppVersionUseCase.execute()
     }
+
+    public func applyBackupState(_ state: BackupState) { backupState = state }
 
     public func reload(
         asOf date: Date = .now,

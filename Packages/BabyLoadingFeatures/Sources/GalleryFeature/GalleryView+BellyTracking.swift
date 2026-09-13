@@ -259,6 +259,7 @@ extension GalleryView {
                 .buttonStyle(.plain)
                 .accessibilityLabel(Text(deleteTrackingPhotoAccessibilityLabel(entry)))
             }
+            .overlay(alignment: .bottomLeading) { backupBadge(origin: .bellyTracking, sourceID: entry.id.uuidString) }
 
             Text(entry.capturedAt.formatted(.dateTime.year().month(.abbreviated).day().locale(locale)))
                 .font(BabyLoadingTypography.text(.subheadline, weight: .semibold))

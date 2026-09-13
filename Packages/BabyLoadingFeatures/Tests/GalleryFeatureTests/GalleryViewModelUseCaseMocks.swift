@@ -36,12 +36,14 @@ final class GalleryLoadUltrasoundPhotosUseCaseMock: LoadUltrasoundPhotosUseCaseP
 @MainActor
 final class GalleryAddUltrasoundPhotoUseCaseMock: AddUltrasoundPhotoUseCaseProtocol {
     var error: (any Error)?
+    var beforeReturning: (@MainActor () -> Void)?
     private(set) var executeCallCount = 0
     private(set) var addedData: Data?
 
     func execute(data: Data) async throws -> UltrasoundPhoto {
         executeCallCount += 1
         addedData = data
+        beforeReturning?()
         if let error {
             throw error
         }

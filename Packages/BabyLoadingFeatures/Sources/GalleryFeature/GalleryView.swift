@@ -20,6 +20,7 @@ public struct GalleryView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     header
+                    backupBanner
                     bellyTrackingSection
                     ultrasoundGallerySection
                     Spacer(minLength: 100)

@@ -1,5 +1,6 @@
 @testable import GalleryFeature
 import BellyTracking
+import CloudBackup
 import Foundation
 import Observation
 import PregnancyProgress
@@ -41,7 +42,8 @@ final class GalleryViewModelTestContext {
             loadBellyTrackingSettingsUseCase: LoadBellyTrackingSettingsUseCase(repository: bellyTrackingRepository),
             updateBellyTrackingSettingsUseCase: UpdateBellyTrackingSettingsUseCase(repository: bellyTrackingRepository),
             resolveBellyTrackingStatusUseCase: ResolveBellyTrackingStatusUseCase(calendar: calendar),
-            photoLibraryExporter: photoLibraryExporter
+            photoLibraryExporter: photoLibraryExporter,
+            retryBackupUseCase: RetryBackupUseCase(operations: FeatureBackupOperationsStub())
         )
     }
 }

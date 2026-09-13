@@ -1,5 +1,6 @@
 import AppLocalization
 import BabyLoadingInfrastructure
+import CloudBackup
 import Foundation
 import PregnancyProgress
 import SettingsFeature
@@ -43,6 +44,7 @@ struct SettingsViewModelTests {
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.2.3"),
             initialLanguage: .english,
+            backupUseCases: BackupAccountUseCases(operations: FeatureBackupOperationsStub()),
             outputHandler: { _ in }
         )
 
@@ -81,6 +83,7 @@ struct SettingsViewModelTests {
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.2.3"),
             initialLanguage: .english,
+            backupUseCases: BackupAccountUseCases(operations: FeatureBackupOperationsStub()),
             outputHandler: { _ in }
         )
 
@@ -122,6 +125,7 @@ struct SettingsViewModelTests {
             resolveAppLanguageUseCase: ResolveAppLanguageUseCase(),
             loadAppVersionUseCase: SettingsAppVersionUseCaseStub(version: "1.0"),
             initialLanguage: .english,
+            backupUseCases: BackupAccountUseCases(operations: FeatureBackupOperationsStub()),
             outputHandler: outputHandler
         )
     }

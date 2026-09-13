@@ -9,14 +9,18 @@ struct BabyLoadingScene: Scene {
         WindowGroup {
             coordinator.makeMainTabView()
                 .preferredColorScheme(.light)
+                .onOpenURL { coordinator.handleOpenURL($0) }
                 .task {
                     await coordinator.start()
                 }
         }
         .onChange(of: scenePhase) { _, newPhase in
-            guard newPhase == .active else { return }
             Task {
-                await coordinator.applicationDidBecomeActive()
+                if newPhase == .active {
+                    await coordinator.applicationDidBecomeActive()
+                } else {
+                    await coordinator.applicationDidResignActive()
+                }
             }
         }
     }

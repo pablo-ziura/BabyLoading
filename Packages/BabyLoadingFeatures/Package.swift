@@ -42,6 +42,7 @@ let package = Package(
         .target(
             name: "GalleryFeature",
             dependencies: [
+                .product(name: "CloudBackup", package: "BabyLoadingCore"),
                 "BabyLoadingNavigation",
                 .product(name: "BellyTracking", package: "BabyLoadingCore"),
                 .product(name: "PregnancyProgress", package: "BabyLoadingCore"),
@@ -53,6 +54,7 @@ let package = Package(
         .target(
             name: "SettingsFeature",
             dependencies: [
+                .product(name: "CloudBackup", package: "BabyLoadingCore"),
                 .product(name: "AppLocalization", package: "BabyLoadingCore"),
                 .product(name: "BabyLoadingInfrastructure", package: "BabyLoadingCore"),
                 .product(name: "PregnancyProgress", package: "BabyLoadingCore"),

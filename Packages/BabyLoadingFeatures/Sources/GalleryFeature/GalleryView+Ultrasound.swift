@@ -124,6 +124,7 @@ extension GalleryView {
             )
             .accessibilityHint(Text("accessibility.gallery.deletePhotoHint"))
         }
+        .overlay(alignment: .bottomLeading) { backupBadge(origin: .ultrasound, sourceID: photo.id) }
         .transition(.scale.combined(with: .opacity))
     }
 

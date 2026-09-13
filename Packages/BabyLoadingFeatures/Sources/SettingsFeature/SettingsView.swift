@@ -32,6 +32,7 @@ public struct SettingsView: View {
 
                     dateCard
                     updateDateButton
+                    SettingsBackupSection()
                     languageCard
                     applicationInformation
                     Spacer(minLength: 100)
