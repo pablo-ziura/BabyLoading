@@ -196,3 +196,34 @@ relationship.
 
 When a screenshot and code disagree, consult the other platform's code to identify the purpose before
 adjusting values. Screenshots are for validation; they do not replace this contract.
+
+## Account backup and synchronization
+
+Settings presents a secondary `SoftCard` for account backup. Guests see an explanation,
+email/password registration and access, password recovery, and Google sign-in. Linked
+accounts show email/provider, optional guest import, verification, sign-out and account
+deletion. Apple sign-in is deferred. Destructive deletion uses explicit confirmation
+and recent authentication when required; sign-out explains that account-local data is
+retained separately. Technical project IDs, queue details and cache settings stay out
+of these screens.
+
+Gallery keeps a non-blocking guest banner with an action opening Settings. Thumbnails
+show a clock for `pending`, a progress indicator for `uploading`, a cloud checkmark for
+`synced`, and an attention symbol when a transfer needs retry. Badges use a white
+capsule and primary foreground, with a localized accessibility label; color alone never
+communicates status. Errors have explanatory text and a retry action without covering
+photos or preventing local use.
+
+| Purpose | iOS | Android contract |
+| --- | --- | --- |
+| Backup card/banner | `SoftCard`, existing spacing tokens | `BabyLoadingCard`, equivalent spacing tokens |
+| Heading | Nunito Sans `.title3`, Bold, heading semantics | `titleLarge`, Bold, heading semantics |
+| Explanation/error | Nunito Sans `.body`, Regular, multiline | `bodyLarge`, Regular, multiline |
+| Action | Nunito Sans `.headline`, SemiBold, minimum 44-point target | `labelLarge`, SemiBold, minimum 48-dp target |
+| Transfer state | SF Symbol / `ProgressView` plus localized accessibility label | Material icon / progress indicator plus `stateDescription` |
+
+Controls flow vertically and text remains multiline at accessibility sizes. Passwords
+use secure fields and are cleared after submitting an action. All copy exists in
+English and Spanish. Android receives this contract only in this change; its backup
+implementation remains separate. Neither platform should promise synchronization
+while the app is closed.
