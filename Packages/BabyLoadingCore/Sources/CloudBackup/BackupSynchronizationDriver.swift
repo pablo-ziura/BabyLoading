@@ -98,6 +98,14 @@ public actor BackupSynchronizationDriver {
             workContinuation?.yield(())
         } else {
             await images.cancel()
+            guard expectedSession == session else { return }
+            do {
+                let snapshot = try await localStore.snapshot()
+                for record in snapshot.records where record.syncStatus == .uploading {
+                    guard expectedSession == session else { return }
+                    try await localStore.markPending(logID: record.remote.id, userID: snapshot.profileID)
+                }
+            } catch { report((error as? BackupFailure) ?? .storage) }
         }
     }
 

@@ -21,8 +21,10 @@ struct AccountDeletionTests {
         #expect(try await store.imageData(path: path) == Data([1]))
         try await store.confirmAccountDeletion(userID: "account")
         let restarted = BackupLocalStore(containerURL: root)
+        let previousSession = await restarted.sessionID
         #expect(try await restarted.snapshot().confirmedAccountDeletion == "account")
         try await restarted.finishAccountDeletion(userID: "account")
+        #expect(await restarted.sessionID != previousSession)
         #expect(try await restarted.snapshot().profileID == "guest")
         await #expect(throws: BackupFailure.missingImage) { try await restarted.imageData(path: path) }
     }

@@ -29,6 +29,7 @@ public struct AccountUltrasoundStore: UltrasoundGalleryStoreProtocol {
     public init(store: BackupLocalStore) { self.store = store }
 
     public func loadPhotos() async throws -> [UltrasoundPhoto] {
+        let session = await store.sessionID
         let snapshot = try await store.snapshot()
         var result: [UltrasoundPhoto] = []
         for record in snapshot.records.sorted(by: {
@@ -38,9 +39,11 @@ public struct AccountUltrasoundStore: UltrasoundGalleryStoreProtocol {
         })
             where record.remote.origin == .ultrasound && !record.remote.isDeleted {
             if let path = record.localImagePath {
-                result.append(UltrasoundPhoto(id: record.remote.sourceID, data: try await store.imageData(path: path)))
+                let data = try await store.imageData(path: path, expectedSession: session)
+                result.append(UltrasoundPhoto(id: record.remote.sourceID, data: data))
             }
         }
+        guard await store.sessionID == session else { throw BackupFailure.sessionChanged }
         return result
     }
 
@@ -75,21 +78,24 @@ public struct AccountBellyTrackingStore: BellyTrackingStoreProtocol {
     }
 
     public func loadImageData(imageFileName: String) async throws -> Data? {
+        let session = await store.sessionID
         let records = try await store.snapshot().records
         guard records.contains(where: { !$0.remote.isDeleted && $0.localImagePath == imageFileName }) else {
             return nil
         }
-        return try await store.imageData(path: imageFileName)
+        return try await store.imageData(path: imageFileName, expectedSession: session)
     }
 
     public func capturePhoto(
         data: Data, capturedAt: Date, pregnancyWeekAtCapture: Int?
     ) async throws -> BellyTrackingEntry {
+        let session = await store.sessionID
         let prepared = try BellyTrackingImageProcessor.prepareForStorage(data)
         let id = UUID()
         let record = try await store.addImage(
             data: prepared.data, fileExtension: prepared.fileExtension, origin: .bellyTracking,
-            sourceID: id.uuidString, capturedAt: capturedAt, weekNumber: pregnancyWeekAtCapture
+            sourceID: id.uuidString, capturedAt: capturedAt,
+            weekNumber: pregnancyWeekAtCapture, expectedSession: session
         )
         guard let path = record.localImagePath else { throw BackupFailure.missingImage }
         return BellyTrackingEntry(

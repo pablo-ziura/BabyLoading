@@ -2,6 +2,7 @@ import CryptoKit
 import Foundation
 
 public actor BackupLocalStore {
+    public private(set) var sessionID = UUID()
     let root: URL
     let fileManager = FileManager()
     var observers: [UUID: AsyncStream<Void>.Continuation] = [:]
@@ -37,6 +38,7 @@ public actor BackupLocalStore {
             settings: RemotePregnancySettings(lastPeriodDay: profile.lastPeriodDay, cadenceDays: profile.cadenceDays),
             hasGuestData: guest.records.values.contains { !$0.remote.isDeleted } || guest.lastPeriodDay != nil,
             confirmedAccountDeletion: database.confirmedAccountDeletion,
+            pendingGuestLinkID: database.pendingGuestLinkID,
             pendingAccountDeletion: database.pendingAccountDeletion
         )
     }
@@ -56,17 +58,20 @@ public actor BackupLocalStore {
     public func activate(userID: String?, adoptGuest: Bool) throws {
         var database = try load()
         let destination = userID ?? "guest"
+        let changesProfile = database.activeProfileID != destination
         guard destination == "guest" || Self.isSafeIdentifier(destination) else { throw BackupFailure.invalidData }
         if database.profiles[destination] == nil { database.profiles[destination] = BackupProfile() }
         if adoptGuest, destination != "guest" {
             try importGuest(into: destination, database: &database)
         }
         database.activeProfileID = destination
+        if destination != "guest" { database.pendingGuestLinkID = nil }
         for id in database.profiles[destination]?.records.keys.map({ $0 }) ?? []
             where database.profiles[destination]?.records[id]?.syncStatus == .uploading {
             database.profiles[destination]?.records[id]?.syncStatus = .pending
         }
         try save(database)
+        if changesProfile { sessionID = UUID() }
     }
 
     public func importGuest(userID: String) throws {
@@ -101,6 +106,15 @@ public actor BackupLocalStore {
         database.guestID = UUID().uuidString
     }
 
+    public func beginGuestLink(userID: String) throws {
+        var database = try load()
+        guard database.activeProfileID == "guest", Self.isSafeIdentifier(userID) else {
+            throw BackupFailure.sessionChanged
+        }
+        database.pendingGuestLinkID = userID
+        try save(database)
+    }
+
     public func beginAccountDeletion(userID: String) throws {
         var database = try loadForUser(userID)
         database.pendingAccountDeletion = userID
@@ -133,6 +147,7 @@ public actor BackupLocalStore {
         database.pendingAccountDeletion = nil
         database.confirmedAccountDeletion = nil
         try save(database)
+        sessionID = UUID()
         try removeObsoleteFiles()
     }
 
@@ -149,16 +164,16 @@ public actor BackupLocalStore {
 
     public func addImage(
         data: Data, fileExtension: String, origin: BackupPhotoOrigin,
-        sourceID: String, capturedAt: Date?, weekNumber: Int?
+        sourceID: String, capturedAt: Date?, weekNumber: Int?, expectedSession: UUID? = nil
     ) throws -> BackupRecord {
         var database = try load()
+        if let expectedSession, expectedSession != sessionID { throw BackupFailure.sessionChanged }
         let identifier = Self.photoID(origin: origin, sourceID: sourceID)
         var profile = database.profiles[database.activeProfileID] ?? BackupProfile()
         if let existing = profile.records[identifier] { return existing }
         guard ["jpg", "jpeg", "heic", "png"].contains(fileExtension) else { throw BackupFailure.invalidData }
         let path = "\(UUID().uuidString).\(fileExtension)"
         let destination = try assetURL(path)
-        try data.write(to: destination, options: .atomic)
         let record = BackupRecord(
             remote: RemotePregnancyLog(
                 id: identifier, origin: origin, sourceID: sourceID, capturedAt: capturedAt,
@@ -166,15 +181,16 @@ public actor BackupLocalStore {
             ),
             localImagePath: path, syncStatus: .pending, failure: nil
         )
+        let mutation = BackupMutation(payload: .create(record.remote))
+        let intent = BackupPendingFile(profileID: database.activeProfileID, record: record, mutation: mutation)
+        database.pendingFiles = (database.pendingFiles ?? []) + [intent]
+        try save(database, notify: false)
+        try data.write(to: destination, options: .atomic)
         profile.records[identifier] = record
-        profile.mutations.append(BackupMutation(payload: .create(record.remote)))
+        profile.mutations.append(mutation)
         database.profiles[database.activeProfileID] = profile
-        do {
-            try save(database)
-        } catch {
-            try fileManager.removeItem(at: destination)
-            throw error
-        }
+        database.pendingFiles?.removeAll { $0.record.localImagePath == path }
+        try save(database)
         return record
     }
 
@@ -200,11 +216,16 @@ public actor BackupLocalStore {
         var database = try load()
         guard var profile = database.profiles[database.activeProfileID], var record = profile.records[id],
               !record.remote.isDeleted else { throw BackupFailure.invalidData }
+        if record.remote.weekNumber != weekNumber {
+            profile.mutations.append(BackupMutation(payload: .weekNumber(logID: id, value: weekNumber)))
+        }
+        if record.remote.notes != notes {
+            profile.mutations.append(BackupMutation(payload: .notes(logID: id, value: notes)))
+        }
         record.remote.weekNumber = weekNumber
         record.remote.notes = notes
         record.syncStatus = .pending
         profile.records[id] = record
-        profile.mutations.append(BackupMutation(payload: .edit(logID: id, weekNumber: weekNumber, notes: notes)))
         database.profiles[database.activeProfileID] = profile
         try save(database)
     }
@@ -225,7 +246,8 @@ public actor BackupLocalStore {
         try save(database)
     }
 
-    public func imageData(path: String) throws -> Data {
+    public func imageData(path: String, expectedSession: UUID? = nil) throws -> Data {
+        if let expectedSession, expectedSession != sessionID { throw BackupFailure.sessionChanged }
         let url = try assetURL(path)
         guard fileManager.fileExists(atPath: url.path) else { throw BackupFailure.missingImage }
         return try Data(contentsOf: url)

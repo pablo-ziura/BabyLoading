@@ -125,13 +125,45 @@ extension BackupLocalStore {
         }
         let path = "\(UUID().uuidString).jpg"
         let destination = try assetURL(path)
+        guard var record = database.profiles[userID]?.records[logID] else { throw BackupFailure.sessionChanged }
+        record.localImagePath = path
+        record.failure = nil
+        let intent = BackupPendingFile(profileID: userID, record: record, mutation: nil)
+        database.pendingFiles = (database.pendingFiles ?? []) + [intent]
+        try save(database, notify: false)
         try fileManager.copyItem(at: fileURL, to: destination)
-        database.profiles[userID]?.records[logID]?.localImagePath = path
-        database.profiles[userID]?.records[logID]?.failure = nil
-        do { try save(database) } catch {
-            try fileManager.removeItem(at: destination)
-            throw error
+        database.profiles[userID]?.records[logID] = record
+        database.pendingFiles?.removeAll { $0.record.localImagePath == path }
+        try save(database)
+    }
+
+    public func recoverPendingFiles() throws {
+        var database = try load()
+        guard let pendingFiles = database.pendingFiles, !pendingFiles.isEmpty else { return }
+        for intent in pendingFiles {
+            guard let path = intent.record.localImagePath else { throw BackupFailure.invalidData }
+            let url = try assetURL(path)
+            guard fileManager.fileExists(atPath: url.path) else { continue }
+            guard var profile = database.profiles[intent.profileID],
+                  profile.records[intent.record.remote.id]?.remote.isDeleted != true else {
+                database.filesToRemove.append(path)
+                continue
+            }
+            if let mutation = intent.mutation {
+                if profile.records[intent.record.remote.id] == nil {
+                    profile.records[intent.record.remote.id] = intent.record
+                    if !profile.mutations.contains(where: { $0.id == mutation.id }) {
+                        profile.mutations.append(mutation)
+                    }
+                }
+            } else {
+                profile.records[intent.record.remote.id]?.localImagePath = path
+            }
+            database.profiles[intent.profileID] = profile
         }
+        database.pendingFiles = nil
+        try save(database)
+        try removeObsoleteFiles()
     }
 
     public func containsRecord(origin: BackupPhotoOrigin, sourceID: String) throws -> Bool {

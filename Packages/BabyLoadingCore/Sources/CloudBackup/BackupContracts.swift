@@ -97,6 +97,8 @@ public struct RemotePregnancySettings: Equatable, Sendable {
 public enum BackupMutationPayload: Codable, Equatable, Sendable {
     case create(RemotePregnancyLog)
     case edit(logID: String, weekNumber: Int?, notes: String?)
+    case weekNumber(logID: String, value: Int?)
+    case notes(logID: String, value: String?)
     case delete(logID: String)
     case image(logID: String, url: String)
     case lastPeriodDay(String?)
@@ -105,7 +107,7 @@ public enum BackupMutationPayload: Codable, Equatable, Sendable {
     public var logID: String? {
         switch self {
         case let .create(log): log.id
-        case let .edit(id, _, _), let .delete(id), let .image(id, _): id
+        case let .edit(id, _, _), let .delete(id), let .image(id, _), let .weekNumber(id, _), let .notes(id, _): id
         case .lastPeriodDay, .cadence: nil
         }
     }
@@ -129,6 +131,7 @@ public struct BackupLocalSnapshot: Sendable {
     public let settings: RemotePregnancySettings
     public let hasGuestData: Bool
     public let confirmedAccountDeletion: String?
+    public let pendingGuestLinkID: String?
     public let pendingAccountDeletion: String?
 }
 

@@ -18,7 +18,7 @@ service cloud.firestore {
         && data.isDeleted is bool && data.updatedAt == request.time
         && (!('capturedAt' in data) || data.capturedAt == null || data.capturedAt is timestamp)
         && (!('weekNumber' in data) || data.weekNumber == null
-          || (data.weekNumber is int && data.weekNumber >= 0 && data.weekNumber <= 50))
+          || (data.weekNumber is int && data.weekNumber >= 0))
         && optionalString(data, 'notes', 20000) && optionalString(data, 'remoteImageUrl', 4096);
     }
     match /users/{uid}/pregnancyLogs/{logId} {

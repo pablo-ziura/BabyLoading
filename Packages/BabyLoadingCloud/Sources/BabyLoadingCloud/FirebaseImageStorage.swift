@@ -8,8 +8,8 @@ public actor FirebaseImageStorage: BackupImageStorageProtocol {
     private var transfers: [UUID: StorageTransfer] = [:]
     private var completions: [UUID: CheckedContinuation<Void, Error>] = [:]
 
-    public init(makeClient: @Sendable () -> Storage) {
-        storage = makeClient()
+    public init(makeClient: @Sendable () throws -> Storage) throws {
+        storage = try makeClient()
         storage.maxUploadRetryTime = 60
         storage.maxDownloadRetryTime = 60
         storage.maxOperationRetryTime = 30

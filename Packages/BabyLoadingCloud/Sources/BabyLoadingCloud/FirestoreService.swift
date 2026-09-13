@@ -5,7 +5,11 @@ import Foundation
 public actor FirestoreService: BackupRemoteStoreProtocol {
     private let makeClient: @Sendable () throws -> Firestore
     private var client: Firestore
+    private enum ResetPhase { case ready, disabling, terminating, clearing, recreating }
+    private var resetPhase = ResetPhase.ready
+    private var isResetting = false
     private var generation = UUID()
+    private var cancellations: [UUID: @Sendable () -> Void] = [:]
     private var listeners: [UUID: [ListenerRegistration]] = [:]
     private var streams: [UUID: AsyncThrowingStream<BackupRemoteEvent, Error>.Continuation] = [:]
 
@@ -22,6 +26,7 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
     }
 
     public func apply(_ mutation: BackupMutation, userID: String) async throws {
+        guard resetPhase == .ready else { throw BackupFailure.unavailable }
         try Self.validateIdentifier(userID)
         try Self.validateIdentifier(mutation.id)
         if let logID = mutation.payload.logID { try Self.validateIdentifier(logID) }
@@ -30,7 +35,7 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
         let receipt = client.document("users/\(userID)/mutations/\(mutation.id)")
         let path = mutation.payload.logID.map { "pregnancyLogs/\($0)" } ?? "settings/pregnancy"
         let document = client.document("users/\(userID)/\(path)")
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+        let _: Void = try await request { complete in
             client.runTransaction({ transaction, errorPointer in
                 do {
                     if try transaction.getDocument(receipt).exists { return nil }
@@ -47,11 +52,7 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
                     return nil
                 }
             }, completion: { _, error in
-                if let error {
-                    continuation.resume(throwing: FirebaseFailureMapper.map(error))
-                } else {
-                    continuation.resume()
-                }
+                if let error { complete(.failure(FirebaseFailureMapper.map(error))) } else { complete(.success(())) }
             })
         }
         guard session == generation else { throw BackupFailure.sessionChanged }
@@ -59,24 +60,26 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
     }
 
     public func fetch(userID: String) async throws -> [BackupRemoteEvent] {
+        guard resetPhase == .ready else { throw BackupFailure.unavailable }
         try Self.validateIdentifier(userID)
         let session = generation
-        let logs: [RemotePregnancyLog] = try await withCheckedThrowingContinuation { continuation in
+        let logs: [RemotePregnancyLog] = try await request { complete in
             client.collection("users/\(userID)/pregnancyLogs").getDocuments(source: .server) { snapshot, error in
-                do {
+                complete(Result {
                     if let error { throw FirebaseFailureMapper.map(error) }
                     guard let snapshot else { throw BackupFailure.unavailable }
-                    continuation.resume(returning: try snapshot.documents.map(Self.decodeLog))
-                } catch { continuation.resume(throwing: error) }
+                    return try snapshot.documents.map(Self.decodeLog)
+                })
             }
         }
-        let settings: RemotePregnancySettings = try await withCheckedThrowingContinuation { continuation in
+        guard session == generation else { throw BackupFailure.sessionChanged }
+        let settings: RemotePregnancySettings = try await request { complete in
             client.document("users/\(userID)/settings/pregnancy").getDocument(source: .server) { snapshot, error in
-                do {
+                complete(Result {
                     if let error { throw FirebaseFailureMapper.map(error) }
                     guard let snapshot else { throw BackupFailure.unavailable }
-                    continuation.resume(returning: try Self.decodeSettings(snapshot))
-                } catch { continuation.resume(throwing: error) }
+                    return try Self.decodeSettings(snapshot)
+                })
             }
         }
         guard session == generation else { throw BackupFailure.sessionChanged }
@@ -84,6 +87,7 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
     }
 
     public func observe(userID: String) throws -> AsyncThrowingStream<BackupRemoteEvent, Error> {
+        guard resetPhase == .ready else { throw BackupFailure.unavailable }
         try Self.validateIdentifier(userID)
         let identifier = UUID()
         let pair = AsyncThrowingStream<BackupRemoteEvent, Error>.makeStream(bufferingPolicy: .unbounded)
@@ -110,14 +114,55 @@ public actor FirestoreService: BackupRemoteStoreProtocol {
     }
 
     public func reset() async throws {
+        guard !isResetting else { throw BackupFailure.sessionChanged }
+        isResetting = true
+        defer { isResetting = false }
         generation = UUID()
+        for identifier in Array(cancellations.keys) { cancelRequest(identifier) }
         for identifier in Array(listeners.keys) { removeListeners(identifier) }
-        try await client.disableNetwork()
-        try await client.terminate()
-        try await client.clearPersistence()
+        if resetPhase == .ready || resetPhase == .disabling {
+            resetPhase = .disabling
+            try await client.disableNetwork()
+            resetPhase = .terminating
+        }
+        if resetPhase == .terminating {
+            try await client.terminate()
+            resetPhase = .clearing
+        }
+        if resetPhase == .clearing {
+            try await client.clearPersistence()
+            resetPhase = .recreating
+        }
         client = try makeClient()
         Self.configure(client)
+        resetPhase = .ready
     }
+
+    private func request<Value: Sendable>(
+        _ start: (@escaping @Sendable (Result<Value, Error>) -> Void) -> Void
+    ) async throws -> Value {
+        let identifier = UUID()
+        return try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                cancellations[identifier] = { continuation.resume(throwing: BackupFailure.cancelled) }
+                start { [weak self] result in
+                    Task { await self?.finishRequest(identifier, continuation: continuation, result: result) }
+                }
+            }
+        } onCancel: {
+            Task { await self.cancelRequest(identifier) }
+        }
+    }
+
+    private func finishRequest<Value: Sendable>(
+        _ identifier: UUID, continuation: CheckedContinuation<Value, Error>, result: Result<Value, Error>
+    ) {
+        guard cancellations.removeValue(forKey: identifier) != nil else { return }
+        continuation.resume(with: result)
+    }
+
+    private func cancelRequest(_ identifier: UUID) { cancellations.removeValue(forKey: identifier)?() }
 
     private func removeListeners(_ identifier: UUID) {
         listeners.removeValue(forKey: identifier)?.forEach { $0.remove() }
